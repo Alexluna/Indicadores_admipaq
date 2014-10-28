@@ -1,8 +1,36 @@
 ﻿<Window x:Class="IndicadoresISEL.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        WindowStyle="None"
+        Title="MainWindow" Height="350" Width="525"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        AllowsTransparency="True"
+        Background="#FFF1F1F1">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="14*" />
+            <RowDefinition Height="58" />
+            <RowDefinition Height="120" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="27" />
+            <RowDefinition Height="72*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="162*" />
+            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="145*" />
+            <ColumnDefinition Width="16" />
+        </Grid.ColumnDefinitions>
+        <Image Grid.Column="1" Grid.Row="2" Name="image1" Stretch="Fill" Source="/IndicadoresISEL;component/Imagenes/logo.png" Grid.ColumnSpan="3" />
+        <Button Content="Iniciar Indicadores"   Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4"  Name="button1" FontFamily="Meiryo IU" BorderBrush="{x:Null}" Background="#FF598494" Foreground="White" Click="button1_Click" />
+
+        <Button Grid.Column="5" Grid.Row="0" Name="button2" Click="button2_Click" Padding="0"  BorderBrush="{x:Null}">
+            <Button.Background>
+                <ImageBrush ImageSource="/IndicadoresISEL;component/Imagenes/close.ico" Stretch="Fill" TileMode="None" />
+            </Button.Background>
+        </Button>
     </Grid>
 </Window>

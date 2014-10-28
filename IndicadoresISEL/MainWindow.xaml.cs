@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using IndicadoresISEL.Vista.Contenedor_principal;
 
 namespace IndicadoresISEL
 {
@@ -23,5 +24,28 @@ namespace IndicadoresISEL
         {
             InitializeComponent();
         }
+
+
+        /// <summary>
+        /// boton el cual tiene la imagen de una X para poder cerrar el programa
+        /// (para el programa)
+        /// </summary>
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        /// <summary>
+        /// Boton para iniciar con el programa de indicadores
+        /// </summary>
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            Indicadores_pincipal indicadores = new Indicadores_pincipal();/*creo mi obejto de mi ventana principal*/
+            this.Visibility = Visibility.Collapsed;//collapso mi ventana de login (ventana de entrada)
+            indicadores.put_mainwindow(this);//le mando el main window para poder cerrar la aplicación por competo
+            indicadores.ShowDialog();//muestro mi ribbon 
+        }
+
+       
     }
 }
