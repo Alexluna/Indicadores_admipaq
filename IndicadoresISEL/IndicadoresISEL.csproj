@@ -36,10 +36,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Awesomium.Core, Version=1.7.4.2, Culture=neutral, PublicKeyToken=e1a0d7c8071a5214" />
+    <Reference Include="Awesomium.Windows.Controls, Version=1.7.4.2, Culture=neutral, PublicKeyToken=7a34e179b8b61c39" />
+    <Reference Include="itextsharp">
+      <HintPath>referencias\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Windows.Shell, Version=3.5.41019.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -51,14 +59,27 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif">
+      <HintPath>referencias\WpfAnimatedGif.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controlador\Controlador_Impresion.cs" />
+    <Compile Include="Controlador\Controlador__SDKAdmipaq.cs" />
+    <Compile Include="Modelo\Cargar_graficas.cs" />
+    <Compile Include="Modelo\Modelo_Impresion.cs" />
+    <Compile Include="Modelo\Modelo_SDKAdmipaq.cs" />
+    <Compile Include="Modelo\Nombre_Archivos.cs" />
+    <Compile Include="Modelo\Tipos_Datos_CRU.cs" />
     <Compile Include="Vista\Contenedor_principal\Indicadores_pincipal.xaml.cs">
       <DependentUpon>Indicadores_pincipal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vista\Facturas\facturacion.xaml.cs">
+      <DependentUpon>facturacion.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -73,6 +94,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Vista\Contenedor_principal\Indicadores_pincipal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vista\Facturas\facturacion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -108,8 +133,7 @@
     <Resource Include="Imagenes\close.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controlador\" />
-    <Folder Include="Modelo\" />
+    <Resource Include="Imagenes\ajaxloader08.gif" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Imagenes\factura.ico" />

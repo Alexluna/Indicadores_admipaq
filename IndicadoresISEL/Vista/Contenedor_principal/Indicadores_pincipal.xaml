@@ -8,7 +8,8 @@
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="0*"/>
+            <RowDefinition Height="304*" />
         </Grid.RowDefinitions>
 
          <ribbon:Ribbon x:Name="Ribbon" >
@@ -16,12 +17,13 @@
             <!--Menu finanzas-->
              <ribbon:RibbonTab x:Name="FinanzasTab" Header="Finanzas">
                 <ribbon:RibbonGroup x:Name="group_monitoreo" Header="">
-                    <ribbon:RibbonButton x:Name="Btnfacturacion"  Label="Facturación" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/factura.ico" />
+                    <ribbon:RibbonButton x:Name="Btnfacturacion"  Label="Facturación" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/factura.ico" Click="Btnfacturacion_Click" />
                 </ribbon:RibbonGroup>
             </ribbon:RibbonTab>
             <!--fin menu finanzas--> 
              
              
-        </ribbon:Ribbon> 
+        </ribbon:Ribbon>
+        <Grid Name="gridvista" Grid.Row="2" Background="White" ></Grid>
     </Grid>
 </ribbon:RibbonWindow>

@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.Windows.Controls.Ribbon;
+using IndicadoresISEL.Vista.Facturas;
 
 namespace IndicadoresISEL.Vista.Contenedor_principal
 {
@@ -48,6 +49,13 @@ namespace IndicadoresISEL.Vista.Contenedor_principal
             this.mainwindow.Close();//cierro el mainwindow para que de esta forma mate todo el proyecto
         }
         #endregion
+
+        private void Btnfacturacion_Click(object sender, RoutedEventArgs e)
+        {
+            facturacion factura = new facturacion();//crea el objeto del user contorl el cual se quiere mostrar
+            gridvista.Children.Clear();//limpio el contenido del grid
+            gridvista.Children.Add(factura);
+        }
 
 
     }
