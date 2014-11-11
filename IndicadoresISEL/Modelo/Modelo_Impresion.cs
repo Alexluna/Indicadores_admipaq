@@ -3106,8 +3106,811 @@ namespace IndicadoresISEL.Modelo
 
 
 
+        #region CRU ABONOS
+        /// <summary>
+        /// Método para imprimir las facturas de CRU
+        /// </summary>
+        /// <param name="ListFactrurasCRU">lista de las facturas que se van a imprimir</param>
+        public void ImpresionCRUAbonos(List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRU, string fechas, string path, List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRUFiltroRFCPublico, List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRUFiltroRFCOL)
+        {
+
+            try
+            {
+
+                Document doc = new Document(PageSize.TABLOID, 10, 10, 10, 10);//Creacion del documento configuracion de tipo de hoja y margenes
+                doc.AddAuthor("Indicadores");//Autor del PDF
+                doc.AddKeywords("pdf, PdfWriter; Indicadores V1");
+
+                //para almacenamiento del archivo
+                string nombre_archivo = "Abonos.PDF";//Nombre del Archivo
+                string rut = @path + nombre_archivo;
+                PdfWriter wri = PdfWriter.GetInstance(doc, new FileStream(rut, FileMode.Create));
+                doc.AddTitle("REPORTE");
+                doc.AddCreator("*********");
+                doc.Open();
+                //tipo de letras que se pueda usar en el archivo PDF
+                iTextSharp.text.Font _mediumFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+                iTextSharp.text.Font _standardFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 9, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+                iTextSharp.text.Font _standardFont1 = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.BOLD, BaseColor.WHITE);
+                iTextSharp.text.Font _smallFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+                iTextSharp.text.Font _titulo = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+                iTextSharp.text.Font _titulos = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 12, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
+
+
+                // Cabecera
+                doc.Add(new Paragraph(" Desglose general de Abonos" + fechas, _titulo));
+                doc.Add(new Paragraph("\n"));
+                doc.Add(new Paragraph("\n"));
+
+                //***********************************************
+                #region **********PRIMERA TABLA 23 Acumulado de CXC (Abonos) en CRU*********
+                doc.Add(new Paragraph("Acumulado de Abonos ", _titulos));
+                doc.Add(new Paragraph("\n"));
+                PdfPTable tabla_cuentas = new PdfPTable(19);
+                //PdfPCell cell = new PdfPCell(new Phrase("Reporte de Compras"));
+                //cell.Colspan = 3;
+                //cell.BackgroundColor = BaseColor.BLUE;
+                //cell.HorizontalAlignment = 1;//0=Left, 1=Centre, 2=Right 
+                tabla_cuentas.WidthPercentage = 100;
+                //tabla_cuentas.AddCell(cell);
+
+
+
+                #region configuracion de columnas
+                // Configuramos el título de las columnas de la tabla 
+                PdfPCell clFecha = new PdfPCell(new Phrase("Fecha", _standardFont));
+                clFecha.BorderWidth = 0.5f;
+                clFecha.BorderWidthBottom = 0.5f;
+                clFecha.HorizontalAlignment = 1;
+
+                PdfPCell clSerie = new PdfPCell(new Phrase("Serie", _standardFont));
+                clSerie.BorderWidth = 0.5f;
+                clSerie.BorderWidthBottom = 0.5f;
+                clSerie.HorizontalAlignment = 1;
+
+                PdfPCell clFolio = new PdfPCell(new Phrase("Folio", _standardFont));
+                clFolio.BorderWidth = 0.5f;
+                clFolio.BorderWidthBottom = 0.5f;
+                clFolio.HorizontalAlignment = 1;
+
+                PdfPCell clNombreAgente = new PdfPCell(new Phrase("Nombre del Agente", _standardFont));
+                clNombreAgente.BorderWidth = 0.5f;
+                clNombreAgente.BorderWidthBottom = 0.5f;
+                clNombreAgente.HorizontalAlignment = 1;
+
+                PdfPCell clRazonSocial = new PdfPCell(new Phrase("Razón Social", _standardFont));
+                clRazonSocial.BorderWidth = 0.5f;
+                clRazonSocial.BorderWidthBottom = 0.5f;
+                clRazonSocial.HorizontalAlignment = 1;
+
+                PdfPCell clFechaVencimiento = new PdfPCell(new Phrase("Fecha de Vencimiento", _standardFont));
+                clFechaVencimiento.BorderWidth = 0.5f;
+                clFechaVencimiento.BorderWidthBottom = 0.5f;
+                clFechaVencimiento.HorizontalAlignment = 1;
+
+                PdfPCell clRFC = new PdfPCell(new Phrase("R.F.C.", _standardFont));
+                clRFC.BorderWidth = 0.5f;
+                clRFC.BorderWidthBottom = 0.5f;
+                clRFC.HorizontalAlignment = 1;
+
+                PdfPCell clSubtotal = new PdfPCell(new Phrase("Subtotal", _standardFont));
+                clSubtotal.BorderWidth = 0.5f;
+                clSubtotal.BorderWidthBottom = 0.5f;
+                clSubtotal.HorizontalAlignment = 1;
+
+                PdfPCell clIVA = new PdfPCell(new Phrase("IVA", _standardFont));
+                clIVA.BorderWidth = 0.5f;
+                clIVA.BorderWidthBottom = 0.5f;
+                clIVA.HorizontalAlignment = 1;
+
+                PdfPCell clTotal = new PdfPCell(new Phrase("Total", _standardFont));
+                clTotal.BorderWidth = 0.5f;
+                clTotal.BorderWidthBottom = 0.5f;
+                clTotal.HorizontalAlignment = 1;
+
+                PdfPCell clPendiente = new PdfPCell(new Phrase("Pendiente", _standardFont));
+                clPendiente.BorderWidth = 0.5f;
+                clPendiente.BorderWidthBottom = 0.5f;
+                clPendiente.HorizontalAlignment = 1;
+
+                PdfPCell clTextoExtra3 = new PdfPCell(new Phrase("Texto Extra 3", _standardFont));
+                clTextoExtra3.BorderWidth = 0.5f;
+                clTextoExtra3.BorderWidthBottom = 0.5f;
+                clTextoExtra3.HorizontalAlignment = 1;
+
+                PdfPCell clAfectado = new PdfPCell(new Phrase("Afectado", _standardFont));
+                clAfectado.BorderWidth = 0.5f;
+                clAfectado.BorderWidthBottom = 0.5f;
+                clAfectado.HorizontalAlignment = 1;
+
+                PdfPCell clImpreso = new PdfPCell(new Phrase("Impreso", _standardFont));
+                clImpreso.BorderWidth = 0.5f;
+                clImpreso.BorderWidthBottom = 0.5f;
+                clImpreso.HorizontalAlignment = 1;
+
+                PdfPCell clCancelado = new PdfPCell(new Phrase("Cancelado", _standardFont));
+                clCancelado.BorderWidth = 0.5f;
+                clCancelado.BorderWidthBottom = 0.5f;
+                clCancelado.HorizontalAlignment = 1;
+
+                PdfPCell clTotalUnidades = new PdfPCell(new Phrase("Total de Unidades", _standardFont));
+                clTotalUnidades.BorderWidth = 0.5f;
+                clTotalUnidades.BorderWidthBottom = 0.5f;
+                clTotalUnidades.HorizontalAlignment = 1;
+
+                PdfPCell clClasificacionCliente2 = new PdfPCell(new Phrase("Clasificación Cliente 2", _standardFont));
+                clClasificacionCliente2.BorderWidth = 0.5f;
+                clClasificacionCliente2.BorderWidthBottom = 0.5f;
+                clClasificacionCliente2.HorizontalAlignment = 1;
+
+                PdfPCell clTextoExtra1 = new PdfPCell(new Phrase("Texto Extra 1", _standardFont));
+                clTextoExtra1.BorderWidth = 0.5f;
+                clTextoExtra1.BorderWidthBottom = 0.5f;
+                clTextoExtra1.HorizontalAlignment = 1;
+
+                PdfPCell clNombreConcepto = new PdfPCell(new Phrase("Nombre del Concepto", _standardFont));
+                clNombreConcepto.BorderWidth = 0.5f;
+                clNombreConcepto.BorderWidthBottom = 0.5f;
+                clNombreConcepto.HorizontalAlignment = 1;
+                #endregion
+                //***************************************************************************************************************************************
+                #region Agrega titulos en las tablas
+                //agrega las tablas en el pdf
+                tabla_cuentas.AddCell(clFecha);
+                tabla_cuentas.AddCell(clSerie);
+                tabla_cuentas.AddCell(clFolio);
+                tabla_cuentas.AddCell(clNombreAgente);
+                tabla_cuentas.AddCell(clRazonSocial);
+                tabla_cuentas.AddCell(clFechaVencimiento);
+                tabla_cuentas.AddCell(clRFC);
+                tabla_cuentas.AddCell(clSubtotal);
+                tabla_cuentas.AddCell(clIVA);
+                tabla_cuentas.AddCell(clTotal);
+                tabla_cuentas.AddCell(clPendiente);
+                tabla_cuentas.AddCell(clTextoExtra3);
+                tabla_cuentas.AddCell(clAfectado);
+                tabla_cuentas.AddCell(clImpreso);
+                tabla_cuentas.AddCell(clCancelado);
+                tabla_cuentas.AddCell(clTotalUnidades);
+                tabla_cuentas.AddCell(clClasificacionCliente2);
+                tabla_cuentas.AddCell(clTextoExtra1);
+                tabla_cuentas.AddCell(clNombreConcepto);
+                #endregion
+
+                double ValorTotal = 0;
+                for (int k = 0; k < ListFactrurasCRU.Count; k++)
+                {
+                    #region AGREGA DATOS EN LA TABLA
+                    clFecha = new PdfPCell(new Phrase(ListFactrurasCRU[k].Fecha, _smallFont));
+                    clFecha.BorderWidth = 0.5f;
+                    clFecha.HorizontalAlignment = 1;
+
+                    clSerie = new PdfPCell(new Phrase(ListFactrurasCRU[k].Serie, _smallFont));
+                    clSerie.BorderWidth = 0.5f;
+                    clSerie.HorizontalAlignment = 1;
+
+                    clFolio = new PdfPCell(new Phrase(ListFactrurasCRU[k].Folio, _smallFont));
+                    clFolio.BorderWidth = 0.5f;
+                    clFolio.HorizontalAlignment = 1;
+
+                    clNombreAgente = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreAgente, _smallFont));
+                    clNombreAgente.BorderWidth = 0.5f;
+                    clNombreAgente.HorizontalAlignment = 1;
+
+                    clRazonSocial = new PdfPCell(new Phrase(ListFactrurasCRU[k].RazonSocial, _smallFont));
+                    clRazonSocial.BorderWidth = 0.5f;
+                    clRazonSocial.HorizontalAlignment = 1;
+
+                    clFechaVencimiento = new PdfPCell(new Phrase(ListFactrurasCRU[k].FechaVencimiento, _smallFont));
+                    clFechaVencimiento.BorderWidth = 0.5f;
+                    clFechaVencimiento.HorizontalAlignment = 1;
+
+                    clRFC = new PdfPCell(new Phrase(ListFactrurasCRU[k].RFC, _smallFont));
+                    clRFC.BorderWidth = 0.5f;
+                    clRFC.HorizontalAlignment = 1;
+
+                    clSubtotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Subtotal.ToString(), _smallFont));
+                    clSubtotal.BorderWidth = 0.5f;
+                    clSubtotal.HorizontalAlignment = 1;
+
+                    clIVA = new PdfPCell(new Phrase(ListFactrurasCRU[k].IVA.ToString(), _smallFont));
+                    clIVA.BorderWidth = 0.5f;
+                    clIVA.HorizontalAlignment = 1;
+
+                    clTotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Total.ToString(), _smallFont));
+                    clTotal.BorderWidth = 0.5f;
+                    clTotal.HorizontalAlignment = 1;
+                    ValorTotal += ListFactrurasCRU[k].Total;
+
+                    clPendiente = new PdfPCell(new Phrase(ListFactrurasCRU[k].Pendiente.ToString(), _smallFont));
+                    clPendiente.BorderWidth = 0.5f;
+                    clPendiente.HorizontalAlignment = 1;
+
+                    clTextoExtra3 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra3, _smallFont));
+                    clTextoExtra3.BorderWidth = 0.5f;
+                    clTextoExtra3.HorizontalAlignment = 1;
+
+                    clAfectado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Afectado, _smallFont));
+                    clAfectado.BorderWidth = 0.5f;
+                    clAfectado.HorizontalAlignment = 1;
+
+                    clImpreso = new PdfPCell(new Phrase(ListFactrurasCRU[k].Impreso, _smallFont));
+                    clImpreso.BorderWidth = 0.5f;
+                    clImpreso.HorizontalAlignment = 1;
+
+                    clCancelado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Cancelado, _smallFont));
+                    clCancelado.BorderWidth = 0.5f;
+                    clCancelado.HorizontalAlignment = 1;
+
+                    clTotalUnidades = new PdfPCell(new Phrase(ListFactrurasCRU[k].TotalUnidades.ToString(), _smallFont));
+                    clTotalUnidades.BorderWidth = 0.5f;
+                    clTotalUnidades.HorizontalAlignment = 1;
+
+                    clClasificacionCliente2 = new PdfPCell(new Phrase(ListFactrurasCRU[k].proveedor.Clasificación2, _smallFont));
+                    clClasificacionCliente2.BorderWidth = 0.5f;
+                    clClasificacionCliente2.HorizontalAlignment = 1;
+
+                    clTextoExtra1 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra1, _smallFont));
+                    clTextoExtra1.BorderWidth = 0.5f;
+                    clTextoExtra1.HorizontalAlignment = 1;
+
+                    clNombreConcepto = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreConcepto, _smallFont));
+                    clNombreConcepto.BorderWidth = 0.5f;
+                    clNombreConcepto.HorizontalAlignment = 1;
+                    #endregion
+                    #region Agrega titulos en las tablas
+                    //agrega las tablas en el pdf
+                    tabla_cuentas.AddCell(clFecha);
+                    tabla_cuentas.AddCell(clSerie);
+                    tabla_cuentas.AddCell(clFolio);
+                    tabla_cuentas.AddCell(clNombreAgente);
+                    tabla_cuentas.AddCell(clRazonSocial);
+                    tabla_cuentas.AddCell(clFechaVencimiento);
+                    tabla_cuentas.AddCell(clRFC);
+                    tabla_cuentas.AddCell(clSubtotal);
+                    tabla_cuentas.AddCell(clIVA);
+                    tabla_cuentas.AddCell(clTotal);
+                    tabla_cuentas.AddCell(clPendiente);
+                    tabla_cuentas.AddCell(clTextoExtra3);
+                    tabla_cuentas.AddCell(clAfectado);
+                    tabla_cuentas.AddCell(clImpreso);
+                    tabla_cuentas.AddCell(clCancelado);
+                    tabla_cuentas.AddCell(clTotalUnidades);
+                    tabla_cuentas.AddCell(clClasificacionCliente2);
+                    tabla_cuentas.AddCell(clTextoExtra1);
+                    tabla_cuentas.AddCell(clNombreConcepto);
+                    #endregion
+                }//fin for
+
+                doc.Add(new Paragraph("Total: $" + Math.Round(ValorTotal, 2), _titulos));
+                doc.Add(new Paragraph("\n"));
+
+                //agrego la tabla al pdf
+                doc.Add(tabla_cuentas);
+
+                #endregion
+                doc.Add(new Paragraph("\n"));
+                doc.Add(new Paragraph("\n"));
+                doc.Add(new Paragraph("\n"));
+
+                /************************************************************/
+                #region **********SEGUNDA TABLA  filtro por RFC publico*********
+                doc.Add(new Paragraph(" Acumulado de Abonos en  Público ", _titulos));
+                doc.Add(new Paragraph("\n"));
+                tabla_cuentas = new PdfPTable(19);
+                //PdfPCell cell = new PdfPCell(new Phrase("Reporte de Compras"));
+                //cell.Colspan = 3;
+                //cell.BackgroundColor = BaseColor.BLUE;
+                //cell.HorizontalAlignment = 1;//0=Left, 1=Centre, 2=Right 
+                tabla_cuentas.WidthPercentage = 100;
+                //tabla_cuentas.AddCell(cell);
+
+
+
+                #region configuracion de columnas
+                // Configuramos el título de las columnas de la tabla 
+                clFecha = new PdfPCell(new Phrase("Fecha", _standardFont));
+                clFecha.BorderWidth = 0.5f;
+                clFecha.BorderWidthBottom = 0.5f;
+                clFecha.HorizontalAlignment = 1;
+
+                clSerie = new PdfPCell(new Phrase("Serie", _standardFont));
+                clSerie.BorderWidth = 0.5f;
+                clSerie.BorderWidthBottom = 0.5f;
+                clSerie.HorizontalAlignment = 1;
+
+                clFolio = new PdfPCell(new Phrase("Folio", _standardFont));
+                clFolio.BorderWidth = 0.5f;
+                clFolio.BorderWidthBottom = 0.5f;
+                clFolio.HorizontalAlignment = 1;
+
+                clNombreAgente = new PdfPCell(new Phrase("Nombre del Agente", _standardFont));
+                clNombreAgente.BorderWidth = 0.5f;
+                clNombreAgente.BorderWidthBottom = 0.5f;
+                clNombreAgente.HorizontalAlignment = 1;
+
+                clRazonSocial = new PdfPCell(new Phrase("Razón Social", _standardFont));
+                clRazonSocial.BorderWidth = 0.5f;
+                clRazonSocial.BorderWidthBottom = 0.5f;
+                clRazonSocial.HorizontalAlignment = 1;
+
+                clFechaVencimiento = new PdfPCell(new Phrase("Fecha de Vencimiento", _standardFont));
+                clFechaVencimiento.BorderWidth = 0.5f;
+                clFechaVencimiento.BorderWidthBottom = 0.5f;
+                clFechaVencimiento.HorizontalAlignment = 1;
+
+                clRFC = new PdfPCell(new Phrase("R.F.C.", _standardFont));
+                clRFC.BorderWidth = 0.5f;
+                clRFC.BorderWidthBottom = 0.5f;
+                clRFC.HorizontalAlignment = 1;
+
+                clSubtotal = new PdfPCell(new Phrase("Subtotal", _standardFont));
+                clSubtotal.BorderWidth = 0.5f;
+                clSubtotal.BorderWidthBottom = 0.5f;
+                clSubtotal.HorizontalAlignment = 1;
+
+                clIVA = new PdfPCell(new Phrase("IVA", _standardFont));
+                clIVA.BorderWidth = 0.5f;
+                clIVA.BorderWidthBottom = 0.5f;
+                clIVA.HorizontalAlignment = 1;
+
+                clTotal = new PdfPCell(new Phrase("Total", _standardFont));
+                clTotal.BorderWidth = 0.5f;
+                clTotal.BorderWidthBottom = 0.5f;
+                clTotal.HorizontalAlignment = 1;
+
+                clPendiente = new PdfPCell(new Phrase("Pendiente", _standardFont));
+                clPendiente.BorderWidth = 0.5f;
+                clPendiente.BorderWidthBottom = 0.5f;
+                clPendiente.HorizontalAlignment = 1;
+
+                clTextoExtra3 = new PdfPCell(new Phrase("Texto Extra 3", _standardFont));
+                clTextoExtra3.BorderWidth = 0.5f;
+                clTextoExtra3.BorderWidthBottom = 0.5f;
+                clTextoExtra3.HorizontalAlignment = 1;
+
+                clAfectado = new PdfPCell(new Phrase("Afectado", _standardFont));
+                clAfectado.BorderWidth = 0.5f;
+                clAfectado.BorderWidthBottom = 0.5f;
+                clAfectado.HorizontalAlignment = 1;
+
+                clImpreso = new PdfPCell(new Phrase("Impreso", _standardFont));
+                clImpreso.BorderWidth = 0.5f;
+                clImpreso.BorderWidthBottom = 0.5f;
+                clImpreso.HorizontalAlignment = 1;
+
+                clCancelado = new PdfPCell(new Phrase("Cancelado", _standardFont));
+                clCancelado.BorderWidth = 0.5f;
+                clCancelado.BorderWidthBottom = 0.5f;
+                clCancelado.HorizontalAlignment = 1;
+
+                clTotalUnidades = new PdfPCell(new Phrase("Total de Unidades", _standardFont));
+                clTotalUnidades.BorderWidth = 0.5f;
+                clTotalUnidades.BorderWidthBottom = 0.5f;
+                clTotalUnidades.HorizontalAlignment = 1;
+
+                clClasificacionCliente2 = new PdfPCell(new Phrase("Clasificación Cliente 2", _standardFont));
+                clClasificacionCliente2.BorderWidth = 0.5f;
+                clClasificacionCliente2.BorderWidthBottom = 0.5f;
+                clClasificacionCliente2.HorizontalAlignment = 1;
+
+                clTextoExtra1 = new PdfPCell(new Phrase("Texto Extra 1", _standardFont));
+                clTextoExtra1.BorderWidth = 0.5f;
+                clTextoExtra1.BorderWidthBottom = 0.5f;
+                clTextoExtra1.HorizontalAlignment = 1;
+
+                clNombreConcepto = new PdfPCell(new Phrase("Nombre del Concepto", _standardFont));
+                clNombreConcepto.BorderWidth = 0.5f;
+                clNombreConcepto.BorderWidthBottom = 0.5f;
+                clNombreConcepto.HorizontalAlignment = 1;
+                #endregion
+                //***************************************************************************************************************************************
+                #region Agrega titulos en las tablas
+                //agrega las tablas en el pdf
+                tabla_cuentas.AddCell(clFecha);
+                tabla_cuentas.AddCell(clSerie);
+                tabla_cuentas.AddCell(clFolio);
+                tabla_cuentas.AddCell(clNombreAgente);
+                tabla_cuentas.AddCell(clRazonSocial);
+                tabla_cuentas.AddCell(clFechaVencimiento);
+                tabla_cuentas.AddCell(clRFC);
+                tabla_cuentas.AddCell(clSubtotal);
+                tabla_cuentas.AddCell(clIVA);
+                tabla_cuentas.AddCell(clTotal);
+                tabla_cuentas.AddCell(clPendiente);
+                tabla_cuentas.AddCell(clTextoExtra3);
+                tabla_cuentas.AddCell(clAfectado);
+                tabla_cuentas.AddCell(clImpreso);
+                tabla_cuentas.AddCell(clCancelado);
+                tabla_cuentas.AddCell(clTotalUnidades);
+                tabla_cuentas.AddCell(clClasificacionCliente2);
+                tabla_cuentas.AddCell(clTextoExtra1);
+                tabla_cuentas.AddCell(clNombreConcepto);
+                #endregion
+                ListFactrurasCRU = ListFactrurasCRUFiltroRFCPublico;
+                ValorTotal = 0;
+                for (int k = 0; k < ListFactrurasCRU.Count; k++)
+                {
+                    #region AGREGA DATOS EN LA TABLA
+                    clFecha = new PdfPCell(new Phrase(ListFactrurasCRU[k].Fecha, _smallFont));
+                    clFecha.BorderWidth = 0.5f;
+                    clFecha.HorizontalAlignment = 1;
+
+                    clSerie = new PdfPCell(new Phrase(ListFactrurasCRU[k].Serie, _smallFont));
+                    clSerie.BorderWidth = 0.5f;
+                    clSerie.HorizontalAlignment = 1;
+
+                    clFolio = new PdfPCell(new Phrase(ListFactrurasCRU[k].Folio, _smallFont));
+                    clFolio.BorderWidth = 0.5f;
+                    clFolio.HorizontalAlignment = 1;
+
+                    clNombreAgente = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreAgente, _smallFont));
+                    clNombreAgente.BorderWidth = 0.5f;
+                    clNombreAgente.HorizontalAlignment = 1;
+
+                    clRazonSocial = new PdfPCell(new Phrase(ListFactrurasCRU[k].RazonSocial, _smallFont));
+                    clRazonSocial.BorderWidth = 0.5f;
+                    clRazonSocial.HorizontalAlignment = 1;
+
+                    clFechaVencimiento = new PdfPCell(new Phrase(ListFactrurasCRU[k].FechaVencimiento, _smallFont));
+                    clFechaVencimiento.BorderWidth = 0.5f;
+                    clFechaVencimiento.HorizontalAlignment = 1;
+
+                    clRFC = new PdfPCell(new Phrase(ListFactrurasCRU[k].RFC, _smallFont));
+                    clRFC.BorderWidth = 0.5f;
+                    clRFC.HorizontalAlignment = 1;
+
+                    clSubtotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Subtotal.ToString(), _smallFont));
+                    clSubtotal.BorderWidth = 0.5f;
+                    clSubtotal.HorizontalAlignment = 1;
+
+                    clIVA = new PdfPCell(new Phrase(ListFactrurasCRU[k].IVA.ToString(), _smallFont));
+                    clIVA.BorderWidth = 0.5f;
+                    clIVA.HorizontalAlignment = 1;
+
+                    clTotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Total.ToString(), _smallFont));
+                    clTotal.BorderWidth = 0.5f;
+                    clTotal.HorizontalAlignment = 1;
+                    ValorTotal += ListFactrurasCRU[k].Total;
+
+                    clPendiente = new PdfPCell(new Phrase(ListFactrurasCRU[k].Pendiente.ToString(), _smallFont));
+                    clPendiente.BorderWidth = 0.5f;
+                    clPendiente.HorizontalAlignment = 1;
+
+                    clTextoExtra3 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra3, _smallFont));
+                    clTextoExtra3.BorderWidth = 0.5f;
+                    clTextoExtra3.HorizontalAlignment = 1;
+
+                    clAfectado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Afectado, _smallFont));
+                    clAfectado.BorderWidth = 0.5f;
+                    clAfectado.HorizontalAlignment = 1;
+
+                    clImpreso = new PdfPCell(new Phrase(ListFactrurasCRU[k].Impreso, _smallFont));
+                    clImpreso.BorderWidth = 0.5f;
+                    clImpreso.HorizontalAlignment = 1;
+
+                    clCancelado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Cancelado, _smallFont));
+                    clCancelado.BorderWidth = 0.5f;
+                    clCancelado.HorizontalAlignment = 1;
+
+                    clTotalUnidades = new PdfPCell(new Phrase(ListFactrurasCRU[k].TotalUnidades.ToString(), _smallFont));
+                    clTotalUnidades.BorderWidth = 0.5f;
+                    clTotalUnidades.HorizontalAlignment = 1;
+
+                    clClasificacionCliente2 = new PdfPCell(new Phrase(ListFactrurasCRU[k].proveedor.Clasificación2, _smallFont));
+                    clClasificacionCliente2.BorderWidth = 0.5f;
+                    clClasificacionCliente2.HorizontalAlignment = 1;
+
+                    clTextoExtra1 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra1, _smallFont));
+                    clTextoExtra1.BorderWidth = 0.5f;
+                    clTextoExtra1.HorizontalAlignment = 1;
+
+                    clNombreConcepto = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreConcepto, _smallFont));
+                    clNombreConcepto.BorderWidth = 0.5f;
+                    clNombreConcepto.HorizontalAlignment = 1;
+                    #endregion
+                    #region Agrega titulos en las tablas
+                    //agrega las tablas en el pdf
+                    tabla_cuentas.AddCell(clFecha);
+                    tabla_cuentas.AddCell(clSerie);
+                    tabla_cuentas.AddCell(clFolio);
+                    tabla_cuentas.AddCell(clNombreAgente);
+                    tabla_cuentas.AddCell(clRazonSocial);
+                    tabla_cuentas.AddCell(clFechaVencimiento);
+                    tabla_cuentas.AddCell(clRFC);
+                    tabla_cuentas.AddCell(clSubtotal);
+                    tabla_cuentas.AddCell(clIVA);
+                    tabla_cuentas.AddCell(clTotal);
+                    tabla_cuentas.AddCell(clPendiente);
+                    tabla_cuentas.AddCell(clTextoExtra3);
+                    tabla_cuentas.AddCell(clAfectado);
+                    tabla_cuentas.AddCell(clImpreso);
+                    tabla_cuentas.AddCell(clCancelado);
+                    tabla_cuentas.AddCell(clTotalUnidades);
+                    tabla_cuentas.AddCell(clClasificacionCliente2);
+                    tabla_cuentas.AddCell(clTextoExtra1);
+                    tabla_cuentas.AddCell(clNombreConcepto);
+                    #endregion
+                }//fin for
+
+                doc.Add(new Paragraph("Total: $" + Math.Round(ValorTotal, 2), _titulos));
+                doc.Add(new Paragraph("\n"));
+
+                //agrego la tabla al pdf
+                doc.Add(tabla_cuentas);
+
+                #endregion
+                /******************************************************************************************/
+
+                doc.Add(new Paragraph("\n"));
+                doc.Add(new Paragraph("\n"));
+                doc.Add(new Paragraph("\n"));
+
+                /************************************************************/
+                #region **********TERCER TABLA  FILTRO RFC OL*********
+                doc.Add(new Paragraph("25 Acumulado de Abonos a OL ", _titulos));
+                doc.Add(new Paragraph("\n"));
+                tabla_cuentas = new PdfPTable(19);
+                //PdfPCell cell = new PdfPCell(new Phrase("Reporte de Compras"));
+                //cell.Colspan = 3;
+                //cell.BackgroundColor = BaseColor.BLUE;
+                //cell.HorizontalAlignment = 1;//0=Left, 1=Centre, 2=Right 
+                tabla_cuentas.WidthPercentage = 100;
+                //tabla_cuentas.AddCell(cell);
+
+
+
+                #region configuracion de columnas
+                // Configuramos el título de las columnas de la tabla 
+                clFecha = new PdfPCell(new Phrase("Fecha", _standardFont));
+                clFecha.BorderWidth = 0.5f;
+                clFecha.BorderWidthBottom = 0.5f;
+                clFecha.HorizontalAlignment = 1;
+
+                clSerie = new PdfPCell(new Phrase("Serie", _standardFont));
+                clSerie.BorderWidth = 0.5f;
+                clSerie.BorderWidthBottom = 0.5f;
+                clSerie.HorizontalAlignment = 1;
+
+                clFolio = new PdfPCell(new Phrase("Folio", _standardFont));
+                clFolio.BorderWidth = 0.5f;
+                clFolio.BorderWidthBottom = 0.5f;
+                clFolio.HorizontalAlignment = 1;
+
+                clNombreAgente = new PdfPCell(new Phrase("Nombre del Agente", _standardFont));
+                clNombreAgente.BorderWidth = 0.5f;
+                clNombreAgente.BorderWidthBottom = 0.5f;
+                clNombreAgente.HorizontalAlignment = 1;
+
+                clRazonSocial = new PdfPCell(new Phrase("Razón Social", _standardFont));
+                clRazonSocial.BorderWidth = 0.5f;
+                clRazonSocial.BorderWidthBottom = 0.5f;
+                clRazonSocial.HorizontalAlignment = 1;
+
+                clFechaVencimiento = new PdfPCell(new Phrase("Fecha de Vencimiento", _standardFont));
+                clFechaVencimiento.BorderWidth = 0.5f;
+                clFechaVencimiento.BorderWidthBottom = 0.5f;
+                clFechaVencimiento.HorizontalAlignment = 1;
+
+                clRFC = new PdfPCell(new Phrase("R.F.C.", _standardFont));
+                clRFC.BorderWidth = 0.5f;
+                clRFC.BorderWidthBottom = 0.5f;
+                clRFC.HorizontalAlignment = 1;
+
+                clSubtotal = new PdfPCell(new Phrase("Subtotal", _standardFont));
+                clSubtotal.BorderWidth = 0.5f;
+                clSubtotal.BorderWidthBottom = 0.5f;
+                clSubtotal.HorizontalAlignment = 1;
+
+                clIVA = new PdfPCell(new Phrase("IVA", _standardFont));
+                clIVA.BorderWidth = 0.5f;
+                clIVA.BorderWidthBottom = 0.5f;
+                clIVA.HorizontalAlignment = 1;
+
+                clTotal = new PdfPCell(new Phrase("Total", _standardFont));
+                clTotal.BorderWidth = 0.5f;
+                clTotal.BorderWidthBottom = 0.5f;
+                clTotal.HorizontalAlignment = 1;
+
+                clPendiente = new PdfPCell(new Phrase("Pendiente", _standardFont));
+                clPendiente.BorderWidth = 0.5f;
+                clPendiente.BorderWidthBottom = 0.5f;
+                clPendiente.HorizontalAlignment = 1;
+
+                clTextoExtra3 = new PdfPCell(new Phrase("Texto Extra 3", _standardFont));
+                clTextoExtra3.BorderWidth = 0.5f;
+                clTextoExtra3.BorderWidthBottom = 0.5f;
+                clTextoExtra3.HorizontalAlignment = 1;
+
+                clAfectado = new PdfPCell(new Phrase("Afectado", _standardFont));
+                clAfectado.BorderWidth = 0.5f;
+                clAfectado.BorderWidthBottom = 0.5f;
+                clAfectado.HorizontalAlignment = 1;
+
+                clImpreso = new PdfPCell(new Phrase("Impreso", _standardFont));
+                clImpreso.BorderWidth = 0.5f;
+                clImpreso.BorderWidthBottom = 0.5f;
+                clImpreso.HorizontalAlignment = 1;
+
+                clCancelado = new PdfPCell(new Phrase("Cancelado", _standardFont));
+                clCancelado.BorderWidth = 0.5f;
+                clCancelado.BorderWidthBottom = 0.5f;
+                clCancelado.HorizontalAlignment = 1;
+
+                clTotalUnidades = new PdfPCell(new Phrase("Total de Unidades", _standardFont));
+                clTotalUnidades.BorderWidth = 0.5f;
+                clTotalUnidades.BorderWidthBottom = 0.5f;
+                clTotalUnidades.HorizontalAlignment = 1;
+
+                clClasificacionCliente2 = new PdfPCell(new Phrase("Clasificación Cliente 2", _standardFont));
+                clClasificacionCliente2.BorderWidth = 0.5f;
+                clClasificacionCliente2.BorderWidthBottom = 0.5f;
+                clClasificacionCliente2.HorizontalAlignment = 1;
+
+                clTextoExtra1 = new PdfPCell(new Phrase("Texto Extra 1", _standardFont));
+                clTextoExtra1.BorderWidth = 0.5f;
+                clTextoExtra1.BorderWidthBottom = 0.5f;
+                clTextoExtra1.HorizontalAlignment = 1;
+
+                clNombreConcepto = new PdfPCell(new Phrase("Nombre del Concepto", _standardFont));
+                clNombreConcepto.BorderWidth = 0.5f;
+                clNombreConcepto.BorderWidthBottom = 0.5f;
+                clNombreConcepto.HorizontalAlignment = 1;
+                #endregion
+                //***************************************************************************************************************************************
+                #region Agrega titulos en las tablas
+                //agrega las tablas en el pdf
+                tabla_cuentas.AddCell(clFecha);
+                tabla_cuentas.AddCell(clSerie);
+                tabla_cuentas.AddCell(clFolio);
+                tabla_cuentas.AddCell(clNombreAgente);
+                tabla_cuentas.AddCell(clRazonSocial);
+                tabla_cuentas.AddCell(clFechaVencimiento);
+                tabla_cuentas.AddCell(clRFC);
+                tabla_cuentas.AddCell(clSubtotal);
+                tabla_cuentas.AddCell(clIVA);
+                tabla_cuentas.AddCell(clTotal);
+                tabla_cuentas.AddCell(clPendiente);
+                tabla_cuentas.AddCell(clTextoExtra3);
+                tabla_cuentas.AddCell(clAfectado);
+                tabla_cuentas.AddCell(clImpreso);
+                tabla_cuentas.AddCell(clCancelado);
+                tabla_cuentas.AddCell(clTotalUnidades);
+                tabla_cuentas.AddCell(clClasificacionCliente2);
+                tabla_cuentas.AddCell(clTextoExtra1);
+                tabla_cuentas.AddCell(clNombreConcepto);
+                #endregion
+                ListFactrurasCRU = ListFactrurasCRUFiltroRFCOL;
+                ValorTotal = 0;
+                for (int k = 0; k < ListFactrurasCRU.Count; k++)
+                {
+                    #region AGREGA DATOS EN LA TABLA
+                    clFecha = new PdfPCell(new Phrase(ListFactrurasCRU[k].Fecha, _smallFont));
+                    clFecha.BorderWidth = 0.5f;
+                    clFecha.HorizontalAlignment = 1;
+
+                    clSerie = new PdfPCell(new Phrase(ListFactrurasCRU[k].Serie, _smallFont));
+                    clSerie.BorderWidth = 0.5f;
+                    clSerie.HorizontalAlignment = 1;
+
+                    clFolio = new PdfPCell(new Phrase(ListFactrurasCRU[k].Folio, _smallFont));
+                    clFolio.BorderWidth = 0.5f;
+                    clFolio.HorizontalAlignment = 1;
+
+                    clNombreAgente = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreAgente, _smallFont));
+                    clNombreAgente.BorderWidth = 0.5f;
+                    clNombreAgente.HorizontalAlignment = 1;
+
+                    clRazonSocial = new PdfPCell(new Phrase(ListFactrurasCRU[k].RazonSocial, _smallFont));
+                    clRazonSocial.BorderWidth = 0.5f;
+                    clRazonSocial.HorizontalAlignment = 1;
+
+                    clFechaVencimiento = new PdfPCell(new Phrase(ListFactrurasCRU[k].FechaVencimiento, _smallFont));
+                    clFechaVencimiento.BorderWidth = 0.5f;
+                    clFechaVencimiento.HorizontalAlignment = 1;
+
+                    clRFC = new PdfPCell(new Phrase(ListFactrurasCRU[k].RFC, _smallFont));
+                    clRFC.BorderWidth = 0.5f;
+                    clRFC.HorizontalAlignment = 1;
+
+                    clSubtotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Subtotal.ToString(), _smallFont));
+                    clSubtotal.BorderWidth = 0.5f;
+                    clSubtotal.HorizontalAlignment = 1;
+
+                    clIVA = new PdfPCell(new Phrase(ListFactrurasCRU[k].IVA.ToString(), _smallFont));
+                    clIVA.BorderWidth = 0.5f;
+                    clIVA.HorizontalAlignment = 1;
+
+                    clTotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Total.ToString(), _smallFont));
+                    clTotal.BorderWidth = 0.5f;
+                    clTotal.HorizontalAlignment = 1;
+                    ValorTotal += ListFactrurasCRU[k].Total;
+
+                    clPendiente = new PdfPCell(new Phrase(ListFactrurasCRU[k].Pendiente.ToString(), _smallFont));
+                    clPendiente.BorderWidth = 0.5f;
+                    clPendiente.HorizontalAlignment = 1;
+
+                    clTextoExtra3 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra3, _smallFont));
+                    clTextoExtra3.BorderWidth = 0.5f;
+                    clTextoExtra3.HorizontalAlignment = 1;
+
+                    clAfectado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Afectado, _smallFont));
+                    clAfectado.BorderWidth = 0.5f;
+                    clAfectado.HorizontalAlignment = 1;
+
+                    clImpreso = new PdfPCell(new Phrase(ListFactrurasCRU[k].Impreso, _smallFont));
+                    clImpreso.BorderWidth = 0.5f;
+                    clImpreso.HorizontalAlignment = 1;
+
+                    clCancelado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Cancelado, _smallFont));
+                    clCancelado.BorderWidth = 0.5f;
+                    clCancelado.HorizontalAlignment = 1;
+
+                    clTotalUnidades = new PdfPCell(new Phrase(ListFactrurasCRU[k].TotalUnidades.ToString(), _smallFont));
+                    clTotalUnidades.BorderWidth = 0.5f;
+                    clTotalUnidades.HorizontalAlignment = 1;
+
+                    clClasificacionCliente2 = new PdfPCell(new Phrase(ListFactrurasCRU[k].proveedor.Clasificación2, _smallFont));
+                    clClasificacionCliente2.BorderWidth = 0.5f;
+                    clClasificacionCliente2.HorizontalAlignment = 1;
+
+                    clTextoExtra1 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra1, _smallFont));
+                    clTextoExtra1.BorderWidth = 0.5f;
+                    clTextoExtra1.HorizontalAlignment = 1;
+
+                    clNombreConcepto = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreConcepto, _smallFont));
+                    clNombreConcepto.BorderWidth = 0.5f;
+                    clNombreConcepto.HorizontalAlignment = 1;
+                    #endregion
+                    #region Agrega titulos en las tablas
+                    //agrega las tablas en el pdf
+                    tabla_cuentas.AddCell(clFecha);
+                    tabla_cuentas.AddCell(clSerie);
+                    tabla_cuentas.AddCell(clFolio);
+                    tabla_cuentas.AddCell(clNombreAgente);
+                    tabla_cuentas.AddCell(clRazonSocial);
+                    tabla_cuentas.AddCell(clFechaVencimiento);
+                    tabla_cuentas.AddCell(clRFC);
+                    tabla_cuentas.AddCell(clSubtotal);
+                    tabla_cuentas.AddCell(clIVA);
+                    tabla_cuentas.AddCell(clTotal);
+                    tabla_cuentas.AddCell(clPendiente);
+                    tabla_cuentas.AddCell(clTextoExtra3);
+                    tabla_cuentas.AddCell(clAfectado);
+                    tabla_cuentas.AddCell(clImpreso);
+                    tabla_cuentas.AddCell(clCancelado);
+                    tabla_cuentas.AddCell(clTotalUnidades);
+                    tabla_cuentas.AddCell(clClasificacionCliente2);
+                    tabla_cuentas.AddCell(clTextoExtra1);
+                    tabla_cuentas.AddCell(clNombreConcepto);
+                    #endregion
+                }//fin for
+
+                doc.Add(new Paragraph("Total: $" + Math.Round(ValorTotal, 2), _titulos));
+                doc.Add(new Paragraph("\n"));
+
+                //agrego la tabla al pdf
+                doc.Add(tabla_cuentas);
+
+                #endregion
+                /******************************************************************************************/
+                // cierro la edicion del pdf
+                doc.Close();
+
+                ////LO EJECUTO
+                Process prc = new System.Diagnostics.Process();
+                prc.StartInfo.FileName = rut;
+                prc.Start();
+
+            }
+            catch (Exception g)
+            { MessageBox.Show("" + g.Message); }
+        }
+        #endregion
+
+
         #region IMPRT EXCEL FACTURAS CRU
-        public void excel_import(List<Tipos_Datos_CRU.FacturasCRU> ListDocmuentos, List<Tipos_Datos_CRU.FacturasCRU> list_rfc_publico, List<Tipos_Datos_CRU.FacturasCRU> list_rfc_ol)
+        public void excel_import(List<Tipos_Datos_CRU.FacturasCRU> ListDocmuentos, List<Tipos_Datos_CRU.FacturasCRU> list_rfc_publico, List<Tipos_Datos_CRU.FacturasCRU> list_rfc_ol, string  titulo1, string  titulo2, string  titulo3)
         { //importar datos en excel
             // creating Excel Application
             Microsoft.Office.Interop.Excel._Application app = new Microsoft.Office.Interop.Excel.Application();
@@ -3122,28 +3925,149 @@ namespace IndicadoresISEL.Modelo
             worksheet = workbook.Sheets["Hoja1"];
             worksheet = workbook.ActiveSheet;
             // changing the name of active sheet
-            worksheet.Name = "Facturas";
-            int column = 3;
-            //encabezados
-            worksheet.Cells[column, 1] = "Fecha";
-            worksheet.Cells[column, 2] = "Serie";
-            worksheet.Cells[column, 3] = "Folio";
-            worksheet.Cells[column, 4] = "Nombre del agente";
-            worksheet.Cells[column, 5] = "Razon social";
-            worksheet.Cells[column, 6] = "Fecha de vencimiento";
-            worksheet.Cells[column, 7] = "RFC";
-            worksheet.Cells[column, 8] = "Subtotal";
-            worksheet.Cells[column, 9] = "IVA";
-            worksheet.Cells[column, 10] = "TOTAL";
-            worksheet.Cells[column, 11] = "Pendiente";
-            worksheet.Cells[column, 12] = "Texto Extra 3";
-            worksheet.Cells[column, 13] = "Afectado";
-            worksheet.Cells[column, 14] = "Impreso";
-            worksheet.Cells[column, 15] = "Cancelado";
-            worksheet.Cells[column, 16] = "Total de unidades";
-            worksheet.Cells[column, 17] = "Clasificacion cliente2";
-            worksheet.Cells[column, 18] = "Texto extra1";
-            worksheet.Cells[column, 19] = "Nombre del concepto";
+            worksheet.Name = "Admipaq";
+            int Row = 4;
+            //titulo
+           // worksheet.Cells[1, 1] = "Desglose de facturas";
+            worksheet.Cells[2, 5] = titulo1;
+            //encabezados facturas
+            worksheet.Cells[Row, 1] = "Fecha";
+            worksheet.Cells[Row, 2] = "Serie";
+            worksheet.Cells[Row, 3] = "Folio";
+            worksheet.Cells[Row, 4] = "Nombre del agente";
+            worksheet.Cells[Row, 5] = "Razon social";
+            worksheet.Cells[Row, 6] = "Fecha de vencimiento";
+            worksheet.Cells[Row, 7] = "RFC";
+            worksheet.Cells[Row, 8] = "Subtotal";
+            worksheet.Cells[Row, 9] = "IVA";
+            worksheet.Cells[Row, 10] = "TOTAL";
+            worksheet.Cells[Row, 11] = "Pendiente";
+            worksheet.Cells[Row, 12] = "Texto Extra 3";
+            worksheet.Cells[Row, 13] = "Afectado";
+            worksheet.Cells[Row, 14] = "Impreso";
+            worksheet.Cells[Row, 15] = "Cancelado";
+            worksheet.Cells[Row, 16] = "Total de unidades";
+            worksheet.Cells[Row, 17] = "Clasificacion cliente2";
+            worksheet.Cells[Row, 18] = "Texto extra1";
+            worksheet.Cells[Row, 19] = "Nombre del concepto";
+            //titulo 
+            worksheet.Cells[2, 27] = titulo2;
+            //envabezados facturas filtro publico
+            worksheet.Cells[Row, 23] = "Fecha";
+            worksheet.Cells[Row, 24] = "Serie";
+            worksheet.Cells[Row, 25] = "Folio";
+            worksheet.Cells[Row, 26] = "Nombre del agente";
+            worksheet.Cells[Row, 27] = "Razon social";
+            worksheet.Cells[Row, 28] = "Fecha de vencimiento";
+            worksheet.Cells[Row, 29] = "RFC";
+            worksheet.Cells[Row, 30] = "Subtotal";
+            worksheet.Cells[Row, 31] = "IVA";
+            worksheet.Cells[Row, 32] = "TOTAL";
+            worksheet.Cells[Row, 33] = "Pendiente";
+            worksheet.Cells[Row, 34] = "Texto Extra 3";
+            worksheet.Cells[Row, 35] = "Afectado";
+            worksheet.Cells[Row, 36] = "Impreso";
+            worksheet.Cells[Row, 37] = "Cancelado";
+            worksheet.Cells[Row, 38] = "Total de unidades";
+            worksheet.Cells[Row, 39] = "Clasificacion cliente2";
+            worksheet.Cells[Row, 40] = "Texto extra1";
+            worksheet.Cells[Row, 41] = "Nombre del concepto";
+            //titulo 
+            worksheet.Cells[2, 48] = titulo3;
+            //envabezados facturas filtro publico
+            worksheet.Cells[Row, 44] = "Fecha";
+            worksheet.Cells[Row, 45] = "Serie";
+            worksheet.Cells[Row, 46] = "Folio";
+            worksheet.Cells[Row, 47] = "Nombre del agente";
+            worksheet.Cells[Row, 48] = "Razon social";
+            worksheet.Cells[Row, 49] = "Fecha de vencimiento";
+            worksheet.Cells[Row, 50] = "RFC";
+            worksheet.Cells[Row, 51] = "Subtotal";
+            worksheet.Cells[Row, 52] = "IVA";
+            worksheet.Cells[Row, 53] = "TOTAL";
+            worksheet.Cells[Row, 54] = "Pendiente";
+            worksheet.Cells[Row, 55] = "Texto Extra 3";
+            worksheet.Cells[Row, 56] = "Afectado";
+            worksheet.Cells[Row, 57] = "Impreso";
+            worksheet.Cells[Row, 58] = "Cancelado";
+            worksheet.Cells[Row, 59] = "Total de unidades";
+            worksheet.Cells[Row, 60] = "Clasificacion cliente2";
+            worksheet.Cells[Row, 61] = "Texto extra1";
+            worksheet.Cells[Row, 62] = "Nombre del concepto";
+            Row++;
+            for (int i = 0; i < ListDocmuentos.Count; i++)
+            {
+                worksheet.Cells[Row, 1]=ListDocmuentos[i].Fecha;
+                worksheet.Cells[Row, 2]=ListDocmuentos[i].Serie;
+                worksheet.Cells[Row, 3]=ListDocmuentos[i].Folio;
+                worksheet.Cells[Row, 4]=ListDocmuentos[i].NombreAgente;
+                worksheet.Cells[Row, 5]=ListDocmuentos[i].RazonSocial;
+                worksheet.Cells[Row, 6]=ListDocmuentos[i].FechaVencimiento;
+                worksheet.Cells[Row, 7]=ListDocmuentos[i].RFC;
+                worksheet.Cells[Row, 8]=ListDocmuentos[i].Subtotal;
+                worksheet.Cells[Row, 9]=ListDocmuentos[i].IVA;
+                worksheet.Cells[Row, 10]=ListDocmuentos[i].Total;
+                worksheet.Cells[Row, 11]=ListDocmuentos[i].Pendiente;
+                worksheet.Cells[Row, 12]=ListDocmuentos[i].TextoExtra3;
+                worksheet.Cells[Row, 13]=ListDocmuentos[i].Afectado;
+                worksheet.Cells[Row, 14]=ListDocmuentos[i].Impreso;
+                worksheet.Cells[Row, 15]=ListDocmuentos[i].Cancelado;
+                worksheet.Cells[Row, 16]=ListDocmuentos[i].TotalUnidades;
+                worksheet.Cells[Row, 17]=ListDocmuentos[i].Clasificacion2;
+                worksheet.Cells[Row, 18]=ListDocmuentos[i].TextoExtra1;
+                worksheet.Cells[Row, 19] = ListDocmuentos[i].NombreConcepto;
+                Row++;
+            }
+            Row = 5;
+            
+            for (int i = 0; i < list_rfc_publico.Count; i++)
+            {
+                worksheet.Cells[Row, 23] = list_rfc_publico[i].Fecha;
+                worksheet.Cells[Row, 24] = list_rfc_publico[i].Serie;
+                worksheet.Cells[Row, 25] = list_rfc_publico[i].Folio;
+                worksheet.Cells[Row, 26] = list_rfc_publico[i].NombreAgente;
+                worksheet.Cells[Row, 27] = list_rfc_publico[i].RazonSocial;
+                worksheet.Cells[Row, 28] = list_rfc_publico[i].FechaVencimiento;
+                worksheet.Cells[Row, 29] = list_rfc_publico[i].RFC;
+                worksheet.Cells[Row, 30] = list_rfc_publico[i].Subtotal;
+                worksheet.Cells[Row, 31] = list_rfc_publico[i].IVA;
+                worksheet.Cells[Row, 32] = list_rfc_publico[i].Total;
+                worksheet.Cells[Row, 33] = list_rfc_publico[i].Pendiente;
+                worksheet.Cells[Row, 34] = list_rfc_publico[i].TextoExtra3;
+                worksheet.Cells[Row, 35] = list_rfc_publico[i].Afectado;
+                worksheet.Cells[Row, 36] = list_rfc_publico[i].Impreso;
+                worksheet.Cells[Row, 37] = list_rfc_publico[i].Cancelado;
+                worksheet.Cells[Row, 38] = list_rfc_publico[i].TotalUnidades;
+                worksheet.Cells[Row, 39] = list_rfc_publico[i].Clasificacion2;
+                worksheet.Cells[Row, 40] = list_rfc_publico[i].TextoExtra1;
+                worksheet.Cells[Row, 41] = list_rfc_publico[i].NombreConcepto;
+                Row++;
+            }
+            Row = 5;
+            for (int i = 0; i < list_rfc_ol.Count; i++)
+            {
+                worksheet.Cells[Row, 44] = list_rfc_ol[i].Fecha;
+                worksheet.Cells[Row, 45] = list_rfc_ol[i].Serie;
+                worksheet.Cells[Row, 46] = list_rfc_ol[i].Folio;
+                worksheet.Cells[Row, 47] = list_rfc_ol[i].NombreAgente;
+                worksheet.Cells[Row, 48] = list_rfc_ol[i].RazonSocial;
+                worksheet.Cells[Row, 49] = list_rfc_ol[i].FechaVencimiento;
+                worksheet.Cells[Row, 50] = list_rfc_ol[i].RFC;
+                worksheet.Cells[Row, 51] = list_rfc_ol[i].Subtotal;
+                worksheet.Cells[Row, 52] = list_rfc_ol[i].IVA;
+                worksheet.Cells[Row, 53] = list_rfc_ol[i].Total;
+                worksheet.Cells[Row, 54] = list_rfc_ol[i].Pendiente;
+                worksheet.Cells[Row, 55] = list_rfc_ol[i].TextoExtra3;
+                worksheet.Cells[Row, 56] = list_rfc_ol[i].Afectado;
+                worksheet.Cells[Row, 57] = list_rfc_ol[i].Impreso;
+                worksheet.Cells[Row, 58] = list_rfc_ol[i].Cancelado;
+                worksheet.Cells[Row, 59] = list_rfc_ol[i].TotalUnidades;
+                worksheet.Cells[Row, 60] = list_rfc_ol[i].Clasificacion2;
+                worksheet.Cells[Row, 61] = list_rfc_ol[i].TextoExtra1;
+                worksheet.Cells[Row, 62] = list_rfc_ol[i].NombreConcepto;
+                Row++;
+            }
+
         }
         #endregion 
     }

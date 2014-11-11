@@ -36,8 +36,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Awesomium.Core, Version=1.7.4.2, Culture=neutral, PublicKeyToken=e1a0d7c8071a5214" />
-    <Reference Include="Awesomium.Windows.Controls, Version=1.7.4.2, Culture=neutral, PublicKeyToken=7a34e179b8b61c39" />
     <Reference Include="itextsharp">
       <HintPath>referencias\itextsharp.dll</HintPath>
     </Reference>
@@ -79,8 +77,14 @@
     <Compile Include="Modelo\Modelo_SDKAdmipaq.cs" />
     <Compile Include="Modelo\Nombre_Archivos.cs" />
     <Compile Include="Modelo\Tipos_Datos_CRU.cs" />
+    <Compile Include="Vista\Abonos\abono.xaml.cs">
+      <DependentUpon>abono.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vista\Cargador\CargadorBar.xaml.cs">
       <DependentUpon>CargadorBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vista\compras\compra.xaml.cs">
+      <DependentUpon>compra.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vista\Contenedor_principal\Indicadores_pincipal.xaml.cs">
       <DependentUpon>Indicadores_pincipal.xaml</DependentUpon>
@@ -100,7 +104,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Vista\Abonos\abono.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Vista\Cargador\CargadorBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vista\compras\compra.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

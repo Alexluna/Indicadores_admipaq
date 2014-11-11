@@ -8,7 +8,7 @@ namespace IndicadoresISEL.Controlador
     class WorkerProgressBar
     {
         public delegate void LogerDelegate(string fechainicial, string fechafinal, Controlador_Impresion controlaimpresion, string textBoxanio, string mes, string RuteEmpresa, string RFCpublico, string rfc);
-        public event LogerDelegate factura;
+        public event LogerDelegate datos_;
 
         public string fechainicial = "";
         public string fechafinal = "";
@@ -20,7 +20,7 @@ namespace IndicadoresISEL.Controlador
         public string rfc = "";
         public void WorkerMethod()
         {
-            factura(fechainicial, fechafinal, controlaimpresion, textBoxanio, mes, RuteEmpresa, RFCpublico, rfc);
+            datos_(fechainicial, fechafinal, controlaimpresion, textBoxanio, mes, RuteEmpresa, RFCpublico, rfc);
         }
     }
 }

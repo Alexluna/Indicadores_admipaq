@@ -34,12 +34,25 @@ namespace IndicadoresISEL.Controlador
             modeloimpresion.Reporte_Compras(lista, fechas, fecha_titulo, path);
         }
 
-        public void excel_import(List<Tipos_Datos_CRU.FacturasCRU> ListDocmuentos, List<Tipos_Datos_CRU.FacturasCRU> list_rfc_publico, List<Tipos_Datos_CRU.FacturasCRU> list_rfc_ol)
+        public void excel_import(List<Tipos_Datos_CRU.FacturasCRU> ListDocmuentos, List<Tipos_Datos_CRU.FacturasCRU> list_rfc_publico, List<Tipos_Datos_CRU.FacturasCRU> list_rfc_ol, string titulo1, string titulo2, string titulo3)
         {
-            modeloimpresion.excel_import(ListDocmuentos, list_rfc_publico, list_rfc_ol);
+            modeloimpresion.excel_import(ListDocmuentos, list_rfc_publico, list_rfc_ol,titulo1,titulo2,titulo3);
         
         }
 
+
+        /// <summary>
+        /// impresio para abonos
+        /// </summary>
+        /// <param name="ListFactrurasCRU"></param>
+        /// <param name="fechas"></param>
+        /// <param name="path"></param>
+        /// <param name="ListFactrurasCRUFiltroRFCPublico"></param>
+        /// <param name="ListFactrurasCRUFiltroRFCOL"></param>
+        public void ImpresionCRUAbonos(List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRU, string fechas, string path, List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRUFiltroRFCPublico, List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRUFiltroRFCOL)
+        {
+            modeloimpresion.ImpresionCRUAbonos(ListFactrurasCRU, fechas, path, ListFactrurasCRUFiltroRFCPublico, ListFactrurasCRUFiltroRFCOL);
+        }
 
     }
 }

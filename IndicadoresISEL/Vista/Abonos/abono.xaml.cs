@@ -11,37 +11,39 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Forms;
 using IndicadoresISEL.Controlador;
 using IndicadoresISEL.Modelo;
+using System.Windows.Forms;
 using System.Threading;
-using System.Windows.Threading;
-using System.ComponentModel;
 using IndicadoresISEL.Vista.Cargador;
 
-namespace IndicadoresISEL.Vista.Facturas
+namespace IndicadoresISEL.Vista.Abonos
 {
     /// <summary>
-    /// Lógica de interacción para facturacion.xaml
+    /// Lógica de interacción para abono.xaml
     /// </summary>
-    public partial class facturacion 
+    public partial class abono 
     {
         Controlador__SDKAdmipaq controladorSDK;//para lalamr al controlador del sdk admipaq
         List<Tipos_Datos_CRU.FacturasCRU> ListDocmuentos;//liusta de todo los documentos
         Controlador_Impresion controlaimpresion;//para poder mandar a imprimir en PDF
-        public facturacion()
+        public abono()
         {
             InitializeComponent();
-            controladorSDK = new Controlador__SDKAdmipaq();//para manear y llamar metodos del controlador
+            controladorSDK = new Controlador__SDKAdmipaq();
             ListDocmuentos = new List<Tipos_Datos_CRU.FacturasCRU>();
             controlaimpresion = new Controlador_Impresion();
         }
 
-        /// <summary>
-        /// Método para seleccionar una ruta de alguna empresa
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        private void textBoxanio_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if ((e.Key >= Key.D0 && e.Key <= Key.D9) || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9))
+            {
+                e.Handled = false;
+            }
+            else { e.Handled = true; }
+        }
+
         private void Selecciona_Click(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog folderBrowserDialog1 = new FolderBrowserDialog();
@@ -56,18 +58,14 @@ namespace IndicadoresISEL.Vista.Facturas
             }
         }
 
-        
-        
         private void button1_Click(object sender, RoutedEventArgs e)
-        {
-            
+        {//get_AbonosCRU
             if (controladorSDK.GetConexion())//antes de hacer algo verifico si existe alguna conexion con alguna empresa
             {
-                    OnWorkerMethodStart();               
+                OnWorkerMethodStart();
             }
             else System.Windows.MessageBox.Show("Necesita Seleccionar una Empresa");//mando mensaje cuando no existe una empresa seleccionada
         }
-
 
         CargadorBar cargador;
         MainWindow ventaprincipal;
@@ -101,22 +99,22 @@ namespace IndicadoresISEL.Vista.Facturas
             cargador.ShowDialog(); //mostramo el cargador (este metodo se ejecutara )
 
             //finalmente obtenemos el resultado del metodo logear para seleccionar la respuesta que tendra 
-            
+
 
         }
 
         private void datos_(string fechainicial, string fechafinal, Controlador_Impresion controlaimpresion, string textBoxanio, string mes, string RuteEmpresa, string RFCpublico, string rfc)
         {
-            List<Tipos_Datos_CRU.FacturasCRU>  ListDocmuentos = new List<Tipos_Datos_CRU.FacturasCRU>();//inicializo mi lista donde tendramis documentos
-            ListDocmuentos = controladorSDK.get_Documentos(fechainicial, fechafinal);//obtengo todas las listas de mis documentos conforme el filtro que se dio
+            List<Tipos_Datos_CRU.FacturasCRU> ListDocmuentos = new List<Tipos_Datos_CRU.FacturasCRU>();//inicializo mi lista donde tendramis documentos
+            ListDocmuentos = controladorSDK.get_AbonosCRU(fechainicial, fechafinal);//obtengo todas las listas de mis documentos conforme el filtro que se dio
 
             List<Tipos_Datos_CRU.FacturasCRU> list_rfc_publico = controladorSDK.FiltroRFCCRU(ListDocmuentos, RFCpublico);
             List<Tipos_Datos_CRU.FacturasCRU> list_rfc_ol = controladorSDK.FiltroRFCCRU(ListDocmuentos, rfc);
 
 
-            controlaimpresion.ImpresionCRUFacturas(ListDocmuentos, "01/" + mes + "/" + textBoxanio + "--" + "31/" + mes + "/" + textBoxanio, RuteEmpresa, list_rfc_publico, list_rfc_ol);
+            controlaimpresion.ImpresionCRUAbonos(ListDocmuentos, "01/" + mes + "/" + textBoxanio + "--" + "31/" + mes + "/" + textBoxanio, RuteEmpresa, list_rfc_publico, list_rfc_ol);
 
-            controlaimpresion.excel_import(ListDocmuentos,list_rfc_publico,list_rfc_ol,"Desglose de facturas","Desglose de facturas público", "Desglose de facturas ol");
+            controlaimpresion.excel_import(ListDocmuentos, list_rfc_publico, list_rfc_ol,"Acumulado de abonos","Abonos a público","Abonos a OL");
 
             cargador.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
             new Action(
@@ -127,27 +125,5 @@ namespace IndicadoresISEL.Vista.Facturas
             ));
 
         }
-
-        private void textBoxanio_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if ((e.Key >= Key.D0 && e.Key <= Key.D9) || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9))
-            {
-                e.Handled = false;
-            }
-            else { e.Handled = true; }
-        }
-
-        
-       
-
-
-
-        
-
-          
-
-
-       
-       
     }
 }

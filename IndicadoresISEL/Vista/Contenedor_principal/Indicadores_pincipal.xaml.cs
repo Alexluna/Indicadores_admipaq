@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.Windows.Controls.Ribbon;
 using IndicadoresISEL.Vista.Facturas;
+using IndicadoresISEL.Vista.Abonos;
+using IndicadoresISEL.Vista.compras;
 
 namespace IndicadoresISEL.Vista.Contenedor_principal
 {
@@ -21,10 +23,15 @@ namespace IndicadoresISEL.Vista.Contenedor_principal
     public partial class Indicadores_pincipal : RibbonWindow
     {
         MainWindow mainwindow;//window de la principal
+        facturacion factura;
+        abono abonos;
+        compra compras;
         public Indicadores_pincipal()
         {
             InitializeComponent();
-
+            factura = new facturacion();
+            abonos = new abono();
+            compras = new compra();
             // Insert code required on object creation below this point.
         }
 
@@ -50,11 +57,40 @@ namespace IndicadoresISEL.Vista.Contenedor_principal
         }
         #endregion
 
+
+
+        /// <summary>
+        /// click para user control de facturacion
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btnfacturacion_Click(object sender, RoutedEventArgs e)
         {
-            facturacion factura = new facturacion();//crea el objeto del user contorl el cual se quiere mostrar
             gridvista.Children.Clear();//limpio el contenido del grid
             gridvista.Children.Add(factura);
+        }
+
+
+        /// <summary>
+        /// click de abonos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Btnabonos_Click(object sender, RoutedEventArgs e)
+        {
+            gridvista.Children.Clear();//limpio el contenido del grid
+            gridvista.Children.Add(abonos);
+        }
+
+        /// <summary>
+        /// click de compras
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Btncompras_Click(object sender, RoutedEventArgs e)
+        {
+            gridvista.Children.Clear();//limpio el contenido del grid
+            gridvista.Children.Add(compras);
         }
 
 
