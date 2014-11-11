@@ -41,6 +41,9 @@
     <Reference Include="itextsharp">
       <HintPath>referencias\itextsharp.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.Windows.Shell, Version=3.5.41019.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -70,11 +73,15 @@
     </ApplicationDefinition>
     <Compile Include="Controlador\Controlador_Impresion.cs" />
     <Compile Include="Controlador\Controlador__SDKAdmipaq.cs" />
+    <Compile Include="Controlador\WorkerProgressBar.cs" />
     <Compile Include="Modelo\Cargar_graficas.cs" />
     <Compile Include="Modelo\Modelo_Impresion.cs" />
     <Compile Include="Modelo\Modelo_SDKAdmipaq.cs" />
     <Compile Include="Modelo\Nombre_Archivos.cs" />
     <Compile Include="Modelo\Tipos_Datos_CRU.cs" />
+    <Compile Include="Vista\Cargador\CargadorBar.xaml.cs">
+      <DependentUpon>CargadorBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vista\Contenedor_principal\Indicadores_pincipal.xaml.cs">
       <DependentUpon>Indicadores_pincipal.xaml</DependentUpon>
     </Compile>
@@ -93,6 +100,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Vista\Cargador\CargadorBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Vista\Contenedor_principal\Indicadores_pincipal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

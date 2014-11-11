@@ -15,7 +15,7 @@
          <ribbon:Ribbon x:Name="Ribbon" >
             
             <!--Menu finanzas-->
-             <ribbon:RibbonTab x:Name="FinanzasTab" Header="Finanzas">
+             <ribbon:RibbonTab x:Name="cruTab" Header="CRU">
                 <ribbon:RibbonGroup x:Name="group_monitoreo" Header="">
                     <ribbon:RibbonButton x:Name="Btnfacturacion"  Label="Facturación" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/factura.ico" Click="Btnfacturacion_Click" />
                 </ribbon:RibbonGroup>

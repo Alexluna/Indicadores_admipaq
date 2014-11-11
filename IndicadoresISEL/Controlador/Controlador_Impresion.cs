@@ -33,5 +33,13 @@ namespace IndicadoresISEL.Controlador
         {
             modeloimpresion.Reporte_Compras(lista, fechas, fecha_titulo, path);
         }
+
+        public void excel_import(List<Tipos_Datos_CRU.FacturasCRU> ListDocmuentos, List<Tipos_Datos_CRU.FacturasCRU> list_rfc_publico, List<Tipos_Datos_CRU.FacturasCRU> list_rfc_ol)
+        {
+            modeloimpresion.excel_import(ListDocmuentos, list_rfc_publico, list_rfc_ol);
+        
+        }
+
+
     }
 }

@@ -42,7 +42,7 @@ namespace IndicadoresISEL.Modelo
                 doc.AddKeywords("pdf, PdfWriter; Indicadores V1");
 
                 //para almacenamiento del archivo
-                string nombre_archivo = "FacturasCRU.PDF";//Nombre del Archivo
+                string nombre_archivo = "Facturas.PDF";//Nombre del Archivo
                 string rut = @path + nombre_archivo;
                 PdfWriter wri = PdfWriter.GetInstance(doc, new FileStream(rut, FileMode.Create));
                 doc.AddTitle("REPORTE");
@@ -58,13 +58,13 @@ namespace IndicadoresISEL.Modelo
 
 
                 // Cabecera
-                doc.Add(new Paragraph(" Desglose general de Facturas CRU " + fechas, _titulo));
+                doc.Add(new Paragraph(" Desglose general de Facturas  " + fechas, _titulo));
                 doc.Add(new Paragraph("\n"));
                 doc.Add(new Paragraph("\n"));
 
                 //***********************************************
                 #region **********PRIMERA TABLA *********
-                doc.Add(new Paragraph("20 Acumulado de Facturación en CRU", _titulos));
+                doc.Add(new Paragraph("Acumulado de Facturación ", _titulos));
                 doc.Add(new Paragraph("\n"));
                 PdfPTable tabla_cuentas = new PdfPTable(19);
                 //PdfPCell cell = new PdfPCell(new Phrase("Reporte de Compras"));
@@ -315,7 +315,7 @@ namespace IndicadoresISEL.Modelo
 
                 /************************************************************/
                 #region **********SEGUNDA TABLA  FILTRO RFC PUBLICO*********
-                doc.Add(new Paragraph("21 Acumulado de Facturación en CRU Público ", _titulos));
+                doc.Add(new Paragraph("Acumulado de Facturación (Público) ", _titulos));
                 doc.Add(new Paragraph("\n"));
                 tabla_cuentas = new PdfPTable(19);
                 //PdfPCell cell = new PdfPCell(new Phrase("Reporte de Compras"));
@@ -568,7 +568,7 @@ namespace IndicadoresISEL.Modelo
 
                 /************************************************************/
                 #region **********TERCER TABLA  FILTRO RFC OL*********
-                doc.Add(new Paragraph("22 Acumulado de Facturación en CRU OL ", _titulos));
+                doc.Add(new Paragraph("Acumulado de Facturación (rfc) ", _titulos));
                 doc.Add(new Paragraph("\n"));
                 tabla_cuentas = new PdfPTable(19);
                 //PdfPCell cell = new PdfPCell(new Phrase("Reporte de Compras"));
@@ -3102,5 +3102,49 @@ namespace IndicadoresISEL.Modelo
             }
         }
         #endregion
+
+
+
+
+        #region IMPRT EXCEL FACTURAS CRU
+        public void excel_import(List<Tipos_Datos_CRU.FacturasCRU> ListDocmuentos, List<Tipos_Datos_CRU.FacturasCRU> list_rfc_publico, List<Tipos_Datos_CRU.FacturasCRU> list_rfc_ol)
+        { //importar datos en excel
+            // creating Excel Application
+            Microsoft.Office.Interop.Excel._Application app = new Microsoft.Office.Interop.Excel.Application();
+            // creating new WorkBook within Excel application
+            Microsoft.Office.Interop.Excel._Workbook workbook = app.Workbooks.Add(Type.Missing);
+            // creating new Excelsheet in workbook
+            Microsoft.Office.Interop.Excel._Worksheet worksheet = null;
+            // see the excel sheet behind the program
+            app.Visible = true;
+            // get the reference of first sheet. By default its name is Sheet1.
+            // store its reference to worksheet
+            worksheet = workbook.Sheets["Hoja1"];
+            worksheet = workbook.ActiveSheet;
+            // changing the name of active sheet
+            worksheet.Name = "Facturas";
+            int column = 3;
+            //encabezados
+            worksheet.Cells[column, 1] = "Fecha";
+            worksheet.Cells[column, 2] = "Serie";
+            worksheet.Cells[column, 3] = "Folio";
+            worksheet.Cells[column, 4] = "Nombre del agente";
+            worksheet.Cells[column, 5] = "Razon social";
+            worksheet.Cells[column, 6] = "Fecha de vencimiento";
+            worksheet.Cells[column, 7] = "RFC";
+            worksheet.Cells[column, 8] = "Subtotal";
+            worksheet.Cells[column, 9] = "IVA";
+            worksheet.Cells[column, 10] = "TOTAL";
+            worksheet.Cells[column, 11] = "Pendiente";
+            worksheet.Cells[column, 12] = "Texto Extra 3";
+            worksheet.Cells[column, 13] = "Afectado";
+            worksheet.Cells[column, 14] = "Impreso";
+            worksheet.Cells[column, 15] = "Cancelado";
+            worksheet.Cells[column, 16] = "Total de unidades";
+            worksheet.Cells[column, 17] = "Clasificacion cliente2";
+            worksheet.Cells[column, 18] = "Texto extra1";
+            worksheet.Cells[column, 19] = "Nombre del concepto";
+        }
+        #endregion 
     }
 }

@@ -17,6 +17,7 @@ using IndicadoresISEL.Modelo;
 using System.Threading;
 using System.Windows.Threading;
 using System.ComponentModel;
+using IndicadoresISEL.Vista.Cargador;
 
 namespace IndicadoresISEL.Vista.Facturas
 {
@@ -56,67 +57,107 @@ namespace IndicadoresISEL.Vista.Facturas
         }
 
         
-       
-        BackgroundWorker bw;
+        
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            //String pp = "25.55";
-            //System.Windows.MessageBox.Show(pp);
-            //System.Windows.MessageBox.Show(float.Parse(pp, CultureInfo.InvariantCulture.NumberFormat)+"");
+            
             if (controladorSDK.GetConexion())//antes de hacer algo verifico si existe alguna conexion con alguna empresa
             {
-               
-                load.Visibility = Visibility.Visible;
-                
-              /*  Action  EmptyDelegate = delegate() { };
-                load.Dispatcher.Invoke(DispatcherPriority.Render, EmptyDelegate);*/
-
-               /* bw = new BackgroundWorker();
-
-                // Queremos estar informados del estado de la operación.
-                // Esto nos habilita para poder llamar a bw.ReportProgress().
-                bw.WorkerReportsProgress = true;
-
-                // Queremos tener la posibilidad de cancelar el proceso.
-                // Esto nos habilita para poder llamar a bw.CancelAsync().
-                bw.WorkerSupportsCancellation = true;
-
-                // Suscripción a eventos.
-                
-
-                // DoWork es el hilo en donde se va a realizar la operación.
-                bw.DoWork += bw_DoWork;
-
-                // Este evento es el que tenemos que aprovechar para ser informados
-                // del estado de la operación.
-                //bw.ProgressChanged += bw_ProgressChanged;
-
-                // Este evento es el que se va a disparar cuando la tarea haya finalizado.
-                // Aquí es donde vamos a poder recoger los resultados de la operación.
-                bw.RunWorkerCompleted += bw_RunWorkerCompleted;
-
-                // Una vez que ya hemos configurado el backgroundWorker como hemos querido
-                // este método sirve para poner en marcha la operación
-                // que potencialmente puede llevar un tiempo más o menos grande en realizarse.
-                bw.RunWorkerAsync(this);*/
-                ListDocmuentos = new List<Tipos_Datos_CRU.FacturasCRU>();//inicializo mi lista donde tendramis documentos
-                int mes = Convert.ToInt32(comboBoxMes.SelectedIndex) + 1;//obtengo el mes del cual se realizara el filtro
-                string fechainicial = mes + "/01" + "/" + textBoxanio.Text;//obtengo mi fechaincial para mi filtro
-                string fechafinal = mes + "/31" + "/" + textBoxanio.Text;//obtengo mi fecha final para mi filtro
-                ListDocmuentos = controladorSDK.get_Documentos(fechainicial, fechafinal);//obtengo todas las listas de mis documentos conforme el filtro que se dio
-                ListDocmuentos = controladorSDK.get_Documentos(fechainicial, fechafinal);//obtengo todas las listas de mis documentos conforme el filtro que se dio
-
-                //manda a imprimir al pdf
-                //System.Windows.MessageBox.Show("PDF");
-                //manda a llmar 2 eventos para realizar filtros por RFC (publico y ol) y despues los manda para que se impriman en un PDF
-                //se envia la ruta de la empresa ya que en la ruta de la empresa se guardara el pdf y se manda el rango de fechas que es por mes para imprimirlo en el pdf
-                controlaimpresion.ImpresionCRUFacturas(ListDocmuentos, "01/" + mes + "/" + textBoxanio.Text + "--" + "31/" + mes + "/" + textBoxanio.Text, RuteEmpresa.Text, controladorSDK.FiltroRFCCRU(ListDocmuentos, "XAXX010101000       "), controladorSDK.FiltroRFCCRU(ListDocmuentos, "OLU120912UM0        "));
-
-                load.Visibility = Visibility.Hidden;
-                
+                    OnWorkerMethodStart();               
             }
             else System.Windows.MessageBox.Show("Necesita Seleccionar una Empresa");//mando mensaje cuando no existe una empresa seleccionada
         }
+
+
+        CargadorBar cargador;
+        MainWindow ventaprincipal;
+        private void OnWorkerMethodStart()
+        {
+            //creamos el objeto de nuestra clase 
+            WorkerProgressBar myC = new WorkerProgressBar();
+            //por medio de un delegado instanciamos el metodo que se debera ejecutar en segundo plano, aqui seleccionamos el metodo logear
+            //este metodo se encuentra en esta clase
+            int mes = Convert.ToInt32(comboBoxMes.SelectedIndex) + 1;//obtengo el mes del cual se realizara el filtro
+            string fechainicial = mes + "/01" + "/" + textBoxanio.Text;//obtengo mi fechaincial para mi filtro
+            string fechafinal = mes + "/31" + "/" + textBoxanio.Text;//obtengo mi fecha final para mi filtro
+            myC.factura += new WorkerProgressBar.LogerDelegate(factura);
+            myC.fechafinal = fechafinal; // le asignamos el correo a la clase creada (ingresado por el usuairo)
+            myC.fechainicial = fechainicial; // le asignamos el password a la clase creada (ingresado por el usuario)
+            myC.mes = mes.ToString();
+            myC.controlaimpresion = this.controlaimpresion;
+            myC.textBoxanio=textBoxanio.Text;
+            myC.RuteEmpresa = RuteEmpresa.Text;
+            myC.RFCpublico=RFCPublico.Text.Trim();
+            myC.rfc=RFC.Text.Trim();
+            //creamos el hilo para ejecutar el proceso en segundo plano, en el pasamos como argumento el metodo que queremos ejecutar
+            //el metodo que se ejecutara es el metodo que se encuentra en la clase creado
+            ThreadStart tStart = new ThreadStart(myC.WorkerMethod);
+            Thread t = new Thread(tStart); //iniciamos el hilo
+
+            t.Start(); // inicializa el hilo
+
+            cargador = new CargadorBar(); //Creamos el objeto de la clase CargadorBar (este clase contiene el cargador)
+            cargador.Owner = ventaprincipal; //asignamos que este objeto es modela relacionando  cual es su propietario
+            cargador.ShowDialog(); //mostramo el cargador (este metodo se ejecutara )
+
+            //finalmente obtenemos el resultado del metodo logear para seleccionar la respuesta que tendra 
+            
+
+        }
+
+        private void factura(string fechainicial, string fechafinal, Controlador_Impresion controlaimpresion, string textBoxanio, string mes, string RuteEmpresa,string RFCpublico,string rfc)
+        {
+            List<Tipos_Datos_CRU.FacturasCRU>  ListDocmuentos = new List<Tipos_Datos_CRU.FacturasCRU>();//inicializo mi lista donde tendramis documentos
+            ListDocmuentos = controladorSDK.get_Documentos(fechainicial, fechafinal);//obtengo todas las listas de mis documentos conforme el filtro que se dio
+
+            List<Tipos_Datos_CRU.FacturasCRU> list_rfc_publico = controladorSDK.FiltroRFCCRU(ListDocmuentos, RFCpublico);
+            List<Tipos_Datos_CRU.FacturasCRU> list_rfc_ol = controladorSDK.FiltroRFCCRU(ListDocmuentos, rfc);
+
+
+            controlaimpresion.ImpresionCRUFacturas(ListDocmuentos, "01/" + mes + "/" + textBoxanio + "--" + "31/" + mes + "/" + textBoxanio, RuteEmpresa, list_rfc_publico, list_rfc_ol);
+
+            controlaimpresion.excel_import(ListDocmuentos,list_rfc_publico,list_rfc_ol);
+
+            cargador.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
+            new Action(
+            delegate()
+            {
+                cargador.Close();
+            }
+            ));
+
+        }
+
+        
+        public void exportaExcel()
+        {
+            //fin título
+            //worksheet.Cells[1, 1] = titulo;
+            // storing header part in Excel
+            //for (int i = 1; i < dataGrid1.Columns.Count + 1; i++)
+            //{
+            //    worksheet.Cells[2, i] = dataGrid1.Columns[i - 1].Header;
+            //}
+
+
+
+            //// storing Each row and column value to excel sheet
+            //for (int i = 0; i < dataGrid1.Items.Count; i++)
+            //{
+            //    for (int j = 0; j < dataGrid1.Columns.Count; j++)
+            //    {
+            //        worksheet.Cells[i + 3, j + 1] = (dataGrid1.Items[i] as System.Data.DataRowView).Row.ItemArray[j].ToString();// .Cells[j].Value.ToString();
+            //    }
+            //}
+
+
+            // save the application
+            //workbook.SaveAs("c:\\output.xls", Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+
+            // Exit from the application
+            //app.Quit();
+        }
+       
 
 
 

@@ -6,6 +6,7 @@ using IndicadoresISEL.Modelo;
 using System.Data;
 using System.Windows;
 using System.IO;
+using System.Windows.Controls;
 
 namespace IndicadoresISEL.Controlador
 {
@@ -13,6 +14,7 @@ namespace IndicadoresISEL.Controlador
     {
         Modelo_SDKAdmipaq ModeloSDK;//objeto para comunicarse con el modelos del sdk
         bool Conexion;//variable que me dira si tengo conexion con el sdk de admipaq
+        int val_Cargador;//valor que tendra el cargador
         /// <summary>
         /// Constructor 
         /// </summary>
@@ -20,6 +22,7 @@ namespace IndicadoresISEL.Controlador
         {
             ModeloSDK = new Modelo_SDKAdmipaq();
             Conexion = false;//inicializo sin conexion
+            val_Cargador = 0;
         }
 
 
@@ -83,6 +86,7 @@ namespace IndicadoresISEL.Controlador
         /// <returns>regresa lo documentos leidos</returns>
         public List<Tipos_Datos_CRU.FacturasCRU> get_Documentos(string fechainicial, string fechafinal)
         {
+            
             List<Tipos_Datos_CRU.FacturasCRU> ListDocmuentos = new List<Tipos_Datos_CRU.FacturasCRU>();//Creo el objeto donde regresare los documentos
             DataTable dtD = ModeloSDK.get_DocumentosCRU(fechainicial, fechafinal);//obtengo los docuemtos en un datatable
             if (dtD == null)//si tiene null siginifica que sucedio algun error 
@@ -187,9 +191,7 @@ namespace IndicadoresISEL.Controlador
                     //temina y guarda los datos de los movimientos
                    */
 
-
-
-
+                
                 ListDocmuentos.Add(newDocument);
                 //}//else MessageBox.Show("fecha");
             }
@@ -203,7 +205,7 @@ namespace IndicadoresISEL.Controlador
             List<Tipos_Datos_CRU.FacturasCRU> ListFiltroRFC = new List<Tipos_Datos_CRU.FacturasCRU>();
             for (int i = 0; i < ListDocumentos.Count; i++)
             {
-                if (ListDocumentos[i].RFC.ToUpper().Equals(RFCFiltro.ToUpper()))
+                if (ListDocumentos[i].RFC.ToUpper().Trim().Equals(RFCFiltro.ToUpper().Trim()))
                 {
                     ListFiltroRFC.Add(ListDocumentos[i]);
                 }

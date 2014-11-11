@@ -27,10 +27,8 @@
         <Image Grid.Column="1" Grid.Row="2" Name="image1" Stretch="Fill" Source="/IndicadoresISEL;component/Imagenes/logo.png" Grid.ColumnSpan="3" />
         <Button Content="Iniciar Indicadores"   Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4"  Name="button1" FontFamily="Meiryo IU" BorderBrush="{x:Null}" Background="#FF598494" Foreground="White" Click="button1_Click" />
 
-        <Button Grid.Column="5" Grid.Row="0" Name="button2" Click="button2_Click" Padding="0"  BorderBrush="{x:Null}">
-            <Button.Background>
-                <ImageBrush ImageSource="/IndicadoresISEL;component/Imagenes/close.ico" Stretch="Fill" TileMode="None" />
-            </Button.Background>
+        <Button Grid.Column="5" Grid.Row="0" Content="X" FontSize="8" Name="button2" Click="button2_Click" Padding="0"  BorderBrush="{x:Null}" FontWeight="Bold" FontStretch="Normal">
+            
         </Button>
     </Grid>
 </Window>
