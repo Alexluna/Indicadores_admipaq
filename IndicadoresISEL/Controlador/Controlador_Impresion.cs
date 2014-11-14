@@ -54,5 +54,30 @@ namespace IndicadoresISEL.Controlador
             modeloimpresion.ImpresionCRUAbonos(ListFactrurasCRU, fechas, path, ListFactrurasCRUFiltroRFCPublico, ListFactrurasCRUFiltroRFCOL);
         }
 
+        /// <summary>
+        /// impresion de compras
+        /// </summary>
+        /// <param name="ListFactrurasCRU"></param>
+        /// <param name="fechas"></param>
+        /// <param name="path"></param>
+        /// <param name="ListFactrurasCRUFiltroRFCPublico"></param>
+        public void ImpresionCRUCompras(List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRU, string fechas, string path, List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRUFiltroRFCPublico)
+        {
+            modeloimpresion.ImpresionCRUCompras(ListFactrurasCRU, fechas, path, ListFactrurasCRUFiltroRFCPublico);
+        }
+
+        /// <summary>
+        /// impresion de Pagos del proveedor
+        /// </summary>
+        /// <param name="ListFactrurasCRU"></param>
+        /// <param name="fechas"></param>
+        /// <param name="path"></param>
+        /// <param name="ListFactrurasCRUFiltroRFCPublico"></param>
+        public void ImpresionCRUPagosProveedor(List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRU, string fechas, string path, List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRUFiltroRFCPublico)
+        {
+            modeloimpresion.ImpresionCRUPAgosPRoveedor(ListFactrurasCRU, fechas, path, ListFactrurasCRUFiltroRFCPublico);
+        }
+
+
     }
 }

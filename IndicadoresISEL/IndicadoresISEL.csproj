@@ -92,6 +92,9 @@
     <Compile Include="Vista\Facturas\facturacion.xaml.cs">
       <DependentUpon>facturacion.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vista\Pagos_proveedor\pagos.xaml.cs">
+      <DependentUpon>pagos.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -121,6 +124,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vista\Facturas\facturacion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vista\Pagos_proveedor\pagos.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -163,6 +170,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Imagenes\indicadores.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\abonos.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\compras.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\pagos.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -14,25 +14,25 @@ using System.Windows.Shapes;
 using IndicadoresISEL.Controlador;
 using IndicadoresISEL.Modelo;
 using System.Windows.Forms;
-using System.Threading;
 using IndicadoresISEL.Vista.Cargador;
+using System.Threading;
 
-namespace IndicadoresISEL.Vista.compras
+namespace IndicadoresISEL.Vista.Pagos_proveedor
 {
     /// <summary>
-    /// Lógica de interacción para compra.xaml
+    /// Lógica de interacción para pagos.xaml
     /// </summary>
-    public partial class compra 
+    public partial class pagos 
     {
 
         Controlador__SDKAdmipaq controladorSDK;//para lalamr al controlador del sdk admipaq
         List<Tipos_Datos_CRU.FacturasCRU> ListDocmuentos;//liusta de todo los documentos
         Controlador_Impresion controlaimpresion;//para poder mandar a imprimir en PDF
-        public compra()
+        public pagos()
         {
             InitializeComponent();
-            controlaimpresion = new Controlador_Impresion();
             controladorSDK = new Controlador__SDKAdmipaq();
+            controlaimpresion = new Controlador_Impresion();
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
@@ -42,15 +42,6 @@ namespace IndicadoresISEL.Vista.compras
                 OnWorkerMethodStart();
             }
             else System.Windows.MessageBox.Show("Necesita Seleccionar una Empresa");//mando mensaje cuando no existe una empresa seleccionada
-        }
-
-        private void textBoxanio_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if ((e.Key >= Key.D0 && e.Key <= Key.D9) || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9))
-            {
-                e.Handled = false;
-            }
-            else { e.Handled = true; }
         }
 
         private void Selecciona_Click(object sender, RoutedEventArgs e)
@@ -66,6 +57,17 @@ namespace IndicadoresISEL.Vista.compras
                 }
             }
         }
+
+        private void textBoxanio_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if ((e.Key >= Key.D0 && e.Key <= Key.D9) || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9))
+            {
+                e.Handled = false;
+            }
+            else { e.Handled = true; }
+        }
+
+
 
 
         CargadorBar cargador;
@@ -107,13 +109,13 @@ namespace IndicadoresISEL.Vista.compras
         private void datos_(string fechainicial, string fechafinal, Controlador_Impresion controlaimpresion, string textBoxanio, string mes, string RuteEmpresa, string RFCpublico, string rfc)
         {
             List<Tipos_Datos_CRU.FacturasCRU> ListDocmuentos = new List<Tipos_Datos_CRU.FacturasCRU>();//inicializo mi lista donde tendramis documentos
-            ListDocmuentos = controladorSDK.get_ComprasCRU(fechainicial, fechafinal);//obtengo todas las listas de mis documentos conforme el filtro que se dio
+            ListDocmuentos = controladorSDK.get_PagosProveedorCRU(fechainicial, fechafinal);//obtengo todas las listas de mis documentos conforme el filtro que se dio
 
             List<Tipos_Datos_CRU.FacturasCRU> list_rfc_publico = controladorSDK.FiltroRFCCRU(ListDocmuentos, RFCpublico);
             List<Tipos_Datos_CRU.FacturasCRU> list_rfc_ol = new List<Tipos_Datos_CRU.FacturasCRU>();
 
 
-            controlaimpresion.ImpresionCRUCompras(ListDocmuentos, "01/" + mes + "/" + textBoxanio + "--" + "31/" + mes + "/" + textBoxanio, RuteEmpresa, list_rfc_publico);
+            controlaimpresion.ImpresionCRUPagosProveedor(ListDocmuentos, "01/" + mes + "/" + textBoxanio + "--" + "31/" + mes + "/" + textBoxanio, RuteEmpresa, list_rfc_publico);
 
             controlaimpresion.excel_import(ListDocmuentos, list_rfc_publico, list_rfc_ol, "Acumulado de abonos", "Abonos a público", "Abonos a OL");
 
@@ -126,5 +128,6 @@ namespace IndicadoresISEL.Vista.compras
             ));
 
         }
+
     }
 }

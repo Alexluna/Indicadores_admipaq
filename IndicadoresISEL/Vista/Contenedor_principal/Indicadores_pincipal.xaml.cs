@@ -14,6 +14,7 @@ using Microsoft.Windows.Controls.Ribbon;
 using IndicadoresISEL.Vista.Facturas;
 using IndicadoresISEL.Vista.Abonos;
 using IndicadoresISEL.Vista.compras;
+using IndicadoresISEL.Vista.Pagos_proveedor;
 
 namespace IndicadoresISEL.Vista.Contenedor_principal
 {
@@ -26,12 +27,14 @@ namespace IndicadoresISEL.Vista.Contenedor_principal
         facturacion factura;
         abono abonos;
         compra compras;
+        pagos pagos_proveedor;
         public Indicadores_pincipal()
         {
             InitializeComponent();
             factura = new facturacion();
             abonos = new abono();
             compras = new compra();
+            pagos_proveedor = new pagos();
             // Insert code required on object creation below this point.
         }
 
@@ -58,7 +61,7 @@ namespace IndicadoresISEL.Vista.Contenedor_principal
         #endregion
 
 
-
+        #region CRU
         /// <summary>
         /// click para user control de facturacion
         /// </summary>
@@ -66,6 +69,7 @@ namespace IndicadoresISEL.Vista.Contenedor_principal
         /// <param name="e"></param>
         private void Btnfacturacion_Click(object sender, RoutedEventArgs e)
         {
+            MarcarCasilla(Btnfacturacion);
             gridvista.Children.Clear();//limpio el contenido del grid
             gridvista.Children.Add(factura);
         }
@@ -78,6 +82,7 @@ namespace IndicadoresISEL.Vista.Contenedor_principal
         /// <param name="e"></param>
         private void Btnabonos_Click(object sender, RoutedEventArgs e)
         {
+            MarcarCasilla(Btnabonos);
             gridvista.Children.Clear();//limpio el contenido del grid
             gridvista.Children.Add(abonos);
         }
@@ -89,10 +94,111 @@ namespace IndicadoresISEL.Vista.Contenedor_principal
         /// <param name="e"></param>
         private void Btncompras_Click(object sender, RoutedEventArgs e)
         {
+            MarcarCasilla(Btncompras);
             gridvista.Children.Clear();//limpio el contenido del grid
             gridvista.Children.Add(compras);
         }
 
+        /// <summary>
+        /// click de pagos al proveedor
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Btnpagos_proveedor_Click(object sender, RoutedEventArgs e)
+        {
+            MarcarCasilla(Btnpagos_proveedor);
+            gridvista.Children.Clear();//limpio el contenido del grid
+            gridvista.Children.Add(pagos_proveedor);
+        }
+        #endregion
+
+
+
+        #region OL
+        /// <summary>
+        /// click para user control de facturacion
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Btnfacturacion_ol_Click(object sender, RoutedEventArgs e)
+        {
+            MarcarCasilla(Btnfacturacion_ol);
+            gridvista.Children.Clear();//limpio el contenido del grid
+            gridvista.Children.Add(factura);
+        }
+
+
+        /// <summary>
+        /// click de abonos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Btnabonos_ol_Click(object sender, RoutedEventArgs e)
+        {
+            MarcarCasilla(Btnabonos_ol);
+            gridvista.Children.Clear();//limpio el contenido del grid
+            gridvista.Children.Add(abonos);
+        }
+
+        /// <summary>
+        /// click de compras
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Btncompras_ol_Click(object sender, RoutedEventArgs e)
+        {
+            MarcarCasilla(Btncompras_ol);
+            gridvista.Children.Clear();//limpio el contenido del grid
+            gridvista.Children.Add(compras);
+        }
+
+        /// <summary>
+        /// click de pagos al proveedor
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Btnpagos_proveedor_ol_Click(object sender, RoutedEventArgs e)
+        {
+            MarcarCasilla(Btnpagos_proveedor_ol);
+            gridvista.Children.Clear();//limpio el contenido del grid
+            gridvista.Children.Add(pagos_proveedor);
+        }
+        #endregion
+
+
+
+
+        #region GET SELECT
+        RibbonButton buttom;
+        private LinearGradientBrush ObtenerDegradado()
+        {
+            LinearGradientBrush myLinearGradientBrush = new LinearGradientBrush();
+            myLinearGradientBrush.StartPoint = new System.Windows.Point(0.5, 0);
+            myLinearGradientBrush.EndPoint = new System.Windows.Point(0.5, 1);
+            myLinearGradientBrush.GradientStops.Add(
+                new GradientStop(System.Windows.Media.Color.FromRgb(253, 229, 202), 0.0));
+
+            myLinearGradientBrush.GradientStops.Add(
+                new GradientStop(System.Windows.Media.Color.FromRgb(255, 210, 118), 0.75));
+
+            return myLinearGradientBrush;
+        }
+        private void MarcarCasilla(RibbonButton btn)
+        {
+            if (buttom == null)
+            {
+                buttom = btn;
+                buttom.Background = ObtenerDegradado();
+            }
+            else
+            {
+                buttom.Background = null;
+                buttom = btn;
+                buttom.Background = ObtenerDegradado();
+            }
+
+        }
+        #endregion
 
     }
 }

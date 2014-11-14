@@ -20,16 +20,33 @@
                     <ribbon:RibbonButton x:Name="Btnfacturacion"  Label="Facturación" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/factura.ico" Click="Btnfacturacion_Click" />
                 </ribbon:RibbonGroup>
                 <ribbon:RibbonGroup x:Name="group_abonos" Header="">
-                    <ribbon:RibbonButton x:Name="Btnabonos"  Label="Abonos" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/factura.ico" Click="Btnabonos_Click" />
+                    <ribbon:RibbonButton x:Name="Btnabonos"  Label="Abonos" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/abonos.ico" Click="Btnabonos_Click" />
                 </ribbon:RibbonGroup>
                 <ribbon:RibbonGroup x:Name="group_compras" Header="">
-                    <ribbon:RibbonButton x:Name="Btncompras"  Label="Abonos" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/factura.ico" Click="Btncompras_Click" />
+                    <ribbon:RibbonButton x:Name="Btncompras"  Label="Compras" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/compras.ico" Click="Btncompras_Click" />
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup x:Name="group_pagos" Header="">
+                    <ribbon:RibbonButton x:Name="Btnpagos_proveedor"  Label="Pagos al proveedor" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/pagos.ico" Click="Btnpagos_proveedor_Click" />
                 </ribbon:RibbonGroup>
 
             </ribbon:RibbonTab>
-            <!--fin menu finanzas--> 
-             
-             
+            <!--fin menu CRU-->
+            <ribbon:RibbonTab x:Name="olTab" Header="OL">
+                <ribbon:RibbonGroup x:Name="group_facturas_ol" Header="">
+                    <ribbon:RibbonButton x:Name="Btnfacturacion_ol"  Label="Facturación" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/factura.ico" Click="Btnfacturacion_ol_Click" />
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup x:Name="group_abonos_ol" Header="">
+                    <ribbon:RibbonButton x:Name="Btnabonos_ol"  Label="Abonos" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/abonos.ico" Click="Btnabonos_ol_Click" />
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup x:Name="group_compras_ol" Header="">
+                    <ribbon:RibbonButton x:Name="Btncompras_ol"  Label="Compras" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/compras.ico" Click="Btncompras_ol_Click" />
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup x:Name="group_pagos_ol" Header="">
+                    <ribbon:RibbonButton x:Name="Btnpagos_proveedor_ol"  Label="Pagos al proveedor" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/pagos.ico" Click="Btnpagos_proveedor_ol_Click" />
+                </ribbon:RibbonGroup>
+
+            </ribbon:RibbonTab>
+
         </ribbon:Ribbon>
         <Grid Name="gridvista" Grid.Row="2" Background="White" ></Grid>
     </Grid>

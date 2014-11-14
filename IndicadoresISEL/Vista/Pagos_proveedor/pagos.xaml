@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="IndicadoresISEL.Vista.compras.compra"
+﻿<UserControl x:Class="IndicadoresISEL.Vista.Pagos_proveedor.pagos"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-            d:DesignHeight="640" d:DesignWidth="930">
+             d:DesignHeight="640" d:DesignWidth="930">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
@@ -53,8 +53,8 @@
             <ComboBoxItem Content="Diciembre" />
         </ComboBox>
         <TextBox Grid.Column="6"  Grid.ColumnSpan="2" MaxLength="4" Grid.Row="4"  Name="textBoxanio" Text="2014" FontSize="16" KeyDown="textBoxanio_KeyDown" />
-        <Button Content="Reporte Compras" Grid.Column="8"  Grid.Row="8" Grid.ColumnSpan="2"  Name="button1" Click="button1_Click" />
-        <GroupBox Grid.Column="2"  Grid.Row="6" Grid.ColumnSpan="4" Grid.RowSpan="3" Header="Filtros para compras" Name="groupBox1" >
+        <Button Content="Reporte Pagos" Grid.Column="8"  Grid.Row="8" Grid.ColumnSpan="2"  Name="button1" Click="button1_Click" />
+        <GroupBox Grid.Column="2"  Grid.Row="6" Grid.ColumnSpan="4" Grid.RowSpan="3" Header="Filtros para pagos" Name="groupBox1" >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="10" />
@@ -76,3 +76,4 @@
         </GroupBox>
     </Grid>
 </UserControl>
+

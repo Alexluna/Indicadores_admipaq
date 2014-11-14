@@ -286,6 +286,35 @@ namespace IndicadoresISEL.Modelo
         #endregion
 
 
+
+        /// <summary>
+        /// compras CRU  entre rangos de fechas
+        /// </summary>
+        /// <param name="fechainicial">fecha inical para el filtro</param>
+        /// <param name="fechafinal">fecha final del filtro</param>
+        /// <returns>regresa una tabla que cotiene los datos apuntados</returns>
+        public DataTable get_ComprasCRU(string fechainicial, string fechafinal)
+        {
+            try
+            {
+                conn.Open();//abre la conexion  ************************ CIDDOCUM02=12 and CIDCONCE01=13esto es para  que agarre solo abonos de cliente  conforme al archivo  MGW10006********************************
+                string cmd_string = " select CIDDOCUM01,CSERIEDO01,CFOLIO,CIDAGENTE,CRAZONSO01,CFECHAVE01,CRFC,CFECHA,CNETO,CTOTAL,CPENDIENTE,CTEXTOEX01,CTEXTOEX02,CTEXTOEX03,CCANCELADO,CIMPRESO,CAFECTADO,CIDCLIEN01,CIDCONCE01,CUNIDADE01 from " + archivosAdmi.Documentos + " where CIDDOCUM02=19 and CIDCONCE01=21 and between( CFECHA, ctod( \"" + fechainicial + "\" ), ctod( \"" + fechafinal + "\" ))";
+                OleDbDataAdapter da = new OleDbDataAdapter(cmd_string, conn);
+                DataSet ds = new DataSet();
+                da.Fill(ds);
+                DataTable dtt = ds.Tables[0];
+                conn.Close();//cierra la conexion
+                return dtt;
+            }
+            catch (Exception g)
+            {
+                conn.Close();//siempre cierra la conexion
+                MessageBox.Show(g.Message);
+                return null;
+            }
+
+        }
+
         /// <summary>
         /// Abonos CRU  entre rangos de fechas
         /// </summary>
@@ -298,6 +327,35 @@ namespace IndicadoresISEL.Modelo
             {
                 conn.Open();//abre la conexion  ************************ CIDDOCUM02=12 and CIDCONCE01=13esto es para  que agarre solo abonos de cliente  conforme al archivo  MGW10006********************************
                 string cmd_string = " select CIDDOCUM01,CSERIEDO01,CFOLIO,CIDAGENTE,CRAZONSO01,CFECHAVE01,CRFC,CFECHA,CNETO,CTOTAL,CPENDIENTE,CTEXTOEX01,CTEXTOEX02,CTEXTOEX03,CCANCELADO,CIMPRESO,CAFECTADO,CIDCLIEN01,CIDCONCE01,CUNIDADE01 from " + archivosAdmi.Documentos + " where CIDDOCUM02=12 and CIDCONCE01=13 and between( CFECHA, ctod( \"" + fechainicial + "\" ), ctod( \"" + fechafinal + "\" ))";
+                OleDbDataAdapter da = new OleDbDataAdapter(cmd_string, conn);
+                DataSet ds = new DataSet();
+                da.Fill(ds);
+                DataTable dtt = ds.Tables[0];
+                conn.Close();//cierra la conexion
+                return dtt;
+            }
+            catch (Exception g)
+            {
+                conn.Close();//siempre cierra la conexion
+                MessageBox.Show(g.Message);
+                return null;
+            }
+
+        }
+
+
+        /// <summary>
+        /// PAgos CRU  entre rangos de fechas
+        /// </summary>
+        /// <param name="fechainicial">fecha inical para el filtro</param>
+        /// <param name="fechafinal">fecha final del filtro</param>
+        /// <returns>regresa una tabla que cotiene los datos apuntados</returns>
+        public DataTable get_PagosPRoveedorCRU(string fechainicial, string fechafinal)
+        {
+            try
+            {
+                conn.Open();//abre la conexion  ************************ CIDDOCUM02=12 and CIDCONCE01=13esto es para  que agarre solo abonos de cliente  conforme al archivo  MGW10006********************************
+                string cmd_string = " select CIDDOCUM01,CSERIEDO01,CFOLIO,CIDAGENTE,CRAZONSO01,CFECHAVE01,CRFC,CFECHA,CNETO,CTOTAL,CPENDIENTE,CTEXTOEX01,CTEXTOEX02,CTEXTOEX03,CCANCELADO,CIMPRESO,CAFECTADO,CIDCLIEN01,CIDCONCE01,CUNIDADE01 from " + archivosAdmi.Documentos + " where CIDDOCUM02=23 and CIDCONCE01=25 and between( CFECHA, ctod( \"" + fechainicial + "\" ), ctod( \"" + fechafinal + "\" ))";
                 OleDbDataAdapter da = new OleDbDataAdapter(cmd_string, conn);
                 DataSet ds = new DataSet();
                 da.Fill(ds);
