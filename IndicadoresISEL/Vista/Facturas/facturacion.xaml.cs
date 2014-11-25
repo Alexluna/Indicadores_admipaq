@@ -27,14 +27,17 @@ namespace IndicadoresISEL.Vista.Facturas
     public partial class facturacion 
     {
         Controlador__SDKAdmipaq controladorSDK;//para lalamr al controlador del sdk admipaq
-        List<Tipos_Datos_CRU.FacturasCRU> ListDocmuentos;//liusta de todo los documentos
         Controlador_Impresion controlaimpresion;//para poder mandar a imprimir en PDF
         public facturacion()
         {
             InitializeComponent();
             controladorSDK = new Controlador__SDKAdmipaq();//para manear y llamar metodos del controlador
-            ListDocmuentos = new List<Tipos_Datos_CRU.FacturasCRU>();
+            
             controlaimpresion = new Controlador_Impresion();
+
+
+            dateinicial.SelectedDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            datefinal.SelectedDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
         }
 
         /// <summary>
@@ -77,21 +80,22 @@ namespace IndicadoresISEL.Vista.Facturas
             WorkerProgressBar workerfactura = new WorkerProgressBar();
             //por medio de un delegado instanciamos el metodo que se debera ejecutar en segundo plano, aqui seleccionamos el metodo logear
             //este metodo se encuentra en esta clase
-            int mes = Convert.ToInt32(comboBoxMes.SelectedIndex) + 1;//obtengo el mes del cual se realizara el filtro
-            string fechainicial = mes + "/01" + "/" + textBoxanio.Text;//obtengo mi fechaincial para mi filtro
-            string fechafinal = mes + "/31" + "/" + textBoxanio.Text;//obtengo mi fecha final para mi filtro
-            workerfactura.datos_ += new WorkerProgressBar.LogerDelegate(datos_);
+            //int mes = Convert.ToInt32(comboBoxMes.SelectedIndex) + 1;//obtengo el mes del cual se realizara el filtro
+            string fechainicial = dateinicial.SelectedDate.Value.Date.ToString("MM/dd/yyyy");//obtengo mi fechaincial para mi filtro
+            string fechafinal = datefinal.SelectedDate.Value.Date.ToString("MM/dd/yyyy");//obtengo mi fecha final para mi filtro
+
+
+            workerfactura.get_data += new WorkerProgressBar.DelegateCRU(get_data_);
             workerfactura.fechafinal = fechafinal; // le asignamos el correo a la clase creada (ingresado por el usuairo)
             workerfactura.fechainicial = fechainicial; // le asignamos el password a la clase creada (ingresado por el usuario)
-            workerfactura.mes = mes.ToString();
             workerfactura.controlaimpresion = this.controlaimpresion;
-            workerfactura.textBoxanio = textBoxanio.Text;
-            workerfactura.RuteEmpresa = RuteEmpresa.Text;
             workerfactura.RFCpublico = RFCPublico.Text.Trim();
-            workerfactura.rfc = RFC.Text.Trim();
+            workerfactura.rfcOL = RFCOL.Text.Trim();
+            workerfactura.rfcAnji = RFCAnji.Text.Trim();
+
             //creamos el hilo para ejecutar el proceso en segundo plano, en el pasamos como argumento el metodo que queremos ejecutar
             //el metodo que se ejecutara es el metodo que se encuentra en la clase creado
-            ThreadStart tStart = new ThreadStart(workerfactura.WorkerMethod);
+            ThreadStart tStart = new ThreadStart(workerfactura.CRU_mtehod);
             Thread t = new Thread(tStart); //iniciamos el hilo
 
             t.Start(); // inicializa el hilo
@@ -105,19 +109,13 @@ namespace IndicadoresISEL.Vista.Facturas
 
         }
 
-        private void datos_(string fechainicial, string fechafinal, Controlador_Impresion controlaimpresion, string textBoxanio, string mes, string RuteEmpresa, string RFCpublico, string rfc)
+        private void get_data_(string fechainicial, string fechafinal, Controlador_Impresion controlaimpresion, string RFCpublico, string rfcOL, string rfcAnji)
         {
-            List<Tipos_Datos_CRU.FacturasCRU>  ListDocmuentos = new List<Tipos_Datos_CRU.FacturasCRU>();//inicializo mi lista donde tendramis documentos
+            List<Tipos_Datos_CRU.CRU> ListDocmuentos = new List<Tipos_Datos_CRU.CRU>();//inicializo mi lista donde tendramis documentos
             ListDocmuentos = controladorSDK.get_Documentos(fechainicial, fechafinal);//obtengo todas las listas de mis documentos conforme el filtro que se dio
-
-            List<Tipos_Datos_CRU.FacturasCRU> list_rfc_publico = controladorSDK.FiltroRFCCRU(ListDocmuentos, RFCpublico);
-            List<Tipos_Datos_CRU.FacturasCRU> list_rfc_ol = controladorSDK.FiltroRFCCRU(ListDocmuentos, rfc);
-
-
-            controlaimpresion.ImpresionCRUFacturas(ListDocmuentos, "01/" + mes + "/" + textBoxanio + "--" + "31/" + mes + "/" + textBoxanio, RuteEmpresa, list_rfc_publico, list_rfc_ol);
-
-            controlaimpresion.excel_import(ListDocmuentos,list_rfc_publico,list_rfc_ol,"Desglose de facturas","Desglose de facturas público", "Desglose de facturas ol");
-
+            //debo de guardar cada uno en su propio objeto
+            Tipos_Datos_CRU.ListDatosCRU ListIndicadorres = controladorSDK.filtro_indicadores_tipo(ListDocmuentos,RFCpublico,rfcOL,rfcAnji);
+            controlaimpresion.excel_importCRU(ListIndicadorres);
             cargador.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
             new Action(
             delegate()
@@ -125,20 +123,10 @@ namespace IndicadoresISEL.Vista.Facturas
                 cargador.Close();
             }
             ));
-
         }
 
-        private void textBoxanio_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if ((e.Key >= Key.D0 && e.Key <= Key.D9) || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9))
-            {
-                e.Handled = false;
-            }
-            else { e.Handled = true; }
-        }
-
-        
        
+
 
 
 

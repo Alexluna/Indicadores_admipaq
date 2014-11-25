@@ -17,51 +17,40 @@
             <RowDefinition Height="33" />
             <RowDefinition Height="18" />
             <RowDefinition Height="29" />
-            <RowDefinition Height="40" />
-            <RowDefinition Height="326*" />
+            <RowDefinition Height="76" />
+            <RowDefinition Height="290" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
             <ColumnDefinition Width="225*" />
             <ColumnDefinition Width="94" />
-            <ColumnDefinition Width="65" />
-            <ColumnDefinition Width="70" />
-            <ColumnDefinition Width="51" />
+            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="21" />
+            <ColumnDefinition Width="84" />
+            <ColumnDefinition Width="26" />
+            <ColumnDefinition Width="25" />
             <ColumnDefinition Width="10" />
             <ColumnDefinition Width="40" />
             <ColumnDefinition Width="80" />
             <ColumnDefinition Width="44" />
             
-            <ColumnDefinition Width="211*" />
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="225*" />
             <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
-        <TextBox Grid.Column="2"  Grid.Row="2"  Name="RuteEmpresa" IsEnabled="False" Grid.ColumnSpan="4" />
-        <Button Content="Selecciona la Ruta" Grid.Column="7"  Grid.Row="2" Name="Selecciona" Click="Selecciona_Click" Grid.ColumnSpan="2" />
-        <Label Content="Selecciona la ruta de la Empresa:" Grid.Column="2" Grid.Row="1" Name="label1" Grid.ColumnSpan="4" />
-        <ComboBox Grid.Column="4" Grid.ColumnSpan="2"  Grid.Row="4"  Name="comboBoxMes" SelectedIndex="0">
-            <ComboBoxItem Content="Enero" />
-            <ComboBoxItem Content="Febrero" />
-            <ComboBoxItem Content="Marzo" />
-            <ComboBoxItem Content="Abril" />
-            <ComboBoxItem Content="Mayo" />
-            <ComboBoxItem Content="Junio" />
-            <ComboBoxItem Content="Julio" />
-            <ComboBoxItem Content="Agosto" />
-            <ComboBoxItem Content="Septiembre" />
-            <ComboBoxItem Content="Octubre" />
-            <ComboBoxItem Content="Noviembre" />
-            <ComboBoxItem Content="Diciembre" />
-        </ComboBox>
-        <TextBox Grid.Column="6"  Grid.ColumnSpan="2" MaxLength="4" Grid.Row="4"  Name="textBoxanio" Text="2014" FontSize="16" KeyDown="textBoxanio_KeyDown" />
-        <Button Content="Reporte Facturación" Grid.Column="8"  Grid.Row="8" Grid.ColumnSpan="2"  Name="button1" Click="button1_Click" />
-        <GroupBox Grid.Column="2"  Grid.Row="6" Grid.ColumnSpan="4" Grid.RowSpan="4" Header="Filtros para facturas" Name="groupBox1" >
+        <TextBox Grid.Column="2"  Grid.Row="2"  Name="RuteEmpresa" IsEnabled="False" Grid.ColumnSpan="6" />
+        <Button Content="Selecciona la Ruta" Grid.Column="9"  Grid.Row="2" Name="Selecciona" Click="Selecciona_Click" Grid.ColumnSpan="2" />
+        <Label Content="Selecciona la ruta de la Empresa:" Grid.Column="2" Grid.Row="1" Name="label1" Grid.ColumnSpan="6" />
+        <Button Content="Reporte" Grid.Column="10"  Grid.Row="8" Grid.ColumnSpan="2"  Name="button1" Click="button1_Click" />
+        <GroupBox Grid.Column="2"  Grid.Row="6" Grid.ColumnSpan="6" Grid.RowSpan="4" Header="Filtros" Name="groupBox1" >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="10" />
                     <ColumnDefinition Width="94" />
                     <ColumnDefinition Width="135" />
                     <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="19*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="10" />
@@ -69,13 +58,18 @@
                     <RowDefinition Height="10" />
                     <RowDefinition Height="30" />
                     <RowDefinition Height="10" />
-                    <RowDefinition Height="38*" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="15*" />
                 </Grid.RowDefinitions>
                 <Label Content="RFC Público:" Grid.Column="1" Grid.Row="1" Name="label2"  />
                 <TextBox Grid.Column="2" Grid.Row="1" Name="RFCPublico" Text="XAXX010101000" />
                 <Label Content="RFC OL:" Grid.Column="1" Grid.Row="3" Name="label3"  />
-                <TextBox Grid.Column="2" Grid.Row="3" Name="RFC" Text="OLU120912UM0"  />
+                <TextBox Grid.Column="2" Grid.Row="3" Name="RFCOL" Text="OLU120912UM0"  />
+                <Label Content="RFC ANJI:" Grid.Column="1" Grid.Row="5" Name="label6" />
+                <TextBox Grid.Column="2" Grid.Row="5" Name="RFCAnji" Text="XAXX010101000" />
             </Grid>
         </GroupBox>
+        <DatePicker Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="4"  Name="dateinicial"  />
+        <DatePicker Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="4"  Name="datefinal"  />
     </Grid>
 </UserControl>

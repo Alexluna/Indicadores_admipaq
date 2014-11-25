@@ -26,7 +26,7 @@ namespace IndicadoresISEL.Vista.Cargador
             InitializeComponent();
 
             second = minute = hour = 0;//para crear un contador
-
+            second = 1;
 
             System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);

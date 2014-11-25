@@ -7,20 +7,22 @@ namespace IndicadoresISEL.Controlador
 {
     class WorkerProgressBar
     {
-        public delegate void LogerDelegate(string fechainicial, string fechafinal, Controlador_Impresion controlaimpresion, string textBoxanio, string mes, string RuteEmpresa, string RFCpublico, string rfc);
-        public event LogerDelegate datos_;
+        
+        public delegate void DelegateCRU(string fechainicial, string fechafinal, Controlador_Impresion controlaimpresion, string RFCpublico, string rfcOL, string rfcAnji);
+        
+        public event DelegateCRU get_data;
 
         public string fechainicial = "";
         public string fechafinal = "";
         public Controlador_Impresion controlaimpresion = null;
-        public string textBoxanio="";
-        public string mes = "";
-        public string RuteEmpresa = "";
         public string RFCpublico = "";
-        public string rfc = "";
-        public void WorkerMethod()
+        public string rfcOL="";
+        public string rfcAnji = "";
+        
+        public void CRU_mtehod()
         {
-            datos_(fechainicial, fechafinal, controlaimpresion, textBoxanio, mes, RuteEmpresa, RFCpublico, rfc);
+            get_data(fechainicial,fechafinal,controlaimpresion,RFCpublico,rfcOL,rfcAnji);
         }
+
     }
 }

@@ -91,15 +91,16 @@ namespace IndicadoresISEL.Modelo
 
         #region CONSULTA CRU
         /// <summary>
-        /// consigue los documentos entre fechas de CRU
+        /// consigue los documentos entre fechas de CRU FACTURAS
         /// </summary>
         /// <returns>regresa table el cual tiene los datos de la tabla a la cual se apunto</returns>
         public DataTable get_DocumentosCRU(string fechainicial, string fechafinal)
         {
-            try
-            {
+            try//CIDDOCUM02=4 and CIDCONCE01=3007
+            {//((CIDDOCUM02=4 and CIDCONCE01=3007) or (CIDDOCUM02=19 and CIDCONCE01=21) or (CIDDOCUM02=12 and CIDCONCE01=13) or (CIDDOCUM02=23 or CIDCONCE01=25) or (CIDDOCUM02=12 and CIDCONCE01=3011) or (CIDDOCUM02=19 and CIDCONCE01=21))
                 conn.Open();//abre la conexion  ************************ CIDDOCUM02=4 and CIDCONCE01=3007 esto es para  que agarre solo facturas cfdi  conforme al archivo  MGW10006********************************
-                string cmd_string = " select CIDDOCUM01,CSERIEDO01,CFOLIO,CIDAGENTE,CRAZONSO01,CFECHAVE01,CRFC,CFECHA,CNETO,CTOTAL,CPENDIENTE,CTEXTOEX01,CTEXTOEX02,CTEXTOEX03,CCANCELADO,CIMPRESO,CAFECTADO,CIDCLIEN01,CIDCONCE01,CUNIDADE01 from " + archivosAdmi.Documentos + " where CIDDOCUM02=4 and CIDCONCE01=3007 and between( CFECHA, ctod( \"" + fechainicial + "\" ), ctod( \"" + fechafinal + "\" ))";
+                string cmd_string = " select CIDDOCUM01,CSERIEDO01,CFOLIO,CIDAGENTE,CRAZONSO01,CFECHAVE01,CRFC,CFECHA,CNETO,CTOTAL,CPENDIENTE,CTEXTOEX01,CTEXTOEX02,CTEXTOEX03,CCANCELADO,CIMPRESO,CAFECTADO,CIDCLIEN01,CIDCONCE01,CUNIDADE01,CIDDOCUM02,CIDCONCE01 from " + archivosAdmi.Documentos
+                    + " where ((CIDDOCUM02=4 and CIDCONCE01=3007) or (CIDDOCUM02=19 and CIDCONCE01=21) or (CIDDOCUM02=12 and CIDCONCE01=13) or (CIDDOCUM02=23 or CIDCONCE01=25) or (CIDDOCUM02=12 and CIDCONCE01=3011) or (CIDDOCUM02=19 and CIDCONCE01=21) or (CIDDOCUM02=12 and CIDCONCE01=3010) or (CIDDOCUM02=12 and CIDCONCE01=3012)) and between( CFECHA, ctod( \"" + fechainicial + "\" ), ctod( \"" + fechafinal + "\" ))";
                 OleDbDataAdapter da = new OleDbDataAdapter(cmd_string, conn);
                 DataSet ds = new DataSet();
                 da.Fill(ds);
@@ -155,8 +156,8 @@ namespace IndicadoresISEL.Modelo
         {
             try
             {
-                conn.Open();//abre la conexion
-                string cmd_string = " select CCODIGOC01,CRAZONSO01,CIDVALOR07,CIDVALOR08,CIDVALOR09 from " + archivosAdmi.Clientes_Proveedores + " where CIDCLIEN01=" + Convert.ToInt32(idcliente);
+                conn.Open();//abre la conexion                   CIDVALOR07,CIDVALOR08,CIDVALOR09
+                string cmd_string = " select CCODIGOC01,CRAZONSO01,CIDVALOR01,CIDVALOR02,CIDVALOR03 from " + archivosAdmi.Clientes_Proveedores + " where CIDCLIEN01=" + Convert.ToInt32(idcliente);
                 OleDbDataAdapter da = new OleDbDataAdapter(cmd_string, conn);
                 DataSet ds = new DataSet();
                 da.Fill(ds);
@@ -287,90 +288,7 @@ namespace IndicadoresISEL.Modelo
 
 
 
-        /// <summary>
-        /// compras CRU  entre rangos de fechas
-        /// </summary>
-        /// <param name="fechainicial">fecha inical para el filtro</param>
-        /// <param name="fechafinal">fecha final del filtro</param>
-        /// <returns>regresa una tabla que cotiene los datos apuntados</returns>
-        public DataTable get_ComprasCRU(string fechainicial, string fechafinal)
-        {
-            try
-            {
-                conn.Open();//abre la conexion  ************************ CIDDOCUM02=12 and CIDCONCE01=13esto es para  que agarre solo abonos de cliente  conforme al archivo  MGW10006********************************
-                string cmd_string = " select CIDDOCUM01,CSERIEDO01,CFOLIO,CIDAGENTE,CRAZONSO01,CFECHAVE01,CRFC,CFECHA,CNETO,CTOTAL,CPENDIENTE,CTEXTOEX01,CTEXTOEX02,CTEXTOEX03,CCANCELADO,CIMPRESO,CAFECTADO,CIDCLIEN01,CIDCONCE01,CUNIDADE01 from " + archivosAdmi.Documentos + " where CIDDOCUM02=19 and CIDCONCE01=21 and between( CFECHA, ctod( \"" + fechainicial + "\" ), ctod( \"" + fechafinal + "\" ))";
-                OleDbDataAdapter da = new OleDbDataAdapter(cmd_string, conn);
-                DataSet ds = new DataSet();
-                da.Fill(ds);
-                DataTable dtt = ds.Tables[0];
-                conn.Close();//cierra la conexion
-                return dtt;
-            }
-            catch (Exception g)
-            {
-                conn.Close();//siempre cierra la conexion
-                MessageBox.Show(g.Message);
-                return null;
-            }
-
-        }
-
-        /// <summary>
-        /// Abonos CRU  entre rangos de fechas
-        /// </summary>
-        /// <param name="fechainicial">fecha inical para el filtro</param>
-        /// <param name="fechafinal">fecha final del filtro</param>
-        /// <returns>regresa una tabla que cotiene los datos apuntados</returns>
-        public DataTable get_AbonosCRU(string fechainicial, string fechafinal)
-        {
-            try
-            {
-                conn.Open();//abre la conexion  ************************ CIDDOCUM02=12 and CIDCONCE01=13esto es para  que agarre solo abonos de cliente  conforme al archivo  MGW10006********************************
-                string cmd_string = " select CIDDOCUM01,CSERIEDO01,CFOLIO,CIDAGENTE,CRAZONSO01,CFECHAVE01,CRFC,CFECHA,CNETO,CTOTAL,CPENDIENTE,CTEXTOEX01,CTEXTOEX02,CTEXTOEX03,CCANCELADO,CIMPRESO,CAFECTADO,CIDCLIEN01,CIDCONCE01,CUNIDADE01 from " + archivosAdmi.Documentos + " where CIDDOCUM02=12 and CIDCONCE01=13 and between( CFECHA, ctod( \"" + fechainicial + "\" ), ctod( \"" + fechafinal + "\" ))";
-                OleDbDataAdapter da = new OleDbDataAdapter(cmd_string, conn);
-                DataSet ds = new DataSet();
-                da.Fill(ds);
-                DataTable dtt = ds.Tables[0];
-                conn.Close();//cierra la conexion
-                return dtt;
-            }
-            catch (Exception g)
-            {
-                conn.Close();//siempre cierra la conexion
-                MessageBox.Show(g.Message);
-                return null;
-            }
-
-        }
-
-
-        /// <summary>
-        /// PAgos CRU  entre rangos de fechas
-        /// </summary>
-        /// <param name="fechainicial">fecha inical para el filtro</param>
-        /// <param name="fechafinal">fecha final del filtro</param>
-        /// <returns>regresa una tabla que cotiene los datos apuntados</returns>
-        public DataTable get_PagosPRoveedorCRU(string fechainicial, string fechafinal)
-        {
-            try
-            {
-                conn.Open();//abre la conexion  ************************ CIDDOCUM02=12 and CIDCONCE01=13esto es para  que agarre solo abonos de cliente  conforme al archivo  MGW10006********************************
-                string cmd_string = " select CIDDOCUM01,CSERIEDO01,CFOLIO,CIDAGENTE,CRAZONSO01,CFECHAVE01,CRFC,CFECHA,CNETO,CTOTAL,CPENDIENTE,CTEXTOEX01,CTEXTOEX02,CTEXTOEX03,CCANCELADO,CIMPRESO,CAFECTADO,CIDCLIEN01,CIDCONCE01,CUNIDADE01 from " + archivosAdmi.Documentos + " where CIDDOCUM02=23 and CIDCONCE01=25 and between( CFECHA, ctod( \"" + fechainicial + "\" ), ctod( \"" + fechafinal + "\" ))";
-                OleDbDataAdapter da = new OleDbDataAdapter(cmd_string, conn);
-                DataSet ds = new DataSet();
-                da.Fill(ds);
-                DataTable dtt = ds.Tables[0];
-                conn.Close();//cierra la conexion
-                return dtt;
-            }
-            catch (Exception g)
-            {
-                conn.Close();//siempre cierra la conexion
-                MessageBox.Show(g.Message);
-                return null;
-            }
-
-        }
+        
 
 
         /// <summary>
@@ -452,32 +370,6 @@ namespace IndicadoresISEL.Modelo
 
 
 
-        /// <summary>
-        /// OBTIENE LOS MOVIMIENTOS DE COMPRAS POR FECHA 
-        /// </summary>
-        /// <param name="fechainicial"></param>
-        /// <param name="fechafinal"></param>
-        /// <returns></returns>
-        public DataTable get_documentos_Compras(string fechainicial, string fechafinal)
-        {
-            try
-            {
-                conn.Open();//abre la conexion  ************************ CIDDOCUM02=4 and CIDCONCE01=3007 esto es para  que agarre solo facturas cfdi  conforme al archivo  MGW10006********************************
-                string cmd_string = " select CFECHA,CRAZONSO01,CUNIDADE01,CTOTALUN01,CNETO,CIMPUESTO1,CTOTAL,CIDDOCUM01,CIDCLIEN01,CPENDIENTE,CFOLIO from " + archivosAdmi.Documentos + " where CIDDOCUM02=19 and CIDCONCE01=21 and between( CFECHA, ctod( \"" + fechainicial + "\" ), ctod( \"" + fechafinal + "\" ))";
-                OleDbDataAdapter da = new OleDbDataAdapter(cmd_string, conn);
-                DataSet ds = new DataSet();
-                da.Fill(ds);
-                DataTable dtt = ds.Tables[0];
-                conn.Close();//cierra la conexion
-                return dtt;
-            }
-            catch (Exception)
-            {
-                conn.Close();//siempre cierra la conexion
-                return null;
-            }
-
-        }
 
         /// <summary>
         /// obtiene los datos de los productos pra mostrar en movimientos compras 

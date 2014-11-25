@@ -13,5189 +13,863 @@ namespace IndicadoresISEL.Modelo
 {
     class Modelo_Impresion
     {
-        List<Tipos_Datos_CRU.Movimientos_Cuentas> lista_cuentas;//cuentas por pagar
-        Cargar_graficas instance_graficas;
+        
+       
 
-        List<Tipos_Datos_CRU.ComprasMensualesXClasificacionIMagenes> PDFProveedoresClasificacion1;
-        List<Tipos_Datos_CRU.ComprasMensualesXClasificacionIMagenes2> PDFProveedoresClasificacion2;
 
-        List<Tipos_Datos_CRU.ComprasMensualesXClasificacion1Productos> PDFProveedoresClasificacion1Productos;
-        List<Tipos_Datos_CRU.ComprasMensualesXClasificacion2Productos> PDFProveedoresClasificacion2Productos;
+        
 
+        #region IMPRT EXCEL CRU  
 
-        List<Tipos_Datos_CRU.ComprasMensualesXClasificacion1ProductosMes> PDFClasificacion1PRoductoMes;
-        List<Tipos_Datos_CRU.ComprasMensualesXClasificacion2ProductosMes> PDFClasificacion2PRoductoMes;
 
-        #region CRU FACTURAS
-        /// <summary>
-        /// Método para imprimir las facturas de CRU
-        /// </summary>
-        /// <param name="ListFactrurasCRU">lista de las facturas que se van a imprimir</param>
-        public void ImpresionCRUFacturas(List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRU, string fechas, string path, List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRUFiltroRFCPublico, List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRUFiltroRFCOL)
-        {
 
-            try
-            {
-
-                Document doc = new Document(PageSize.TABLOID, 10, 10, 10, 10);//Creacion del documento configuracion de tipo de hoja y margenes
-                doc.AddAuthor("Indicadores");//Autor del PDF
-                doc.AddKeywords("pdf, PdfWriter; Indicadores V1");
-
-                //para almacenamiento del archivo
-                string nombre_archivo = "Facturas.PDF";//Nombre del Archivo
-                string rut = @path + nombre_archivo;
-                PdfWriter wri = PdfWriter.GetInstance(doc, new FileStream(rut, FileMode.Create));
-                doc.AddTitle("REPORTE");
-                doc.AddCreator("*********");
-                doc.Open();
-                //tipo de letras que se pueda usar en el archivo PDF
-                iTextSharp.text.Font _mediumFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-                iTextSharp.text.Font _standardFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 9, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
-                iTextSharp.text.Font _standardFont1 = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.BOLD, BaseColor.WHITE);
-                iTextSharp.text.Font _smallFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-                iTextSharp.text.Font _titulo = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-                iTextSharp.text.Font _titulos = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 12, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-
-
-                // Cabecera
-                doc.Add(new Paragraph(" Desglose general de Facturas  " + fechas, _titulo));
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-
-                //***********************************************
-                #region **********PRIMERA TABLA *********
-                doc.Add(new Paragraph("Acumulado de Facturación ", _titulos));
-                doc.Add(new Paragraph("\n"));
-                PdfPTable tabla_cuentas = new PdfPTable(19);
-                //PdfPCell cell = new PdfPCell(new Phrase("Reporte de Compras"));
-                //cell.Colspan = 3;
-                //cell.BackgroundColor = BaseColor.BLUE;
-                //cell.HorizontalAlignment = 1;//0=Left, 1=Centre, 2=Right 
-                tabla_cuentas.WidthPercentage = 100;
-                //tabla_cuentas.AddCell(cell);
-
-
-
-                #region configuracion de columnas
-                // Configuramos el título de las columnas de la tabla 
-                PdfPCell clFecha = new PdfPCell(new Phrase("Fecha", _standardFont));
-                clFecha.BorderWidth = 0.5f;
-                clFecha.BorderWidthBottom = 0.5f;
-                clFecha.HorizontalAlignment = 1;
-
-                PdfPCell clSerie = new PdfPCell(new Phrase("Serie", _standardFont));
-                clSerie.BorderWidth = 0.5f;
-                clSerie.BorderWidthBottom = 0.5f;
-                clSerie.HorizontalAlignment = 1;
-
-                PdfPCell clFolio = new PdfPCell(new Phrase("Folio", _standardFont));
-                clFolio.BorderWidth = 0.5f;
-                clFolio.BorderWidthBottom = 0.5f;
-                clFolio.HorizontalAlignment = 1;
-
-                PdfPCell clNombreAgente = new PdfPCell(new Phrase("Nombre del Agente", _standardFont));
-                clNombreAgente.BorderWidth = 0.5f;
-                clNombreAgente.BorderWidthBottom = 0.5f;
-                clNombreAgente.HorizontalAlignment = 1;
-
-                PdfPCell clRazonSocial = new PdfPCell(new Phrase("Razón Social", _standardFont));
-                clRazonSocial.BorderWidth = 0.5f;
-                clRazonSocial.BorderWidthBottom = 0.5f;
-                clRazonSocial.HorizontalAlignment = 1;
-
-                PdfPCell clFechaVencimiento = new PdfPCell(new Phrase("Fecha de Vencimiento", _standardFont));
-                clFechaVencimiento.BorderWidth = 0.5f;
-                clFechaVencimiento.BorderWidthBottom = 0.5f;
-                clFechaVencimiento.HorizontalAlignment = 1;
-
-                PdfPCell clRFC = new PdfPCell(new Phrase("R.F.C.", _standardFont));
-                clRFC.BorderWidth = 0.5f;
-                clRFC.BorderWidthBottom = 0.5f;
-                clRFC.HorizontalAlignment = 1;
-
-                PdfPCell clSubtotal = new PdfPCell(new Phrase("Subtotal", _standardFont));
-                clSubtotal.BorderWidth = 0.5f;
-                clSubtotal.BorderWidthBottom = 0.5f;
-                clSubtotal.HorizontalAlignment = 1;
-
-                PdfPCell clIVA = new PdfPCell(new Phrase("IVA", _standardFont));
-                clIVA.BorderWidth = 0.5f;
-                clIVA.BorderWidthBottom = 0.5f;
-                clIVA.HorizontalAlignment = 1;
-
-                PdfPCell clTotal = new PdfPCell(new Phrase("Total", _standardFont));
-                clTotal.BorderWidth = 0.5f;
-                clTotal.BorderWidthBottom = 0.5f;
-                clTotal.HorizontalAlignment = 1;
-
-                PdfPCell clPendiente = new PdfPCell(new Phrase("Pendiente", _standardFont));
-                clPendiente.BorderWidth = 0.5f;
-                clPendiente.BorderWidthBottom = 0.5f;
-                clPendiente.HorizontalAlignment = 1;
-
-                PdfPCell clTextoExtra3 = new PdfPCell(new Phrase("Texto Extra 3", _standardFont));
-                clTextoExtra3.BorderWidth = 0.5f;
-                clTextoExtra3.BorderWidthBottom = 0.5f;
-                clTextoExtra3.HorizontalAlignment = 1;
-
-                PdfPCell clAfectado = new PdfPCell(new Phrase("Afectado", _standardFont));
-                clAfectado.BorderWidth = 0.5f;
-                clAfectado.BorderWidthBottom = 0.5f;
-                clAfectado.HorizontalAlignment = 1;
-
-                PdfPCell clImpreso = new PdfPCell(new Phrase("Impreso", _standardFont));
-                clImpreso.BorderWidth = 0.5f;
-                clImpreso.BorderWidthBottom = 0.5f;
-                clImpreso.HorizontalAlignment = 1;
-
-                PdfPCell clCancelado = new PdfPCell(new Phrase("Cancelado", _standardFont));
-                clCancelado.BorderWidth = 0.5f;
-                clCancelado.BorderWidthBottom = 0.5f;
-                clCancelado.HorizontalAlignment = 1;
-
-                PdfPCell clTotalUnidades = new PdfPCell(new Phrase("Total de Unidades", _standardFont));
-                clTotalUnidades.BorderWidth = 0.5f;
-                clTotalUnidades.BorderWidthBottom = 0.5f;
-                clTotalUnidades.HorizontalAlignment = 1;
-
-                PdfPCell clClasificacionCliente2 = new PdfPCell(new Phrase("Clasificación Cliente 2", _standardFont));
-                clClasificacionCliente2.BorderWidth = 0.5f;
-                clClasificacionCliente2.BorderWidthBottom = 0.5f;
-                clClasificacionCliente2.HorizontalAlignment = 1;
-
-                PdfPCell clTextoExtra1 = new PdfPCell(new Phrase("Texto Extra 1", _standardFont));
-                clTextoExtra1.BorderWidth = 0.5f;
-                clTextoExtra1.BorderWidthBottom = 0.5f;
-                clTextoExtra1.HorizontalAlignment = 1;
-
-                PdfPCell clNombreConcepto = new PdfPCell(new Phrase("Nombre del Concepto", _standardFont));
-                clNombreConcepto.BorderWidth = 0.5f;
-                clNombreConcepto.BorderWidthBottom = 0.5f;
-                clNombreConcepto.HorizontalAlignment = 1;
-                #endregion
-                //***************************************************************************************************************************************
-                #region Agrega titulos en las tablas
-                //agrega las tablas en el pdf
-                tabla_cuentas.AddCell(clFecha);
-                tabla_cuentas.AddCell(clSerie);
-                tabla_cuentas.AddCell(clFolio);
-                tabla_cuentas.AddCell(clNombreAgente);
-                tabla_cuentas.AddCell(clRazonSocial);
-                tabla_cuentas.AddCell(clFechaVencimiento);
-                tabla_cuentas.AddCell(clRFC);
-                tabla_cuentas.AddCell(clSubtotal);
-                tabla_cuentas.AddCell(clIVA);
-                tabla_cuentas.AddCell(clTotal);
-                tabla_cuentas.AddCell(clPendiente);
-                tabla_cuentas.AddCell(clTextoExtra3);
-                tabla_cuentas.AddCell(clAfectado);
-                tabla_cuentas.AddCell(clImpreso);
-                tabla_cuentas.AddCell(clCancelado);
-                tabla_cuentas.AddCell(clTotalUnidades);
-                tabla_cuentas.AddCell(clClasificacionCliente2);
-                tabla_cuentas.AddCell(clTextoExtra1);
-                tabla_cuentas.AddCell(clNombreConcepto);
-                #endregion
-
-                double ValorTotal = 0;
-                for (int k = 0; k < ListFactrurasCRU.Count; k++)
-                {
-                    #region AGREGA DATOS EN LA TABLA
-                    clFecha = new PdfPCell(new Phrase(ListFactrurasCRU[k].Fecha, _smallFont));
-                    clFecha.BorderWidth = 0.5f;
-                    clFecha.HorizontalAlignment = 1;
-
-                    clSerie = new PdfPCell(new Phrase(ListFactrurasCRU[k].Serie, _smallFont));
-                    clSerie.BorderWidth = 0.5f;
-                    clSerie.HorizontalAlignment = 1;
-
-                    clFolio = new PdfPCell(new Phrase(ListFactrurasCRU[k].Folio, _smallFont));
-                    clFolio.BorderWidth = 0.5f;
-                    clFolio.HorizontalAlignment = 1;
-
-                    clNombreAgente = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreAgente, _smallFont));
-                    clNombreAgente.BorderWidth = 0.5f;
-                    clNombreAgente.HorizontalAlignment = 1;
-
-                    clRazonSocial = new PdfPCell(new Phrase(ListFactrurasCRU[k].RazonSocial, _smallFont));
-                    clRazonSocial.BorderWidth = 0.5f;
-                    clRazonSocial.HorizontalAlignment = 1;
-
-                    clFechaVencimiento = new PdfPCell(new Phrase(ListFactrurasCRU[k].FechaVencimiento, _smallFont));
-                    clFechaVencimiento.BorderWidth = 0.5f;
-                    clFechaVencimiento.HorizontalAlignment = 1;
-
-                    clRFC = new PdfPCell(new Phrase(ListFactrurasCRU[k].RFC, _smallFont));
-                    clRFC.BorderWidth = 0.5f;
-                    clRFC.HorizontalAlignment = 1;
-
-                    clSubtotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Subtotal.ToString(), _smallFont));
-                    clSubtotal.BorderWidth = 0.5f;
-                    clSubtotal.HorizontalAlignment = 1;
-
-                    clIVA = new PdfPCell(new Phrase(ListFactrurasCRU[k].IVA.ToString(), _smallFont));
-                    clIVA.BorderWidth = 0.5f;
-                    clIVA.HorizontalAlignment = 1;
-
-                    clTotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Total.ToString(), _smallFont));
-                    clTotal.BorderWidth = 0.5f;
-                    clTotal.HorizontalAlignment = 1;
-                    ValorTotal += ListFactrurasCRU[k].Total;
-
-                    clPendiente = new PdfPCell(new Phrase(ListFactrurasCRU[k].Pendiente.ToString(), _smallFont));
-                    clPendiente.BorderWidth = 0.5f;
-                    clPendiente.HorizontalAlignment = 1;
-
-                    clTextoExtra3 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra3, _smallFont));
-                    clTextoExtra3.BorderWidth = 0.5f;
-                    clTextoExtra3.HorizontalAlignment = 1;
-
-                    clAfectado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Afectado, _smallFont));
-                    clAfectado.BorderWidth = 0.5f;
-                    clAfectado.HorizontalAlignment = 1;
-
-                    clImpreso = new PdfPCell(new Phrase(ListFactrurasCRU[k].Impreso, _smallFont));
-                    clImpreso.BorderWidth = 0.5f;
-                    clImpreso.HorizontalAlignment = 1;
-
-                    clCancelado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Cancelado, _smallFont));
-                    clCancelado.BorderWidth = 0.5f;
-                    clCancelado.HorizontalAlignment = 1;
-
-                    clTotalUnidades = new PdfPCell(new Phrase(ListFactrurasCRU[k].TotalUnidades.ToString(), _smallFont));
-                    clTotalUnidades.BorderWidth = 0.5f;
-                    clTotalUnidades.HorizontalAlignment = 1;
-
-                    clClasificacionCliente2 = new PdfPCell(new Phrase(ListFactrurasCRU[k].proveedor.Clasificación2, _smallFont));
-                    clClasificacionCliente2.BorderWidth = 0.5f;
-                    clClasificacionCliente2.HorizontalAlignment = 1;
-
-                    clTextoExtra1 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra1, _smallFont));
-                    clTextoExtra1.BorderWidth = 0.5f;
-                    clTextoExtra1.HorizontalAlignment = 1;
-
-                    clNombreConcepto = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreConcepto, _smallFont));
-                    clNombreConcepto.BorderWidth = 0.5f;
-                    clNombreConcepto.HorizontalAlignment = 1;
-                    #endregion
-                    #region Agrega titulos en las tablas
-                    //agrega las tablas en el pdf
-                    tabla_cuentas.AddCell(clFecha);
-                    tabla_cuentas.AddCell(clSerie);
-                    tabla_cuentas.AddCell(clFolio);
-                    tabla_cuentas.AddCell(clNombreAgente);
-                    tabla_cuentas.AddCell(clRazonSocial);
-                    tabla_cuentas.AddCell(clFechaVencimiento);
-                    tabla_cuentas.AddCell(clRFC);
-                    tabla_cuentas.AddCell(clSubtotal);
-                    tabla_cuentas.AddCell(clIVA);
-                    tabla_cuentas.AddCell(clTotal);
-                    tabla_cuentas.AddCell(clPendiente);
-                    tabla_cuentas.AddCell(clTextoExtra3);
-                    tabla_cuentas.AddCell(clAfectado);
-                    tabla_cuentas.AddCell(clImpreso);
-                    tabla_cuentas.AddCell(clCancelado);
-                    tabla_cuentas.AddCell(clTotalUnidades);
-                    tabla_cuentas.AddCell(clClasificacionCliente2);
-                    tabla_cuentas.AddCell(clTextoExtra1);
-                    tabla_cuentas.AddCell(clNombreConcepto);
-                    #endregion
-                }//fin for
-
-                doc.Add(new Paragraph("Total: $" + Math.Round(ValorTotal, 2), _titulos));
-                doc.Add(new Paragraph("\n"));
-
-                //agrego la tabla al pdf
-                doc.Add(tabla_cuentas);
-
-                #endregion
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-
-                /************************************************************/
-                #region **********SEGUNDA TABLA  FILTRO RFC PUBLICO*********
-                doc.Add(new Paragraph("Acumulado de Facturación (Público) ", _titulos));
-                doc.Add(new Paragraph("\n"));
-                tabla_cuentas = new PdfPTable(19);
-                //PdfPCell cell = new PdfPCell(new Phrase("Reporte de Compras"));
-                //cell.Colspan = 3;
-                //cell.BackgroundColor = BaseColor.BLUE;
-                //cell.HorizontalAlignment = 1;//0=Left, 1=Centre, 2=Right 
-                tabla_cuentas.WidthPercentage = 100;
-                //tabla_cuentas.AddCell(cell);
-
-
-
-                #region configuracion de columnas
-                // Configuramos el título de las columnas de la tabla 
-                clFecha = new PdfPCell(new Phrase("Fecha", _standardFont));
-                clFecha.BorderWidth = 0.5f;
-                clFecha.BorderWidthBottom = 0.5f;
-                clFecha.HorizontalAlignment = 1;
-
-                clSerie = new PdfPCell(new Phrase("Serie", _standardFont));
-                clSerie.BorderWidth = 0.5f;
-                clSerie.BorderWidthBottom = 0.5f;
-                clSerie.HorizontalAlignment = 1;
-
-                clFolio = new PdfPCell(new Phrase("Folio", _standardFont));
-                clFolio.BorderWidth = 0.5f;
-                clFolio.BorderWidthBottom = 0.5f;
-                clFolio.HorizontalAlignment = 1;
-
-                clNombreAgente = new PdfPCell(new Phrase("Nombre del Agente", _standardFont));
-                clNombreAgente.BorderWidth = 0.5f;
-                clNombreAgente.BorderWidthBottom = 0.5f;
-                clNombreAgente.HorizontalAlignment = 1;
-
-                clRazonSocial = new PdfPCell(new Phrase("Razón Social", _standardFont));
-                clRazonSocial.BorderWidth = 0.5f;
-                clRazonSocial.BorderWidthBottom = 0.5f;
-                clRazonSocial.HorizontalAlignment = 1;
-
-                clFechaVencimiento = new PdfPCell(new Phrase("Fecha de Vencimiento", _standardFont));
-                clFechaVencimiento.BorderWidth = 0.5f;
-                clFechaVencimiento.BorderWidthBottom = 0.5f;
-                clFechaVencimiento.HorizontalAlignment = 1;
-
-                clRFC = new PdfPCell(new Phrase("R.F.C.", _standardFont));
-                clRFC.BorderWidth = 0.5f;
-                clRFC.BorderWidthBottom = 0.5f;
-                clRFC.HorizontalAlignment = 1;
-
-                clSubtotal = new PdfPCell(new Phrase("Subtotal", _standardFont));
-                clSubtotal.BorderWidth = 0.5f;
-                clSubtotal.BorderWidthBottom = 0.5f;
-                clSubtotal.HorizontalAlignment = 1;
-
-                clIVA = new PdfPCell(new Phrase("IVA", _standardFont));
-                clIVA.BorderWidth = 0.5f;
-                clIVA.BorderWidthBottom = 0.5f;
-                clIVA.HorizontalAlignment = 1;
-
-                clTotal = new PdfPCell(new Phrase("Total", _standardFont));
-                clTotal.BorderWidth = 0.5f;
-                clTotal.BorderWidthBottom = 0.5f;
-                clTotal.HorizontalAlignment = 1;
-
-                clPendiente = new PdfPCell(new Phrase("Pendiente", _standardFont));
-                clPendiente.BorderWidth = 0.5f;
-                clPendiente.BorderWidthBottom = 0.5f;
-                clPendiente.HorizontalAlignment = 1;
-
-                clTextoExtra3 = new PdfPCell(new Phrase("Texto Extra 3", _standardFont));
-                clTextoExtra3.BorderWidth = 0.5f;
-                clTextoExtra3.BorderWidthBottom = 0.5f;
-                clTextoExtra3.HorizontalAlignment = 1;
-
-                clAfectado = new PdfPCell(new Phrase("Afectado", _standardFont));
-                clAfectado.BorderWidth = 0.5f;
-                clAfectado.BorderWidthBottom = 0.5f;
-                clAfectado.HorizontalAlignment = 1;
-
-                clImpreso = new PdfPCell(new Phrase("Impreso", _standardFont));
-                clImpreso.BorderWidth = 0.5f;
-                clImpreso.BorderWidthBottom = 0.5f;
-                clImpreso.HorizontalAlignment = 1;
-
-                clCancelado = new PdfPCell(new Phrase("Cancelado", _standardFont));
-                clCancelado.BorderWidth = 0.5f;
-                clCancelado.BorderWidthBottom = 0.5f;
-                clCancelado.HorizontalAlignment = 1;
-
-                clTotalUnidades = new PdfPCell(new Phrase("Total de Unidades", _standardFont));
-                clTotalUnidades.BorderWidth = 0.5f;
-                clTotalUnidades.BorderWidthBottom = 0.5f;
-                clTotalUnidades.HorizontalAlignment = 1;
-
-                clClasificacionCliente2 = new PdfPCell(new Phrase("Clasificación Cliente 2", _standardFont));
-                clClasificacionCliente2.BorderWidth = 0.5f;
-                clClasificacionCliente2.BorderWidthBottom = 0.5f;
-                clClasificacionCliente2.HorizontalAlignment = 1;
-
-                clTextoExtra1 = new PdfPCell(new Phrase("Texto Extra 1", _standardFont));
-                clTextoExtra1.BorderWidth = 0.5f;
-                clTextoExtra1.BorderWidthBottom = 0.5f;
-                clTextoExtra1.HorizontalAlignment = 1;
-
-                clNombreConcepto = new PdfPCell(new Phrase("Nombre del Concepto", _standardFont));
-                clNombreConcepto.BorderWidth = 0.5f;
-                clNombreConcepto.BorderWidthBottom = 0.5f;
-                clNombreConcepto.HorizontalAlignment = 1;
-                #endregion
-                //***************************************************************************************************************************************
-                #region Agrega titulos en las tablas
-                //agrega las tablas en el pdf
-                tabla_cuentas.AddCell(clFecha);
-                tabla_cuentas.AddCell(clSerie);
-                tabla_cuentas.AddCell(clFolio);
-                tabla_cuentas.AddCell(clNombreAgente);
-                tabla_cuentas.AddCell(clRazonSocial);
-                tabla_cuentas.AddCell(clFechaVencimiento);
-                tabla_cuentas.AddCell(clRFC);
-                tabla_cuentas.AddCell(clSubtotal);
-                tabla_cuentas.AddCell(clIVA);
-                tabla_cuentas.AddCell(clTotal);
-                tabla_cuentas.AddCell(clPendiente);
-                tabla_cuentas.AddCell(clTextoExtra3);
-                tabla_cuentas.AddCell(clAfectado);
-                tabla_cuentas.AddCell(clImpreso);
-                tabla_cuentas.AddCell(clCancelado);
-                tabla_cuentas.AddCell(clTotalUnidades);
-                tabla_cuentas.AddCell(clClasificacionCliente2);
-                tabla_cuentas.AddCell(clTextoExtra1);
-                tabla_cuentas.AddCell(clNombreConcepto);
-                #endregion
-                ListFactrurasCRU = ListFactrurasCRUFiltroRFCPublico;
-                ValorTotal = 0;
-                for (int k = 0; k < ListFactrurasCRU.Count; k++)
-                {
-                    #region AGREGA DATOS EN LA TABLA
-                    clFecha = new PdfPCell(new Phrase(ListFactrurasCRU[k].Fecha, _smallFont));
-                    clFecha.BorderWidth = 0.5f;
-                    clFecha.HorizontalAlignment = 1;
-
-                    clSerie = new PdfPCell(new Phrase(ListFactrurasCRU[k].Serie, _smallFont));
-                    clSerie.BorderWidth = 0.5f;
-                    clSerie.HorizontalAlignment = 1;
-
-                    clFolio = new PdfPCell(new Phrase(ListFactrurasCRU[k].Folio, _smallFont));
-                    clFolio.BorderWidth = 0.5f;
-                    clFolio.HorizontalAlignment = 1;
-
-                    clNombreAgente = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreAgente, _smallFont));
-                    clNombreAgente.BorderWidth = 0.5f;
-                    clNombreAgente.HorizontalAlignment = 1;
-
-                    clRazonSocial = new PdfPCell(new Phrase(ListFactrurasCRU[k].RazonSocial, _smallFont));
-                    clRazonSocial.BorderWidth = 0.5f;
-                    clRazonSocial.HorizontalAlignment = 1;
-
-                    clFechaVencimiento = new PdfPCell(new Phrase(ListFactrurasCRU[k].FechaVencimiento, _smallFont));
-                    clFechaVencimiento.BorderWidth = 0.5f;
-                    clFechaVencimiento.HorizontalAlignment = 1;
-
-                    clRFC = new PdfPCell(new Phrase(ListFactrurasCRU[k].RFC, _smallFont));
-                    clRFC.BorderWidth = 0.5f;
-                    clRFC.HorizontalAlignment = 1;
-
-                    clSubtotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Subtotal.ToString(), _smallFont));
-                    clSubtotal.BorderWidth = 0.5f;
-                    clSubtotal.HorizontalAlignment = 1;
-
-                    clIVA = new PdfPCell(new Phrase(ListFactrurasCRU[k].IVA.ToString(), _smallFont));
-                    clIVA.BorderWidth = 0.5f;
-                    clIVA.HorizontalAlignment = 1;
-
-                    clTotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Total.ToString(), _smallFont));
-                    clTotal.BorderWidth = 0.5f;
-                    clTotal.HorizontalAlignment = 1;
-                    ValorTotal += ListFactrurasCRU[k].Total;
-
-                    clPendiente = new PdfPCell(new Phrase(ListFactrurasCRU[k].Pendiente.ToString(), _smallFont));
-                    clPendiente.BorderWidth = 0.5f;
-                    clPendiente.HorizontalAlignment = 1;
-
-                    clTextoExtra3 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra3, _smallFont));
-                    clTextoExtra3.BorderWidth = 0.5f;
-                    clTextoExtra3.HorizontalAlignment = 1;
-
-                    clAfectado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Afectado, _smallFont));
-                    clAfectado.BorderWidth = 0.5f;
-                    clAfectado.HorizontalAlignment = 1;
-
-                    clImpreso = new PdfPCell(new Phrase(ListFactrurasCRU[k].Impreso, _smallFont));
-                    clImpreso.BorderWidth = 0.5f;
-                    clImpreso.HorizontalAlignment = 1;
-
-                    clCancelado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Cancelado, _smallFont));
-                    clCancelado.BorderWidth = 0.5f;
-                    clCancelado.HorizontalAlignment = 1;
-
-                    clTotalUnidades = new PdfPCell(new Phrase(ListFactrurasCRU[k].TotalUnidades.ToString(), _smallFont));
-                    clTotalUnidades.BorderWidth = 0.5f;
-                    clTotalUnidades.HorizontalAlignment = 1;
-
-                    clClasificacionCliente2 = new PdfPCell(new Phrase(ListFactrurasCRU[k].proveedor.Clasificación2, _smallFont));
-                    clClasificacionCliente2.BorderWidth = 0.5f;
-                    clClasificacionCliente2.HorizontalAlignment = 1;
-
-                    clTextoExtra1 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra1, _smallFont));
-                    clTextoExtra1.BorderWidth = 0.5f;
-                    clTextoExtra1.HorizontalAlignment = 1;
-
-                    clNombreConcepto = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreConcepto, _smallFont));
-                    clNombreConcepto.BorderWidth = 0.5f;
-                    clNombreConcepto.HorizontalAlignment = 1;
-                    #endregion
-                    #region Agrega titulos en las tablas
-                    //agrega las tablas en el pdf
-                    tabla_cuentas.AddCell(clFecha);
-                    tabla_cuentas.AddCell(clSerie);
-                    tabla_cuentas.AddCell(clFolio);
-                    tabla_cuentas.AddCell(clNombreAgente);
-                    tabla_cuentas.AddCell(clRazonSocial);
-                    tabla_cuentas.AddCell(clFechaVencimiento);
-                    tabla_cuentas.AddCell(clRFC);
-                    tabla_cuentas.AddCell(clSubtotal);
-                    tabla_cuentas.AddCell(clIVA);
-                    tabla_cuentas.AddCell(clTotal);
-                    tabla_cuentas.AddCell(clPendiente);
-                    tabla_cuentas.AddCell(clTextoExtra3);
-                    tabla_cuentas.AddCell(clAfectado);
-                    tabla_cuentas.AddCell(clImpreso);
-                    tabla_cuentas.AddCell(clCancelado);
-                    tabla_cuentas.AddCell(clTotalUnidades);
-                    tabla_cuentas.AddCell(clClasificacionCliente2);
-                    tabla_cuentas.AddCell(clTextoExtra1);
-                    tabla_cuentas.AddCell(clNombreConcepto);
-                    #endregion
-                }//fin for
-
-                doc.Add(new Paragraph("Total: $" + Math.Round(ValorTotal, 2), _titulos));
-                doc.Add(new Paragraph("\n"));
-
-                //agrego la tabla al pdf
-                doc.Add(tabla_cuentas);
-
-                #endregion
-                /******************************************************************************************/
-
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-
-                /************************************************************/
-                #region **********TERCER TABLA  FILTRO RFC OL*********
-                doc.Add(new Paragraph("Acumulado de Facturación (rfc) ", _titulos));
-                doc.Add(new Paragraph("\n"));
-                tabla_cuentas = new PdfPTable(19);
-                //PdfPCell cell = new PdfPCell(new Phrase("Reporte de Compras"));
-                //cell.Colspan = 3;
-                //cell.BackgroundColor = BaseColor.BLUE;
-                //cell.HorizontalAlignment = 1;//0=Left, 1=Centre, 2=Right 
-                tabla_cuentas.WidthPercentage = 100;
-                //tabla_cuentas.AddCell(cell);
-
-
-
-                #region configuracion de columnas
-                // Configuramos el título de las columnas de la tabla 
-                clFecha = new PdfPCell(new Phrase("Fecha", _standardFont));
-                clFecha.BorderWidth = 0.5f;
-                clFecha.BorderWidthBottom = 0.5f;
-                clFecha.HorizontalAlignment = 1;
-
-                clSerie = new PdfPCell(new Phrase("Serie", _standardFont));
-                clSerie.BorderWidth = 0.5f;
-                clSerie.BorderWidthBottom = 0.5f;
-                clSerie.HorizontalAlignment = 1;
-
-                clFolio = new PdfPCell(new Phrase("Folio", _standardFont));
-                clFolio.BorderWidth = 0.5f;
-                clFolio.BorderWidthBottom = 0.5f;
-                clFolio.HorizontalAlignment = 1;
-
-                clNombreAgente = new PdfPCell(new Phrase("Nombre del Agente", _standardFont));
-                clNombreAgente.BorderWidth = 0.5f;
-                clNombreAgente.BorderWidthBottom = 0.5f;
-                clNombreAgente.HorizontalAlignment = 1;
-
-                clRazonSocial = new PdfPCell(new Phrase("Razón Social", _standardFont));
-                clRazonSocial.BorderWidth = 0.5f;
-                clRazonSocial.BorderWidthBottom = 0.5f;
-                clRazonSocial.HorizontalAlignment = 1;
-
-                clFechaVencimiento = new PdfPCell(new Phrase("Fecha de Vencimiento", _standardFont));
-                clFechaVencimiento.BorderWidth = 0.5f;
-                clFechaVencimiento.BorderWidthBottom = 0.5f;
-                clFechaVencimiento.HorizontalAlignment = 1;
-
-                clRFC = new PdfPCell(new Phrase("R.F.C.", _standardFont));
-                clRFC.BorderWidth = 0.5f;
-                clRFC.BorderWidthBottom = 0.5f;
-                clRFC.HorizontalAlignment = 1;
-
-                clSubtotal = new PdfPCell(new Phrase("Subtotal", _standardFont));
-                clSubtotal.BorderWidth = 0.5f;
-                clSubtotal.BorderWidthBottom = 0.5f;
-                clSubtotal.HorizontalAlignment = 1;
-
-                clIVA = new PdfPCell(new Phrase("IVA", _standardFont));
-                clIVA.BorderWidth = 0.5f;
-                clIVA.BorderWidthBottom = 0.5f;
-                clIVA.HorizontalAlignment = 1;
-
-                clTotal = new PdfPCell(new Phrase("Total", _standardFont));
-                clTotal.BorderWidth = 0.5f;
-                clTotal.BorderWidthBottom = 0.5f;
-                clTotal.HorizontalAlignment = 1;
-
-                clPendiente = new PdfPCell(new Phrase("Pendiente", _standardFont));
-                clPendiente.BorderWidth = 0.5f;
-                clPendiente.BorderWidthBottom = 0.5f;
-                clPendiente.HorizontalAlignment = 1;
-
-                clTextoExtra3 = new PdfPCell(new Phrase("Texto Extra 3", _standardFont));
-                clTextoExtra3.BorderWidth = 0.5f;
-                clTextoExtra3.BorderWidthBottom = 0.5f;
-                clTextoExtra3.HorizontalAlignment = 1;
-
-                clAfectado = new PdfPCell(new Phrase("Afectado", _standardFont));
-                clAfectado.BorderWidth = 0.5f;
-                clAfectado.BorderWidthBottom = 0.5f;
-                clAfectado.HorizontalAlignment = 1;
-
-                clImpreso = new PdfPCell(new Phrase("Impreso", _standardFont));
-                clImpreso.BorderWidth = 0.5f;
-                clImpreso.BorderWidthBottom = 0.5f;
-                clImpreso.HorizontalAlignment = 1;
-
-                clCancelado = new PdfPCell(new Phrase("Cancelado", _standardFont));
-                clCancelado.BorderWidth = 0.5f;
-                clCancelado.BorderWidthBottom = 0.5f;
-                clCancelado.HorizontalAlignment = 1;
-
-                clTotalUnidades = new PdfPCell(new Phrase("Total de Unidades", _standardFont));
-                clTotalUnidades.BorderWidth = 0.5f;
-                clTotalUnidades.BorderWidthBottom = 0.5f;
-                clTotalUnidades.HorizontalAlignment = 1;
-
-                clClasificacionCliente2 = new PdfPCell(new Phrase("Clasificación Cliente 2", _standardFont));
-                clClasificacionCliente2.BorderWidth = 0.5f;
-                clClasificacionCliente2.BorderWidthBottom = 0.5f;
-                clClasificacionCliente2.HorizontalAlignment = 1;
-
-                clTextoExtra1 = new PdfPCell(new Phrase("Texto Extra 1", _standardFont));
-                clTextoExtra1.BorderWidth = 0.5f;
-                clTextoExtra1.BorderWidthBottom = 0.5f;
-                clTextoExtra1.HorizontalAlignment = 1;
-
-                clNombreConcepto = new PdfPCell(new Phrase("Nombre del Concepto", _standardFont));
-                clNombreConcepto.BorderWidth = 0.5f;
-                clNombreConcepto.BorderWidthBottom = 0.5f;
-                clNombreConcepto.HorizontalAlignment = 1;
-                #endregion
-                //***************************************************************************************************************************************
-                #region Agrega titulos en las tablas
-                //agrega las tablas en el pdf
-                tabla_cuentas.AddCell(clFecha);
-                tabla_cuentas.AddCell(clSerie);
-                tabla_cuentas.AddCell(clFolio);
-                tabla_cuentas.AddCell(clNombreAgente);
-                tabla_cuentas.AddCell(clRazonSocial);
-                tabla_cuentas.AddCell(clFechaVencimiento);
-                tabla_cuentas.AddCell(clRFC);
-                tabla_cuentas.AddCell(clSubtotal);
-                tabla_cuentas.AddCell(clIVA);
-                tabla_cuentas.AddCell(clTotal);
-                tabla_cuentas.AddCell(clPendiente);
-                tabla_cuentas.AddCell(clTextoExtra3);
-                tabla_cuentas.AddCell(clAfectado);
-                tabla_cuentas.AddCell(clImpreso);
-                tabla_cuentas.AddCell(clCancelado);
-                tabla_cuentas.AddCell(clTotalUnidades);
-                tabla_cuentas.AddCell(clClasificacionCliente2);
-                tabla_cuentas.AddCell(clTextoExtra1);
-                tabla_cuentas.AddCell(clNombreConcepto);
-                #endregion
-                ListFactrurasCRU = ListFactrurasCRUFiltroRFCOL;
-                ValorTotal = 0;
-                for (int k = 0; k < ListFactrurasCRU.Count; k++)
-                {
-                    #region AGREGA DATOS EN LA TABLA
-                    clFecha = new PdfPCell(new Phrase(ListFactrurasCRU[k].Fecha, _smallFont));
-                    clFecha.BorderWidth = 0.5f;
-                    clFecha.HorizontalAlignment = 1;
-
-                    clSerie = new PdfPCell(new Phrase(ListFactrurasCRU[k].Serie, _smallFont));
-                    clSerie.BorderWidth = 0.5f;
-                    clSerie.HorizontalAlignment = 1;
-
-                    clFolio = new PdfPCell(new Phrase(ListFactrurasCRU[k].Folio, _smallFont));
-                    clFolio.BorderWidth = 0.5f;
-                    clFolio.HorizontalAlignment = 1;
-
-                    clNombreAgente = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreAgente, _smallFont));
-                    clNombreAgente.BorderWidth = 0.5f;
-                    clNombreAgente.HorizontalAlignment = 1;
-
-                    clRazonSocial = new PdfPCell(new Phrase(ListFactrurasCRU[k].RazonSocial, _smallFont));
-                    clRazonSocial.BorderWidth = 0.5f;
-                    clRazonSocial.HorizontalAlignment = 1;
-
-                    clFechaVencimiento = new PdfPCell(new Phrase(ListFactrurasCRU[k].FechaVencimiento, _smallFont));
-                    clFechaVencimiento.BorderWidth = 0.5f;
-                    clFechaVencimiento.HorizontalAlignment = 1;
-
-                    clRFC = new PdfPCell(new Phrase(ListFactrurasCRU[k].RFC, _smallFont));
-                    clRFC.BorderWidth = 0.5f;
-                    clRFC.HorizontalAlignment = 1;
-
-                    clSubtotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Subtotal.ToString(), _smallFont));
-                    clSubtotal.BorderWidth = 0.5f;
-                    clSubtotal.HorizontalAlignment = 1;
-
-                    clIVA = new PdfPCell(new Phrase(ListFactrurasCRU[k].IVA.ToString(), _smallFont));
-                    clIVA.BorderWidth = 0.5f;
-                    clIVA.HorizontalAlignment = 1;
-
-                    clTotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Total.ToString(), _smallFont));
-                    clTotal.BorderWidth = 0.5f;
-                    clTotal.HorizontalAlignment = 1;
-                    ValorTotal += ListFactrurasCRU[k].Total;
-
-                    clPendiente = new PdfPCell(new Phrase(ListFactrurasCRU[k].Pendiente.ToString(), _smallFont));
-                    clPendiente.BorderWidth = 0.5f;
-                    clPendiente.HorizontalAlignment = 1;
-
-                    clTextoExtra3 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra3, _smallFont));
-                    clTextoExtra3.BorderWidth = 0.5f;
-                    clTextoExtra3.HorizontalAlignment = 1;
-
-                    clAfectado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Afectado, _smallFont));
-                    clAfectado.BorderWidth = 0.5f;
-                    clAfectado.HorizontalAlignment = 1;
-
-                    clImpreso = new PdfPCell(new Phrase(ListFactrurasCRU[k].Impreso, _smallFont));
-                    clImpreso.BorderWidth = 0.5f;
-                    clImpreso.HorizontalAlignment = 1;
-
-                    clCancelado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Cancelado, _smallFont));
-                    clCancelado.BorderWidth = 0.5f;
-                    clCancelado.HorizontalAlignment = 1;
-
-                    clTotalUnidades = new PdfPCell(new Phrase(ListFactrurasCRU[k].TotalUnidades.ToString(), _smallFont));
-                    clTotalUnidades.BorderWidth = 0.5f;
-                    clTotalUnidades.HorizontalAlignment = 1;
-
-                    clClasificacionCliente2 = new PdfPCell(new Phrase(ListFactrurasCRU[k].proveedor.Clasificación2, _smallFont));
-                    clClasificacionCliente2.BorderWidth = 0.5f;
-                    clClasificacionCliente2.HorizontalAlignment = 1;
-
-                    clTextoExtra1 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra1, _smallFont));
-                    clTextoExtra1.BorderWidth = 0.5f;
-                    clTextoExtra1.HorizontalAlignment = 1;
-
-                    clNombreConcepto = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreConcepto, _smallFont));
-                    clNombreConcepto.BorderWidth = 0.5f;
-                    clNombreConcepto.HorizontalAlignment = 1;
-                    #endregion
-                    #region Agrega titulos en las tablas
-                    //agrega las tablas en el pdf
-                    tabla_cuentas.AddCell(clFecha);
-                    tabla_cuentas.AddCell(clSerie);
-                    tabla_cuentas.AddCell(clFolio);
-                    tabla_cuentas.AddCell(clNombreAgente);
-                    tabla_cuentas.AddCell(clRazonSocial);
-                    tabla_cuentas.AddCell(clFechaVencimiento);
-                    tabla_cuentas.AddCell(clRFC);
-                    tabla_cuentas.AddCell(clSubtotal);
-                    tabla_cuentas.AddCell(clIVA);
-                    tabla_cuentas.AddCell(clTotal);
-                    tabla_cuentas.AddCell(clPendiente);
-                    tabla_cuentas.AddCell(clTextoExtra3);
-                    tabla_cuentas.AddCell(clAfectado);
-                    tabla_cuentas.AddCell(clImpreso);
-                    tabla_cuentas.AddCell(clCancelado);
-                    tabla_cuentas.AddCell(clTotalUnidades);
-                    tabla_cuentas.AddCell(clClasificacionCliente2);
-                    tabla_cuentas.AddCell(clTextoExtra1);
-                    tabla_cuentas.AddCell(clNombreConcepto);
-                    #endregion
-                }//fin for
-
-                doc.Add(new Paragraph("Total: $" + Math.Round(ValorTotal, 2), _titulos));
-                doc.Add(new Paragraph("\n"));
-
-                //agrego la tabla al pdf
-                doc.Add(tabla_cuentas);
-
-                #endregion
-                /******************************************************************************************/
-                // cierro la edicion del pdf
-                doc.Close();
-
-                ////LO EJECUTO
-                Process prc = new System.Diagnostics.Process();
-                prc.StartInfo.FileName = rut;
-                prc.Start();
-
-            }
-            catch (Exception g)
-            { MessageBox.Show("" + g.Message); }
-        }
-        #endregion
-
-        #region TABLA PRODUCTOS
-        /// <summary>
-        /// Método para imprimir las facturas de CRU
-        /// </summary>
-        /// <param name="ListFactrurasCRU">lista de las facturas que se van a imprimir</param>
-        public void ImpresionTablaProductos(List<Tipos_Datos_CRU.Producto> ListProductos, string fecha_inicial, string fecha_final)
-        {
-
-            try
-            {
-
-                Document doc = new Document(PageSize.TABLOID, 10, 10, 10, 10);//Creacion del documento configuracion de tipo de hoja y margenes
-                doc.AddAuthor("Indicadores");//Autor del PDF
-                doc.AddKeywords("pdf, PdfWriter; Indicadores V1");
-
-                //para almacenamiento del archivo
-                string nombre_archivo = "ProductosCXP.PDF";//Nombre del Archivo
-                string rut = @"c:/" + nombre_archivo;
-                PdfWriter wri = PdfWriter.GetInstance(doc, new FileStream(rut, FileMode.Create));
-                doc.AddTitle("REPORTE");
-                doc.AddCreator("*********");
-                doc.Open();
-                //tipo de letras que se pueda usar en el archivo PDF
-                iTextSharp.text.Font _mediumFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-                iTextSharp.text.Font _standardFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 9, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
-                iTextSharp.text.Font _standardFont1 = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.BOLD, BaseColor.WHITE);
-                iTextSharp.text.Font _smallFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-                iTextSharp.text.Font _titulo = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-                iTextSharp.text.Font _titulos = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 12, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-
-
-                // Cabecera
-                doc.Add(new Paragraph(" Desglose general de Productos desde " + fecha_inicial + " hasta " + fecha_final));
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-
-                //***********************************************
-
-                PdfPTable tabla_cuentas = new PdfPTable(5);
-                tabla_cuentas.WidthPercentage = 100;
-
-                #region configuracion de columnas
-
-                // Configuramos el título de las columnas de la tabla 
-                PdfPCell clCodigo = new PdfPCell(new Phrase("Codigo", _standardFont));
-                clCodigo.BorderWidth = 0.5f;
-                clCodigo.BorderWidthBottom = 0.5f;
-                clCodigo.HorizontalAlignment = 1;
-
-                PdfPCell clDescripcion = new PdfPCell(new Phrase("Descripcion", _standardFont));
-                clDescripcion.BorderWidth = 0.5f;
-                clDescripcion.BorderWidthBottom = 0.5f;
-                clDescripcion.HorizontalAlignment = 1;
-
-                PdfPCell clClasificacion1 = new PdfPCell(new Phrase("Clasificacion 1", _standardFont));
-                clClasificacion1.BorderWidth = 0.5f;
-                clClasificacion1.BorderWidthBottom = 0.5f;
-                clClasificacion1.HorizontalAlignment = 1;
-
-                PdfPCell clClasificacion2 = new PdfPCell(new Phrase("Clasificacion 2", _standardFont));
-                clClasificacion2.BorderWidth = 0.5f;
-                clClasificacion2.BorderWidthBottom = 0.5f;
-                clClasificacion2.HorizontalAlignment = 1;
-
-                PdfPCell clClasificacion3 = new PdfPCell(new Phrase("Codigo", _standardFont));
-                clClasificacion3.BorderWidth = 0.5f;
-                clClasificacion3.BorderWidthBottom = 0.5f;
-                clClasificacion3.HorizontalAlignment = 1;
-
-
-                #endregion
-                //***************************************************************************************************************************************
-                #region Agrega titulos en las tablas
-                //agrega las tablas en el pdf
-                tabla_cuentas.AddCell(clCodigo);
-                tabla_cuentas.AddCell(clDescripcion);
-                tabla_cuentas.AddCell(clClasificacion1);
-                tabla_cuentas.AddCell(clClasificacion2);
-                tabla_cuentas.AddCell(clClasificacion3);
-                #endregion
-
-
-                for (int k = 0; k < ListProductos.Count; k++)
-                {
-                    #region AGREGA DATOS EN LA TABLA
-                    clCodigo = new PdfPCell(new Phrase(ListProductos[k].codigo, _smallFont));
-                    clCodigo.BorderWidth = 0.5f;
-                    clCodigo.HorizontalAlignment = 1;
-
-                    clDescripcion = new PdfPCell(new Phrase(ListProductos[k].Descripcion, _smallFont));
-                    clDescripcion.BorderWidth = 0.5f;
-                    clDescripcion.HorizontalAlignment = 1;
-
-                    clClasificacion1 = new PdfPCell(new Phrase(ListProductos[k].Clasifiacion1, _smallFont));
-                    clClasificacion1.BorderWidth = 0.5f;
-                    clClasificacion1.HorizontalAlignment = 1;
-
-                    clClasificacion2 = new PdfPCell(new Phrase(ListProductos[k].Clasificacion2, _smallFont));
-                    clClasificacion2.BorderWidth = 0.5f;
-                    clClasificacion2.HorizontalAlignment = 1;
-
-                    clClasificacion3 = new PdfPCell(new Phrase(ListProductos[k].Clasificacion3, _smallFont));
-                    clClasificacion3.BorderWidth = 0.5f;
-                    clClasificacion3.HorizontalAlignment = 1;
-
-
-                    #endregion
-
-                    //agrega las tablas en el pdf
-                    tabla_cuentas.AddCell(clCodigo);
-                    tabla_cuentas.AddCell(clDescripcion);
-                    tabla_cuentas.AddCell(clClasificacion1);
-                    tabla_cuentas.AddCell(clClasificacion2);
-                    tabla_cuentas.AddCell(clClasificacion3);
-                }//fin for
-
-
-
-                //agrego la tabla al pdf
-
-                doc.Add(tabla_cuentas);
-
-
-                /******************************************************************************************/
-                // cierro la edicion del pdf
-                doc.Close();
-
-                ////LO EJECUTO
-                Process prc = new System.Diagnostics.Process();
-                prc.StartInfo.FileName = rut;
-                prc.Start();
-
-            }
-            catch (Exception g)
-            { MessageBox.Show("" + g.Message); }
-        }
-        #endregion
-
-        #region archivo REPORTE_COMPRAS.PDF
-
-        public void Reporte_Compras(List<Tipos_Datos_CRU.Movimientos_Cuentas> cuentas, string fechas, string fechastitulo, string path)
-        {
-
-            #region desglose general
-            lista_cuentas = new List<Tipos_Datos_CRU.Movimientos_Cuentas>();
-            lista_cuentas = cuentas;
-            string[] mes = new string[12];
-            mes[0] = "Enero"; mes[1] = "Febrero"; mes[2] = "Marzo"; mes[3] = "Abril"; mes[4] = "Mayo"; mes[5] = "Junio"; mes[6] = "Julio"; mes[7] = "Agosto"; mes[8] = "Septiembre"; mes[9] = "Octubre"; mes[10] = "Noviembre"; mes[11] = "Diciembre";
-
-            try
-            {
-                instance_graficas = new Cargar_graficas();//para crear gráficas
-                Document doc = new Document(PageSize.LETTER.Rotate(), 15, 15, 15, 15);
-                doc.AddAuthor("ADMISEL");
-                doc.AddKeywords("pdf, PdfWriter; Reporte de movimientos de compras");
-                string nombre_archivo = "Reporte_Indicadores_CXP" + fechas.Replace("/", "_") + ".PDF";
-                nombre_archivo = nombre_archivo.Replace(" ", "_");
-                string rut = @path + nombre_archivo;
-                PdfWriter wri = PdfWriter.GetInstance(doc, new FileStream(rut, FileMode.Create));
-                doc.AddTitle("REPORTE");
-                doc.AddCreator("*********");
-                doc.Open();
-                iTextSharp.text.Font _mediumFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-                iTextSharp.text.Font _standardFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 9, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
-                iTextSharp.text.Font _standardFont1 = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.BOLD, BaseColor.WHITE);
-                iTextSharp.text.Font _smallFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-                iTextSharp.text.Font _titulo = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-                iTextSharp.text.Font _titulos = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 12, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-
-                //Lo que vamos a imprimir
-                // Cabecera
-                doc.Add(new Paragraph(" Desglose general del  " + fechastitulo, _titulo));
-                doc.Add(new Paragraph("\n"));
-
-
-                //***********************************************
-                //*******TITULO REPORTE COMPRAS
-                PdfPTable tabla_cuentastitulo = new PdfPTable(1);
-                tabla_cuentastitulo.WidthPercentage = 100;
-                PdfPCell clTitul = new PdfPCell(new Phrase("Reporte Compras", _standardFont1));
-                clTitul.BorderWidth = 0.5f;
-                clTitul.BorderWidthBottom = 0.5f;
-                clTitul.HorizontalAlignment = 1;
-                clTitul.PaddingTop = 5;
-                clTitul.PaddingBottom = 10;
-                clTitul.BackgroundColor = new BaseColor(70, 163, 255);
-                tabla_cuentastitulo.AddCell(clTitul);
-
-                doc.Add(tabla_cuentastitulo);
-                //***********************************************
-                #region **********PRIMERA TABLA *********
-                PdfPTable tabla_cuentas = new PdfPTable(10);
-                tabla_cuentas.WidthPercentage = 100;
-
-                // Configuramos el título de las columnas de la tabla
-                PdfPCell clFecha = new PdfPCell(new Phrase("Fecha", _standardFont));
-                clFecha.BorderWidth = 0.5f;
-                clFecha.BorderWidthBottom = 0.5f;
-                clFecha.HorizontalAlignment = 1;
-
-                PdfPCell clFolio = new PdfPCell(new Phrase("Folio", _standardFont));
-                clFolio.BorderWidth = 0;
-                clFolio.BorderWidthBottom = 0.75f;
-                clFolio.HorizontalAlignment = 1;
-
-                PdfPCell clRzSocial = new PdfPCell(new Phrase("Razon Social", _standardFont));
-                clRzSocial.BorderWidth = 0.5f;
-                clRzSocial.BorderWidthBottom = 0.5f;
-                clRzSocial.HorizontalAlignment = 1;
-
-                PdfPCell clCodigo = new PdfPCell(new Phrase("Codigo", _standardFont));
-                clCodigo.BorderWidth = 0.5f;
-                clCodigo.BorderWidthBottom = 0.5f;
-                clCodigo.HorizontalAlignment = 1;
-
-                PdfPCell climporte = new PdfPCell(new Phrase("Importe", _standardFont));
-                climporte.BorderWidth = 0.5f;
-                climporte.BorderWidthBottom = 0.5f;
-                climporte.HorizontalAlignment = 1;
-
-                PdfPCell clIva = new PdfPCell(new Phrase("IVA", _standardFont));
-                clIva.BorderWidth = 0.5f;
-                clIva.BorderWidthBottom = 0.5f;
-                clIva.HorizontalAlignment = 1;
-
-                PdfPCell clTotal = new PdfPCell(new Phrase("Total", _standardFont));
-                clTotal.BorderWidth = 0.5f;
-                clTotal.BorderWidthBottom = 0.5f;
-                clTotal.HorizontalAlignment = 1;
-
-                PdfPCell clPendiente = new PdfPCell(new Phrase("Pendiente", _standardFont));
-                clPendiente.BorderWidth = 0.5f;
-                clPendiente.BorderWidthBottom = 0.5f;
-                clPendiente.HorizontalAlignment = 1;
-
-                PdfPCell clClasificacion1 = new PdfPCell(new Phrase("Clasificacion 1", _standardFont));
-                clClasificacion1.BorderWidth = 0.5f;
-                clClasificacion1.BorderWidthBottom = 0.5f;
-                clClasificacion1.HorizontalAlignment = 1;
-
-                PdfPCell clClasificacion2 = new PdfPCell(new Phrase("Clasificacion 2", _standardFont));
-                clClasificacion2.BorderWidth = 0.5f;
-                clClasificacion2.BorderWidthBottom = 0.5f;
-                clClasificacion2.HorizontalAlignment = 1;
-
-
-                lista_cuentas = cuentas;
-                for (int k = 0; k < lista_cuentas.Count; k++)
-                {
-                    // Añadimos las celdas a la tabla
-                    tabla_cuentas.AddCell(clFecha);
-                    tabla_cuentas.AddCell(clFolio);
-                    tabla_cuentas.AddCell(clRzSocial);
-                    tabla_cuentas.AddCell(clCodigo);
-                    tabla_cuentas.AddCell(climporte);
-                    tabla_cuentas.AddCell(clIva);
-                    tabla_cuentas.AddCell(clTotal);
-                    tabla_cuentas.AddCell(clPendiente);
-                    tabla_cuentas.AddCell(clClasificacion1);
-                    tabla_cuentas.AddCell(clClasificacion2);
-
-                    clFecha = new PdfPCell(new Phrase(lista_cuentas[k].fecha));
-                    clFecha.BorderWidth = 0.5f;
-                    clFecha.HorizontalAlignment = 1;
-
-                    clFolio = new PdfPCell(new Phrase(lista_cuentas[k].folio));
-                    clFolio.BorderWidth = 0.5f;
-                    clFolio.HorizontalAlignment = 1;
-
-                    clRzSocial = new PdfPCell(new Phrase(lista_cuentas[k].Proveedor, _smallFont));
-                    clRzSocial.BorderWidth = 0.5f;
-                    clRzSocial.HorizontalAlignment = 1;
-
-                    clCodigo = new PdfPCell(new Phrase(lista_cuentas[k].Proveedor_codigo, _smallFont));
-                    clCodigo.BorderWidth = 0.5f;
-                    clCodigo.HorizontalAlignment = 1;
-
-                    climporte = new PdfPCell(new Phrase(lista_cuentas[k].Subtotal.ToString(), _smallFont));
-                    climporte.BorderWidth = 0.5f;
-                    climporte.HorizontalAlignment = 1;
-
-                    clIva = new PdfPCell(new Phrase(lista_cuentas[k].IVA.ToString(), _smallFont));
-                    clIva.BorderWidth = 0.5f;
-                    clIva.HorizontalAlignment = 1;
-
-                    clTotal = new PdfPCell(new Phrase(lista_cuentas[k].Total.ToString(), _smallFont));
-                    clTotal.BorderWidth = 0.5f;
-                    clTotal.HorizontalAlignment = 1;
-
-                    // ******* AQUI SE ASIGNA EL PENDIENTE ******
-                    clPendiente = new PdfPCell(new Phrase(lista_cuentas[k].Total.ToString(), _smallFont));  //  clPendiente = new PdfPCell(new Phrase(lista_cuentas[k].Total.ToString(), _smallFont));
-                    clPendiente.BorderWidth = 0.5f;
-                    clPendiente.HorizontalAlignment = 1;
-
-                    clClasificacion1 = new PdfPCell(new Phrase(lista_cuentas[k].Clasificacion_1_proveedor, _smallFont));
-                    clClasificacion1.BorderWidth = 0.5f;
-                    clClasificacion1.HorizontalAlignment = 1;
-
-                    clClasificacion2 = new PdfPCell(new Phrase(lista_cuentas[k].Clasificacion_2_proveedor, _smallFont));
-                    clClasificacion2.BorderWidth = 0.5f;
-                    clClasificacion2.HorizontalAlignment = 1;
-                }//for
-
-
-                // Añadimos las celdas a la tabla
-
-                tabla_cuentas.AddCell(clFecha);
-                tabla_cuentas.AddCell(clFolio);
-                tabla_cuentas.AddCell(clRzSocial);
-                tabla_cuentas.AddCell(clCodigo);
-                tabla_cuentas.AddCell(climporte);
-                tabla_cuentas.AddCell(clIva);
-                tabla_cuentas.AddCell(clTotal);
-                tabla_cuentas.AddCell(clPendiente);
-                tabla_cuentas.AddCell(clClasificacion1);
-                tabla_cuentas.AddCell(clClasificacion2);
-
-                //agrego la tabla al pdf
-                doc.Add(tabla_cuentas);
-
-                #endregion
-
-                doc.Add(new Paragraph("\n"));
-                //***********************************************
-                //*******TITULO CXP
-                PdfPTable tabla_cuentastitulo1 = new PdfPTable(1);
-                tabla_cuentastitulo1.WidthPercentage = 100;
-                PdfPCell clTitul1 = new PdfPCell(new Phrase("      CXP      ", _standardFont1));
-                clTitul1.BorderWidth = 0.5f;
-                clTitul1.BorderWidthBottom = 0.75f;
-                clTitul1.HorizontalAlignment = 1;
-                clTitul1.PaddingBottom = 10;
-                clTitul1.PaddingTop = 5;
-                clTitul1.BackgroundColor = new BaseColor(70, 163, 255);
-                tabla_cuentastitulo1.AddCell(clTitul1);
-
-                doc.Add(tabla_cuentastitulo1);
-
-                /************************************************************/
-                /************************************************************/
-                /************************************************************/
-                #region   /********SEGUNDA TABLA************/
-
-
-
-                PdfPTable tabla_cuentas_por_pagar = new PdfPTable(3);
-                tabla_cuentas_por_pagar.WidthPercentage = 100;
-
-                // Configuramos el título de las columnas de la tabla
-                PdfPCell clFechaCXP = new PdfPCell(new Phrase("Fecha", _standardFont));
-                clFechaCXP.BorderWidth = 0;
-                clFechaCXP.BorderWidthBottom = 0.75f;
-                clFechaCXP.HorizontalAlignment = 1;
-
-
-                PdfPCell clPendienteCXP = new PdfPCell(new Phrase("Pendiente", _standardFont));
-                clPendienteCXP.BorderWidth = 0;
-                clPendienteCXP.BorderWidthBottom = 0.75f;
-                clPendienteCXP.HorizontalAlignment = 1;
-
-                PdfPCell clCXP = new PdfPCell(new Phrase("CXP", _standardFont));
-                clCXP.BorderWidth = 0;
-                clCXP.BorderWidthBottom = 0.75f;
-                clCXP.HorizontalAlignment = 1;
-
-
-
-
-                lista_cuentas = cuentas;
-                float CXP = 0;
-
-                for (int k = 0; k < lista_cuentas.Count; k++)
-                {
-                    // Añadimos las celdas a la tabla
-                    tabla_cuentas_por_pagar.AddCell(clFechaCXP);
-                    tabla_cuentas_por_pagar.AddCell(clPendienteCXP);
-                    tabla_cuentas_por_pagar.AddCell(clCXP);
-
-                    clFechaCXP = new PdfPCell(new Phrase(lista_cuentas[k].fecha, _standardFont));
-                    clFechaCXP.BorderWidth = 0;
-                    clFechaCXP.HorizontalAlignment = 1;
-                    if (k % 2 == 0)
-                        clFechaCXP.BackgroundColor = new BaseColor(159, 207, 255);
-
-                    // ******* AQUI SE ASIGNA EL PENDIENTE ******
-                    clPendienteCXP = new PdfPCell(new Phrase(lista_cuentas[k].Total.ToString(), _standardFont));// clPendienteCXP = new PdfPCell(new Phrase(lista_cuentas[k].Total.ToString(), _standardFont));
-                    clPendienteCXP.BorderWidth = 0;
-                    clPendienteCXP.HorizontalAlignment = 1;
-                    if (k % 2 == 0)
-                        clPendienteCXP.BackgroundColor = new BaseColor(159, 207, 255);
-
-                    /**se hace la cuenta de CXP**/
-                    CXP = CXP + lista_cuentas[k].Total;
-                    clCXP = new PdfPCell(new Phrase(CXP.ToString(), _standardFont));
-                    clCXP.BorderWidth = 0;
-                    clCXP.HorizontalAlignment = 1;
-                    if (k % 2 == 0)
-                        clCXP.BackgroundColor = new BaseColor(159, 207, 255);
-
-                }//for
-
-
-                // Añadimos las celdas a la tabla
-                tabla_cuentas_por_pagar.AddCell(clFechaCXP);
-                tabla_cuentas_por_pagar.AddCell(clPendienteCXP);
-                tabla_cuentas_por_pagar.AddCell(clCXP);
-                #endregion
-                //agrego la tabla al pdf
-                doc.Add(tabla_cuentas_por_pagar);
-                doc.Add(new Paragraph("\n"));
-            #endregion
-
-                /************************************************************/
-                /************************************************************/
-                /************************************************************/
-                #region COPRAS POR DIA POR MES
-
-
-
-                doc.Add(new Paragraph("(1) Reporte Compras por Dia por Mes", _titulos));
-                doc.Add(new Paragraph("\n"));
-
-
-
-
-
-
-
-                #region   /********TABLA************/
-
-                lista_cuentas = cuentas;
-                DateTime fecha_inicial;//fecha inicial
-                DateTime fecha_final;// fecha final
-
-                //lista_cuentas.Sort(delegate(Tipos_Dato.CuentasXPagar x, Tipos_Dato.CuentasXPagar y)
-                //{
-                //    if (x.Fecha == null && y.Fecha == null) return 0;
-                //    else if (x.Fecha == null) return -1;
-                //    else if (y.Fecha == null) return 1;
-                //    else return x.Fecha.CompareTo(y.Fecha);
-                //});
-
-                string fecha_Actual;//fecha en la que se encuentra actualmente el temporal 
-                string[] fecha = fechas.Split('-');
-                fecha_inicial = Convert.ToDateTime(fecha[0], new CultureInfo("es-ES"));
-                fecha_final = Convert.ToDateTime(fecha[1], new CultureInfo("es-ES"));
-                //MessageBox.Show("Fecha  inicial " + fecha_inicial);
-                //MessageBox.Show("Fecha  final " + fecha_final);
-
-                instance_graficas.InitializeChart();//inicializar la graficacion de las tablas 
-                int dia = 0;//dias en los que avanza la fecha temporal 
-                DateTime tmp = fecha_inicial;// fecha temporal que ira aumentado hasta llegar a la fecha final 
-                string band = ""; // bandera para saber si los datos de un mes ya estan impresos en el reporte 
-
-                // imprime las tablas de cada mes 
-                //MessageBox.Show("antes del while");
-                while (tmp <= fecha_final)// mientras la fecha temporal es menor que la fecha final se incrementa de un dia en un dia hasta llegar a la fecha final 
-                {
-                    //MessageBox.Show("despues  del while");
-                    PdfPTable tabla_cuentas_por_pagar1 = new PdfPTable(2); //        tabla_cuentas_por_pagar
-                    tabla_cuentas_por_pagar1.WidthPercentage = 100;
-                    // Configuramos el título de las columnas de la tabla
-                    PdfPCell clFecha1 = new PdfPCell(new Phrase("Fecha", _standardFont));
-                    clFecha1.BorderWidth = 0;
-                    clFecha1.BorderWidthBottom = 0.75f;
-                    PdfPCell clCompra = new PdfPCell(new Phrase("Compras por día " + mes[tmp.Month - 1], _standardFont));
-                    clCompra.BorderWidth = 0;
-                    clCompra.BorderWidthBottom = 0.75f;
-                    fecha_Actual = tmp.Month.ToString();
-
-                    // agrega las cabeceras a la tablas             
-                    tabla_cuentas_por_pagar1.AddCell(clFecha1);
-                    tabla_cuentas_por_pagar1.AddCell(clCompra);
-
-
-                    for (int i = 0; i < lista_cuentas.Count; i++)// for 1
-                    {
-                        string[] words = lista_cuentas[i].fecha.Split(' ');
-                        string[] words2 = words[0].Split('/');
-                        //MessageBox.Show("dia "+words2[0] + " == " + tmp.Day);//Dia
-                        //MessageBox.Show("mes "+words2[1] + " == " + tmp.Month);//mes
-                        //MessageBox.Show("año "+words2[2] + " == " + tmp.Year);//año
-                        if (int.Parse(words2[0]) == tmp.Day && int.Parse(words2[1]) == tmp.Month && int.Parse(words2[2]) == tmp.Year && band != fecha_Actual)// TRABAJO EN EL MES ACTUAL MIENTRAS NO SE HAYA IMPRESO ANTES 
-                        {
-
-                            instance_graficas.LoadBarChart_compras_dia(lista_cuentas, fecha_Actual);
-
-                            // HACE LA GRAFICA CORRESPONDIENTE A ESE MES 
-
-                            for (int k = 0; k < lista_cuentas.Count; k++)// for 2
-                            {
-                                //MessageBox.Show("" + lista_cuentas[k].Mes);
-                                //MessageBox.Show("" + fecha_Actual);
-
-                                if (Convert.ToInt32(words2[1]) == Convert.ToInt32(fecha_Actual)) // SI LA FECHA COINCIDE CON MES IMPRIMIR  LOS DATOS CORRESPONDIENTES A ESE MES 
-                                {
-                                    //   MessageBox.Show("condicion");
-
-                                    clFecha1 = new PdfPCell(new Phrase(lista_cuentas[k].fecha, _standardFont));
-                                    clFecha1.BorderWidth = 0;
-
-                                    clCompra = new PdfPCell(new Phrase(lista_cuentas[k].Total.ToString(), _standardFont));
-                                    clCompra.BorderWidth = 0;
-                                    // Añadimos las celdas  con la informacion a la tabla
-                                    tabla_cuentas_por_pagar1.AddCell(clFecha1);
-                                    tabla_cuentas_por_pagar1.AddCell(clCompra);
-                                }
-
-                            }//for 2
-
-                            //31_03_2014-06_05_2014  
-                            #region agregar imagen
-
-                            string imageFilePath = @"C:\chart.png";
-                            iTextSharp.text.Image jpg1 = iTextSharp.text.Image.GetInstance(imageFilePath);
-
-                            //jpg.ScaleToFit(wdthfoto, heighfoto);
-                            jpg1.WidthPercentage = 100;
-                            jpg1.Alignment = Element.ALIGN_RIGHT;
-
-                            #endregion
-
-
-
-
-
-
-
-                            PdfPTable tabla_parrafo = new PdfPTable(2);
-                            tabla_parrafo.WidthPercentage = 100;
-
-                            PdfPCell cl1 = new PdfPCell(tabla_cuentas_por_pagar1);
-                            cl1.BorderWidth = 0;
-                            cl1.BorderWidthBottom = 0;
-
-                            PdfPCell cl2 = new PdfPCell(jpg1);//imagen
-                            cl2.BorderWidth = 0;
-                            cl2.BorderWidthBottom = 0;
-                            cl2.MinimumHeight = 250f;
-                            cl2.FixedHeight = 250f;
-
-                            tabla_parrafo.AddCell(cl1);
-                            tabla_parrafo.AddCell(cl2);
-                            // cierro la edicion del pdf
-                            doc.Add(tabla_parrafo);
-                            doc.Add(new Paragraph("\n"));
-                            doc.Add(new Paragraph("\n"));
-
-
-                            band = fecha_Actual;// ya se imprimio el mes 
-                        }// if 
-
-
-
-                    }// for 1
-
-                    dia++;//cantidad de dias de avanza la fecha 
-                    tmp = fecha_inicial.AddDays(dia);//avanza la fecha temporal 1 dia 
-                }
-                #endregion
-                #endregion
-
-                /************************************************************/
-                /************************************************************/
-                /************************************************************/
-                #region COMPRAS POR SEMANA
-
-                doc.Add(new Paragraph("(2) Reporte Compras por Semana", _titulos));
-                doc.Add(new Paragraph("\n"));
-
-                #region   /********TABLA************/
-
-                lista_cuentas = cuentas;
-                asignar_semana();
-
-                instance_graficas.InitializeChart();//inicializar la graficacion de las tablas 
-                dia = 0;//dias en los que avanza la fecha temporal 
-                tmp = fecha_inicial;// fecha temporal que ira aumentado hasta llegar a la fecha final 
-                band = ""; // bandera para saber si los datos de un mes ya estan impresos en el reporte 
-
-
-                tabla_cuentas_por_pagar = new PdfPTable(3); //        tabla_cuentas_por_pagar
-                tabla_cuentas_por_pagar.WidthPercentage = 100;
-                // Configuramos el título de las columnas de la tabla
-                clFecha = new PdfPCell(new Phrase("Fecha", _standardFont));
-                clFecha.BorderWidth = 0;
-                clFecha.BorderWidthBottom = 0.75f;
-                PdfPCell clSemana = new PdfPCell(new Phrase("Semana", _standardFont));
-                clSemana.BorderWidth = 0;
-                clSemana.BorderWidthBottom = 0.75f;
-                PdfPCell clComprad = new PdfPCell(new Phrase("Compras por día", _standardFont));
-                clComprad.BorderWidth = 0;
-                clComprad.BorderWidthBottom = 0.75f;
-                fecha_Actual = tmp.Month.ToString();
-
-                // Añadimos las cabeceras a la tabla
-                tabla_cuentas_por_pagar.AddCell(clFecha);
-                tabla_cuentas_por_pagar.AddCell(clSemana);
-                tabla_cuentas_por_pagar.AddCell(clComprad);
-
-                // imprime las tablas de cada mes 
-                while (tmp <= fecha_final)// mientras la fecha temporal es menor que la fecha final se incrementa de un dia en un dia hasta llegar a la fecha final 
-                {
-
-
-                    for (int i = 0; i < lista_cuentas.Count; i++)
-                    {
-
-                        string[] words = lista_cuentas[i].fecha.Split(' ');
-                        string[] words2 = words[0].Split('/');
-                        if (int.Parse(words2[0]) == tmp.Day && int.Parse(words2[1]) == tmp.Month && int.Parse(words2[2]) == tmp.Year)// && band != fecha_Actual)// TRABAJO EN EL MES ACTUAL MIENTRAS NO SE HAYA IMPRESO ANTES 
-                        {
-                            clFecha = new PdfPCell(new Phrase(lista_cuentas[i].fecha, _standardFont));
-                            clFecha.BorderWidth = 0;
-
-                            /****calcula la semana****/
-                            DateTime date = new DateTime(tmp.Year, tmp.Month, tmp.Day);
-                            System.Globalization.CultureInfo norwCulture =
-                            System.Globalization.CultureInfo.CreateSpecificCulture("es");
-                            System.Globalization.Calendar cal = norwCulture.Calendar;
-                            int weekNo = cal.GetWeekOfYear(date,
-                            norwCulture.DateTimeFormat.CalendarWeekRule,
-                            norwCulture.DateTimeFormat.FirstDayOfWeek);
-                            // Show the result
-                            clSemana = new PdfPCell(new Phrase(weekNo.ToString()));
-                            clSemana.BorderWidth = 0;
-                            /*********************/
-
-                            clComprad = new PdfPCell(new Phrase(lista_cuentas[i].Total.ToString(), _standardFont));
-                            clComprad.BorderWidth = 0;
-
-                            // Añadimos la informacion  a la tabla
-                            tabla_cuentas_por_pagar.AddCell(clFecha);
-                            tabla_cuentas_por_pagar.AddCell(clSemana);
-                            tabla_cuentas_por_pagar.AddCell(clComprad);
-
-                            band = fecha_Actual;// ya se imprimio el mes 
-                        }
-
-                    }
-
-                    dia++;//cantidad de dias de avanza la fecha 
-                    tmp = fecha_inicial.AddDays(dia);//avanza la fecha temporal 1 dia 
-                }
-
-
-                instance_graficas.LoadBarChart_ComprasPorSemana(lista_cuentas, fechas);
-
-                #region agregar imagen
-
-                string imageFilePaths = @"C:\chart.png";
-                iTextSharp.text.Image jpg = iTextSharp.text.Image.GetInstance(imageFilePaths);
-
-                //jpg.ScaleToFit(wdthfoto, heighfoto);
-                jpg.WidthPercentage = 100;
-                jpg.Alignment = Element.ALIGN_RIGHT;
-
-                #endregion
-
-                PdfPTable tabla_parrafod = new PdfPTable(2);
-                tabla_parrafod.WidthPercentage = 100;
-
-                PdfPCell cl1d = new PdfPCell(tabla_cuentas_por_pagar);
-                cl1d.BorderWidth = 0;
-                cl1d.BorderWidthBottom = 0;
-
-                PdfPCell cl2s = new PdfPCell(jpg);
-                cl2s.BorderWidth = 0;
-                cl2s.BorderWidthBottom = 0;
-                cl2s.MinimumHeight = 250f;
-                cl2s.FixedHeight = 250f;
-
-                tabla_parrafod.AddCell(cl1d);
-                tabla_parrafod.AddCell(cl2s);
-                //cierro la edicion del pdf
-                doc.Add(tabla_parrafod);
-                #endregion
-
-                #endregion
-
-
-                /************************************************************/
-                /************************************************************/
-                /************************************************************/
-                #region compras por mes
-                doc.Add(new Paragraph("(3) Reporte Compras por Mes", _titulos));
-                doc.Add(new Paragraph("\n"));
-
-
-
-
-
-
-
-                #region   /********TABLA************/
-
-                lista_cuentas = cuentas;
-
-
-                instance_graficas.InitializeChart();//inicializar la graficacion de las tablas 
-
-
-
-                tabla_cuentas_por_pagar = new PdfPTable(2); //        tabla_cuentas_por_pagar
-                tabla_cuentas_por_pagar.WidthPercentage = 100;
-                // Configuramos el título de las columnas de la tabla
-                clFecha = new PdfPCell(new Phrase("Mes", _standardFont));
-                clFecha.BorderWidth = 0;
-                clFecha.BorderWidthBottom = 0.75f;
-
-                PdfPCell clComprads = new PdfPCell(new Phrase("Compras por Mes", _standardFont));
-                clComprads.BorderWidth = 0;
-                clComprads.BorderWidthBottom = 0.75f;
-
-
-                // Añadimos las cabeceras a la tabla
-                tabla_cuentas_por_pagar.AddCell(clFecha);
-                tabla_cuentas_por_pagar.AddCell(clComprads);
-                float total_mes = 0;
-                // imprime las tablas de cada mes 
-                for (int j = 0; j < 12; j++)
-                {
-
-
-                    for (int i = 0; i < lista_cuentas.Count; i++)
-                    {
-                        string[] words = lista_cuentas[i].fecha.Split(' ');//separa la fecha de la hora
-                        string[] words2 = words[0].Split('/');//separa la fecha en [dia]/[mes]/[año]
-                        if (int.Parse(words2[1]) == j + 1)// mes
-                        {
-                            total_mes = total_mes + lista_cuentas[i].Total;
-                        }
-
-                    }
-                    clFecha = new PdfPCell(new Phrase(mes[j], _standardFont));
-                    clFecha.BorderWidth = 0;
-
-                    clComprads = new PdfPCell(new Phrase(total_mes.ToString(), _standardFont));
-                    clComprads.BorderWidth = 0;
-
-                    // Añadimos la informacion  a la tabla
-                    tabla_cuentas_por_pagar.AddCell(clFecha);
-
-                    tabla_cuentas_por_pagar.AddCell(clComprads);
-                    total_mes = 0;
-
-                }
-
-
-                instance_graficas.LoadBarChart_ComprasPorMes(lista_cuentas);
-                //31_03_2014-06_05_2014  
-                #region agregar imagen
-
-                string imageFilePathsd = @"C:\chart.png";
-                jpg = iTextSharp.text.Image.GetInstance(imageFilePathsd);
-
-                //jpg.ScaleToFit(wdthfoto, heighfoto);
-                jpg.WidthPercentage = 100;
-                jpg.Alignment = Element.ALIGN_RIGHT;
-
-                #endregion
-
-                PdfPTable tabla_parrafosd = new PdfPTable(2);
-                tabla_parrafosd.WidthPercentage = 100;
-
-                PdfPCell cl1sd = new PdfPCell(tabla_cuentas_por_pagar);
-                cl1sd.BorderWidth = 0;
-                cl1sd.BorderWidthBottom = 0;
-
-                PdfPCell cl2sd = new PdfPCell(jpg);//imagen 
-                cl2sd.BorderWidth = 0;
-                cl2sd.BorderWidthBottom = 0;
-                cl2sd.MinimumHeight = 250f;
-                cl2sd.FixedHeight = 250f;
-
-                tabla_parrafosd.AddCell(cl1sd);
-                tabla_parrafosd.AddCell(cl2sd);
-                //cierro la edicion del pdf
-                doc.Add(tabla_parrafosd);
-                #endregion
-                #endregion
-                /************************************************************/
-                /************************************************************/
-                /************************************************************/
-
-                #region Clasificacion1 Proveedores  GRAFICAS
-                //MessageBox.Show("crear gradicas");
-                creaGraficasClasificacion1Proveedores();
-                //MessageBox.Show("acabo de crear  gradicas");
-                doc.Add(new Paragraph("(4) Reporte Compras Mensuales por clasificación 1 Proveedores", _titulos));
-                doc.Add(new Paragraph("\n"));
-
-                //MessageBox.Show("metio reporte");
-
-
-
-                // iTextSharp.text.Image jpg;
-                //MessageBox.Show("antes del for");
-                for (int i = 0; i < PDFProveedoresClasificacion1.Count; i++)
-                {
-
-
-                    #region   /********SEGUNDA TABLA************/
-
-
-                    //MessageBox.Show("primer tabla");
-                    PdfPTable tabla_cuentas_por_pagar1 = new PdfPTable(2); //        tabla_cuentas_por_pagar
-                    tabla_cuentas_por_pagar1.WidthPercentage = 100;
-
-                    //MessageBox.Show("titulois1");
-                    // Configuramos el título de las columnas de la tabla
-                    PdfPCell clFecha1 = new PdfPCell(new Phrase("Fecha", _standardFont));
-                    clFecha1.BorderWidth = 0;
-                    clFecha1.BorderWidthBottom = 0.75f;
-                    //MessageBox.Show("titulois2");
-                    PdfPCell clCompra = new PdfPCell(new Phrase("Compras por dia (" + PDFProveedoresClasificacion1[i].Clasificacion1.TrimEnd(' ') + ")", _standardFont));
-                    clCompra.BorderWidth = 0;
-                    clCompra.BorderWidthBottom = 0.75f;
-
-                    tabla_cuentas_por_pagar1.AddCell(clFecha1);
-                    tabla_cuentas_por_pagar1.AddCell(clCompra);
-                    int meselegido = 0;
-                    //MessageBox.Show("segundo for");
-                    for (int l = 1; l < 13; l++)
-                    {
-                        meselegido = 0;
-
-                        for (int j = 0; j < PDFProveedoresClasificacion1[i].compras.Count; j++)
-                        {
-
-                            //MessageBox.Show("dentro segundo for");
-                            // List<ComprasMensualesXClasificacion> lista_cuentas = cuentas[i].compras;
-                            //for (int k = 0; k < lista_cuentas.Count; k++)
-                            //{
-                            // Añadimos las celdas a la tabla
-
-                            if (l == Convert.ToInt32(PDFProveedoresClasificacion1[i].compras[j].Mes))
-                            {
-                                //MessageBox.Show("sgrega fecha");
-                                clFecha = new PdfPCell(new Phrase(mes[Convert.ToInt32(PDFProveedoresClasificacion1[i].compras[j].Mes) - 1], _standardFont));
-                                clFecha.BorderWidth = 0;
-
-                                //MessageBox.Show("sgrega total");
-                                clCompra = new PdfPCell(new Phrase(PDFProveedoresClasificacion1[i].compras[j].total.ToString(), _standardFont));
-                                clCompra.BorderWidth = 0;
-
-                                tabla_cuentas_por_pagar1.AddCell(clFecha);
-                                tabla_cuentas_por_pagar1.AddCell(clCompra);
-                                meselegido = 1;
-                                break;
-                            }// }//for
-                        }
-                        if (meselegido == 0)
-                        {
-                            clFecha = new PdfPCell(new Phrase(mes[l - 1], _standardFont));
-                            clFecha.BorderWidth = 0;
-
-                            //MessageBox.Show("sgrega total");
-                            clCompra = new PdfPCell(new Phrase("0", _standardFont));
-                            clCompra.BorderWidth = 0;
-
-                            tabla_cuentas_por_pagar1.AddCell(clFecha);
-                            tabla_cuentas_por_pagar1.AddCell(clCompra);
-                        }
-                    }
-                    //MessageBox.Show("añadelos");
-                    // Añadimos las celdas a la tabla
-                    //tabla_cuentas_por_pagar1.AddCell(clFecha);
-                    //tabla_cuentas_por_pagar1.AddCell(clCompra);
-
-                    #endregion
-
-                    #region agregar imagen
-                    //MessageBox.Show("saza imagenes");
-                    string imageFilePath = @"C:\" + PDFProveedoresClasificacion1[i].nombreimagen + ".png";
-                    jpg = iTextSharp.text.Image.GetInstance(imageFilePath);
-
-                    // jpg.ScaleToFit(wdthfoto, heighfoto);//130
-                    jpg.WidthPercentage = 100;
-                    jpg.Alignment = Element.ALIGN_RIGHT;
-                    //MessageBox.Show("acxtualizoc imagenes");
-                    #endregion
-
-                    PdfPTable tabla_parrafo = new PdfPTable(2);
-                    tabla_parrafo.WidthPercentage = 100;
-
-
-                    PdfPCell cl1 = new PdfPCell(tabla_cuentas_por_pagar1);
-                    cl1.BorderWidth = 0;
-                    cl1.BorderWidthBottom = 0;
-
-                    PdfPCell cl2 = new PdfPCell(jpg);
-                    cl2.BorderWidth = 0;
-                    cl2.BorderWidthBottom = 0;
-                    cl2.MinimumHeight = 250f;
-                    cl2.FixedHeight = 250f;
-
-                    tabla_parrafo.AddCell(cl1);
-                    tabla_parrafo.AddCell(cl2);
-
-                    doc.Add(tabla_parrafo);
-                    doc.Add(new Paragraph("\n"));
-                    doc.Add(new Paragraph("\n"));
-                    doc.Add(new Paragraph("\n"));
-                }
-                //cierro la edicion del pdf
-
-                #endregion
-
-                /************************************************************/
-                /************************************************************/
-                /************************************************************/
-
-                #region Clasificacion2 Proveedores  GRAFICAS
-                //MessageBox.Show("crear gradicas");
-                creaGraficasClasificacion2Proveedores();
-                //MessageBox.Show("acabo de crear  gradicas");
-                doc.Add(new Paragraph("(5) Reporte Compras Mensuales por clasificación 2 Proveedores", _titulos));
-                doc.Add(new Paragraph("\n"));
-
-                //MessageBox.Show("metio reporte");
-
-
-
-                //iTextSharp.text.Image jpg;
-                //MessageBox.Show("antes del for");
-                for (int i = 0; i < PDFProveedoresClasificacion2.Count; i++)
-                {
-
-
-                    #region   /********SEGUNDA TABLA************/
-
-
-                    //MessageBox.Show("primer tabla");
-                    PdfPTable tabla_cuentas_por_pagar1 = new PdfPTable(2); //        tabla_cuentas_por_pagar
-                    tabla_cuentas_por_pagar1.WidthPercentage = 100;
-
-                    //MessageBox.Show("titulois1");
-                    // Configuramos el título de las columnas de la tabla
-                    PdfPCell clFecha1 = new PdfPCell(new Phrase("Fecha", _standardFont));
-                    clFecha1.BorderWidth = 0;
-                    clFecha1.BorderWidthBottom = 0.75f;
-                    //MessageBox.Show("titulois2");
-                    PdfPCell clCompra = new PdfPCell(new Phrase("Compras por dia (" + PDFProveedoresClasificacion2[i].Clasificacion2.TrimEnd(' ') + ")", _standardFont));
-                    clCompra.BorderWidth = 0;
-                    clCompra.BorderWidthBottom = 0.75f;
-                    tabla_cuentas_por_pagar1.AddCell(clFecha1);
-                    tabla_cuentas_por_pagar1.AddCell(clCompra);
-                    int meselegido = 0;
-                    for (int l = 1; l < 13; l++)
-                    {
-                        meselegido = 0;
-                        //MessageBox.Show("segundo for");
-                        for (int j = 0; j < PDFProveedoresClasificacion2[i].compras.Count; j++)
-                        {
-
-                            //MessageBox.Show("dentro segundo for");
-                            // List<ComprasMensualesXClasificacion> lista_cuentas = cuentas[i].compras;
-                            //for (int k = 0; k < lista_cuentas.Count; k++)
-                            //{
-                            // Añadimos las celdas a la tabla
-
-                            if (l == Convert.ToInt32(PDFProveedoresClasificacion2[i].compras[j].Mes))
-                            {
-                                //MessageBox.Show("sgrega fecha");
-                                clFecha1 = new PdfPCell(new Phrase(mes[Convert.ToInt32(PDFProveedoresClasificacion2[i].compras[j].Mes) - 1], _standardFont));
-                                clFecha1.BorderWidth = 0;
-
-                                //MessageBox.Show("sgrega total");
-                                clCompra = new PdfPCell(new Phrase(PDFProveedoresClasificacion2[i].compras[j].total.ToString(), _standardFont));
-                                clCompra.BorderWidth = 0;
-
-                                tabla_cuentas_por_pagar1.AddCell(clFecha1);
-                                tabla_cuentas_por_pagar1.AddCell(clCompra);
-                                // }//for
-                                meselegido = 1;
-                                break;
-                            }
-                        }
-                        if (meselegido == 0)
-                        {
-                            clFecha1 = new PdfPCell(new Phrase(mes[l - 1], _standardFont));
-                            clFecha1.BorderWidth = 0;
-
-                            //MessageBox.Show("sgrega total");
-                            clCompra = new PdfPCell(new Phrase("0", _standardFont));
-                            clCompra.BorderWidth = 0;
-
-                            tabla_cuentas_por_pagar1.AddCell(clFecha1);
-                            tabla_cuentas_por_pagar1.AddCell(clCompra);
-                        }
-                    }
-
-                    //MessageBox.Show("añadelos");
-                    // Añadimos las celdas a la tabla
-                    //tabla_cuentas_por_pagar1.AddCell(clFecha1);
-                    //tabla_cuentas_por_pagar1.AddCell(clCompra);
-
-                    #endregion
-
-                    #region agregar imagen
-                    //MessageBox.Show("saza imagenes");
-                    string imageFilePath = @"C:\" + PDFProveedoresClasificacion2[i].nombreimagen + ".png";
-                    jpg = iTextSharp.text.Image.GetInstance(imageFilePath);
-
-                    //jpg.ScaleToFit(wdthfoto, heighfoto);//130
-                    jpg.WidthPercentage = 100;
-                    jpg.Alignment = Element.ALIGN_RIGHT;
-                    //MessageBox.Show("acxtualizoc imagenes");
-                    #endregion
-
-                    PdfPTable tabla_parrafo = new PdfPTable(2);
-                    tabla_parrafo.WidthPercentage = 100;
-
-
-                    PdfPCell cl1 = new PdfPCell(tabla_cuentas_por_pagar1);
-                    cl1.BorderWidth = 0;
-                    cl1.BorderWidthBottom = 0;
-
-                    PdfPCell cl2 = new PdfPCell(jpg);
-                    cl2.BorderWidth = 0;
-                    cl2.BorderWidthBottom = 0;
-                    cl2.MinimumHeight = 250f;
-                    cl2.FixedHeight = 250f;
-
-                    tabla_parrafo.AddCell(cl1);
-                    tabla_parrafo.AddCell(cl2);
-
-                    doc.Add(tabla_parrafo);
-                    doc.Add(new Paragraph("\n"));
-                    doc.Add(new Paragraph("\n"));
-                    doc.Add(new Paragraph("\n"));
-                }
-                //cierro la edicion del pdf
-
-                #endregion
-
-                /*************************************************************************/
-                /*************************************************************************/
-                /*************************************************************************/
-
-                #region Clasificacion1 Productos  GRAFICAS
-                //MessageBox.Show("crear gradicas");
-                CreargraficasClasificacion1productos();
-                //MessageBox.Show("acabo de crear  gradicas");
-                doc.Add(new Paragraph("(6) Reporte Compras Mensuales por clasificación 1 Productos", _titulos));
-                doc.Add(new Paragraph("\n"));
-
-                //MessageBox.Show("metio reporte");
-
-
-
-                //iTextSharp.text.Image jpg;
-                //MessageBox.Show("antes del for");
-                for (int i = 0; i < PDFProveedoresClasificacion1Productos.Count; i++)
-                {
-
-
-                    #region   /********SEGUNDA TABLA************/
-
-
-                    //MessageBox.Show("primer tabla");
-                    PdfPTable tabla_cuentas_por_pagar1 = new PdfPTable(2); //        tabla_cuentas_por_pagar
-                    tabla_cuentas_por_pagar1.WidthPercentage = 100;
-
-                    //MessageBox.Show("titulois1");
-                    // Configuramos el título de las columnas de la tabla
-                    PdfPCell clFecha1 = new PdfPCell(new Phrase("Fecha", _standardFont));
-                    clFecha1.BorderWidth = 0;
-                    clFecha1.BorderWidthBottom = 0.75f;
-                    //MessageBox.Show("titulois2");
-                    PdfPCell clCompra = new PdfPCell(new Phrase("Compras por dia (" + PDFProveedoresClasificacion1Productos[i].Clasificacion1.TrimEnd(' ') + ")", _standardFont));
-                    clCompra.BorderWidth = 0;
-                    clCompra.BorderWidthBottom = 0.75f;
-                    tabla_cuentas_por_pagar1.AddCell(clFecha1);
-                    tabla_cuentas_por_pagar1.AddCell(clCompra);
-                    int meselegido = 0;
-                    for (int l = 1; l < 13; l++)
-                    {
-                        meselegido = 0;
-                        //MessageBox.Show("segundo for");
-                        for (int j = 0; j < PDFProveedoresClasificacion1Productos[i].compras.Count; j++)
-                        {
-
-                            //MessageBox.Show("dentro segundo for");
-                            // List<ComprasMensualesXClasificacion> lista_cuentas = cuentas[i].compras;
-                            //for (int k = 0; k < lista_cuentas.Count; k++)
-                            //{
-                            // Añadimos las celdas a la tabla
-
-
-                            if (l == Convert.ToInt32(PDFProveedoresClasificacion1Productos[i].compras[j].Mes))
-                            {
-                                //MessageBox.Show("sgrega fecha");
-                                clFecha1 = new PdfPCell(new Phrase(mes[Convert.ToInt32(PDFProveedoresClasificacion1Productos[i].compras[j].Mes) - 1], _standardFont));
-                                clFecha1.BorderWidth = 0;
-
-                                //MessageBox.Show("sgrega total");
-                                clCompra = new PdfPCell(new Phrase(PDFProveedoresClasificacion1Productos[i].compras[j].total.ToString(), _standardFont));
-                                clCompra.BorderWidth = 0;
-                                tabla_cuentas_por_pagar1.AddCell(clFecha1);
-                                tabla_cuentas_por_pagar1.AddCell(clCompra);
-                                meselegido = 1;
-                                break;
-                            }
-                            // }//for
-                        }
-                        if (meselegido == 0)
-                        {
-                            clFecha1 = new PdfPCell(new Phrase(mes[Convert.ToInt32(l - 1)], _standardFont));
-                            clFecha1.BorderWidth = 0;
-
-                            //MessageBox.Show("sgrega total");
-                            clCompra = new PdfPCell(new Phrase("0", _standardFont));
-                            clCompra.BorderWidth = 0;
-                            tabla_cuentas_por_pagar1.AddCell(clFecha1);
-                            tabla_cuentas_por_pagar1.AddCell(clCompra);
-                        }
-                    }
-                    //MessageBox.Show("añadelos");
-                    // Añadimos las celdas a la tabla
-                    //tabla_cuentas_por_pagar1.AddCell(clFecha1);
-                    //tabla_cuentas_por_pagar1.AddCell(clCompra);
-
-                    #endregion
-
-                    #region agregar imagen
-                    //MessageBox.Show("saza imagenes");
-                    string imageFilePath = @"C:\" + PDFProveedoresClasificacion1Productos[i].nombreimagen + ".png";
-                    jpg = iTextSharp.text.Image.GetInstance(imageFilePath);
-
-                    //jpg.ScaleToFit(wdthfoto, heighfoto);//130
-                    jpg.WidthPercentage = 100;
-                    jpg.Alignment = Element.ALIGN_RIGHT;
-                    //MessageBox.Show("acxtualizoc imagenes");
-                    #endregion
-
-                    PdfPTable tabla_parrafo = new PdfPTable(2);
-                    tabla_parrafo.WidthPercentage = 100;
-
-
-                    PdfPCell cl1 = new PdfPCell(tabla_cuentas_por_pagar1);
-                    cl1.BorderWidth = 0;
-                    cl1.BorderWidthBottom = 0;
-
-                    PdfPCell cl2 = new PdfPCell(jpg);
-                    cl2.BorderWidth = 0;
-                    cl2.BorderWidthBottom = 0;
-                    cl2.MinimumHeight = 250f;
-                    cl2.FixedHeight = 250f;
-
-                    tabla_parrafo.AddCell(cl1);
-                    tabla_parrafo.AddCell(cl2);
-
-                    doc.Add(tabla_parrafo);
-                    doc.Add(new Paragraph("\n"));
-                    doc.Add(new Paragraph("\n"));
-                    doc.Add(new Paragraph("\n"));
-                }
-                //cierro la edicion del pdf
-
-                #endregion
-                /*************************************************************************/
-                /*************************************************************************/
-                /*************************************************************************/
-                /*************************************************************************/
-                #region Clasificacion1 Productos  GRAFICAS
-                //MessageBox.Show("crear gradicas");
-                CrearGraficasCalsifiacion2Productos();
-                //MessageBox.Show("acabo de crear  gradicas");
-                doc.Add(new Paragraph("(7) Reporte Compras Mensuales por clasificación 2 Productos", _titulos));
-                doc.Add(new Paragraph("\n"));
-
-                //MessageBox.Show("metio reporte");
-
-
-
-                //iTextSharp.text.Image jpg;
-                //MessageBox.Show("antes del for");
-                for (int i = 0; i < PDFProveedoresClasificacion2Productos.Count; i++)
-                {
-
-
-                    #region   /********SEGUNDA TABLA************/
-
-
-                    //MessageBox.Show("primer tabla");
-                    PdfPTable tabla_cuentas_por_pagar1 = new PdfPTable(2); //        tabla_cuentas_por_pagar
-                    tabla_cuentas_por_pagar1.WidthPercentage = 100;
-
-                    //MessageBox.Show("titulois1");
-                    // Configuramos el título de las columnas de la tabla
-                    PdfPCell clFecha1 = new PdfPCell(new Phrase("Fecha", _standardFont));
-                    clFecha1.BorderWidth = 0;
-                    clFecha1.BorderWidthBottom = 0.75f;
-                    //MessageBox.Show("titulois2");
-                    PdfPCell clCompra = new PdfPCell(new Phrase("Compras por dia (" + PDFProveedoresClasificacion2Productos[i].Clasificacion2.TrimEnd(' ') + ")", _standardFont));
-                    clCompra.BorderWidth = 0;
-                    clCompra.BorderWidthBottom = 0.75f;
-                    tabla_cuentas_por_pagar1.AddCell(clFecha1);
-                    tabla_cuentas_por_pagar1.AddCell(clCompra);
-                    int meselegido = 0;
-                    for (int l = 1; l < 13; l++)
-                    {
-                        meselegido = 0;
-                        //MessageBox.Show("segundo for");
-                        for (int j = 0; j < PDFProveedoresClasificacion2Productos[i].compras.Count; j++)
-                        {
-
-                            //MessageBox.Show("dentro segundo for");
-                            // List<ComprasMensualesXClasificacion> lista_cuentas = cuentas[i].compras;
-                            //for (int k = 0; k < lista_cuentas.Count; k++)
-                            //{
-                            // Añadimos las celdas a la tabla
-
-                            if (l == Convert.ToInt32(PDFProveedoresClasificacion2Productos[i].compras[j].Mes))
-                            {
-                                //MessageBox.Show("sgrega fecha");
-                                clFecha1 = new PdfPCell(new Phrase(mes[Convert.ToInt32(PDFProveedoresClasificacion2Productos[i].compras[j].Mes) - 1], _standardFont));
-                                clFecha1.BorderWidth = 0;
-
-                                //MessageBox.Show("sgrega total");
-                                clCompra = new PdfPCell(new Phrase(PDFProveedoresClasificacion2Productos[i].compras[j].total.ToString(), _standardFont));
-                                clCompra.BorderWidth = 0;
-                                tabla_cuentas_por_pagar1.AddCell(clFecha1);
-                                tabla_cuentas_por_pagar1.AddCell(clCompra);
-                                meselegido = 1;
-                                break;
-                            }
-                            // }//for
-                        }
-                        if (meselegido == 0)
-                        {
-                            clFecha1 = new PdfPCell(new Phrase(mes[l - 1], _standardFont));
-                            clFecha1.BorderWidth = 0;
-
-                            //MessageBox.Show("sgrega total");
-                            clCompra = new PdfPCell(new Phrase("0", _standardFont));
-                            clCompra.BorderWidth = 0;
-                            tabla_cuentas_por_pagar1.AddCell(clFecha1);
-                            tabla_cuentas_por_pagar1.AddCell(clCompra);
-                        }
-                    }
-                    //MessageBox.Show("añadelos");
-                    // Añadimos las celdas a la tabla
-                    //tabla_cuentas_por_pagar1.AddCell(clFecha1);
-                    //tabla_cuentas_por_pagar1.AddCell(clCompra);
-
-                    #endregion
-
-                    #region agregar imagen
-                    //MessageBox.Show("saza imagenes");
-                    string imageFilePath = @"C:\" + PDFProveedoresClasificacion2Productos[i].nombreimagen + ".png";
-                    jpg = iTextSharp.text.Image.GetInstance(imageFilePath);
-
-                    //jpg.ScaleToFit(wdthfoto, heighfoto);//130
-                    jpg.WidthPercentage = 100;
-                    jpg.Alignment = Element.ALIGN_CENTER;
-                    //MessageBox.Show("acxtualizoc imagenes");
-                    #endregion
-
-                    PdfPTable tabla_parrafo = new PdfPTable(2);
-                    tabla_parrafo.WidthPercentage = 100;
-
-
-                    PdfPCell cl1 = new PdfPCell(tabla_cuentas_por_pagar1);
-                    cl1.BorderWidth = 0;
-                    cl1.BorderWidthBottom = 0;
-
-                    PdfPCell cl2 = new PdfPCell(jpg);
-                    cl2.BorderWidth = 0;
-                    cl2.BorderWidthBottom = 0;
-                    cl2.MinimumHeight = 250f;
-                    cl2.FixedHeight = 250f;
-
-                    tabla_parrafo.AddCell(cl1);
-                    tabla_parrafo.AddCell(cl2);
-
-                    doc.Add(tabla_parrafo);
-                    doc.Add(new Paragraph("\n"));
-                    doc.Add(new Paragraph("\n"));
-                    doc.Add(new Paragraph("\n"));
-                }
-                //cierro la edicion del pdf
-
-                #endregion
-                /******************************************************************************************/
-                /******************************************************************************************/
-                /******************************************************************************************/
-                /******************************************************************************************/
-                /******************************************************************************************/
-                #region Clasificacion1 Productos  GRAFICAS por Mes
-                //MessageBox.Show("crear gradicas");
-                Graficarclasificacion1ProductoXMes();
-                //MessageBox.Show("acabo de crear  gradicas");
-                doc.Add(new Paragraph("(8) Reporte Compras Mensuales por clasificación 1 Productos por Mes", _titulos));
-                doc.Add(new Paragraph("\n"));
-
-                //MessageBox.Show("metio reporte");
-
-
-
-                //iTextSharp.text.Image jpg;
-                //MessageBox.Show("antes del for");
-                for (int i = 0; i < PDFClasificacion1PRoductoMes.Count; i++)
-                {
-
-
-                    #region   /********SEGUNDA TABLA************/
-
-
-                    //MessageBox.Show("primer tabla");
-                    PdfPTable tabla_cuentas_por_pagar1 = new PdfPTable(2); //        tabla_cuentas_por_pagar
-                    tabla_cuentas_por_pagar1.WidthPercentage = 100;
-
-                    //MessageBox.Show("titulois1");
-                    // Configuramos el título de las columnas de la tabla
-                    PdfPCell clFecha1 = new PdfPCell(new Phrase("Fecha", _standardFont));
-                    clFecha1.BorderWidth = 0;
-                    clFecha1.BorderWidthBottom = 0.75f;
-                    //MessageBox.Show("titulois2");
-                    PdfPCell clCompra = new PdfPCell(new Phrase("(" + PDFClasificacion1PRoductoMes[i].Mes.TrimEnd(' ') + ") Por casificación 1 de Producto por mes ", _standardFont));
-                    clCompra.BorderWidth = 0;
-                    clCompra.BorderWidthBottom = 0.75f;
-
-
-                    //MessageBox.Show("segundo for");
-                    for (int j = 0; j < PDFClasificacion1PRoductoMes[i].compras.Count; j++)
-                    {
-
-                        //MessageBox.Show("dentro segundo for");
-                        // List<ComprasMensualesXClasificacion> lista_cuentas = cuentas[i].compras;
-                        //for (int k = 0; k < lista_cuentas.Count; k++)
-                        //{
-                        // Añadimos las celdas a la tabla
-                        tabla_cuentas_por_pagar1.AddCell(clFecha1);
-                        tabla_cuentas_por_pagar1.AddCell(clCompra);
-
-                        //MessageBox.Show("sgrega fecha");
-                        clFecha1 = new PdfPCell(new Phrase(PDFClasificacion1PRoductoMes[i].compras[j].Clasificacion1.TrimEnd(' '), _standardFont));
-                        clFecha1.BorderWidth = 0;
-
-                        //MessageBox.Show("sgrega total");
-                        clCompra = new PdfPCell(new Phrase(PDFClasificacion1PRoductoMes[i].compras[j].total.ToString() + " (" + PDFClasificacion1PRoductoMes[i].compras[j].Clasificacion1.TrimEnd(' ') + ")", _standardFont));
-                        clCompra.BorderWidth = 0;
-
-
-                        // }//for
-                    }
-                    //MessageBox.Show("añadelos");
-                    // Añadimos las celdas a la tabla
-                    tabla_cuentas_por_pagar1.AddCell(clFecha1);
-                    tabla_cuentas_por_pagar1.AddCell(clCompra);
-
-                    #endregion
-
-                    #region agregar imagen
-                    //MessageBox.Show("saza imagenes");
-                    string imageFilePath = @"C:\" + PDFClasificacion1PRoductoMes[i].nombreimagen + ".png";
-                    jpg = iTextSharp.text.Image.GetInstance(imageFilePath);
-
-                    //jpg.ScaleToFit(wdthfoto, heighfoto);//130
-                    jpg.WidthPercentage = 100;
-                    jpg.Alignment = Element.ALIGN_RIGHT;
-                    //MessageBox.Show("acxtualizoc imagenes");
-                    #endregion
-
-                    PdfPTable tabla_parrafo = new PdfPTable(2);
-                    tabla_parrafo.WidthPercentage = 100;
-
-
-                    PdfPCell cl1 = new PdfPCell(tabla_cuentas_por_pagar1);
-                    cl1.BorderWidth = 0;
-                    cl1.BorderWidthBottom = 0;
-
-                    PdfPCell cl2 = new PdfPCell(jpg);
-                    cl2.BorderWidth = 0;
-                    cl2.BorderWidthBottom = 0;
-                    cl2.MinimumHeight = 250f;
-                    cl2.FixedHeight = 250f;
-
-                    tabla_parrafo.AddCell(cl1);
-                    tabla_parrafo.AddCell(cl2);
-
-                    doc.Add(tabla_parrafo);
-                    doc.Add(new Paragraph("\n"));
-                    doc.Add(new Paragraph("\n"));
-                    doc.Add(new Paragraph("\n"));
-                }
-                //cierro la edicion del pdf
-
-                #endregion
-                /******************************************************************************************/
-                /******************************************************************************************/
-                /******************************************************************************************/
-                #region Clasificacion2 Productos  GRAFICAS por Mes
-                //MessageBox.Show("crear gradicas");
-                Graficarclasificacion2XMes();
-                //MessageBox.Show("acabo de crear  gradicas");
-                doc.Add(new Paragraph("(9) Reporte Compras Mensuales por clasificación 2 Productos por Mes", _titulos));
-                doc.Add(new Paragraph("\n"));
-
-                //MessageBox.Show("metio reporte");
-
-
-
-                //iTextSharp.text.Image jpg;
-                //MessageBox.Show("antes del for");
-                for (int i = 0; i < PDFClasificacion2PRoductoMes.Count; i++)
-                {
-
-
-                    #region   /********SEGUNDA TABLA************/
-
-
-                    //MessageBox.Show("primer tabla");
-                    PdfPTable tabla_cuentas_por_pagar1 = new PdfPTable(2); //        tabla_cuentas_por_pagar
-                    tabla_cuentas_por_pagar1.WidthPercentage = 100;
-
-                    //MessageBox.Show("titulois1");
-                    // Configuramos el título de las columnas de la tabla
-                    PdfPCell clFecha1 = new PdfPCell(new Phrase("Fecha", _standardFont));
-                    clFecha1.BorderWidth = 0;
-                    clFecha1.BorderWidthBottom = 0.75f;
-                    //MessageBox.Show("titulois2");
-                    PdfPCell clCompra = new PdfPCell(new Phrase("(" + PDFClasificacion2PRoductoMes[i].Mes.TrimEnd(' ') + ") Por casificación 1 de Producto por mes ", _standardFont));
-                    clCompra.BorderWidth = 0;
-                    clCompra.BorderWidthBottom = 0.75f;
-
-
-                    //MessageBox.Show("segundo for");
-                    for (int j = 0; j < PDFClasificacion2PRoductoMes[i].compras.Count; j++)
-                    {
-
-                        //MessageBox.Show("dentro segundo for");
-                        // List<ComprasMensualesXClasificacion> lista_cuentas = cuentas[i].compras;
-                        //for (int k = 0; k < lista_cuentas.Count; k++)
-                        //{
-                        // Añadimos las celdas a la tabla
-                        tabla_cuentas_por_pagar1.AddCell(clFecha1);
-                        tabla_cuentas_por_pagar1.AddCell(clCompra);
-
-                        //MessageBox.Show("sgrega fecha");
-                        clFecha1 = new PdfPCell(new Phrase(PDFClasificacion2PRoductoMes[i].compras[j].Clasificacion2.TrimEnd(' '), _standardFont));
-                        clFecha1.BorderWidth = 0;
-
-                        //MessageBox.Show("sgrega total");
-                        clCompra = new PdfPCell(new Phrase(PDFClasificacion2PRoductoMes[i].compras[j].total.ToString() + " (" + PDFClasificacion2PRoductoMes[i].compras[j].Clasificacion2.TrimEnd(' ') + ")", _standardFont));
-                        clCompra.BorderWidth = 0;
-
-
-                        // }//for
-                    }
-                    //MessageBox.Show("añadelos");
-                    // Añadimos las celdas a la tabla
-                    tabla_cuentas_por_pagar1.AddCell(clFecha1);
-                    tabla_cuentas_por_pagar1.AddCell(clCompra);
-
-                    #endregion
-
-                    #region agregar imagen
-                    //MessageBox.Show("saza imagenes");
-                    string imageFilePath = @"C:\" + PDFClasificacion2PRoductoMes[i].nombreimagen + ".png";
-                    jpg = iTextSharp.text.Image.GetInstance(imageFilePath);
-
-                    //jpg.ScaleToFit(wdthfoto, heighfoto);//130
-                    jpg.WidthPercentage = 100;
-                    jpg.Alignment = Element.ALIGN_RIGHT;
-                    //MessageBox.Show("acxtualizoc imagenes");
-                    #endregion
-
-                    PdfPTable tabla_parrafo = new PdfPTable(2);
-                    tabla_parrafo.WidthPercentage = 100;
-
-
-                    PdfPCell cl1 = new PdfPCell(tabla_cuentas_por_pagar1);
-                    cl1.BorderWidth = 0;
-                    cl1.BorderWidthBottom = 0;
-
-                    PdfPCell cl2 = new PdfPCell(jpg);
-                    cl2.BorderWidth = 0;
-                    cl2.BorderWidthBottom = 0;
-                    cl2.MinimumHeight = 250f;
-                    cl2.FixedHeight = 250f;
-
-                    tabla_parrafo.AddCell(cl1);
-                    tabla_parrafo.AddCell(cl2);
-
-                    doc.Add(tabla_parrafo);
-                    doc.Add(new Paragraph("\n"));
-                    doc.Add(new Paragraph("\n"));
-                    doc.Add(new Paragraph("\n"));
-                }
-                //cierro la edicion del pdf
-
-                #endregion
-                /******************************************************************************************/
-                /******************************************************************************************/
-                // cierro la edicion del pdf
-                doc.Close();
-
-                //LO EJECUTO
-                Process prc = new System.Diagnostics.Process();
-                prc.StartInfo.FileName = rut;
-                prc.Start();
-
-
-            }
-            catch (Exception g)
-            {
-                MessageBox.Show("" + g.Message);
-            }
-        }
-
-
-        #endregion
-
-        #region ASIGNA NUMERO DE SEMANA
-        public void asignar_semana()
-        {
-            string[] words = lista_cuentas[0].fecha.Split(' ');//separa la fecha de la hora
-            string[] words2 = words[0].Split('/');//separa la fecha en [dia]/[mes]/[año]
-            DateTime fecha_inicial = new DateTime(Convert.ToInt32(words2[2]), 1, 1); ;//fecha inicial
-            DateTime fecha_final = new DateTime(Convert.ToInt32(words2[2]), 12, 31);// fecha final
-            int weekNo = 0;
-            int dia = 0;//dias en los que avanza la fecha temporal 
-            DateTime tmp = fecha_final; // fecha temporal que ira aumentado hasta llegar a la fecha final 
-
-            while (tmp <= fecha_final)// mientras la fecha temporal es menor que la fecha final se incrementa de un dia en un dia hasta llegar a la fecha final 
-            {
-                /****calcula la semana****/
-                DateTime date = new DateTime(tmp.Year, tmp.Month, tmp.Day);
-                System.Globalization.CultureInfo norwCulture =
-                System.Globalization.CultureInfo.CreateSpecificCulture("es");
-                System.Globalization.Calendar cal = norwCulture.Calendar;
-                weekNo = cal.GetWeekOfYear(date,
-                norwCulture.DateTimeFormat.CalendarWeekRule,
-                norwCulture.DateTimeFormat.FirstDayOfWeek);
-                // Show the result         weekNo.ToString()                 
-                /*********************/
-
-                for (int i = 0; i < lista_cuentas.Count; i++)
-                {
-                    string[] fecha_lista = lista_cuentas[i].fecha.Split(' ');//separa la fecha de la hora
-                    string[] fecha_separada = fecha_lista[0].Split('/');//separa la fecha en [dia]/[mes]/[año]
-                    //MessageBox.Show(lista_cuentas[i].Dia + " " + tmp.Day);
-                    //MessageBox.Show(lista_cuentas[i].Mes + " " + tmp.Month);
-                    //MessageBox.Show(lista_cuentas[i].Anio + " " + tmp.Year);
-                    if (int.Parse(fecha_separada[0]) == tmp.Day && int.Parse(fecha_separada[1]) == tmp.Month && int.Parse(fecha_separada[2]) == tmp.Year)// TRABAJO EN LA SEMANA QUE LE CORRESPONDE A ESA FECHA 
-                    {
-                        lista_cuentas[i].semana = weekNo;
-                        //MessageBox.Show("");
-                    }
-
-
-                }
-                dia++;//cantidad de dias de avanza la fecha 
-                tmp = fecha_inicial.AddDays(dia);//avanza la fecha temporal 1 dia 
-            }
-
-
-        }
-        #endregion
-
-        #region CLasificacion 1PRoveedores
-        /// <summary>
-        /// Crea las gráficas para los proveedores
-        /// </summary>
-        public void creaGraficasClasificacion1Proveedores()
-        {
-
-            List<Tipos_Datos_CRU.ComprasMensualesXClasificacion> conprasmensualaes = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion>();
-
-            //checo si e4xiste algun datos en la lista que se va a mandar si existe entonces realizo lo siguiente
-            if (lista_cuentas.Count > 0)
-            {
-                string[] words = lista_cuentas[0].fecha.Split(' ');
-                string[] words2 = words[0].Split('/');
-                //creo un objeto de tipo ComprasMensualesXClasificacion y lo lleno con los datos del primer dato de mi lista
-                Tipos_Datos_CRU.ComprasMensualesXClasificacion nuevo = new Tipos_Datos_CRU.ComprasMensualesXClasificacion()
-                {
-                    Anio = words2[2],
-                    Clasificacion1 = lista_cuentas[0].Clasificacion_1_proveedor,
-                    CodigoClasificacion = lista_cuentas[0].Valor_Clasificacion_1_proveedor,
-                    Mes = words2[1],
-                    total = lista_cuentas[0].Total,
-                    Dia = words2[0],
-
-                };
-                conprasmensualaes.Add(nuevo);//agrego mi objeto a mi nueva lista
-
-
-                int nuevoobject = 0;
-                for (int i = 1; i < lista_cuentas.Count; i++)
-                {
-                    string[] words3 = lista_cuentas[i].fecha.Split(' ');
-                    string[] words4 = words[0].Split('/');
-                    //checar todos los datos de mi lista
-                    nuevoobject = 0;
-                    for (int j = 0; j < conprasmensualaes.Count; j++)
-                    {
-                        //checo la lista de mis compras mensuales
-                        //sin el tipo de clasificacion 1 es igual y el mes y el año entonces sumo su total de ese mes y si no
-                        if (lista_cuentas[i].Clasificacion_1_proveedor.Equals(conprasmensualaes[j].Clasificacion1) && words4[1].Equals(conprasmensualaes[j].Mes) && words4[2].Equals(conprasmensualaes[j].Anio))
-                        {
-                            conprasmensualaes[j].total += lista_cuentas[i].Total;
-                            nuevoobject = 1;
-                            break;
-                        }
-
-
-
-                    }
-
-                    if (nuevoobject == 0)//entonces creo otro nuevo objeto con los datos nuevos de la lista
-                    {
-                        Tipos_Datos_CRU.ComprasMensualesXClasificacion nuevo1 = new Tipos_Datos_CRU.ComprasMensualesXClasificacion()
-                        {
-                            Anio = words4[2],
-                            Clasificacion1 = lista_cuentas[i].Clasificacion_1_proveedor,
-                            CodigoClasificacion = lista_cuentas[i].Valor_Clasificacion_1_proveedor,
-                            Mes = words4[1],
-                            total = lista_cuentas[i].Total,
-                            Dia = words4[0]
-                        };
-                        conprasmensualaes.Add(nuevo1);
-
-                    }
-                }//fin del primer for donde mi lista  conprasmensualaes tendra los datos que se necesitaran gráficar
-                //alamcenarlas en la lisa pdfconprasmensualaes
-                string clasificacion = conprasmensualaes[0].Clasificacion1;
-                string Anio = conprasmensualaes[0].Anio;
-                int band = 0;
-                List<Tipos_Datos_CRU.ComprasMensualesXClasificacion> conprasmensualaes1 = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion>();
-                PDFProveedoresClasificacion1 = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacionIMagenes>();
-                Tipos_Datos_CRU.ComprasMensualesXClasificacionIMagenes nuev = new Tipos_Datos_CRU.ComprasMensualesXClasificacionIMagenes()
-                {
-                    Anio = Anio,
-                    Clasificacion1 = clasificacion,
-                    nombreimagen = conprasmensualaes[0].Mes + conprasmensualaes[0].Anio + conprasmensualaes[0].Clasificacion1
-                };
-                PDFProveedoresClasificacion1.Add(nuev);
-                /****SE CREARAN TODAS LAD IMAGENES QUE SE NECESITAN PARA CREAR EL PDF******/
-                for (int j = 0; j < conprasmensualaes.Count; j++)
-                {
-                    if (conprasmensualaes[j].Anio.Equals(Anio) && conprasmensualaes[j].Clasificacion1.Equals(clasificacion))
-                    {
-                        conprasmensualaes1.Add(conprasmensualaes[j]);
-                    }
-                    else
-                    {
-                        PDFProveedoresClasificacion1[band].compras = conprasmensualaes1;
-                        Tipos_Datos_CRU.ComprasMensualesXClasificacionIMagenes nuev1 = new Tipos_Datos_CRU.ComprasMensualesXClasificacionIMagenes()
-                        {
-                            Anio = conprasmensualaes[j].Anio,
-                            Clasificacion1 = conprasmensualaes[j].Clasificacion1,
-                            nombreimagen = conprasmensualaes[j].Mes + conprasmensualaes[j].Anio + conprasmensualaes[j].Clasificacion1
-                        };
-                        Anio = conprasmensualaes[j].Anio;
-                        clasificacion = conprasmensualaes[j].Clasificacion1;
-                        PDFProveedoresClasificacion1.Add(nuev1);
-                        conprasmensualaes1 = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion>();
-                        conprasmensualaes1.Add(conprasmensualaes[j]);
-                        band++;
-                    }
-                    //conprasmensualaes[j].nombreimagen = conprasmensualaes[j].Dia + conprasmensualaes[j].Mes + conprasmensualaes[j].Anio;
-
-                }
-                PDFProveedoresClasificacion1[band].compras = conprasmensualaes1;
-
-
-                for (int i = 0; i < PDFProveedoresClasificacion1.Count; i++)
-                {
-                    instance_graficas.InitializeChart();
-                    instance_graficas.LoadBarChart_compras_Clasificacion1(PDFProveedoresClasificacion1[i], PDFProveedoresClasificacion1[i].nombreimagen);
-                }
-            }
-
-        }
-        #endregion
-
-        #region CLasificacion 2 PRoveedores
-        public void creaGraficasClasificacion2Proveedores()
-        {
-            List<Tipos_Datos_CRU.ComprasMensualesXClasificacion2> conprasmensualaes = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion2>();
-
-            //checo si e4xiste algun datos en la lista que se va a mandar si existe entonces realizo lo siguiente
-            if (lista_cuentas.Count > 0)
-            {
-                string[] words = lista_cuentas[0].fecha.Split(' ');
-                string[] words2 = words[0].Split('/');
-                //creo un objeto de tipo ComprasMensualesXClasificacion y lo lleno con los datos del primer dato de mi lista
-                Tipos_Datos_CRU.ComprasMensualesXClasificacion2 nuevo = new Tipos_Datos_CRU.ComprasMensualesXClasificacion2()
-                {
-                    Anio = words2[2],
-                    Clasificacion2 = lista_cuentas[0].Clasificacion_2_proveedor,
-                    CodigoClasificacion = lista_cuentas[0].Valor_Clasificacion_2_proveedor,
-                    Mes = words2[1],
-                    total = lista_cuentas[0].Total,
-                    Dia = words2[0],
-
-                };
-                conprasmensualaes.Add(nuevo);//agrego mi objeto a mi nueva lista
-
-
-                int nuevoobject = 0;
-                for (int i = 1; i < lista_cuentas.Count; i++)
-                {
-                    //checar todos los datos de mi lista
-                    string[] words3 = lista_cuentas[i].fecha.Split(' ');
-                    string[] words4 = words[0].Split('/');
-                    nuevoobject = 0;
-                    for (int j = 0; j < conprasmensualaes.Count; j++)
-                    {
-
-                        //checo la lista de mis compras mensuales
-                        //sin el tipo de clasificacion 1 es igual y el mes y el año entonces sumo su total de ese mes y si no
-                        if (lista_cuentas[i].Clasificacion_2_proveedor.Equals(conprasmensualaes[j].Clasificacion2) && words4[1].Equals(conprasmensualaes[j].Mes) && words4[2].Equals(conprasmensualaes[j].Anio))
-                        {
-                            conprasmensualaes[j].total += lista_cuentas[i].Total;
-                            nuevoobject = 1;
-                            break;
-                        }
-
-
-
-                    }
-                    if (nuevoobject == 0)//entonces creo otro nuevo objeto con los datos nuevos de la lista
-                    {
-                        Tipos_Datos_CRU.ComprasMensualesXClasificacion2 nuevo1 = new Tipos_Datos_CRU.ComprasMensualesXClasificacion2()
-                        {
-                            Anio = words4[2],
-                            Clasificacion2 = lista_cuentas[i].Clasificacion_2_proveedor,
-                            CodigoClasificacion = lista_cuentas[i].Valor_Clasificacion_2_proveedor,
-                            Mes = words4[1],
-                            total = lista_cuentas[i].Total,
-                            Dia = words4[0]
-                        };
-                        conprasmensualaes.Add(nuevo1);
-
-                    }
-                }//fin del primer for donde mi lista  conprasmensualaes tendra los datos que se necesitaran gráficar
-                //alamcenarlas en la lisa pdfconprasmensualaes
-                string clasificacion = conprasmensualaes[0].Clasificacion2;
-                string Anio = conprasmensualaes[0].Anio;
-                int band = 0;
-                List<Tipos_Datos_CRU.ComprasMensualesXClasificacion2> conprasmensualaes2 = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion2>();
-                PDFProveedoresClasificacion2 = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacionIMagenes2>();
-                Tipos_Datos_CRU.ComprasMensualesXClasificacionIMagenes2 nuev = new Tipos_Datos_CRU.ComprasMensualesXClasificacionIMagenes2()
-                {
-                    Anio = Anio,
-                    Clasificacion2 = clasificacion,
-                    nombreimagen = conprasmensualaes[0].Mes + conprasmensualaes[0].Anio + conprasmensualaes[0].Clasificacion2
-                };
-                PDFProveedoresClasificacion2.Add(nuev);
-                /****SE CREARAN TODAS LAD IMAGENES QUE SE NECESITAN PARA CREAR EL PDF******/
-                for (int j = 0; j < conprasmensualaes.Count; j++)
-                {
-                    if (conprasmensualaes[j].Anio.Equals(Anio) && conprasmensualaes[j].Clasificacion2.Equals(clasificacion))
-                    {
-                        conprasmensualaes2.Add(conprasmensualaes[j]);
-                    }
-                    else
-                    {
-                        PDFProveedoresClasificacion2[band].compras = conprasmensualaes2;
-                        Tipos_Datos_CRU.ComprasMensualesXClasificacionIMagenes2 nuev1 = new Tipos_Datos_CRU.ComprasMensualesXClasificacionIMagenes2()
-                        {
-                            Anio = conprasmensualaes[j].Anio,
-                            Clasificacion2 = conprasmensualaes[j].Clasificacion2,
-                            nombreimagen = conprasmensualaes[j].Mes + conprasmensualaes[j].Anio + conprasmensualaes[j].Clasificacion2
-                        };
-                        Anio = conprasmensualaes[j].Anio;
-                        clasificacion = conprasmensualaes[j].Clasificacion2;
-                        PDFProveedoresClasificacion2.Add(nuev1);
-                        conprasmensualaes2 = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion2>();
-                        conprasmensualaes2.Add(conprasmensualaes[j]);
-                        band++;
-                    }
-                    //conprasmensualaes[j].nombreimagen = conprasmensualaes[j].Dia + conprasmensualaes[j].Mes + conprasmensualaes[j].Anio;
-
-                }
-                PDFProveedoresClasificacion2[band].compras = conprasmensualaes2;
-
-
-                for (int i = 0; i < PDFProveedoresClasificacion2.Count; i++)
-                {
-                    instance_graficas.InitializeChart();
-                    instance_graficas.LoadBarChart_compras_Clasificacion2(PDFProveedoresClasificacion2[i], PDFProveedoresClasificacion2[i].nombreimagen);
-                }
-
-
-                //instance_graficas.LoadBarChart_compras_dia(lista_cuentas, textBox2.Text);
-                //instance_impresion.Reporte_Compras_Por_Dia(PDFProveedoresClasificacion2, textBox2.Text);
-            }
-            else MessageBox.Show("No se mostrara ningun PDF por que noexiste ningun dato");
-
-
-        }
-        #endregion
-
-
-        #region Clasificacion 1 Productos
-
-        public void CreargraficasClasificacion1productos()
-        {
-            List<Tipos_Datos_CRU.ComprasMensualesXClasificacion1> conprasmensualaes = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion1>();
-
-            //checo si e4xiste algun datos en la lista que se va a mandar si existe entonces realizo lo siguiente
-            if (lista_cuentas.Count > 0)
-            {
-                string[] words = lista_cuentas[0].fecha.Split(' ');
-                string[] words2 = words[0].Split('/');
-                //creo un objeto de tipo ComprasMensualesXClasificacion y lo lleno con los datos del primer dato de mi lista
-                Tipos_Datos_CRU.ComprasMensualesXClasificacion1 nuevo = new Tipos_Datos_CRU.ComprasMensualesXClasificacion1()
-                {
-                    Anio = words2[2],
-                    Clasificacion1 = lista_cuentas[0].Listmovimiento[0].producto.Clasifiacion1,
-                    CodigoClasificacion = lista_cuentas[0].Listmovimiento[0].producto.ValorClasificación1,
-                    Mes = words2[1],
-                    total = lista_cuentas[0].Listmovimiento[0].Total,
-                    Dia = words2[0],
-
-                };
-                conprasmensualaes.Add(nuevo);//agrego mi objeto a mi nueva lista
-
-
-                int nuevoobject = 0;
-                for (int i = 1; i < lista_cuentas.Count; i++)
-                {
-                    string[] words3 = lista_cuentas[i].fecha.Split(' ');
-                    string[] words4 = words[0].Split('/');
-                    //checar todos los datos de mi lista
-                    for (int l = 0; l < lista_cuentas[i].Listmovimiento.Count; l++)
-                    {
-
-                        nuevoobject = 0;
-                        for (int j = 0; j < conprasmensualaes.Count; j++)
-                        {//checo la lista de mis compras mensuales
-                            //sin el tipo de clasificacion 1 es igual y el mes y el año entonces sumo su total de ese mes y si no
-                            if (lista_cuentas[i].Listmovimiento[l].producto.Clasifiacion1.Equals(conprasmensualaes[j].Clasificacion1) && words4[1].Equals(conprasmensualaes[j].Mes) && words4[2].Equals(conprasmensualaes[j].Anio))
-                            {
-                                conprasmensualaes[j].total += lista_cuentas[i].Listmovimiento[l].Total;
-                                nuevoobject = 1;
-                                break;
-                            }
-
-                        }//fin primer for
-                        if (nuevoobject == 0)//entonces creo otro nuevo objeto con los datos nuevos de la lista
-                        {
-                            Tipos_Datos_CRU.ComprasMensualesXClasificacion1 nuevo1 = new Tipos_Datos_CRU.ComprasMensualesXClasificacion1()
-                            {
-                                Anio = words4[2],
-                                Clasificacion1 = lista_cuentas[i].Listmovimiento[l].producto.Clasifiacion1,
-                                CodigoClasificacion = lista_cuentas[i].Listmovimiento[l].producto.ValorClasificación1,
-                                Mes = words4[1],
-                                total = lista_cuentas[i].Listmovimiento[l].Total,
-                                Dia = words4[0]
-                            };
-                            conprasmensualaes.Add(nuevo1);
-
-                        }
-                    }//fin segun for
-                }//fin del primer for donde mi lista  conprasmensualaes tendra los datos que se necesitaran gráficar
-                //alamcenarlas en la lisa pdfconprasmensualaes
-                string clasificacion = conprasmensualaes[0].Clasificacion1;
-                string Anio = conprasmensualaes[0].Anio;
-                int band = 0;
-                List<Tipos_Datos_CRU.ComprasMensualesXClasificacion1> conprasmensualaes2 = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion1>();
-                PDFProveedoresClasificacion1Productos = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion1Productos>();
-                Tipos_Datos_CRU.ComprasMensualesXClasificacion1Productos nuev = new Tipos_Datos_CRU.ComprasMensualesXClasificacion1Productos()
-                {
-                    Anio = Anio,
-                    Clasificacion1 = clasificacion,
-                    nombreimagen = conprasmensualaes[0].Mes + conprasmensualaes[0].Anio + conprasmensualaes[0].Clasificacion1 + "p"
-                };
-                PDFProveedoresClasificacion1Productos.Add(nuev);
-                /****SE CREARAN TODAS LAD IMAGENES QUE SE NECESITAN PARA CREAR EL PDF******/
-                for (int j = 0; j < conprasmensualaes.Count; j++)
-                {
-                    if (conprasmensualaes[j].Anio.Equals(Anio) && conprasmensualaes[j].Clasificacion1.Equals(clasificacion))
-                    {
-                        conprasmensualaes2.Add(conprasmensualaes[j]);
-                    }
-                    else
-                    {
-                        PDFProveedoresClasificacion1Productos[band].compras = conprasmensualaes2;
-                        Tipos_Datos_CRU.ComprasMensualesXClasificacion1Productos nuev1 = new Tipos_Datos_CRU.ComprasMensualesXClasificacion1Productos()
-                        {
-                            Anio = conprasmensualaes[j].Anio,
-                            Clasificacion1 = conprasmensualaes[j].Clasificacion1,
-                            nombreimagen = conprasmensualaes[j].Mes + conprasmensualaes[j].Anio + conprasmensualaes[j].Clasificacion1
-                        };
-                        Anio = conprasmensualaes[j].Anio;
-                        clasificacion = conprasmensualaes[j].Clasificacion1;
-                        PDFProveedoresClasificacion1Productos.Add(nuev1);
-                        conprasmensualaes2 = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion1>();
-                        conprasmensualaes2.Add(conprasmensualaes[j]);
-                        band++;
-                    }
-                    //conprasmensualaes[j].nombreimagen = conprasmensualaes[j].Dia + conprasmensualaes[j].Mes + conprasmensualaes[j].Anio;
-
-                }
-                PDFProveedoresClasificacion1Productos[band].compras = conprasmensualaes2;
-
-
-                for (int i = 0; i < PDFProveedoresClasificacion1Productos.Count; i++)
-                {
-                    instance_graficas.InitializeChart();
-                    instance_graficas.LoadBarChart_compras_Clasificacion1Productos(PDFProveedoresClasificacion1Productos[i], PDFProveedoresClasificacion1Productos[i].nombreimagen);
-                }
-
-
-                //instance_graficas.LoadBarChart_compras_dia(lista_cuentas, textBox2.Text);
-                //   instance_impresion.Reporte_Compras_Por_Dia(PDFProveedoresClasificacion2, textBox2.Text);
-            }
-            else MessageBox.Show("No se mostrara ningun PDF por que noexiste ningun dato");
-        }
-
-        #endregion
-
-
-        #region Calificacion 2 productos
-        public void CrearGraficasCalsifiacion2Productos()
-        {
-            List<Tipos_Datos_CRU.ComprasMensualesXClasificacion2> conprasmensualaes = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion2>();
-
-            //checo si e4xiste algun datos en la lista que se va a mandar si existe entonces realizo lo siguiente
-            if (lista_cuentas.Count > 0)
-            {
-                string[] fecha = lista_cuentas[0].fecha.Split(' ');
-                string[] fecha_partes = fecha[0].Split('/');
-                //creo un objeto de tipo ComprasMensualesXClasificacion y lo lleno con los datos del primer dato de mi lista
-                Tipos_Datos_CRU.ComprasMensualesXClasificacion2 nuevo = new Tipos_Datos_CRU.ComprasMensualesXClasificacion2()
-                {
-
-                    Clasificacion2 = lista_cuentas[0].Listmovimiento[0].producto.Clasificacion2,
-                    CodigoClasificacion = lista_cuentas[0].Listmovimiento[0].producto.ValorClasificación2,
-                    Mes = fecha_partes[1],
-                    total = lista_cuentas[0].Listmovimiento[0].Total,
-                    Dia = fecha_partes[0]
-
-                };
-                conprasmensualaes.Add(nuevo);//agrego mi objeto a mi nueva lista
-
-
-                int nuevoobject = 0;
-                for (int i = 1; i < lista_cuentas.Count; i++)
-                {
-                    string[] fecha_ = lista_cuentas[i].fecha.Split(' ');
-                    string[] fecha_partes_ = fecha_[0].Split('/');
-                    //checar todos los datos de mi lista
-                    for (int l = 0; l < lista_cuentas[i].Listmovimiento.Count; l++)
-                    {
-                        nuevoobject = 0;
-                        for (int j = 0; j < conprasmensualaes.Count; j++)
-                        {
-                            //checo la lista de mis compras mensuales
-                            //sin el tipo de clasificacion 1 es igual y el mes y el año entonces sumo su total de ese mes y si no
-                            if (lista_cuentas[i].Listmovimiento[l].producto.Clasificacion2.Equals(conprasmensualaes[j].Clasificacion2) && fecha_partes_[1].Equals(conprasmensualaes[j].Mes) && fecha_partes_[2].Equals(conprasmensualaes[j].Anio))
-                            {
-                                conprasmensualaes[j].total += lista_cuentas[i].Listmovimiento[l].Total;
-                                nuevoobject = 1;
-                                break;
-                            }
-
-                        }//fin primer for
-                        if (nuevoobject == 0)//entonces creo otro nuevo objeto con los datos nuevos de la lista
-                        {
-                            Tipos_Datos_CRU.ComprasMensualesXClasificacion2 nuevo1 = new Tipos_Datos_CRU.ComprasMensualesXClasificacion2()
-                            {
-                                Anio = fecha_partes_[2],
-                                Clasificacion2 = lista_cuentas[i].Listmovimiento[l].producto.Clasificacion2,
-                                CodigoClasificacion = lista_cuentas[i].Listmovimiento[l].producto.ValorClasificación2,
-                                Mes = fecha_partes_[1],
-                                total = lista_cuentas[i].Listmovimiento[l].Total,
-                                Dia = fecha_partes_[0]
-                            };
-                            conprasmensualaes.Add(nuevo1);
-                        }
-
-                    }//fin segun for
-                }//fin del primer for donde mi lista  conprasmensualaes tendra los datos que se necesitaran gráficar
-                //alamcenarlas en la lisa pdfconprasmensualaes
-                string clasificacion = conprasmensualaes[0].Clasificacion2;
-                string Anio = conprasmensualaes[0].Anio;
-                int band = 0;
-                List<Tipos_Datos_CRU.ComprasMensualesXClasificacion2> conprasmensualaes2 = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion2>();
-                PDFProveedoresClasificacion2Productos = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion2Productos>();
-                Tipos_Datos_CRU.ComprasMensualesXClasificacion2Productos nuev = new Tipos_Datos_CRU.ComprasMensualesXClasificacion2Productos()
-                {
-                    Anio = Anio,
-                    Clasificacion2 = clasificacion,
-                    nombreimagen = conprasmensualaes[0].Mes + conprasmensualaes[0].Anio + conprasmensualaes[0].Clasificacion2
-                };
-                PDFProveedoresClasificacion2Productos.Add(nuev);
-                /****SE CREARAN TODAS LAD IMAGENES QUE SE NECESITAN PARA CREAR EL PDF******/
-                for (int j = 0; j < conprasmensualaes.Count; j++)
-                {
-                    if (conprasmensualaes[j].Anio == Anio && conprasmensualaes[j].Clasificacion2 == clasificacion)
-                    {
-                        conprasmensualaes2.Add(conprasmensualaes[j]);
-                    }
-                    else
-                    {
-                        PDFProveedoresClasificacion2Productos[band].compras = conprasmensualaes2;
-                        Tipos_Datos_CRU.ComprasMensualesXClasificacion2Productos nuev1 = new Tipos_Datos_CRU.ComprasMensualesXClasificacion2Productos()
-                        {
-                            Anio = conprasmensualaes[j].Anio,
-                            Clasificacion2 = conprasmensualaes[j].Clasificacion2,
-                            nombreimagen = conprasmensualaes[j].Mes + conprasmensualaes[j].Anio + conprasmensualaes[j].Clasificacion2
-                        };
-                        Anio = conprasmensualaes[j].Anio;
-                        clasificacion = conprasmensualaes[j].Clasificacion2;
-                        PDFProveedoresClasificacion2Productos.Add(nuev1);
-                        conprasmensualaes2 = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion2>();
-                        conprasmensualaes2.Add(conprasmensualaes[j]);
-                        band++;
-                    }
-                    //conprasmensualaes[j].nombreimagen = conprasmensualaes[j].Dia + conprasmensualaes[j].Mes + conprasmensualaes[j].Anio;
-
-                }
-                PDFProveedoresClasificacion2Productos[band].compras = conprasmensualaes2;
-
-
-                for (int i = 0; i < PDFProveedoresClasificacion2Productos.Count; i++)
-                {
-                    instance_graficas.InitializeChart();
-                    instance_graficas.LoadBarChart_compras_Clasificacion2Productos(PDFProveedoresClasificacion2Productos[i], PDFProveedoresClasificacion2Productos[i].nombreimagen);
-                }
-
-
-                //instance_graficas.LoadBarChart_compras_dia(lista_cuentas, textBox2.Text);
-                // instance_impresion.Reporte_Compras_Por_Dia(PDFProveedoresClasificacion2Productos, textBox2.Text);
-            }
-            else MessageBox.Show("No se mostrara ningun PDF por que noexiste ningun dato");
-        }
-        #endregion
-
-
-        #region Clasificacion 1 producto por mes
-        public void Graficarclasificacion1ProductoXMes()
-        {
-            PDFClasificacion1PRoductoMes = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion1ProductosMes>();
-            Tipos_Datos_CRU.ComprasMensualesXClasificacion1ProductosMes clasificacion1mes = new Tipos_Datos_CRU.ComprasMensualesXClasificacion1ProductosMes();
-            List<Tipos_Datos_CRU.ComprasMensualesXClasificacion1> conprasmensualaes = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion1>();//por cada lista se debe de crear una grafica
-
-
-            //checo si e4xiste algun datos en la lista que se va a mandar si existe entonces realizo lo siguiente
-            if (lista_cuentas.Count > 0)
-            {
-                //creo un objeto de tipo ComprasMensualesXClasificacion y lo lleno con los datos del primer dato de mi lista
-                string[] fecha = lista_cuentas[0].fecha.Split(' ');
-                string[] fecha_partes = fecha[0].Split('/');
-                /*********************************************************************************************************/
-                /*********************************************************************************************************/
-                Tipos_Datos_CRU.ComprasMensualesXClasificacion1 nuevo = new Tipos_Datos_CRU.ComprasMensualesXClasificacion1()
-                {
-                    Anio = fecha_partes[2],
-                    Clasificacion1 = lista_cuentas[0].Listmovimiento[0].producto.Clasifiacion1,
-                    CodigoClasificacion = lista_cuentas[0].Listmovimiento[0].producto.ValorClasificación1,
-                    Mes = fecha_partes[1],
-                    total = lista_cuentas[0].Listmovimiento[0].Total,
-                    Dia = fecha_partes[0],
-
-                };
-                conprasmensualaes.Add(nuevo);//agrego mi objeto a mi nueva lista
-                clasificacion1mes.Mes = nuevo.Mes;
-                clasificacion1mes.Anio = nuevo.Anio;
-                clasificacion1mes.compras = conprasmensualaes;
-                clasificacion1mes.nombreimagen = nuevo.Mes + nuevo.Anio + nuevo.Clasificacion1;
-                clasificacion1mes.Clasificacion1 = nuevo.Clasificacion1;
-
-                PDFClasificacion1PRoductoMes.Add(clasificacion1mes);//se agrega el dato
-                /*********************************************************************************************************/
-                /*********************************************************************************************************/
-
-
-
-                int nuevoObject = 0;
-                for (int i = 1; i < lista_cuentas.Count; i++)
-                {
-                    string[] fecha2 = lista_cuentas[i].fecha.Split(' ');
-                    string[] fecha_partes2 = fecha2[0].Split('/');
-                    //checar todos los datos de mi lista
-                    for (int l = 0; l < lista_cuentas[i].Listmovimiento.Count; l++)
-                    {
-                        nuevoObject = 0;
-                        for (int j = 0; j < PDFClasificacion1PRoductoMes.Count; j++)//entra a las listas de clasificaciones
-                        {//checo la lista de mis compras mensuales
-                            //sin el tipo de clasificacion 1 es igual y el mes y el año entonces sumo su total de ese mes y si no
-
-                            for (int k = 0; k < PDFClasificacion1PRoductoMes[j].compras.Count; k++)//entra para comparar si son del mismo mes y clasificacion 1 sumalos sino si solo es el del mismo mes agregalo en la lista de compras
-                            {
-                                if (fecha_partes2[1].Equals(PDFClasificacion1PRoductoMes[j].compras[k].Mes))
-                                {
-                                    if (lista_cuentas[i].Listmovimiento[l].producto.Clasifiacion1.Equals(PDFClasificacion1PRoductoMes[j].compras[k].Clasificacion1))
-                                    {
-                                        PDFClasificacion1PRoductoMes[j].compras[k].total += lista_cuentas[i].Listmovimiento[l].Total;
-                                    }
-                                    else
-                                    {
-                                        Tipos_Datos_CRU.ComprasMensualesXClasificacion1 nuevo1 = new Tipos_Datos_CRU.ComprasMensualesXClasificacion1()
-                                        {
-                                            Anio = fecha_partes2[2],
-                                            Clasificacion1 = lista_cuentas[i].Listmovimiento[l].producto.Clasifiacion1,
-                                            CodigoClasificacion = lista_cuentas[i].Listmovimiento[l].producto.ValorClasificación1,
-                                            Mes = fecha_partes2[1],
-                                            total = lista_cuentas[i].Listmovimiento[l].Total,
-                                            Dia = fecha_partes2[0],
-                                        };
-                                        PDFClasificacion1PRoductoMes[j].compras.Add(nuevo1);
-
-                                    }
-                                    nuevoObject = 1;
-                                    break;
-                                }
-                            }
-
-
-                        }//fin primer for
-                        if (nuevoObject == 0)
-                        {
-                            List<Tipos_Datos_CRU.ComprasMensualesXClasificacion1> conprasmensualaes1 = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion1>();
-                            Tipos_Datos_CRU.ComprasMensualesXClasificacion1 nuevo2 = new Tipos_Datos_CRU.ComprasMensualesXClasificacion1()
-                            {
-                                Anio = fecha_partes2[2],
-                                Clasificacion1 = lista_cuentas[i].Listmovimiento[l].producto.Clasifiacion1,
-                                CodigoClasificacion = lista_cuentas[i].Listmovimiento[l].producto.ValorClasificación2,
-                                Mes = fecha_partes2[1],
-                                total = lista_cuentas[i].Listmovimiento[l].Total,
-                                Dia = fecha_partes2[0],
-
-                            };
-                            conprasmensualaes1.Add(nuevo2);//agrego mi objeto a mi nueva lista
-                            Tipos_Datos_CRU.ComprasMensualesXClasificacion1ProductosMes clasificacion1me = new Tipos_Datos_CRU.ComprasMensualesXClasificacion1ProductosMes();
-                            clasificacion1me.Mes = nuevo2.Mes;
-                            clasificacion1me.Anio = nuevo2.Anio;
-                            clasificacion1me.compras = conprasmensualaes1;
-                            clasificacion1me.nombreimagen = nuevo2.Mes + nuevo2.Anio + nuevo2.Clasificacion1;
-                            clasificacion1me.Clasificacion1 = nuevo2.Clasificacion1;
-
-                            PDFClasificacion1PRoductoMes.Add(clasificacion1me);//se agrega el dato                            
-
-                        }
-                    }//fin segun for
-                }//fin del primer for donde mi lista  conprasmensualaes tendra los datos que se necesitaran gráficar
-                for (int i = 0; i < PDFClasificacion1PRoductoMes.Count; i++)
-                {
-                    instance_graficas.InitializeChart();
-
-                    instance_graficas.LoadPieChartclasificacion1ProductoMes(PDFClasificacion1PRoductoMes[i].compras, PDFClasificacion1PRoductoMes[i].nombreimagen);
-                }
-            }
-        }
-        #endregion
-
-
-        #region Clasificacion 2 producto por mes
-        public void Graficarclasificacion2XMes()
-        {
-            PDFClasificacion2PRoductoMes = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion2ProductosMes>();
-            Tipos_Datos_CRU.ComprasMensualesXClasificacion2ProductosMes clasificacion1mes = new Tipos_Datos_CRU.ComprasMensualesXClasificacion2ProductosMes();
-            List<Tipos_Datos_CRU.ComprasMensualesXClasificacion2> conprasmensualaes = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion2>();//por cada lista se debe de crear una grafica
-
-
-            //checo si e4xiste algun datos en la lista que se va a mandar si existe entonces realizo lo siguiente
-            if (lista_cuentas.Count > 0)
-            {
-                //creo un objeto de tipo ComprasMensualesXClasificacion y lo lleno con los datos del primer dato de mi lista
-                string[] fecha = lista_cuentas[0].fecha.Split(' ');//obtengo la fecha de la lista 
-                string[] fecha_partes = fecha[0].Split('/');//separa la fecha por dia mes y año [DIA][MES][AÑO]
-                /*********************************************************************************************************/
-                /*********************************************************************************************************/
-                Tipos_Datos_CRU.ComprasMensualesXClasificacion2 nuevo = new Tipos_Datos_CRU.ComprasMensualesXClasificacion2()
-                {
-                    Anio = fecha_partes[2],
-                    Clasificacion2 = lista_cuentas[0].Listmovimiento[0].producto.Clasificacion2,
-                    CodigoClasificacion = lista_cuentas[0].Listmovimiento[0].producto.ValorClasificación2,
-                    Mes = fecha_partes[1],
-                    total = lista_cuentas[0].Listmovimiento[0].Total,
-                    Dia = fecha_partes[0],
-
-                };
-                conprasmensualaes.Add(nuevo);//agrego mi objeto a mi nueva lista
-                clasificacion1mes.Mes = nuevo.Mes;
-                clasificacion1mes.Anio = nuevo.Anio;
-                clasificacion1mes.compras = conprasmensualaes;
-                clasificacion1mes.nombreimagen = nuevo.Mes + nuevo.Anio + nuevo.Clasificacion2.TrimEnd(' ');
-                clasificacion1mes.Clasificacion2 = nuevo.Clasificacion2.TrimEnd(' ');
-
-                PDFClasificacion2PRoductoMes.Add(clasificacion1mes);//se agrega el dato
-                /*********************************************************************************************************/
-                /*********************************************************************************************************/
-
-
-
-                int nuevoObject = 0;
-                for (int i = 1; i < lista_cuentas.Count; i++)
-                {
-                    string[] fecha2 = lista_cuentas[i].fecha.Split(' ');
-                    string[] fecha_partes2 = fecha2[0].Split('/');
-
-                    //checar todos los datos de mi lista
-                    for (int l = 0; l < lista_cuentas[i].Listmovimiento.Count; l++)
-                    {
-                        nuevoObject = 0;
-                        for (int j = 0; j < PDFClasificacion2PRoductoMes.Count; j++)//entra a las listas de clasificaciones
-                        {//checo la lista de mis compras mensuales
-                            //sin el tipo de clasificacion 1 es igual y el mes y el año entonces sumo su total de ese mes y si no
-
-                            for (int k = 0; k < PDFClasificacion2PRoductoMes[j].compras.Count; k++)//entra para comparar si son del mismo mes y clasificacion 1 sumalos sino si solo es el del mismo mes agregalo en la lista de compras
-                            {
-                                if (fecha_partes2[1].Equals(PDFClasificacion2PRoductoMes[j].compras[k].Mes.TrimEnd(' ')))
-                                {
-                                    if (lista_cuentas[i].Listmovimiento[l].producto.Clasifiacion1.Equals(PDFClasificacion2PRoductoMes[j].compras[k].Clasificacion2.TrimEnd(' ')))
-                                    {
-                                        PDFClasificacion2PRoductoMes[j].compras[k].total += lista_cuentas[i].Listmovimiento[l].Total;
-                                    }
-                                    else
-                                    {
-                                        Tipos_Datos_CRU.ComprasMensualesXClasificacion2 nuevo1 = new Tipos_Datos_CRU.ComprasMensualesXClasificacion2()
-                                        {
-                                            Anio = fecha_partes2[2],
-                                            Clasificacion2 = lista_cuentas[i].Listmovimiento[l].producto.Clasifiacion1,
-                                            CodigoClasificacion = lista_cuentas[i].Listmovimiento[l].producto.ValorClasificación2,
-                                            Mes = fecha_partes2[1],
-                                            total = lista_cuentas[i].Listmovimiento[l].Total,
-                                            Dia = fecha_partes2[0],
-                                        };
-                                        PDFClasificacion2PRoductoMes[j].compras.Add(nuevo1);
-
-                                    }
-                                    nuevoObject = 1;
-                                    break;
-                                }
-                            }
-
-
-                        }//fin primer for
-                        if (nuevoObject == 0)
-                        {
-                            List<Tipos_Datos_CRU.ComprasMensualesXClasificacion2> conprasmensualaes1 = new List<Tipos_Datos_CRU.ComprasMensualesXClasificacion2>();
-                            Tipos_Datos_CRU.ComprasMensualesXClasificacion2 nuevo2 = new Tipos_Datos_CRU.ComprasMensualesXClasificacion2()
-                            {
-                                Anio = fecha_partes2[2],
-                                Clasificacion2 = lista_cuentas[i].Listmovimiento[l].producto.Clasifiacion1,
-                                CodigoClasificacion = lista_cuentas[i].Listmovimiento[l].producto.ValorClasificación2,
-                                Mes = fecha_partes2[1],
-                                total = lista_cuentas[i].Listmovimiento[l].Total,
-                                Dia = fecha_partes2[0],
-
-                            };
-                            conprasmensualaes1.Add(nuevo2);//agrego mi objeto a mi nueva lista
-                            Tipos_Datos_CRU.ComprasMensualesXClasificacion2ProductosMes clasificacion1me = new Tipos_Datos_CRU.ComprasMensualesXClasificacion2ProductosMes();
-                            clasificacion1me.Mes = nuevo2.Mes;
-                            clasificacion1me.Anio = nuevo2.Anio;
-                            clasificacion1me.compras = conprasmensualaes1;
-                            clasificacion1me.nombreimagen = nuevo2.Mes + nuevo2.Anio + nuevo2.Clasificacion2;
-                            clasificacion1me.Clasificacion2 = nuevo2.Clasificacion2;
-
-                            PDFClasificacion2PRoductoMes.Add(clasificacion1me);//se agrega el dato                            
-
-                        }
-                    }//fin segun for
-                }//fin del primer for donde mi lista  conprasmensualaes tendra los datos que se necesitaran gráficar
-                for (int i = 0; i < PDFClasificacion2PRoductoMes.Count; i++)
-                {
-                    instance_graficas.InitializeChart();
-
-                    instance_graficas.LoadPieChartclasificacion2ProductoMes(PDFClasificacion2PRoductoMes[i].compras, PDFClasificacion2PRoductoMes[i].nombreimagen);
-                }
-            }
-        }
-        #endregion
-
-
-
-
-        #region CRU ABONOS
-        /// <summary>
-        /// Método para imprimir las facturas de CRU
-        /// </summary>
-        /// <param name="ListFactrurasCRU">lista de las facturas que se van a imprimir</param>
-        public void ImpresionCRUAbonos(List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRU, string fechas, string path, List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRUFiltroRFCPublico, List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRUFiltroRFCOL)
-        {
-
-            try
-            {
-
-                Document doc = new Document(PageSize.TABLOID, 10, 10, 10, 10);//Creacion del documento configuracion de tipo de hoja y margenes
-                doc.AddAuthor("Indicadores");//Autor del PDF
-                doc.AddKeywords("pdf, PdfWriter; Indicadores V1");
-
-                //para almacenamiento del archivo
-                string nombre_archivo = "Abonos.PDF";//Nombre del Archivo
-                string rut = @path + nombre_archivo;
-                PdfWriter wri = PdfWriter.GetInstance(doc, new FileStream(rut, FileMode.Create));
-                doc.AddTitle("REPORTE");
-                doc.AddCreator("*********");
-                doc.Open();
-                //tipo de letras que se pueda usar en el archivo PDF
-                iTextSharp.text.Font _mediumFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-                iTextSharp.text.Font _standardFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 9, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
-                iTextSharp.text.Font _standardFont1 = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.BOLD, BaseColor.WHITE);
-                iTextSharp.text.Font _smallFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-                iTextSharp.text.Font _titulo = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-                iTextSharp.text.Font _titulos = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 12, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-
-
-                // Cabecera
-                doc.Add(new Paragraph(" Desglose general de Abonos" + fechas, _titulo));
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-
-                //***********************************************
-                #region **********PRIMERA TABLA 23 Acumulado de CXC (Abonos) en CRU*********
-                doc.Add(new Paragraph("Acumulado de Abonos ", _titulos));
-                doc.Add(new Paragraph("\n"));
-                PdfPTable tabla_cuentas = new PdfPTable(19);
-                //PdfPCell cell = new PdfPCell(new Phrase("Reporte de Compras"));
-                //cell.Colspan = 3;
-                //cell.BackgroundColor = BaseColor.BLUE;
-                //cell.HorizontalAlignment = 1;//0=Left, 1=Centre, 2=Right 
-                tabla_cuentas.WidthPercentage = 100;
-                //tabla_cuentas.AddCell(cell);
-
-
-
-                #region configuracion de columnas
-                // Configuramos el título de las columnas de la tabla 
-                PdfPCell clFecha = new PdfPCell(new Phrase("Fecha", _standardFont));
-                clFecha.BorderWidth = 0.5f;
-                clFecha.BorderWidthBottom = 0.5f;
-                clFecha.HorizontalAlignment = 1;
-
-                PdfPCell clSerie = new PdfPCell(new Phrase("Serie", _standardFont));
-                clSerie.BorderWidth = 0.5f;
-                clSerie.BorderWidthBottom = 0.5f;
-                clSerie.HorizontalAlignment = 1;
-
-                PdfPCell clFolio = new PdfPCell(new Phrase("Folio", _standardFont));
-                clFolio.BorderWidth = 0.5f;
-                clFolio.BorderWidthBottom = 0.5f;
-                clFolio.HorizontalAlignment = 1;
-
-                PdfPCell clNombreAgente = new PdfPCell(new Phrase("Nombre del Agente", _standardFont));
-                clNombreAgente.BorderWidth = 0.5f;
-                clNombreAgente.BorderWidthBottom = 0.5f;
-                clNombreAgente.HorizontalAlignment = 1;
-
-                PdfPCell clRazonSocial = new PdfPCell(new Phrase("Razón Social", _standardFont));
-                clRazonSocial.BorderWidth = 0.5f;
-                clRazonSocial.BorderWidthBottom = 0.5f;
-                clRazonSocial.HorizontalAlignment = 1;
-
-                PdfPCell clFechaVencimiento = new PdfPCell(new Phrase("Fecha de Vencimiento", _standardFont));
-                clFechaVencimiento.BorderWidth = 0.5f;
-                clFechaVencimiento.BorderWidthBottom = 0.5f;
-                clFechaVencimiento.HorizontalAlignment = 1;
-
-                PdfPCell clRFC = new PdfPCell(new Phrase("R.F.C.", _standardFont));
-                clRFC.BorderWidth = 0.5f;
-                clRFC.BorderWidthBottom = 0.5f;
-                clRFC.HorizontalAlignment = 1;
-
-                PdfPCell clSubtotal = new PdfPCell(new Phrase("Subtotal", _standardFont));
-                clSubtotal.BorderWidth = 0.5f;
-                clSubtotal.BorderWidthBottom = 0.5f;
-                clSubtotal.HorizontalAlignment = 1;
-
-                PdfPCell clIVA = new PdfPCell(new Phrase("IVA", _standardFont));
-                clIVA.BorderWidth = 0.5f;
-                clIVA.BorderWidthBottom = 0.5f;
-                clIVA.HorizontalAlignment = 1;
-
-                PdfPCell clTotal = new PdfPCell(new Phrase("Total", _standardFont));
-                clTotal.BorderWidth = 0.5f;
-                clTotal.BorderWidthBottom = 0.5f;
-                clTotal.HorizontalAlignment = 1;
-
-                PdfPCell clPendiente = new PdfPCell(new Phrase("Pendiente", _standardFont));
-                clPendiente.BorderWidth = 0.5f;
-                clPendiente.BorderWidthBottom = 0.5f;
-                clPendiente.HorizontalAlignment = 1;
-
-                PdfPCell clTextoExtra3 = new PdfPCell(new Phrase("Texto Extra 3", _standardFont));
-                clTextoExtra3.BorderWidth = 0.5f;
-                clTextoExtra3.BorderWidthBottom = 0.5f;
-                clTextoExtra3.HorizontalAlignment = 1;
-
-                PdfPCell clAfectado = new PdfPCell(new Phrase("Afectado", _standardFont));
-                clAfectado.BorderWidth = 0.5f;
-                clAfectado.BorderWidthBottom = 0.5f;
-                clAfectado.HorizontalAlignment = 1;
-
-                PdfPCell clImpreso = new PdfPCell(new Phrase("Impreso", _standardFont));
-                clImpreso.BorderWidth = 0.5f;
-                clImpreso.BorderWidthBottom = 0.5f;
-                clImpreso.HorizontalAlignment = 1;
-
-                PdfPCell clCancelado = new PdfPCell(new Phrase("Cancelado", _standardFont));
-                clCancelado.BorderWidth = 0.5f;
-                clCancelado.BorderWidthBottom = 0.5f;
-                clCancelado.HorizontalAlignment = 1;
-
-                PdfPCell clTotalUnidades = new PdfPCell(new Phrase("Total de Unidades", _standardFont));
-                clTotalUnidades.BorderWidth = 0.5f;
-                clTotalUnidades.BorderWidthBottom = 0.5f;
-                clTotalUnidades.HorizontalAlignment = 1;
-
-                PdfPCell clClasificacionCliente2 = new PdfPCell(new Phrase("Clasificación Cliente 2", _standardFont));
-                clClasificacionCliente2.BorderWidth = 0.5f;
-                clClasificacionCliente2.BorderWidthBottom = 0.5f;
-                clClasificacionCliente2.HorizontalAlignment = 1;
-
-                PdfPCell clTextoExtra1 = new PdfPCell(new Phrase("Texto Extra 1", _standardFont));
-                clTextoExtra1.BorderWidth = 0.5f;
-                clTextoExtra1.BorderWidthBottom = 0.5f;
-                clTextoExtra1.HorizontalAlignment = 1;
-
-                PdfPCell clNombreConcepto = new PdfPCell(new Phrase("Nombre del Concepto", _standardFont));
-                clNombreConcepto.BorderWidth = 0.5f;
-                clNombreConcepto.BorderWidthBottom = 0.5f;
-                clNombreConcepto.HorizontalAlignment = 1;
-                #endregion
-                //***************************************************************************************************************************************
-                #region Agrega titulos en las tablas
-                //agrega las tablas en el pdf
-                tabla_cuentas.AddCell(clFecha);
-                tabla_cuentas.AddCell(clSerie);
-                tabla_cuentas.AddCell(clFolio);
-                tabla_cuentas.AddCell(clNombreAgente);
-                tabla_cuentas.AddCell(clRazonSocial);
-                tabla_cuentas.AddCell(clFechaVencimiento);
-                tabla_cuentas.AddCell(clRFC);
-                tabla_cuentas.AddCell(clSubtotal);
-                tabla_cuentas.AddCell(clIVA);
-                tabla_cuentas.AddCell(clTotal);
-                tabla_cuentas.AddCell(clPendiente);
-                tabla_cuentas.AddCell(clTextoExtra3);
-                tabla_cuentas.AddCell(clAfectado);
-                tabla_cuentas.AddCell(clImpreso);
-                tabla_cuentas.AddCell(clCancelado);
-                tabla_cuentas.AddCell(clTotalUnidades);
-                tabla_cuentas.AddCell(clClasificacionCliente2);
-                tabla_cuentas.AddCell(clTextoExtra1);
-                tabla_cuentas.AddCell(clNombreConcepto);
-                #endregion
-
-                double ValorTotal = 0;
-                for (int k = 0; k < ListFactrurasCRU.Count; k++)
-                {
-                    #region AGREGA DATOS EN LA TABLA
-                    clFecha = new PdfPCell(new Phrase(ListFactrurasCRU[k].Fecha, _smallFont));
-                    clFecha.BorderWidth = 0.5f;
-                    clFecha.HorizontalAlignment = 1;
-
-                    clSerie = new PdfPCell(new Phrase(ListFactrurasCRU[k].Serie, _smallFont));
-                    clSerie.BorderWidth = 0.5f;
-                    clSerie.HorizontalAlignment = 1;
-
-                    clFolio = new PdfPCell(new Phrase(ListFactrurasCRU[k].Folio, _smallFont));
-                    clFolio.BorderWidth = 0.5f;
-                    clFolio.HorizontalAlignment = 1;
-
-                    clNombreAgente = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreAgente, _smallFont));
-                    clNombreAgente.BorderWidth = 0.5f;
-                    clNombreAgente.HorizontalAlignment = 1;
-
-                    clRazonSocial = new PdfPCell(new Phrase(ListFactrurasCRU[k].RazonSocial, _smallFont));
-                    clRazonSocial.BorderWidth = 0.5f;
-                    clRazonSocial.HorizontalAlignment = 1;
-
-                    clFechaVencimiento = new PdfPCell(new Phrase(ListFactrurasCRU[k].FechaVencimiento, _smallFont));
-                    clFechaVencimiento.BorderWidth = 0.5f;
-                    clFechaVencimiento.HorizontalAlignment = 1;
-
-                    clRFC = new PdfPCell(new Phrase(ListFactrurasCRU[k].RFC, _smallFont));
-                    clRFC.BorderWidth = 0.5f;
-                    clRFC.HorizontalAlignment = 1;
-
-                    clSubtotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Subtotal.ToString(), _smallFont));
-                    clSubtotal.BorderWidth = 0.5f;
-                    clSubtotal.HorizontalAlignment = 1;
-
-                    clIVA = new PdfPCell(new Phrase(ListFactrurasCRU[k].IVA.ToString(), _smallFont));
-                    clIVA.BorderWidth = 0.5f;
-                    clIVA.HorizontalAlignment = 1;
-
-                    clTotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Total.ToString(), _smallFont));
-                    clTotal.BorderWidth = 0.5f;
-                    clTotal.HorizontalAlignment = 1;
-                    ValorTotal += ListFactrurasCRU[k].Total;
-
-                    clPendiente = new PdfPCell(new Phrase(ListFactrurasCRU[k].Pendiente.ToString(), _smallFont));
-                    clPendiente.BorderWidth = 0.5f;
-                    clPendiente.HorizontalAlignment = 1;
-
-                    clTextoExtra3 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra3, _smallFont));
-                    clTextoExtra3.BorderWidth = 0.5f;
-                    clTextoExtra3.HorizontalAlignment = 1;
-
-                    clAfectado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Afectado, _smallFont));
-                    clAfectado.BorderWidth = 0.5f;
-                    clAfectado.HorizontalAlignment = 1;
-
-                    clImpreso = new PdfPCell(new Phrase(ListFactrurasCRU[k].Impreso, _smallFont));
-                    clImpreso.BorderWidth = 0.5f;
-                    clImpreso.HorizontalAlignment = 1;
-
-                    clCancelado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Cancelado, _smallFont));
-                    clCancelado.BorderWidth = 0.5f;
-                    clCancelado.HorizontalAlignment = 1;
-
-                    clTotalUnidades = new PdfPCell(new Phrase(ListFactrurasCRU[k].TotalUnidades.ToString(), _smallFont));
-                    clTotalUnidades.BorderWidth = 0.5f;
-                    clTotalUnidades.HorizontalAlignment = 1;
-
-                    clClasificacionCliente2 = new PdfPCell(new Phrase(ListFactrurasCRU[k].proveedor.Clasificación2, _smallFont));
-                    clClasificacionCliente2.BorderWidth = 0.5f;
-                    clClasificacionCliente2.HorizontalAlignment = 1;
-
-                    clTextoExtra1 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra1, _smallFont));
-                    clTextoExtra1.BorderWidth = 0.5f;
-                    clTextoExtra1.HorizontalAlignment = 1;
-
-                    clNombreConcepto = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreConcepto, _smallFont));
-                    clNombreConcepto.BorderWidth = 0.5f;
-                    clNombreConcepto.HorizontalAlignment = 1;
-                    #endregion
-                    #region Agrega titulos en las tablas
-                    //agrega las tablas en el pdf
-                    tabla_cuentas.AddCell(clFecha);
-                    tabla_cuentas.AddCell(clSerie);
-                    tabla_cuentas.AddCell(clFolio);
-                    tabla_cuentas.AddCell(clNombreAgente);
-                    tabla_cuentas.AddCell(clRazonSocial);
-                    tabla_cuentas.AddCell(clFechaVencimiento);
-                    tabla_cuentas.AddCell(clRFC);
-                    tabla_cuentas.AddCell(clSubtotal);
-                    tabla_cuentas.AddCell(clIVA);
-                    tabla_cuentas.AddCell(clTotal);
-                    tabla_cuentas.AddCell(clPendiente);
-                    tabla_cuentas.AddCell(clTextoExtra3);
-                    tabla_cuentas.AddCell(clAfectado);
-                    tabla_cuentas.AddCell(clImpreso);
-                    tabla_cuentas.AddCell(clCancelado);
-                    tabla_cuentas.AddCell(clTotalUnidades);
-                    tabla_cuentas.AddCell(clClasificacionCliente2);
-                    tabla_cuentas.AddCell(clTextoExtra1);
-                    tabla_cuentas.AddCell(clNombreConcepto);
-                    #endregion
-                }//fin for
-
-                doc.Add(new Paragraph("Total: $" + Math.Round(ValorTotal, 2), _titulos));
-                doc.Add(new Paragraph("\n"));
-
-                //agrego la tabla al pdf
-                doc.Add(tabla_cuentas);
-
-                #endregion
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-
-                /************************************************************/
-                #region **********SEGUNDA TABLA  filtro por RFC publico*********
-                doc.Add(new Paragraph(" Acumulado de Abonos en  Público ", _titulos));
-                doc.Add(new Paragraph("\n"));
-                tabla_cuentas = new PdfPTable(19);
-                //PdfPCell cell = new PdfPCell(new Phrase("Reporte de Compras"));
-                //cell.Colspan = 3;
-                //cell.BackgroundColor = BaseColor.BLUE;
-                //cell.HorizontalAlignment = 1;//0=Left, 1=Centre, 2=Right 
-                tabla_cuentas.WidthPercentage = 100;
-                //tabla_cuentas.AddCell(cell);
-
-
-
-                #region configuracion de columnas
-                // Configuramos el título de las columnas de la tabla 
-                clFecha = new PdfPCell(new Phrase("Fecha", _standardFont));
-                clFecha.BorderWidth = 0.5f;
-                clFecha.BorderWidthBottom = 0.5f;
-                clFecha.HorizontalAlignment = 1;
-
-                clSerie = new PdfPCell(new Phrase("Serie", _standardFont));
-                clSerie.BorderWidth = 0.5f;
-                clSerie.BorderWidthBottom = 0.5f;
-                clSerie.HorizontalAlignment = 1;
-
-                clFolio = new PdfPCell(new Phrase("Folio", _standardFont));
-                clFolio.BorderWidth = 0.5f;
-                clFolio.BorderWidthBottom = 0.5f;
-                clFolio.HorizontalAlignment = 1;
-
-                clNombreAgente = new PdfPCell(new Phrase("Nombre del Agente", _standardFont));
-                clNombreAgente.BorderWidth = 0.5f;
-                clNombreAgente.BorderWidthBottom = 0.5f;
-                clNombreAgente.HorizontalAlignment = 1;
-
-                clRazonSocial = new PdfPCell(new Phrase("Razón Social", _standardFont));
-                clRazonSocial.BorderWidth = 0.5f;
-                clRazonSocial.BorderWidthBottom = 0.5f;
-                clRazonSocial.HorizontalAlignment = 1;
-
-                clFechaVencimiento = new PdfPCell(new Phrase("Fecha de Vencimiento", _standardFont));
-                clFechaVencimiento.BorderWidth = 0.5f;
-                clFechaVencimiento.BorderWidthBottom = 0.5f;
-                clFechaVencimiento.HorizontalAlignment = 1;
-
-                clRFC = new PdfPCell(new Phrase("R.F.C.", _standardFont));
-                clRFC.BorderWidth = 0.5f;
-                clRFC.BorderWidthBottom = 0.5f;
-                clRFC.HorizontalAlignment = 1;
-
-                clSubtotal = new PdfPCell(new Phrase("Subtotal", _standardFont));
-                clSubtotal.BorderWidth = 0.5f;
-                clSubtotal.BorderWidthBottom = 0.5f;
-                clSubtotal.HorizontalAlignment = 1;
-
-                clIVA = new PdfPCell(new Phrase("IVA", _standardFont));
-                clIVA.BorderWidth = 0.5f;
-                clIVA.BorderWidthBottom = 0.5f;
-                clIVA.HorizontalAlignment = 1;
-
-                clTotal = new PdfPCell(new Phrase("Total", _standardFont));
-                clTotal.BorderWidth = 0.5f;
-                clTotal.BorderWidthBottom = 0.5f;
-                clTotal.HorizontalAlignment = 1;
-
-                clPendiente = new PdfPCell(new Phrase("Pendiente", _standardFont));
-                clPendiente.BorderWidth = 0.5f;
-                clPendiente.BorderWidthBottom = 0.5f;
-                clPendiente.HorizontalAlignment = 1;
-
-                clTextoExtra3 = new PdfPCell(new Phrase("Texto Extra 3", _standardFont));
-                clTextoExtra3.BorderWidth = 0.5f;
-                clTextoExtra3.BorderWidthBottom = 0.5f;
-                clTextoExtra3.HorizontalAlignment = 1;
-
-                clAfectado = new PdfPCell(new Phrase("Afectado", _standardFont));
-                clAfectado.BorderWidth = 0.5f;
-                clAfectado.BorderWidthBottom = 0.5f;
-                clAfectado.HorizontalAlignment = 1;
-
-                clImpreso = new PdfPCell(new Phrase("Impreso", _standardFont));
-                clImpreso.BorderWidth = 0.5f;
-                clImpreso.BorderWidthBottom = 0.5f;
-                clImpreso.HorizontalAlignment = 1;
-
-                clCancelado = new PdfPCell(new Phrase("Cancelado", _standardFont));
-                clCancelado.BorderWidth = 0.5f;
-                clCancelado.BorderWidthBottom = 0.5f;
-                clCancelado.HorizontalAlignment = 1;
-
-                clTotalUnidades = new PdfPCell(new Phrase("Total de Unidades", _standardFont));
-                clTotalUnidades.BorderWidth = 0.5f;
-                clTotalUnidades.BorderWidthBottom = 0.5f;
-                clTotalUnidades.HorizontalAlignment = 1;
-
-                clClasificacionCliente2 = new PdfPCell(new Phrase("Clasificación Cliente 2", _standardFont));
-                clClasificacionCliente2.BorderWidth = 0.5f;
-                clClasificacionCliente2.BorderWidthBottom = 0.5f;
-                clClasificacionCliente2.HorizontalAlignment = 1;
-
-                clTextoExtra1 = new PdfPCell(new Phrase("Texto Extra 1", _standardFont));
-                clTextoExtra1.BorderWidth = 0.5f;
-                clTextoExtra1.BorderWidthBottom = 0.5f;
-                clTextoExtra1.HorizontalAlignment = 1;
-
-                clNombreConcepto = new PdfPCell(new Phrase("Nombre del Concepto", _standardFont));
-                clNombreConcepto.BorderWidth = 0.5f;
-                clNombreConcepto.BorderWidthBottom = 0.5f;
-                clNombreConcepto.HorizontalAlignment = 1;
-                #endregion
-                //***************************************************************************************************************************************
-                #region Agrega titulos en las tablas
-                //agrega las tablas en el pdf
-                tabla_cuentas.AddCell(clFecha);
-                tabla_cuentas.AddCell(clSerie);
-                tabla_cuentas.AddCell(clFolio);
-                tabla_cuentas.AddCell(clNombreAgente);
-                tabla_cuentas.AddCell(clRazonSocial);
-                tabla_cuentas.AddCell(clFechaVencimiento);
-                tabla_cuentas.AddCell(clRFC);
-                tabla_cuentas.AddCell(clSubtotal);
-                tabla_cuentas.AddCell(clIVA);
-                tabla_cuentas.AddCell(clTotal);
-                tabla_cuentas.AddCell(clPendiente);
-                tabla_cuentas.AddCell(clTextoExtra3);
-                tabla_cuentas.AddCell(clAfectado);
-                tabla_cuentas.AddCell(clImpreso);
-                tabla_cuentas.AddCell(clCancelado);
-                tabla_cuentas.AddCell(clTotalUnidades);
-                tabla_cuentas.AddCell(clClasificacionCliente2);
-                tabla_cuentas.AddCell(clTextoExtra1);
-                tabla_cuentas.AddCell(clNombreConcepto);
-                #endregion
-                ListFactrurasCRU = ListFactrurasCRUFiltroRFCPublico;
-                ValorTotal = 0;
-                for (int k = 0; k < ListFactrurasCRU.Count; k++)
-                {
-                    #region AGREGA DATOS EN LA TABLA
-                    clFecha = new PdfPCell(new Phrase(ListFactrurasCRU[k].Fecha, _smallFont));
-                    clFecha.BorderWidth = 0.5f;
-                    clFecha.HorizontalAlignment = 1;
-
-                    clSerie = new PdfPCell(new Phrase(ListFactrurasCRU[k].Serie, _smallFont));
-                    clSerie.BorderWidth = 0.5f;
-                    clSerie.HorizontalAlignment = 1;
-
-                    clFolio = new PdfPCell(new Phrase(ListFactrurasCRU[k].Folio, _smallFont));
-                    clFolio.BorderWidth = 0.5f;
-                    clFolio.HorizontalAlignment = 1;
-
-                    clNombreAgente = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreAgente, _smallFont));
-                    clNombreAgente.BorderWidth = 0.5f;
-                    clNombreAgente.HorizontalAlignment = 1;
-
-                    clRazonSocial = new PdfPCell(new Phrase(ListFactrurasCRU[k].RazonSocial, _smallFont));
-                    clRazonSocial.BorderWidth = 0.5f;
-                    clRazonSocial.HorizontalAlignment = 1;
-
-                    clFechaVencimiento = new PdfPCell(new Phrase(ListFactrurasCRU[k].FechaVencimiento, _smallFont));
-                    clFechaVencimiento.BorderWidth = 0.5f;
-                    clFechaVencimiento.HorizontalAlignment = 1;
-
-                    clRFC = new PdfPCell(new Phrase(ListFactrurasCRU[k].RFC, _smallFont));
-                    clRFC.BorderWidth = 0.5f;
-                    clRFC.HorizontalAlignment = 1;
-
-                    clSubtotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Subtotal.ToString(), _smallFont));
-                    clSubtotal.BorderWidth = 0.5f;
-                    clSubtotal.HorizontalAlignment = 1;
-
-                    clIVA = new PdfPCell(new Phrase(ListFactrurasCRU[k].IVA.ToString(), _smallFont));
-                    clIVA.BorderWidth = 0.5f;
-                    clIVA.HorizontalAlignment = 1;
-
-                    clTotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Total.ToString(), _smallFont));
-                    clTotal.BorderWidth = 0.5f;
-                    clTotal.HorizontalAlignment = 1;
-                    ValorTotal += ListFactrurasCRU[k].Total;
-
-                    clPendiente = new PdfPCell(new Phrase(ListFactrurasCRU[k].Pendiente.ToString(), _smallFont));
-                    clPendiente.BorderWidth = 0.5f;
-                    clPendiente.HorizontalAlignment = 1;
-
-                    clTextoExtra3 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra3, _smallFont));
-                    clTextoExtra3.BorderWidth = 0.5f;
-                    clTextoExtra3.HorizontalAlignment = 1;
-
-                    clAfectado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Afectado, _smallFont));
-                    clAfectado.BorderWidth = 0.5f;
-                    clAfectado.HorizontalAlignment = 1;
-
-                    clImpreso = new PdfPCell(new Phrase(ListFactrurasCRU[k].Impreso, _smallFont));
-                    clImpreso.BorderWidth = 0.5f;
-                    clImpreso.HorizontalAlignment = 1;
-
-                    clCancelado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Cancelado, _smallFont));
-                    clCancelado.BorderWidth = 0.5f;
-                    clCancelado.HorizontalAlignment = 1;
-
-                    clTotalUnidades = new PdfPCell(new Phrase(ListFactrurasCRU[k].TotalUnidades.ToString(), _smallFont));
-                    clTotalUnidades.BorderWidth = 0.5f;
-                    clTotalUnidades.HorizontalAlignment = 1;
-
-                    clClasificacionCliente2 = new PdfPCell(new Phrase(ListFactrurasCRU[k].proveedor.Clasificación2, _smallFont));
-                    clClasificacionCliente2.BorderWidth = 0.5f;
-                    clClasificacionCliente2.HorizontalAlignment = 1;
-
-                    clTextoExtra1 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra1, _smallFont));
-                    clTextoExtra1.BorderWidth = 0.5f;
-                    clTextoExtra1.HorizontalAlignment = 1;
-
-                    clNombreConcepto = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreConcepto, _smallFont));
-                    clNombreConcepto.BorderWidth = 0.5f;
-                    clNombreConcepto.HorizontalAlignment = 1;
-                    #endregion
-                    #region Agrega titulos en las tablas
-                    //agrega las tablas en el pdf
-                    tabla_cuentas.AddCell(clFecha);
-                    tabla_cuentas.AddCell(clSerie);
-                    tabla_cuentas.AddCell(clFolio);
-                    tabla_cuentas.AddCell(clNombreAgente);
-                    tabla_cuentas.AddCell(clRazonSocial);
-                    tabla_cuentas.AddCell(clFechaVencimiento);
-                    tabla_cuentas.AddCell(clRFC);
-                    tabla_cuentas.AddCell(clSubtotal);
-                    tabla_cuentas.AddCell(clIVA);
-                    tabla_cuentas.AddCell(clTotal);
-                    tabla_cuentas.AddCell(clPendiente);
-                    tabla_cuentas.AddCell(clTextoExtra3);
-                    tabla_cuentas.AddCell(clAfectado);
-                    tabla_cuentas.AddCell(clImpreso);
-                    tabla_cuentas.AddCell(clCancelado);
-                    tabla_cuentas.AddCell(clTotalUnidades);
-                    tabla_cuentas.AddCell(clClasificacionCliente2);
-                    tabla_cuentas.AddCell(clTextoExtra1);
-                    tabla_cuentas.AddCell(clNombreConcepto);
-                    #endregion
-                }//fin for
-
-                doc.Add(new Paragraph("Total: $" + Math.Round(ValorTotal, 2), _titulos));
-                doc.Add(new Paragraph("\n"));
-
-                //agrego la tabla al pdf
-                doc.Add(tabla_cuentas);
-
-                #endregion
-                /******************************************************************************************/
-
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-
-                /************************************************************/
-                #region **********TERCER TABLA  FILTRO RFC OL*********
-                doc.Add(new Paragraph("25 Acumulado de Abonos a OL ", _titulos));
-                doc.Add(new Paragraph("\n"));
-                tabla_cuentas = new PdfPTable(19);
-                //PdfPCell cell = new PdfPCell(new Phrase("Reporte de Compras"));
-                //cell.Colspan = 3;
-                //cell.BackgroundColor = BaseColor.BLUE;
-                //cell.HorizontalAlignment = 1;//0=Left, 1=Centre, 2=Right 
-                tabla_cuentas.WidthPercentage = 100;
-                //tabla_cuentas.AddCell(cell);
-
-
-
-                #region configuracion de columnas
-                // Configuramos el título de las columnas de la tabla 
-                clFecha = new PdfPCell(new Phrase("Fecha", _standardFont));
-                clFecha.BorderWidth = 0.5f;
-                clFecha.BorderWidthBottom = 0.5f;
-                clFecha.HorizontalAlignment = 1;
-
-                clSerie = new PdfPCell(new Phrase("Serie", _standardFont));
-                clSerie.BorderWidth = 0.5f;
-                clSerie.BorderWidthBottom = 0.5f;
-                clSerie.HorizontalAlignment = 1;
-
-                clFolio = new PdfPCell(new Phrase("Folio", _standardFont));
-                clFolio.BorderWidth = 0.5f;
-                clFolio.BorderWidthBottom = 0.5f;
-                clFolio.HorizontalAlignment = 1;
-
-                clNombreAgente = new PdfPCell(new Phrase("Nombre del Agente", _standardFont));
-                clNombreAgente.BorderWidth = 0.5f;
-                clNombreAgente.BorderWidthBottom = 0.5f;
-                clNombreAgente.HorizontalAlignment = 1;
-
-                clRazonSocial = new PdfPCell(new Phrase("Razón Social", _standardFont));
-                clRazonSocial.BorderWidth = 0.5f;
-                clRazonSocial.BorderWidthBottom = 0.5f;
-                clRazonSocial.HorizontalAlignment = 1;
-
-                clFechaVencimiento = new PdfPCell(new Phrase("Fecha de Vencimiento", _standardFont));
-                clFechaVencimiento.BorderWidth = 0.5f;
-                clFechaVencimiento.BorderWidthBottom = 0.5f;
-                clFechaVencimiento.HorizontalAlignment = 1;
-
-                clRFC = new PdfPCell(new Phrase("R.F.C.", _standardFont));
-                clRFC.BorderWidth = 0.5f;
-                clRFC.BorderWidthBottom = 0.5f;
-                clRFC.HorizontalAlignment = 1;
-
-                clSubtotal = new PdfPCell(new Phrase("Subtotal", _standardFont));
-                clSubtotal.BorderWidth = 0.5f;
-                clSubtotal.BorderWidthBottom = 0.5f;
-                clSubtotal.HorizontalAlignment = 1;
-
-                clIVA = new PdfPCell(new Phrase("IVA", _standardFont));
-                clIVA.BorderWidth = 0.5f;
-                clIVA.BorderWidthBottom = 0.5f;
-                clIVA.HorizontalAlignment = 1;
-
-                clTotal = new PdfPCell(new Phrase("Total", _standardFont));
-                clTotal.BorderWidth = 0.5f;
-                clTotal.BorderWidthBottom = 0.5f;
-                clTotal.HorizontalAlignment = 1;
-
-                clPendiente = new PdfPCell(new Phrase("Pendiente", _standardFont));
-                clPendiente.BorderWidth = 0.5f;
-                clPendiente.BorderWidthBottom = 0.5f;
-                clPendiente.HorizontalAlignment = 1;
-
-                clTextoExtra3 = new PdfPCell(new Phrase("Texto Extra 3", _standardFont));
-                clTextoExtra3.BorderWidth = 0.5f;
-                clTextoExtra3.BorderWidthBottom = 0.5f;
-                clTextoExtra3.HorizontalAlignment = 1;
-
-                clAfectado = new PdfPCell(new Phrase("Afectado", _standardFont));
-                clAfectado.BorderWidth = 0.5f;
-                clAfectado.BorderWidthBottom = 0.5f;
-                clAfectado.HorizontalAlignment = 1;
-
-                clImpreso = new PdfPCell(new Phrase("Impreso", _standardFont));
-                clImpreso.BorderWidth = 0.5f;
-                clImpreso.BorderWidthBottom = 0.5f;
-                clImpreso.HorizontalAlignment = 1;
-
-                clCancelado = new PdfPCell(new Phrase("Cancelado", _standardFont));
-                clCancelado.BorderWidth = 0.5f;
-                clCancelado.BorderWidthBottom = 0.5f;
-                clCancelado.HorizontalAlignment = 1;
-
-                clTotalUnidades = new PdfPCell(new Phrase("Total de Unidades", _standardFont));
-                clTotalUnidades.BorderWidth = 0.5f;
-                clTotalUnidades.BorderWidthBottom = 0.5f;
-                clTotalUnidades.HorizontalAlignment = 1;
-
-                clClasificacionCliente2 = new PdfPCell(new Phrase("Clasificación Cliente 2", _standardFont));
-                clClasificacionCliente2.BorderWidth = 0.5f;
-                clClasificacionCliente2.BorderWidthBottom = 0.5f;
-                clClasificacionCliente2.HorizontalAlignment = 1;
-
-                clTextoExtra1 = new PdfPCell(new Phrase("Texto Extra 1", _standardFont));
-                clTextoExtra1.BorderWidth = 0.5f;
-                clTextoExtra1.BorderWidthBottom = 0.5f;
-                clTextoExtra1.HorizontalAlignment = 1;
-
-                clNombreConcepto = new PdfPCell(new Phrase("Nombre del Concepto", _standardFont));
-                clNombreConcepto.BorderWidth = 0.5f;
-                clNombreConcepto.BorderWidthBottom = 0.5f;
-                clNombreConcepto.HorizontalAlignment = 1;
-                #endregion
-                //***************************************************************************************************************************************
-                #region Agrega titulos en las tablas
-                //agrega las tablas en el pdf
-                tabla_cuentas.AddCell(clFecha);
-                tabla_cuentas.AddCell(clSerie);
-                tabla_cuentas.AddCell(clFolio);
-                tabla_cuentas.AddCell(clNombreAgente);
-                tabla_cuentas.AddCell(clRazonSocial);
-                tabla_cuentas.AddCell(clFechaVencimiento);
-                tabla_cuentas.AddCell(clRFC);
-                tabla_cuentas.AddCell(clSubtotal);
-                tabla_cuentas.AddCell(clIVA);
-                tabla_cuentas.AddCell(clTotal);
-                tabla_cuentas.AddCell(clPendiente);
-                tabla_cuentas.AddCell(clTextoExtra3);
-                tabla_cuentas.AddCell(clAfectado);
-                tabla_cuentas.AddCell(clImpreso);
-                tabla_cuentas.AddCell(clCancelado);
-                tabla_cuentas.AddCell(clTotalUnidades);
-                tabla_cuentas.AddCell(clClasificacionCliente2);
-                tabla_cuentas.AddCell(clTextoExtra1);
-                tabla_cuentas.AddCell(clNombreConcepto);
-                #endregion
-                ListFactrurasCRU = ListFactrurasCRUFiltroRFCOL;
-                ValorTotal = 0;
-                for (int k = 0; k < ListFactrurasCRU.Count; k++)
-                {
-                    #region AGREGA DATOS EN LA TABLA
-                    clFecha = new PdfPCell(new Phrase(ListFactrurasCRU[k].Fecha, _smallFont));
-                    clFecha.BorderWidth = 0.5f;
-                    clFecha.HorizontalAlignment = 1;
-
-                    clSerie = new PdfPCell(new Phrase(ListFactrurasCRU[k].Serie, _smallFont));
-                    clSerie.BorderWidth = 0.5f;
-                    clSerie.HorizontalAlignment = 1;
-
-                    clFolio = new PdfPCell(new Phrase(ListFactrurasCRU[k].Folio, _smallFont));
-                    clFolio.BorderWidth = 0.5f;
-                    clFolio.HorizontalAlignment = 1;
-
-                    clNombreAgente = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreAgente, _smallFont));
-                    clNombreAgente.BorderWidth = 0.5f;
-                    clNombreAgente.HorizontalAlignment = 1;
-
-                    clRazonSocial = new PdfPCell(new Phrase(ListFactrurasCRU[k].RazonSocial, _smallFont));
-                    clRazonSocial.BorderWidth = 0.5f;
-                    clRazonSocial.HorizontalAlignment = 1;
-
-                    clFechaVencimiento = new PdfPCell(new Phrase(ListFactrurasCRU[k].FechaVencimiento, _smallFont));
-                    clFechaVencimiento.BorderWidth = 0.5f;
-                    clFechaVencimiento.HorizontalAlignment = 1;
-
-                    clRFC = new PdfPCell(new Phrase(ListFactrurasCRU[k].RFC, _smallFont));
-                    clRFC.BorderWidth = 0.5f;
-                    clRFC.HorizontalAlignment = 1;
-
-                    clSubtotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Subtotal.ToString(), _smallFont));
-                    clSubtotal.BorderWidth = 0.5f;
-                    clSubtotal.HorizontalAlignment = 1;
-
-                    clIVA = new PdfPCell(new Phrase(ListFactrurasCRU[k].IVA.ToString(), _smallFont));
-                    clIVA.BorderWidth = 0.5f;
-                    clIVA.HorizontalAlignment = 1;
-
-                    clTotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Total.ToString(), _smallFont));
-                    clTotal.BorderWidth = 0.5f;
-                    clTotal.HorizontalAlignment = 1;
-                    ValorTotal += ListFactrurasCRU[k].Total;
-
-                    clPendiente = new PdfPCell(new Phrase(ListFactrurasCRU[k].Pendiente.ToString(), _smallFont));
-                    clPendiente.BorderWidth = 0.5f;
-                    clPendiente.HorizontalAlignment = 1;
-
-                    clTextoExtra3 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra3, _smallFont));
-                    clTextoExtra3.BorderWidth = 0.5f;
-                    clTextoExtra3.HorizontalAlignment = 1;
-
-                    clAfectado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Afectado, _smallFont));
-                    clAfectado.BorderWidth = 0.5f;
-                    clAfectado.HorizontalAlignment = 1;
-
-                    clImpreso = new PdfPCell(new Phrase(ListFactrurasCRU[k].Impreso, _smallFont));
-                    clImpreso.BorderWidth = 0.5f;
-                    clImpreso.HorizontalAlignment = 1;
-
-                    clCancelado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Cancelado, _smallFont));
-                    clCancelado.BorderWidth = 0.5f;
-                    clCancelado.HorizontalAlignment = 1;
-
-                    clTotalUnidades = new PdfPCell(new Phrase(ListFactrurasCRU[k].TotalUnidades.ToString(), _smallFont));
-                    clTotalUnidades.BorderWidth = 0.5f;
-                    clTotalUnidades.HorizontalAlignment = 1;
-
-                    clClasificacionCliente2 = new PdfPCell(new Phrase(ListFactrurasCRU[k].proveedor.Clasificación2, _smallFont));
-                    clClasificacionCliente2.BorderWidth = 0.5f;
-                    clClasificacionCliente2.HorizontalAlignment = 1;
-
-                    clTextoExtra1 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra1, _smallFont));
-                    clTextoExtra1.BorderWidth = 0.5f;
-                    clTextoExtra1.HorizontalAlignment = 1;
-
-                    clNombreConcepto = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreConcepto, _smallFont));
-                    clNombreConcepto.BorderWidth = 0.5f;
-                    clNombreConcepto.HorizontalAlignment = 1;
-                    #endregion
-                    #region Agrega titulos en las tablas
-                    //agrega las tablas en el pdf
-                    tabla_cuentas.AddCell(clFecha);
-                    tabla_cuentas.AddCell(clSerie);
-                    tabla_cuentas.AddCell(clFolio);
-                    tabla_cuentas.AddCell(clNombreAgente);
-                    tabla_cuentas.AddCell(clRazonSocial);
-                    tabla_cuentas.AddCell(clFechaVencimiento);
-                    tabla_cuentas.AddCell(clRFC);
-                    tabla_cuentas.AddCell(clSubtotal);
-                    tabla_cuentas.AddCell(clIVA);
-                    tabla_cuentas.AddCell(clTotal);
-                    tabla_cuentas.AddCell(clPendiente);
-                    tabla_cuentas.AddCell(clTextoExtra3);
-                    tabla_cuentas.AddCell(clAfectado);
-                    tabla_cuentas.AddCell(clImpreso);
-                    tabla_cuentas.AddCell(clCancelado);
-                    tabla_cuentas.AddCell(clTotalUnidades);
-                    tabla_cuentas.AddCell(clClasificacionCliente2);
-                    tabla_cuentas.AddCell(clTextoExtra1);
-                    tabla_cuentas.AddCell(clNombreConcepto);
-                    #endregion
-                }//fin for
-
-                doc.Add(new Paragraph("Total: $" + Math.Round(ValorTotal, 2), _titulos));
-                doc.Add(new Paragraph("\n"));
-
-                //agrego la tabla al pdf
-                doc.Add(tabla_cuentas);
-
-                #endregion
-                /******************************************************************************************/
-                // cierro la edicion del pdf
-                doc.Close();
-
-                ////LO EJECUTO
-                Process prc = new System.Diagnostics.Process();
-                prc.StartInfo.FileName = rut;
-                prc.Start();
-
-            }
-            catch (Exception g)
-            { MessageBox.Show("" + g.Message); }
-        }
-        #endregion
-
-
-        #region CRU Compras
-        /// <summary>
-        /// Método para imprimir las facturas de CRU
-        /// </summary>
-        /// <param name="ListFactrurasCRU">lista de las facturas que se van a imprimir</param>
-        public void ImpresionCRUCompras(List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRU, string fechas, string path, List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRUFiltroRFCPublico)
-        {
-
-            try
-            {
-
-                Document doc = new Document(PageSize.TABLOID, 10, 10, 10, 10);//Creacion del documento configuracion de tipo de hoja y margenes
-                doc.AddAuthor("Indicadores");//Autor del PDF
-                doc.AddKeywords("pdf, PdfWriter; Indicadores V1");
-
-                //para almacenamiento del archivo
-                string nombre_archivo = "Compras.PDF";//Nombre del Archivo
-                string rut = @path + nombre_archivo;
-                PdfWriter wri = PdfWriter.GetInstance(doc, new FileStream(rut, FileMode.Create));
-                doc.AddTitle("REPORTE");
-                doc.AddCreator("*********");
-                doc.Open();
-                //tipo de letras que se pueda usar en el archivo PDF
-                iTextSharp.text.Font _mediumFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-                iTextSharp.text.Font _standardFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 9, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
-                iTextSharp.text.Font _standardFont1 = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.BOLD, BaseColor.WHITE);
-                iTextSharp.text.Font _smallFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-                iTextSharp.text.Font _titulo = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-                iTextSharp.text.Font _titulos = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 12, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-
-
-                // Cabecera
-                doc.Add(new Paragraph(" Desglose general de Compras  " + fechas, _titulo));
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-
-                //***********************************************
-                #region **********PRIMERA TABLA 26 Acumulado de Compras en CRU*********
-                doc.Add(new Paragraph("Acumulado de Compras  ", _titulos));
-                doc.Add(new Paragraph("\n"));
-                PdfPTable tabla_cuentas = new PdfPTable(19);
-                //PdfPCell cell = new PdfPCell(new Phrase("Reporte de Compras"));
-                //cell.Colspan = 3;
-                //cell.BackgroundColor = BaseColor.BLUE;
-                //cell.HorizontalAlignment = 1;//0=Left, 1=Centre, 2=Right 
-                tabla_cuentas.WidthPercentage = 100;
-                //tabla_cuentas.AddCell(cell);
-
-
-
-                #region configuracion de columnas
-                // Configuramos el título de las columnas de la tabla 
-                PdfPCell clFecha = new PdfPCell(new Phrase("Fecha", _standardFont));
-                clFecha.BorderWidth = 0.5f;
-                clFecha.BorderWidthBottom = 0.5f;
-                clFecha.HorizontalAlignment = 1;
-
-                PdfPCell clSerie = new PdfPCell(new Phrase("Serie", _standardFont));
-                clSerie.BorderWidth = 0.5f;
-                clSerie.BorderWidthBottom = 0.5f;
-                clSerie.HorizontalAlignment = 1;
-
-                PdfPCell clFolio = new PdfPCell(new Phrase("Folio", _standardFont));
-                clFolio.BorderWidth = 0.5f;
-                clFolio.BorderWidthBottom = 0.5f;
-                clFolio.HorizontalAlignment = 1;
-
-                PdfPCell clNombreAgente = new PdfPCell(new Phrase("Nombre del Agente", _standardFont));
-                clNombreAgente.BorderWidth = 0.5f;
-                clNombreAgente.BorderWidthBottom = 0.5f;
-                clNombreAgente.HorizontalAlignment = 1;
-
-                PdfPCell clRazonSocial = new PdfPCell(new Phrase("Razón Social", _standardFont));
-                clRazonSocial.BorderWidth = 0.5f;
-                clRazonSocial.BorderWidthBottom = 0.5f;
-                clRazonSocial.HorizontalAlignment = 1;
-
-                PdfPCell clFechaVencimiento = new PdfPCell(new Phrase("Fecha de Vencimiento", _standardFont));
-                clFechaVencimiento.BorderWidth = 0.5f;
-                clFechaVencimiento.BorderWidthBottom = 0.5f;
-                clFechaVencimiento.HorizontalAlignment = 1;
-
-                PdfPCell clRFC = new PdfPCell(new Phrase("R.F.C.", _standardFont));
-                clRFC.BorderWidth = 0.5f;
-                clRFC.BorderWidthBottom = 0.5f;
-                clRFC.HorizontalAlignment = 1;
-
-                PdfPCell clSubtotal = new PdfPCell(new Phrase("Subtotal", _standardFont));
-                clSubtotal.BorderWidth = 0.5f;
-                clSubtotal.BorderWidthBottom = 0.5f;
-                clSubtotal.HorizontalAlignment = 1;
-
-                PdfPCell clIVA = new PdfPCell(new Phrase("IVA", _standardFont));
-                clIVA.BorderWidth = 0.5f;
-                clIVA.BorderWidthBottom = 0.5f;
-                clIVA.HorizontalAlignment = 1;
-
-                PdfPCell clTotal = new PdfPCell(new Phrase("Total", _standardFont));
-                clTotal.BorderWidth = 0.5f;
-                clTotal.BorderWidthBottom = 0.5f;
-                clTotal.HorizontalAlignment = 1;
-
-                PdfPCell clPendiente = new PdfPCell(new Phrase("Pendiente", _standardFont));
-                clPendiente.BorderWidth = 0.5f;
-                clPendiente.BorderWidthBottom = 0.5f;
-                clPendiente.HorizontalAlignment = 1;
-
-                PdfPCell clTextoExtra3 = new PdfPCell(new Phrase("Texto Extra 3", _standardFont));
-                clTextoExtra3.BorderWidth = 0.5f;
-                clTextoExtra3.BorderWidthBottom = 0.5f;
-                clTextoExtra3.HorizontalAlignment = 1;
-
-                PdfPCell clAfectado = new PdfPCell(new Phrase("Afectado", _standardFont));
-                clAfectado.BorderWidth = 0.5f;
-                clAfectado.BorderWidthBottom = 0.5f;
-                clAfectado.HorizontalAlignment = 1;
-
-                PdfPCell clImpreso = new PdfPCell(new Phrase("Impreso", _standardFont));
-                clImpreso.BorderWidth = 0.5f;
-                clImpreso.BorderWidthBottom = 0.5f;
-                clImpreso.HorizontalAlignment = 1;
-
-                PdfPCell clCancelado = new PdfPCell(new Phrase("Cancelado", _standardFont));
-                clCancelado.BorderWidth = 0.5f;
-                clCancelado.BorderWidthBottom = 0.5f;
-                clCancelado.HorizontalAlignment = 1;
-
-                PdfPCell clTotalUnidades = new PdfPCell(new Phrase("Total de Unidades", _standardFont));
-                clTotalUnidades.BorderWidth = 0.5f;
-                clTotalUnidades.BorderWidthBottom = 0.5f;
-                clTotalUnidades.HorizontalAlignment = 1;
-
-                PdfPCell clClasificacionCliente2 = new PdfPCell(new Phrase("Clasificación Cliente 2", _standardFont));
-                clClasificacionCliente2.BorderWidth = 0.5f;
-                clClasificacionCliente2.BorderWidthBottom = 0.5f;
-                clClasificacionCliente2.HorizontalAlignment = 1;
-
-                PdfPCell clTextoExtra1 = new PdfPCell(new Phrase("Texto Extra 1", _standardFont));
-                clTextoExtra1.BorderWidth = 0.5f;
-                clTextoExtra1.BorderWidthBottom = 0.5f;
-                clTextoExtra1.HorizontalAlignment = 1;
-
-                PdfPCell clNombreConcepto = new PdfPCell(new Phrase("Nombre del Concepto", _standardFont));
-                clNombreConcepto.BorderWidth = 0.5f;
-                clNombreConcepto.BorderWidthBottom = 0.5f;
-                clNombreConcepto.HorizontalAlignment = 1;
-                #endregion
-                //***************************************************************************************************************************************
-                #region Agrega titulos en las tablas
-                //agrega las tablas en el pdf
-                tabla_cuentas.AddCell(clFecha);
-                tabla_cuentas.AddCell(clSerie);
-                tabla_cuentas.AddCell(clFolio);
-                tabla_cuentas.AddCell(clNombreAgente);
-                tabla_cuentas.AddCell(clRazonSocial);
-                tabla_cuentas.AddCell(clFechaVencimiento);
-                tabla_cuentas.AddCell(clRFC);
-                tabla_cuentas.AddCell(clSubtotal);
-                tabla_cuentas.AddCell(clIVA);
-                tabla_cuentas.AddCell(clTotal);
-                tabla_cuentas.AddCell(clPendiente);
-                tabla_cuentas.AddCell(clTextoExtra3);
-                tabla_cuentas.AddCell(clAfectado);
-                tabla_cuentas.AddCell(clImpreso);
-                tabla_cuentas.AddCell(clCancelado);
-                tabla_cuentas.AddCell(clTotalUnidades);
-                tabla_cuentas.AddCell(clClasificacionCliente2);
-                tabla_cuentas.AddCell(clTextoExtra1);
-                tabla_cuentas.AddCell(clNombreConcepto);
-                #endregion
-
-                double ValorTotal = 0;
-                for (int k = 0; k < ListFactrurasCRU.Count; k++)
-                {
-                    #region AGREGA DATOS EN LA TABLA
-                    clFecha = new PdfPCell(new Phrase(ListFactrurasCRU[k].Fecha, _smallFont));
-                    clFecha.BorderWidth = 0.5f;
-                    clFecha.HorizontalAlignment = 1;
-
-                    clSerie = new PdfPCell(new Phrase(ListFactrurasCRU[k].Serie, _smallFont));
-                    clSerie.BorderWidth = 0.5f;
-                    clSerie.HorizontalAlignment = 1;
-
-                    clFolio = new PdfPCell(new Phrase(ListFactrurasCRU[k].Folio, _smallFont));
-                    clFolio.BorderWidth = 0.5f;
-                    clFolio.HorizontalAlignment = 1;
-
-                    clNombreAgente = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreAgente, _smallFont));
-                    clNombreAgente.BorderWidth = 0.5f;
-                    clNombreAgente.HorizontalAlignment = 1;
-
-                    clRazonSocial = new PdfPCell(new Phrase(ListFactrurasCRU[k].RazonSocial, _smallFont));
-                    clRazonSocial.BorderWidth = 0.5f;
-                    clRazonSocial.HorizontalAlignment = 1;
-
-                    clFechaVencimiento = new PdfPCell(new Phrase(ListFactrurasCRU[k].FechaVencimiento, _smallFont));
-                    clFechaVencimiento.BorderWidth = 0.5f;
-                    clFechaVencimiento.HorizontalAlignment = 1;
-
-                    clRFC = new PdfPCell(new Phrase(ListFactrurasCRU[k].RFC, _smallFont));
-                    clRFC.BorderWidth = 0.5f;
-                    clRFC.HorizontalAlignment = 1;
-
-                    clSubtotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Subtotal.ToString(), _smallFont));
-                    clSubtotal.BorderWidth = 0.5f;
-                    clSubtotal.HorizontalAlignment = 1;
-
-                    clIVA = new PdfPCell(new Phrase(ListFactrurasCRU[k].IVA.ToString(), _smallFont));
-                    clIVA.BorderWidth = 0.5f;
-                    clIVA.HorizontalAlignment = 1;
-
-                    clTotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Total.ToString(), _smallFont));
-                    clTotal.BorderWidth = 0.5f;
-                    clTotal.HorizontalAlignment = 1;
-                    ValorTotal += ListFactrurasCRU[k].Total;
-
-                    clPendiente = new PdfPCell(new Phrase(ListFactrurasCRU[k].Pendiente.ToString(), _smallFont));
-                    clPendiente.BorderWidth = 0.5f;
-                    clPendiente.HorizontalAlignment = 1;
-
-                    clTextoExtra3 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra3, _smallFont));
-                    clTextoExtra3.BorderWidth = 0.5f;
-                    clTextoExtra3.HorizontalAlignment = 1;
-
-                    clAfectado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Afectado, _smallFont));
-                    clAfectado.BorderWidth = 0.5f;
-                    clAfectado.HorizontalAlignment = 1;
-
-                    clImpreso = new PdfPCell(new Phrase(ListFactrurasCRU[k].Impreso, _smallFont));
-                    clImpreso.BorderWidth = 0.5f;
-                    clImpreso.HorizontalAlignment = 1;
-
-                    clCancelado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Cancelado, _smallFont));
-                    clCancelado.BorderWidth = 0.5f;
-                    clCancelado.HorizontalAlignment = 1;
-
-                    clTotalUnidades = new PdfPCell(new Phrase(ListFactrurasCRU[k].TotalUnidades.ToString(), _smallFont));
-                    clTotalUnidades.BorderWidth = 0.5f;
-                    clTotalUnidades.HorizontalAlignment = 1;
-
-                    clClasificacionCliente2 = new PdfPCell(new Phrase(ListFactrurasCRU[k].proveedor.Clasificación2, _smallFont));
-                    clClasificacionCliente2.BorderWidth = 0.5f;
-                    clClasificacionCliente2.HorizontalAlignment = 1;
-
-                    clTextoExtra1 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra1, _smallFont));
-                    clTextoExtra1.BorderWidth = 0.5f;
-                    clTextoExtra1.HorizontalAlignment = 1;
-
-                    clNombreConcepto = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreConcepto, _smallFont));
-                    clNombreConcepto.BorderWidth = 0.5f;
-                    clNombreConcepto.HorizontalAlignment = 1;
-                    #endregion
-                    #region Agrega titulos en las tablas
-                    //agrega las tablas en el pdf
-                    tabla_cuentas.AddCell(clFecha);
-                    tabla_cuentas.AddCell(clSerie);
-                    tabla_cuentas.AddCell(clFolio);
-                    tabla_cuentas.AddCell(clNombreAgente);
-                    tabla_cuentas.AddCell(clRazonSocial);
-                    tabla_cuentas.AddCell(clFechaVencimiento);
-                    tabla_cuentas.AddCell(clRFC);
-                    tabla_cuentas.AddCell(clSubtotal);
-                    tabla_cuentas.AddCell(clIVA);
-                    tabla_cuentas.AddCell(clTotal);
-                    tabla_cuentas.AddCell(clPendiente);
-                    tabla_cuentas.AddCell(clTextoExtra3);
-                    tabla_cuentas.AddCell(clAfectado);
-                    tabla_cuentas.AddCell(clImpreso);
-                    tabla_cuentas.AddCell(clCancelado);
-                    tabla_cuentas.AddCell(clTotalUnidades);
-                    tabla_cuentas.AddCell(clClasificacionCliente2);
-                    tabla_cuentas.AddCell(clTextoExtra1);
-                    tabla_cuentas.AddCell(clNombreConcepto);
-                    #endregion
-                }//fin for
-
-                doc.Add(new Paragraph("Total: $" + Math.Round(ValorTotal, 2), _titulos));
-                doc.Add(new Paragraph("\n"));
-
-                //agrego la tabla al pdf
-                doc.Add(tabla_cuentas);
-
-                #endregion
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-
-                /************************************************************/
-                #region **********SEGUNDA TABLA  filtro por RFC ANJI*********
-                doc.Add(new Paragraph("Acumulado de Compras  filtro", _titulos));
-                doc.Add(new Paragraph("\n"));
-                tabla_cuentas = new PdfPTable(19);
-                //PdfPCell cell = new PdfPCell(new Phrase("Reporte de Compras"));
-                //cell.Colspan = 3;
-                //cell.BackgroundColor = BaseColor.BLUE;
-                //cell.HorizontalAlignment = 1;//0=Left, 1=Centre, 2=Right 
-                tabla_cuentas.WidthPercentage = 100;
-                //tabla_cuentas.AddCell(cell);
-
-
-
-                #region configuracion de columnas
-                // Configuramos el título de las columnas de la tabla 
-                clFecha = new PdfPCell(new Phrase("Fecha", _standardFont));
-                clFecha.BorderWidth = 0.5f;
-                clFecha.BorderWidthBottom = 0.5f;
-                clFecha.HorizontalAlignment = 1;
-
-                clSerie = new PdfPCell(new Phrase("Serie", _standardFont));
-                clSerie.BorderWidth = 0.5f;
-                clSerie.BorderWidthBottom = 0.5f;
-                clSerie.HorizontalAlignment = 1;
-
-                clFolio = new PdfPCell(new Phrase("Folio", _standardFont));
-                clFolio.BorderWidth = 0.5f;
-                clFolio.BorderWidthBottom = 0.5f;
-                clFolio.HorizontalAlignment = 1;
-
-                clNombreAgente = new PdfPCell(new Phrase("Nombre del Agente", _standardFont));
-                clNombreAgente.BorderWidth = 0.5f;
-                clNombreAgente.BorderWidthBottom = 0.5f;
-                clNombreAgente.HorizontalAlignment = 1;
-
-                clRazonSocial = new PdfPCell(new Phrase("Razón Social", _standardFont));
-                clRazonSocial.BorderWidth = 0.5f;
-                clRazonSocial.BorderWidthBottom = 0.5f;
-                clRazonSocial.HorizontalAlignment = 1;
-
-                clFechaVencimiento = new PdfPCell(new Phrase("Fecha de Vencimiento", _standardFont));
-                clFechaVencimiento.BorderWidth = 0.5f;
-                clFechaVencimiento.BorderWidthBottom = 0.5f;
-                clFechaVencimiento.HorizontalAlignment = 1;
-
-                clRFC = new PdfPCell(new Phrase("R.F.C.", _standardFont));
-                clRFC.BorderWidth = 0.5f;
-                clRFC.BorderWidthBottom = 0.5f;
-                clRFC.HorizontalAlignment = 1;
-
-                clSubtotal = new PdfPCell(new Phrase("Subtotal", _standardFont));
-                clSubtotal.BorderWidth = 0.5f;
-                clSubtotal.BorderWidthBottom = 0.5f;
-                clSubtotal.HorizontalAlignment = 1;
-
-                clIVA = new PdfPCell(new Phrase("IVA", _standardFont));
-                clIVA.BorderWidth = 0.5f;
-                clIVA.BorderWidthBottom = 0.5f;
-                clIVA.HorizontalAlignment = 1;
-
-                clTotal = new PdfPCell(new Phrase("Total", _standardFont));
-                clTotal.BorderWidth = 0.5f;
-                clTotal.BorderWidthBottom = 0.5f;
-                clTotal.HorizontalAlignment = 1;
-
-                clPendiente = new PdfPCell(new Phrase("Pendiente", _standardFont));
-                clPendiente.BorderWidth = 0.5f;
-                clPendiente.BorderWidthBottom = 0.5f;
-                clPendiente.HorizontalAlignment = 1;
-
-                clTextoExtra3 = new PdfPCell(new Phrase("Texto Extra 3", _standardFont));
-                clTextoExtra3.BorderWidth = 0.5f;
-                clTextoExtra3.BorderWidthBottom = 0.5f;
-                clTextoExtra3.HorizontalAlignment = 1;
-
-                clAfectado = new PdfPCell(new Phrase("Afectado", _standardFont));
-                clAfectado.BorderWidth = 0.5f;
-                clAfectado.BorderWidthBottom = 0.5f;
-                clAfectado.HorizontalAlignment = 1;
-
-                clImpreso = new PdfPCell(new Phrase("Impreso", _standardFont));
-                clImpreso.BorderWidth = 0.5f;
-                clImpreso.BorderWidthBottom = 0.5f;
-                clImpreso.HorizontalAlignment = 1;
-
-                clCancelado = new PdfPCell(new Phrase("Cancelado", _standardFont));
-                clCancelado.BorderWidth = 0.5f;
-                clCancelado.BorderWidthBottom = 0.5f;
-                clCancelado.HorizontalAlignment = 1;
-
-                clTotalUnidades = new PdfPCell(new Phrase("Total de Unidades", _standardFont));
-                clTotalUnidades.BorderWidth = 0.5f;
-                clTotalUnidades.BorderWidthBottom = 0.5f;
-                clTotalUnidades.HorizontalAlignment = 1;
-
-                clClasificacionCliente2 = new PdfPCell(new Phrase("Clasificación Cliente 2", _standardFont));
-                clClasificacionCliente2.BorderWidth = 0.5f;
-                clClasificacionCliente2.BorderWidthBottom = 0.5f;
-                clClasificacionCliente2.HorizontalAlignment = 1;
-
-                clTextoExtra1 = new PdfPCell(new Phrase("Texto Extra 1", _standardFont));
-                clTextoExtra1.BorderWidth = 0.5f;
-                clTextoExtra1.BorderWidthBottom = 0.5f;
-                clTextoExtra1.HorizontalAlignment = 1;
-
-                clNombreConcepto = new PdfPCell(new Phrase("Nombre del Concepto", _standardFont));
-                clNombreConcepto.BorderWidth = 0.5f;
-                clNombreConcepto.BorderWidthBottom = 0.5f;
-                clNombreConcepto.HorizontalAlignment = 1;
-                #endregion
-                //***************************************************************************************************************************************
-                #region Agrega titulos en las tablas
-                //agrega las tablas en el pdf
-                tabla_cuentas.AddCell(clFecha);
-                tabla_cuentas.AddCell(clSerie);
-                tabla_cuentas.AddCell(clFolio);
-                tabla_cuentas.AddCell(clNombreAgente);
-                tabla_cuentas.AddCell(clRazonSocial);
-                tabla_cuentas.AddCell(clFechaVencimiento);
-                tabla_cuentas.AddCell(clRFC);
-                tabla_cuentas.AddCell(clSubtotal);
-                tabla_cuentas.AddCell(clIVA);
-                tabla_cuentas.AddCell(clTotal);
-                tabla_cuentas.AddCell(clPendiente);
-                tabla_cuentas.AddCell(clTextoExtra3);
-                tabla_cuentas.AddCell(clAfectado);
-                tabla_cuentas.AddCell(clImpreso);
-                tabla_cuentas.AddCell(clCancelado);
-                tabla_cuentas.AddCell(clTotalUnidades);
-                tabla_cuentas.AddCell(clClasificacionCliente2);
-                tabla_cuentas.AddCell(clTextoExtra1);
-                tabla_cuentas.AddCell(clNombreConcepto);
-                #endregion
-                ListFactrurasCRU = ListFactrurasCRUFiltroRFCPublico;
-                ValorTotal = 0;
-                for (int k = 0; k < ListFactrurasCRU.Count; k++)
-                {
-                    #region AGREGA DATOS EN LA TABLA
-                    clFecha = new PdfPCell(new Phrase(ListFactrurasCRU[k].Fecha, _smallFont));
-                    clFecha.BorderWidth = 0.5f;
-                    clFecha.HorizontalAlignment = 1;
-
-                    clSerie = new PdfPCell(new Phrase(ListFactrurasCRU[k].Serie, _smallFont));
-                    clSerie.BorderWidth = 0.5f;
-                    clSerie.HorizontalAlignment = 1;
-
-                    clFolio = new PdfPCell(new Phrase(ListFactrurasCRU[k].Folio, _smallFont));
-                    clFolio.BorderWidth = 0.5f;
-                    clFolio.HorizontalAlignment = 1;
-
-                    clNombreAgente = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreAgente, _smallFont));
-                    clNombreAgente.BorderWidth = 0.5f;
-                    clNombreAgente.HorizontalAlignment = 1;
-
-                    clRazonSocial = new PdfPCell(new Phrase(ListFactrurasCRU[k].RazonSocial, _smallFont));
-                    clRazonSocial.BorderWidth = 0.5f;
-                    clRazonSocial.HorizontalAlignment = 1;
-
-                    clFechaVencimiento = new PdfPCell(new Phrase(ListFactrurasCRU[k].FechaVencimiento, _smallFont));
-                    clFechaVencimiento.BorderWidth = 0.5f;
-                    clFechaVencimiento.HorizontalAlignment = 1;
-
-                    clRFC = new PdfPCell(new Phrase(ListFactrurasCRU[k].RFC, _smallFont));
-                    clRFC.BorderWidth = 0.5f;
-                    clRFC.HorizontalAlignment = 1;
-
-                    clSubtotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Subtotal.ToString(), _smallFont));
-                    clSubtotal.BorderWidth = 0.5f;
-                    clSubtotal.HorizontalAlignment = 1;
-
-                    clIVA = new PdfPCell(new Phrase(ListFactrurasCRU[k].IVA.ToString(), _smallFont));
-                    clIVA.BorderWidth = 0.5f;
-                    clIVA.HorizontalAlignment = 1;
-
-                    clTotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Total.ToString(), _smallFont));
-                    clTotal.BorderWidth = 0.5f;
-                    clTotal.HorizontalAlignment = 1;
-                    ValorTotal += ListFactrurasCRU[k].Total;
-
-                    clPendiente = new PdfPCell(new Phrase(ListFactrurasCRU[k].Pendiente.ToString(), _smallFont));
-                    clPendiente.BorderWidth = 0.5f;
-                    clPendiente.HorizontalAlignment = 1;
-
-                    clTextoExtra3 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra3, _smallFont));
-                    clTextoExtra3.BorderWidth = 0.5f;
-                    clTextoExtra3.HorizontalAlignment = 1;
-
-                    clAfectado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Afectado, _smallFont));
-                    clAfectado.BorderWidth = 0.5f;
-                    clAfectado.HorizontalAlignment = 1;
-
-                    clImpreso = new PdfPCell(new Phrase(ListFactrurasCRU[k].Impreso, _smallFont));
-                    clImpreso.BorderWidth = 0.5f;
-                    clImpreso.HorizontalAlignment = 1;
-
-                    clCancelado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Cancelado, _smallFont));
-                    clCancelado.BorderWidth = 0.5f;
-                    clCancelado.HorizontalAlignment = 1;
-
-                    clTotalUnidades = new PdfPCell(new Phrase(ListFactrurasCRU[k].TotalUnidades.ToString(), _smallFont));
-                    clTotalUnidades.BorderWidth = 0.5f;
-                    clTotalUnidades.HorizontalAlignment = 1;
-
-                    clClasificacionCliente2 = new PdfPCell(new Phrase(ListFactrurasCRU[k].proveedor.Clasificación2, _smallFont));
-                    clClasificacionCliente2.BorderWidth = 0.5f;
-                    clClasificacionCliente2.HorizontalAlignment = 1;
-
-                    clTextoExtra1 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra1, _smallFont));
-                    clTextoExtra1.BorderWidth = 0.5f;
-                    clTextoExtra1.HorizontalAlignment = 1;
-
-                    clNombreConcepto = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreConcepto, _smallFont));
-                    clNombreConcepto.BorderWidth = 0.5f;
-                    clNombreConcepto.HorizontalAlignment = 1;
-                    #endregion
-                    #region Agrega titulos en las tablas
-                    //agrega las tablas en el pdf
-                    tabla_cuentas.AddCell(clFecha);
-                    tabla_cuentas.AddCell(clSerie);
-                    tabla_cuentas.AddCell(clFolio);
-                    tabla_cuentas.AddCell(clNombreAgente);
-                    tabla_cuentas.AddCell(clRazonSocial);
-                    tabla_cuentas.AddCell(clFechaVencimiento);
-                    tabla_cuentas.AddCell(clRFC);
-                    tabla_cuentas.AddCell(clSubtotal);
-                    tabla_cuentas.AddCell(clIVA);
-                    tabla_cuentas.AddCell(clTotal);
-                    tabla_cuentas.AddCell(clPendiente);
-                    tabla_cuentas.AddCell(clTextoExtra3);
-                    tabla_cuentas.AddCell(clAfectado);
-                    tabla_cuentas.AddCell(clImpreso);
-                    tabla_cuentas.AddCell(clCancelado);
-                    tabla_cuentas.AddCell(clTotalUnidades);
-                    tabla_cuentas.AddCell(clClasificacionCliente2);
-                    tabla_cuentas.AddCell(clTextoExtra1);
-                    tabla_cuentas.AddCell(clNombreConcepto);
-                    #endregion
-                }//fin for
-
-                doc.Add(new Paragraph("Total: $" + Math.Round(ValorTotal, 2), _titulos));
-                doc.Add(new Paragraph("\n"));
-
-                //agrego la tabla al pdf
-                doc.Add(tabla_cuentas);
-
-                #endregion
-                /******************************************************************************************/
-
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-
-                /************************************************************/
-
-                /******************************************************************************************/
-                // cierro la edicion del pdf
-                doc.Close();
-
-                ////LO EJECUTO
-                Process prc = new System.Diagnostics.Process();
-                prc.StartInfo.FileName = rut;
-                prc.Start();
-
-            }
-            catch (Exception g)
-            { MessageBox.Show("" + g.Message); }
-        }
-        #endregion
-
-
-
-        #region CRU PAGOS AL PROVEEDOR
-        /// <summary>
-        /// Método para imprimir las facturas de CRU
-        /// </summary>
-        /// <param name="ListFactrurasCRU">lista de las facturas que se van a imprimir</param>
-        public void ImpresionCRUPAgosPRoveedor(List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRU, string fechas, string path, List<Tipos_Datos_CRU.FacturasCRU> ListFactrurasCRUFiltroRFCPublico)
-        {
-
-            try
-            {
-
-                Document doc = new Document(PageSize.TABLOID, 10, 10, 10, 10);//Creacion del documento configuracion de tipo de hoja y margenes
-                doc.AddAuthor("Indicadores");//Autor del PDF
-                doc.AddKeywords("pdf, PdfWriter; Indicadores V1");
-
-                //para almacenamiento del archivo
-                string nombre_archivo = "PagosProveedores.PDF";//Nombre del Archivo
-                string rut = @path + nombre_archivo;
-                PdfWriter wri = PdfWriter.GetInstance(doc, new FileStream(rut, FileMode.Create));
-                doc.AddTitle("REPORTE");
-                doc.AddCreator("*********");
-                doc.Open();
-                //tipo de letras que se pueda usar en el archivo PDF
-                iTextSharp.text.Font _mediumFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-                iTextSharp.text.Font _standardFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 9, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
-                iTextSharp.text.Font _standardFont1 = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.BOLD, BaseColor.WHITE);
-                iTextSharp.text.Font _smallFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-                iTextSharp.text.Font _titulo = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 14, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-                iTextSharp.text.Font _titulos = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 12, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-
-
-                // Cabecera
-                doc.Add(new Paragraph(" Desglose general de Pagos al Proveedor " + fechas, _titulo));
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-
-                //***********************************************
-                #region **********PRIMERA TABLA 32 Acumulado de Pagos al Proveedor en CRU*********
-                doc.Add(new Paragraph("Acumulado de Pagos al Proveedor", _titulos));
-                doc.Add(new Paragraph("\n"));
-                PdfPTable tabla_cuentas = new PdfPTable(19);
-                //PdfPCell cell = new PdfPCell(new Phrase("Reporte de Compras"));
-                //cell.Colspan = 3;
-                //cell.BackgroundColor = BaseColor.BLUE;
-                //cell.HorizontalAlignment = 1;//0=Left, 1=Centre, 2=Right 
-                tabla_cuentas.WidthPercentage = 100;
-                //tabla_cuentas.AddCell(cell);
-
-
-
-                #region configuracion de columnas
-                // Configuramos el título de las columnas de la tabla 
-                PdfPCell clFecha = new PdfPCell(new Phrase("Fecha", _standardFont));
-                clFecha.BorderWidth = 0.5f;
-                clFecha.BorderWidthBottom = 0.5f;
-                clFecha.HorizontalAlignment = 1;
-
-                PdfPCell clSerie = new PdfPCell(new Phrase("Serie", _standardFont));
-                clSerie.BorderWidth = 0.5f;
-                clSerie.BorderWidthBottom = 0.5f;
-                clSerie.HorizontalAlignment = 1;
-
-                PdfPCell clFolio = new PdfPCell(new Phrase("Folio", _standardFont));
-                clFolio.BorderWidth = 0.5f;
-                clFolio.BorderWidthBottom = 0.5f;
-                clFolio.HorizontalAlignment = 1;
-
-                PdfPCell clNombreAgente = new PdfPCell(new Phrase("Nombre del Agente", _standardFont));
-                clNombreAgente.BorderWidth = 0.5f;
-                clNombreAgente.BorderWidthBottom = 0.5f;
-                clNombreAgente.HorizontalAlignment = 1;
-
-                PdfPCell clRazonSocial = new PdfPCell(new Phrase("Razón Social", _standardFont));
-                clRazonSocial.BorderWidth = 0.5f;
-                clRazonSocial.BorderWidthBottom = 0.5f;
-                clRazonSocial.HorizontalAlignment = 1;
-
-                PdfPCell clFechaVencimiento = new PdfPCell(new Phrase("Fecha de Vencimiento", _standardFont));
-                clFechaVencimiento.BorderWidth = 0.5f;
-                clFechaVencimiento.BorderWidthBottom = 0.5f;
-                clFechaVencimiento.HorizontalAlignment = 1;
-
-                PdfPCell clRFC = new PdfPCell(new Phrase("R.F.C.", _standardFont));
-                clRFC.BorderWidth = 0.5f;
-                clRFC.BorderWidthBottom = 0.5f;
-                clRFC.HorizontalAlignment = 1;
-
-                PdfPCell clSubtotal = new PdfPCell(new Phrase("Subtotal", _standardFont));
-                clSubtotal.BorderWidth = 0.5f;
-                clSubtotal.BorderWidthBottom = 0.5f;
-                clSubtotal.HorizontalAlignment = 1;
-
-                PdfPCell clIVA = new PdfPCell(new Phrase("IVA", _standardFont));
-                clIVA.BorderWidth = 0.5f;
-                clIVA.BorderWidthBottom = 0.5f;
-                clIVA.HorizontalAlignment = 1;
-
-                PdfPCell clTotal = new PdfPCell(new Phrase("Total", _standardFont));
-                clTotal.BorderWidth = 0.5f;
-                clTotal.BorderWidthBottom = 0.5f;
-                clTotal.HorizontalAlignment = 1;
-
-                PdfPCell clPendiente = new PdfPCell(new Phrase("Pendiente", _standardFont));
-                clPendiente.BorderWidth = 0.5f;
-                clPendiente.BorderWidthBottom = 0.5f;
-                clPendiente.HorizontalAlignment = 1;
-
-                PdfPCell clTextoExtra3 = new PdfPCell(new Phrase("Texto Extra 3", _standardFont));
-                clTextoExtra3.BorderWidth = 0.5f;
-                clTextoExtra3.BorderWidthBottom = 0.5f;
-                clTextoExtra3.HorizontalAlignment = 1;
-
-                PdfPCell clAfectado = new PdfPCell(new Phrase("Afectado", _standardFont));
-                clAfectado.BorderWidth = 0.5f;
-                clAfectado.BorderWidthBottom = 0.5f;
-                clAfectado.HorizontalAlignment = 1;
-
-                PdfPCell clImpreso = new PdfPCell(new Phrase("Impreso", _standardFont));
-                clImpreso.BorderWidth = 0.5f;
-                clImpreso.BorderWidthBottom = 0.5f;
-                clImpreso.HorizontalAlignment = 1;
-
-                PdfPCell clCancelado = new PdfPCell(new Phrase("Cancelado", _standardFont));
-                clCancelado.BorderWidth = 0.5f;
-                clCancelado.BorderWidthBottom = 0.5f;
-                clCancelado.HorizontalAlignment = 1;
-
-                PdfPCell clTotalUnidades = new PdfPCell(new Phrase("Total de Unidades", _standardFont));
-                clTotalUnidades.BorderWidth = 0.5f;
-                clTotalUnidades.BorderWidthBottom = 0.5f;
-                clTotalUnidades.HorizontalAlignment = 1;
-
-                PdfPCell clClasificacionCliente2 = new PdfPCell(new Phrase("Clasificación Cliente 2", _standardFont));
-                clClasificacionCliente2.BorderWidth = 0.5f;
-                clClasificacionCliente2.BorderWidthBottom = 0.5f;
-                clClasificacionCliente2.HorizontalAlignment = 1;
-
-                PdfPCell clTextoExtra1 = new PdfPCell(new Phrase("Texto Extra 1", _standardFont));
-                clTextoExtra1.BorderWidth = 0.5f;
-                clTextoExtra1.BorderWidthBottom = 0.5f;
-                clTextoExtra1.HorizontalAlignment = 1;
-
-                PdfPCell clNombreConcepto = new PdfPCell(new Phrase("Nombre del Concepto", _standardFont));
-                clNombreConcepto.BorderWidth = 0.5f;
-                clNombreConcepto.BorderWidthBottom = 0.5f;
-                clNombreConcepto.HorizontalAlignment = 1;
-                #endregion
-                //***************************************************************************************************************************************
-                #region Agrega titulos en las tablas
-                //agrega las tablas en el pdf
-                tabla_cuentas.AddCell(clFecha);
-                tabla_cuentas.AddCell(clSerie);
-                tabla_cuentas.AddCell(clFolio);
-                tabla_cuentas.AddCell(clNombreAgente);
-                tabla_cuentas.AddCell(clRazonSocial);
-                tabla_cuentas.AddCell(clFechaVencimiento);
-                tabla_cuentas.AddCell(clRFC);
-                tabla_cuentas.AddCell(clSubtotal);
-                tabla_cuentas.AddCell(clIVA);
-                tabla_cuentas.AddCell(clTotal);
-                tabla_cuentas.AddCell(clPendiente);
-                tabla_cuentas.AddCell(clTextoExtra3);
-                tabla_cuentas.AddCell(clAfectado);
-                tabla_cuentas.AddCell(clImpreso);
-                tabla_cuentas.AddCell(clCancelado);
-                tabla_cuentas.AddCell(clTotalUnidades);
-                tabla_cuentas.AddCell(clClasificacionCliente2);
-                tabla_cuentas.AddCell(clTextoExtra1);
-                tabla_cuentas.AddCell(clNombreConcepto);
-                #endregion
-
-                double ValorTotal = 0;
-                for (int k = 0; k < ListFactrurasCRU.Count; k++)
-                {
-                    #region AGREGA DATOS EN LA TABLA
-                    clFecha = new PdfPCell(new Phrase(ListFactrurasCRU[k].Fecha, _smallFont));
-                    clFecha.BorderWidth = 0.5f;
-                    clFecha.HorizontalAlignment = 1;
-
-                    clSerie = new PdfPCell(new Phrase(ListFactrurasCRU[k].Serie, _smallFont));
-                    clSerie.BorderWidth = 0.5f;
-                    clSerie.HorizontalAlignment = 1;
-
-                    clFolio = new PdfPCell(new Phrase(ListFactrurasCRU[k].Folio, _smallFont));
-                    clFolio.BorderWidth = 0.5f;
-                    clFolio.HorizontalAlignment = 1;
-
-                    clNombreAgente = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreAgente, _smallFont));
-                    clNombreAgente.BorderWidth = 0.5f;
-                    clNombreAgente.HorizontalAlignment = 1;
-
-                    clRazonSocial = new PdfPCell(new Phrase(ListFactrurasCRU[k].RazonSocial, _smallFont));
-                    clRazonSocial.BorderWidth = 0.5f;
-                    clRazonSocial.HorizontalAlignment = 1;
-
-                    clFechaVencimiento = new PdfPCell(new Phrase(ListFactrurasCRU[k].FechaVencimiento, _smallFont));
-                    clFechaVencimiento.BorderWidth = 0.5f;
-                    clFechaVencimiento.HorizontalAlignment = 1;
-
-                    clRFC = new PdfPCell(new Phrase(ListFactrurasCRU[k].RFC, _smallFont));
-                    clRFC.BorderWidth = 0.5f;
-                    clRFC.HorizontalAlignment = 1;
-
-                    clSubtotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Subtotal.ToString(), _smallFont));
-                    clSubtotal.BorderWidth = 0.5f;
-                    clSubtotal.HorizontalAlignment = 1;
-
-                    clIVA = new PdfPCell(new Phrase(ListFactrurasCRU[k].IVA.ToString(), _smallFont));
-                    clIVA.BorderWidth = 0.5f;
-                    clIVA.HorizontalAlignment = 1;
-
-                    clTotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Total.ToString(), _smallFont));
-                    clTotal.BorderWidth = 0.5f;
-                    clTotal.HorizontalAlignment = 1;
-                    ValorTotal += ListFactrurasCRU[k].Total;
-
-                    clPendiente = new PdfPCell(new Phrase(ListFactrurasCRU[k].Pendiente.ToString(), _smallFont));
-                    clPendiente.BorderWidth = 0.5f;
-                    clPendiente.HorizontalAlignment = 1;
-
-                    clTextoExtra3 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra3, _smallFont));
-                    clTextoExtra3.BorderWidth = 0.5f;
-                    clTextoExtra3.HorizontalAlignment = 1;
-
-                    clAfectado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Afectado, _smallFont));
-                    clAfectado.BorderWidth = 0.5f;
-                    clAfectado.HorizontalAlignment = 1;
-
-                    clImpreso = new PdfPCell(new Phrase(ListFactrurasCRU[k].Impreso, _smallFont));
-                    clImpreso.BorderWidth = 0.5f;
-                    clImpreso.HorizontalAlignment = 1;
-
-                    clCancelado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Cancelado, _smallFont));
-                    clCancelado.BorderWidth = 0.5f;
-                    clCancelado.HorizontalAlignment = 1;
-
-                    clTotalUnidades = new PdfPCell(new Phrase(ListFactrurasCRU[k].TotalUnidades.ToString(), _smallFont));
-                    clTotalUnidades.BorderWidth = 0.5f;
-                    clTotalUnidades.HorizontalAlignment = 1;
-
-                    clClasificacionCliente2 = new PdfPCell(new Phrase(ListFactrurasCRU[k].proveedor.Clasificación2, _smallFont));
-                    clClasificacionCliente2.BorderWidth = 0.5f;
-                    clClasificacionCliente2.HorizontalAlignment = 1;
-
-                    clTextoExtra1 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra1, _smallFont));
-                    clTextoExtra1.BorderWidth = 0.5f;
-                    clTextoExtra1.HorizontalAlignment = 1;
-
-                    clNombreConcepto = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreConcepto, _smallFont));
-                    clNombreConcepto.BorderWidth = 0.5f;
-                    clNombreConcepto.HorizontalAlignment = 1;
-                    #endregion
-                    #region Agrega titulos en las tablas
-                    //agrega las tablas en el pdf
-                    tabla_cuentas.AddCell(clFecha);
-                    tabla_cuentas.AddCell(clSerie);
-                    tabla_cuentas.AddCell(clFolio);
-                    tabla_cuentas.AddCell(clNombreAgente);
-                    tabla_cuentas.AddCell(clRazonSocial);
-                    tabla_cuentas.AddCell(clFechaVencimiento);
-                    tabla_cuentas.AddCell(clRFC);
-                    tabla_cuentas.AddCell(clSubtotal);
-                    tabla_cuentas.AddCell(clIVA);
-                    tabla_cuentas.AddCell(clTotal);
-                    tabla_cuentas.AddCell(clPendiente);
-                    tabla_cuentas.AddCell(clTextoExtra3);
-                    tabla_cuentas.AddCell(clAfectado);
-                    tabla_cuentas.AddCell(clImpreso);
-                    tabla_cuentas.AddCell(clCancelado);
-                    tabla_cuentas.AddCell(clTotalUnidades);
-                    tabla_cuentas.AddCell(clClasificacionCliente2);
-                    tabla_cuentas.AddCell(clTextoExtra1);
-                    tabla_cuentas.AddCell(clNombreConcepto);
-                    #endregion
-                }//fin for
-
-                doc.Add(new Paragraph("Total: $" + Math.Round(ValorTotal, 2), _titulos));
-                doc.Add(new Paragraph("\n"));
-
-                //agrego la tabla al pdf
-                doc.Add(tabla_cuentas);
-
-                #endregion
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-
-                /************************************************************/
-                #region **********SEGUNDA TABLA  filtro por RFC ANJI*********
-                doc.Add(new Paragraph("Acumulado de Pagos al Proveedor filtro", _titulos));
-                doc.Add(new Paragraph("\n"));
-                tabla_cuentas = new PdfPTable(19);
-                //PdfPCell cell = new PdfPCell(new Phrase("Reporte de Compras"));
-                //cell.Colspan = 3;
-                //cell.BackgroundColor = BaseColor.BLUE;
-                //cell.HorizontalAlignment = 1;//0=Left, 1=Centre, 2=Right 
-                tabla_cuentas.WidthPercentage = 100;
-                //tabla_cuentas.AddCell(cell);
-
-
-
-                #region configuracion de columnas
-                // Configuramos el título de las columnas de la tabla 
-                clFecha = new PdfPCell(new Phrase("Fecha", _standardFont));
-                clFecha.BorderWidth = 0.5f;
-                clFecha.BorderWidthBottom = 0.5f;
-                clFecha.HorizontalAlignment = 1;
-
-                clSerie = new PdfPCell(new Phrase("Serie", _standardFont));
-                clSerie.BorderWidth = 0.5f;
-                clSerie.BorderWidthBottom = 0.5f;
-                clSerie.HorizontalAlignment = 1;
-
-                clFolio = new PdfPCell(new Phrase("Folio", _standardFont));
-                clFolio.BorderWidth = 0.5f;
-                clFolio.BorderWidthBottom = 0.5f;
-                clFolio.HorizontalAlignment = 1;
-
-                clNombreAgente = new PdfPCell(new Phrase("Nombre del Agente", _standardFont));
-                clNombreAgente.BorderWidth = 0.5f;
-                clNombreAgente.BorderWidthBottom = 0.5f;
-                clNombreAgente.HorizontalAlignment = 1;
-
-                clRazonSocial = new PdfPCell(new Phrase("Razón Social", _standardFont));
-                clRazonSocial.BorderWidth = 0.5f;
-                clRazonSocial.BorderWidthBottom = 0.5f;
-                clRazonSocial.HorizontalAlignment = 1;
-
-                clFechaVencimiento = new PdfPCell(new Phrase("Fecha de Vencimiento", _standardFont));
-                clFechaVencimiento.BorderWidth = 0.5f;
-                clFechaVencimiento.BorderWidthBottom = 0.5f;
-                clFechaVencimiento.HorizontalAlignment = 1;
-
-                clRFC = new PdfPCell(new Phrase("R.F.C.", _standardFont));
-                clRFC.BorderWidth = 0.5f;
-                clRFC.BorderWidthBottom = 0.5f;
-                clRFC.HorizontalAlignment = 1;
-
-                clSubtotal = new PdfPCell(new Phrase("Subtotal", _standardFont));
-                clSubtotal.BorderWidth = 0.5f;
-                clSubtotal.BorderWidthBottom = 0.5f;
-                clSubtotal.HorizontalAlignment = 1;
-
-                clIVA = new PdfPCell(new Phrase("IVA", _standardFont));
-                clIVA.BorderWidth = 0.5f;
-                clIVA.BorderWidthBottom = 0.5f;
-                clIVA.HorizontalAlignment = 1;
-
-                clTotal = new PdfPCell(new Phrase("Total", _standardFont));
-                clTotal.BorderWidth = 0.5f;
-                clTotal.BorderWidthBottom = 0.5f;
-                clTotal.HorizontalAlignment = 1;
-
-                clPendiente = new PdfPCell(new Phrase("Pendiente", _standardFont));
-                clPendiente.BorderWidth = 0.5f;
-                clPendiente.BorderWidthBottom = 0.5f;
-                clPendiente.HorizontalAlignment = 1;
-
-                clTextoExtra3 = new PdfPCell(new Phrase("Texto Extra 3", _standardFont));
-                clTextoExtra3.BorderWidth = 0.5f;
-                clTextoExtra3.BorderWidthBottom = 0.5f;
-                clTextoExtra3.HorizontalAlignment = 1;
-
-                clAfectado = new PdfPCell(new Phrase("Afectado", _standardFont));
-                clAfectado.BorderWidth = 0.5f;
-                clAfectado.BorderWidthBottom = 0.5f;
-                clAfectado.HorizontalAlignment = 1;
-
-                clImpreso = new PdfPCell(new Phrase("Impreso", _standardFont));
-                clImpreso.BorderWidth = 0.5f;
-                clImpreso.BorderWidthBottom = 0.5f;
-                clImpreso.HorizontalAlignment = 1;
-
-                clCancelado = new PdfPCell(new Phrase("Cancelado", _standardFont));
-                clCancelado.BorderWidth = 0.5f;
-                clCancelado.BorderWidthBottom = 0.5f;
-                clCancelado.HorizontalAlignment = 1;
-
-                clTotalUnidades = new PdfPCell(new Phrase("Total de Unidades", _standardFont));
-                clTotalUnidades.BorderWidth = 0.5f;
-                clTotalUnidades.BorderWidthBottom = 0.5f;
-                clTotalUnidades.HorizontalAlignment = 1;
-
-                clClasificacionCliente2 = new PdfPCell(new Phrase("Clasificación Cliente 2", _standardFont));
-                clClasificacionCliente2.BorderWidth = 0.5f;
-                clClasificacionCliente2.BorderWidthBottom = 0.5f;
-                clClasificacionCliente2.HorizontalAlignment = 1;
-
-                clTextoExtra1 = new PdfPCell(new Phrase("Texto Extra 1", _standardFont));
-                clTextoExtra1.BorderWidth = 0.5f;
-                clTextoExtra1.BorderWidthBottom = 0.5f;
-                clTextoExtra1.HorizontalAlignment = 1;
-
-                clNombreConcepto = new PdfPCell(new Phrase("Nombre del Concepto", _standardFont));
-                clNombreConcepto.BorderWidth = 0.5f;
-                clNombreConcepto.BorderWidthBottom = 0.5f;
-                clNombreConcepto.HorizontalAlignment = 1;
-                #endregion
-                //***************************************************************************************************************************************
-                #region Agrega titulos en las tablas
-                //agrega las tablas en el pdf
-                tabla_cuentas.AddCell(clFecha);
-                tabla_cuentas.AddCell(clSerie);
-                tabla_cuentas.AddCell(clFolio);
-                tabla_cuentas.AddCell(clNombreAgente);
-                tabla_cuentas.AddCell(clRazonSocial);
-                tabla_cuentas.AddCell(clFechaVencimiento);
-                tabla_cuentas.AddCell(clRFC);
-                tabla_cuentas.AddCell(clSubtotal);
-                tabla_cuentas.AddCell(clIVA);
-                tabla_cuentas.AddCell(clTotal);
-                tabla_cuentas.AddCell(clPendiente);
-                tabla_cuentas.AddCell(clTextoExtra3);
-                tabla_cuentas.AddCell(clAfectado);
-                tabla_cuentas.AddCell(clImpreso);
-                tabla_cuentas.AddCell(clCancelado);
-                tabla_cuentas.AddCell(clTotalUnidades);
-                tabla_cuentas.AddCell(clClasificacionCliente2);
-                tabla_cuentas.AddCell(clTextoExtra1);
-                tabla_cuentas.AddCell(clNombreConcepto);
-                #endregion
-                ListFactrurasCRU = ListFactrurasCRUFiltroRFCPublico;
-                ValorTotal = 0;
-                for (int k = 0; k < ListFactrurasCRU.Count; k++)
-                {
-                    #region AGREGA DATOS EN LA TABLA
-                    clFecha = new PdfPCell(new Phrase(ListFactrurasCRU[k].Fecha, _smallFont));
-                    clFecha.BorderWidth = 0.5f;
-                    clFecha.HorizontalAlignment = 1;
-
-                    clSerie = new PdfPCell(new Phrase(ListFactrurasCRU[k].Serie, _smallFont));
-                    clSerie.BorderWidth = 0.5f;
-                    clSerie.HorizontalAlignment = 1;
-
-                    clFolio = new PdfPCell(new Phrase(ListFactrurasCRU[k].Folio, _smallFont));
-                    clFolio.BorderWidth = 0.5f;
-                    clFolio.HorizontalAlignment = 1;
-
-                    clNombreAgente = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreAgente, _smallFont));
-                    clNombreAgente.BorderWidth = 0.5f;
-                    clNombreAgente.HorizontalAlignment = 1;
-
-                    clRazonSocial = new PdfPCell(new Phrase(ListFactrurasCRU[k].RazonSocial, _smallFont));
-                    clRazonSocial.BorderWidth = 0.5f;
-                    clRazonSocial.HorizontalAlignment = 1;
-
-                    clFechaVencimiento = new PdfPCell(new Phrase(ListFactrurasCRU[k].FechaVencimiento, _smallFont));
-                    clFechaVencimiento.BorderWidth = 0.5f;
-                    clFechaVencimiento.HorizontalAlignment = 1;
-
-                    clRFC = new PdfPCell(new Phrase(ListFactrurasCRU[k].RFC, _smallFont));
-                    clRFC.BorderWidth = 0.5f;
-                    clRFC.HorizontalAlignment = 1;
-
-                    clSubtotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Subtotal.ToString(), _smallFont));
-                    clSubtotal.BorderWidth = 0.5f;
-                    clSubtotal.HorizontalAlignment = 1;
-
-                    clIVA = new PdfPCell(new Phrase(ListFactrurasCRU[k].IVA.ToString(), _smallFont));
-                    clIVA.BorderWidth = 0.5f;
-                    clIVA.HorizontalAlignment = 1;
-
-                    clTotal = new PdfPCell(new Phrase(ListFactrurasCRU[k].Total.ToString(), _smallFont));
-                    clTotal.BorderWidth = 0.5f;
-                    clTotal.HorizontalAlignment = 1;
-                    ValorTotal += ListFactrurasCRU[k].Total;
-
-                    clPendiente = new PdfPCell(new Phrase(ListFactrurasCRU[k].Pendiente.ToString(), _smallFont));
-                    clPendiente.BorderWidth = 0.5f;
-                    clPendiente.HorizontalAlignment = 1;
-
-                    clTextoExtra3 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra3, _smallFont));
-                    clTextoExtra3.BorderWidth = 0.5f;
-                    clTextoExtra3.HorizontalAlignment = 1;
-
-                    clAfectado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Afectado, _smallFont));
-                    clAfectado.BorderWidth = 0.5f;
-                    clAfectado.HorizontalAlignment = 1;
-
-                    clImpreso = new PdfPCell(new Phrase(ListFactrurasCRU[k].Impreso, _smallFont));
-                    clImpreso.BorderWidth = 0.5f;
-                    clImpreso.HorizontalAlignment = 1;
-
-                    clCancelado = new PdfPCell(new Phrase(ListFactrurasCRU[k].Cancelado, _smallFont));
-                    clCancelado.BorderWidth = 0.5f;
-                    clCancelado.HorizontalAlignment = 1;
-
-                    clTotalUnidades = new PdfPCell(new Phrase(ListFactrurasCRU[k].TotalUnidades.ToString(), _smallFont));
-                    clTotalUnidades.BorderWidth = 0.5f;
-                    clTotalUnidades.HorizontalAlignment = 1;
-
-                    clClasificacionCliente2 = new PdfPCell(new Phrase(ListFactrurasCRU[k].proveedor.Clasificación2, _smallFont));
-                    clClasificacionCliente2.BorderWidth = 0.5f;
-                    clClasificacionCliente2.HorizontalAlignment = 1;
-
-                    clTextoExtra1 = new PdfPCell(new Phrase(ListFactrurasCRU[k].TextoExtra1, _smallFont));
-                    clTextoExtra1.BorderWidth = 0.5f;
-                    clTextoExtra1.HorizontalAlignment = 1;
-
-                    clNombreConcepto = new PdfPCell(new Phrase(ListFactrurasCRU[k].NombreConcepto, _smallFont));
-                    clNombreConcepto.BorderWidth = 0.5f;
-                    clNombreConcepto.HorizontalAlignment = 1;
-                    #endregion
-                    #region Agrega titulos en las tablas
-                    //agrega las tablas en el pdf
-                    tabla_cuentas.AddCell(clFecha);
-                    tabla_cuentas.AddCell(clSerie);
-                    tabla_cuentas.AddCell(clFolio);
-                    tabla_cuentas.AddCell(clNombreAgente);
-                    tabla_cuentas.AddCell(clRazonSocial);
-                    tabla_cuentas.AddCell(clFechaVencimiento);
-                    tabla_cuentas.AddCell(clRFC);
-                    tabla_cuentas.AddCell(clSubtotal);
-                    tabla_cuentas.AddCell(clIVA);
-                    tabla_cuentas.AddCell(clTotal);
-                    tabla_cuentas.AddCell(clPendiente);
-                    tabla_cuentas.AddCell(clTextoExtra3);
-                    tabla_cuentas.AddCell(clAfectado);
-                    tabla_cuentas.AddCell(clImpreso);
-                    tabla_cuentas.AddCell(clCancelado);
-                    tabla_cuentas.AddCell(clTotalUnidades);
-                    tabla_cuentas.AddCell(clClasificacionCliente2);
-                    tabla_cuentas.AddCell(clTextoExtra1);
-                    tabla_cuentas.AddCell(clNombreConcepto);
-                    #endregion
-                }//fin for
-
-                doc.Add(new Paragraph("Total: $" + Math.Round(ValorTotal, 2), _titulos));
-                doc.Add(new Paragraph("\n"));
-
-                //agrego la tabla al pdf
-                doc.Add(tabla_cuentas);
-
-                #endregion
-                /******************************************************************************************/
-
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("\n"));
-
-                /************************************************************/
-
-                /******************************************************************************************/
-                // cierro la edicion del pdf
-                doc.Close();
-
-                ////LO EJECUTO
-                Process prc = new System.Diagnostics.Process();
-                prc.StartInfo.FileName = rut;
-                prc.Start();
-
-            }
-            catch (Exception g)
-            { MessageBox.Show("" + g.Message); }
-        }
-        #endregion
-
-        #region IMPRT EXCEL FACTURAS CRU
-        public void excel_import(List<Tipos_Datos_CRU.FacturasCRU> ListDocmuentos, List<Tipos_Datos_CRU.FacturasCRU> list_rfc_publico, List<Tipos_Datos_CRU.FacturasCRU> list_rfc_ol, string  titulo1, string  titulo2, string  titulo3)
+        public void excel_importCRUs(Tipos_Datos_CRU.ListDatosCRU ListDocmuentos)
         { //importar datos en excel
-            // creating Excel Application
-            Microsoft.Office.Interop.Excel._Application app = new Microsoft.Office.Interop.Excel.Application();
-            // creating new WorkBook within Excel application
-            Microsoft.Office.Interop.Excel._Workbook workbook = app.Workbooks.Add(Type.Missing);
-            // creating new Excelsheet in workbook
-            Microsoft.Office.Interop.Excel._Worksheet worksheet = null;
-            // see the excel sheet behind the program
-            app.Visible = true;
-            // get the reference of first sheet. By default its name is Sheet1.
-            // store its reference to worksheet
-            worksheet = workbook.Sheets["Hoja1"];
-            worksheet = workbook.ActiveSheet;
-            // changing the name of active sheet
-            worksheet.Name = "Admipaq";
-            int Row = 4;
-            //titulo
-           // worksheet.Cells[1, 1] = "Desglose de facturas";
-            worksheet.Cells[2, 5] = titulo1;
-            
-            //encabezados facturas
-            worksheet.Cells[Row, 1] = "Fecha";
-            worksheet.Cells[Row, 2] = "Serie";
-            worksheet.Cells[Row, 3] = "Folio";
-            worksheet.Cells[Row, 4] = "Nombre del agente";
-            worksheet.Cells[Row, 5] = "Razon social";
-            worksheet.Cells[Row, 6] = "Fecha de vencimiento";
-            worksheet.Cells[Row, 7] = "RFC";
-            worksheet.Cells[Row, 8] = "Subtotal";
-            worksheet.Cells[Row, 9] = "IVA";
-            worksheet.Cells[Row, 10] = "TOTAL";
-            worksheet.Cells[Row, 11] = "Pendiente";
-            worksheet.Cells[Row, 12] = "Texto Extra 3";
-            worksheet.Cells[Row, 13] = "Afectado";
-            worksheet.Cells[Row, 14] = "Impreso";
-            worksheet.Cells[Row, 15] = "Cancelado";
-            worksheet.Cells[Row, 16] = "Total de unidades";
-            worksheet.Cells[Row, 17] = "Clasificacion cliente2";
-            worksheet.Cells[Row, 18] = "Texto extra1";
-            worksheet.Cells[Row, 19] = "Nombre del concepto";
-            //titulo 
-            worksheet.Cells[2, 27] = titulo2;
-            //envabezados facturas filtro publico
-            worksheet.Cells[Row, 23] = "Fecha";
-            worksheet.Cells[Row, 24] = "Serie";
-            worksheet.Cells[Row, 25] = "Folio";
-            worksheet.Cells[Row, 26] = "Nombre del agente";
-            worksheet.Cells[Row, 27] = "Razon social";
-            worksheet.Cells[Row, 28] = "Fecha de vencimiento";
-            worksheet.Cells[Row, 29] = "RFC";
-            worksheet.Cells[Row, 30] = "Subtotal";
-            worksheet.Cells[Row, 31] = "IVA";
-            worksheet.Cells[Row, 32] = "TOTAL";
-            worksheet.Cells[Row, 33] = "Pendiente";
-            worksheet.Cells[Row, 34] = "Texto Extra 3";
-            worksheet.Cells[Row, 35] = "Afectado";
-            worksheet.Cells[Row, 36] = "Impreso";
-            worksheet.Cells[Row, 37] = "Cancelado";
-            worksheet.Cells[Row, 38] = "Total de unidades";
-            worksheet.Cells[Row, 39] = "Clasificacion cliente2";
-            worksheet.Cells[Row, 40] = "Texto extra1";
-            worksheet.Cells[Row, 41] = "Nombre del concepto";
-            //titulo 
-            worksheet.Cells[2, 48] = titulo3;
-            //envabezados facturas filtro publico
-            worksheet.Cells[Row, 44] = "Fecha";
-            worksheet.Cells[Row, 45] = "Serie";
-            worksheet.Cells[Row, 46] = "Folio";
-            worksheet.Cells[Row, 47] = "Nombre del agente";
-            worksheet.Cells[Row, 48] = "Razon social";
-            worksheet.Cells[Row, 49] = "Fecha de vencimiento";
-            worksheet.Cells[Row, 50] = "RFC";
-            worksheet.Cells[Row, 51] = "Subtotal";
-            worksheet.Cells[Row, 52] = "IVA";
-            worksheet.Cells[Row, 53] = "TOTAL";
-            worksheet.Cells[Row, 54] = "Pendiente";
-            worksheet.Cells[Row, 55] = "Texto Extra 3";
-            worksheet.Cells[Row, 56] = "Afectado";
-            worksheet.Cells[Row, 57] = "Impreso";
-            worksheet.Cells[Row, 58] = "Cancelado";
-            worksheet.Cells[Row, 59] = "Total de unidades";
-            worksheet.Cells[Row, 60] = "Clasificacion cliente2";
-            worksheet.Cells[Row, 61] = "Texto extra1";
-            worksheet.Cells[Row, 62] = "Nombre del concepto";
-            Row++;
-            float total=0;
-            for (int i = 0; i < ListDocmuentos.Count; i++)
+            try
             {
-                worksheet.Cells[Row, 1]=ListDocmuentos[i].Fecha;
-                worksheet.Cells[Row, 2]=ListDocmuentos[i].Serie;
-                worksheet.Cells[Row, 3]=ListDocmuentos[i].Folio;
-                worksheet.Cells[Row, 4]=ListDocmuentos[i].NombreAgente;
-                worksheet.Cells[Row, 5]=ListDocmuentos[i].RazonSocial;
-                worksheet.Cells[Row, 6]=ListDocmuentos[i].FechaVencimiento;
-                worksheet.Cells[Row, 7]=ListDocmuentos[i].RFC;
-                worksheet.Cells[Row, 8]=ListDocmuentos[i].Subtotal;
-                worksheet.Cells[Row, 9]=ListDocmuentos[i].IVA;
-                worksheet.Cells[Row, 10]=ListDocmuentos[i].Total;
-                worksheet.Cells[Row, 11]=ListDocmuentos[i].Pendiente;
-                worksheet.Cells[Row, 12]=ListDocmuentos[i].TextoExtra3;
-                worksheet.Cells[Row, 13]=ListDocmuentos[i].Afectado;
-                worksheet.Cells[Row, 14]=ListDocmuentos[i].Impreso;
-                worksheet.Cells[Row, 15]=ListDocmuentos[i].Cancelado;
-                worksheet.Cells[Row, 16]=ListDocmuentos[i].TotalUnidades;
-                worksheet.Cells[Row, 17]=ListDocmuentos[i].Clasificacion2;
-                worksheet.Cells[Row, 18]=ListDocmuentos[i].TextoExtra1;
-                worksheet.Cells[Row, 19] = ListDocmuentos[i].NombreConcepto;
-                total += ListDocmuentos[i].Total;
-                Row++;
-            }
-            worksheet.Cells[2, 10] = "$ " + total;
 
-            total = 0;
-            Row = 5;
-            
-            for (int i = 0; i < list_rfc_publico.Count; i++)
-            {
-                worksheet.Cells[Row, 23] = list_rfc_publico[i].Fecha;
-                worksheet.Cells[Row, 24] = list_rfc_publico[i].Serie;
-                worksheet.Cells[Row, 25] = list_rfc_publico[i].Folio;
-                worksheet.Cells[Row, 26] = list_rfc_publico[i].NombreAgente;
-                worksheet.Cells[Row, 27] = list_rfc_publico[i].RazonSocial;
-                worksheet.Cells[Row, 28] = list_rfc_publico[i].FechaVencimiento;
-                worksheet.Cells[Row, 29] = list_rfc_publico[i].RFC;
-                worksheet.Cells[Row, 30] = list_rfc_publico[i].Subtotal;
-                worksheet.Cells[Row, 31] = list_rfc_publico[i].IVA;
-                worksheet.Cells[Row, 32] = list_rfc_publico[i].Total;
-                worksheet.Cells[Row, 33] = list_rfc_publico[i].Pendiente;
-                worksheet.Cells[Row, 34] = list_rfc_publico[i].TextoExtra3;
-                worksheet.Cells[Row, 35] = list_rfc_publico[i].Afectado;
-                worksheet.Cells[Row, 36] = list_rfc_publico[i].Impreso;
-                worksheet.Cells[Row, 37] = list_rfc_publico[i].Cancelado;
-                worksheet.Cells[Row, 38] = list_rfc_publico[i].TotalUnidades;
-                worksheet.Cells[Row, 39] = list_rfc_publico[i].Clasificacion2;
-                worksheet.Cells[Row, 40] = list_rfc_publico[i].TextoExtra1;
-                worksheet.Cells[Row, 41] = list_rfc_publico[i].NombreConcepto;
-                total += list_rfc_publico[i].Total;
-                Row++;
-            }
-            worksheet.Cells[2, 32] = "$ "+total;
-            total = 0;
-            Row = 5;
-            for (int i = 0; i < list_rfc_ol.Count; i++)
-            {
-                worksheet.Cells[Row, 44] = list_rfc_ol[i].Fecha;
-                worksheet.Cells[Row, 45] = list_rfc_ol[i].Serie;
-                worksheet.Cells[Row, 46] = list_rfc_ol[i].Folio;
-                worksheet.Cells[Row, 47] = list_rfc_ol[i].NombreAgente;
-                worksheet.Cells[Row, 48] = list_rfc_ol[i].RazonSocial;
-                worksheet.Cells[Row, 49] = list_rfc_ol[i].FechaVencimiento;
-                worksheet.Cells[Row, 50] = list_rfc_ol[i].RFC;
-                worksheet.Cells[Row, 51] = list_rfc_ol[i].Subtotal;
-                worksheet.Cells[Row, 52] = list_rfc_ol[i].IVA;
-                worksheet.Cells[Row, 53] = list_rfc_ol[i].Total;
-                worksheet.Cells[Row, 54] = list_rfc_ol[i].Pendiente;
-                worksheet.Cells[Row, 55] = list_rfc_ol[i].TextoExtra3;
-                worksheet.Cells[Row, 56] = list_rfc_ol[i].Afectado;
-                worksheet.Cells[Row, 57] = list_rfc_ol[i].Impreso;
-                worksheet.Cells[Row, 58] = list_rfc_ol[i].Cancelado;
-                worksheet.Cells[Row, 59] = list_rfc_ol[i].TotalUnidades;
-                worksheet.Cells[Row, 60] = list_rfc_ol[i].Clasificacion2;
-                worksheet.Cells[Row, 61] = list_rfc_ol[i].TextoExtra1;
-                worksheet.Cells[Row, 62] = list_rfc_ol[i].NombreConcepto;
-                total += list_rfc_ol[i].Total;
-                Row++;
-            }
-            worksheet.Cells[2, 53] = "$ " + total;
 
+                // creating Excel Application
+                Microsoft.Office.Interop.Excel._Application app = new Microsoft.Office.Interop.Excel.Application();
+                // creating new WorkBook within Excel application
+                Microsoft.Office.Interop.Excel._Workbook workbook = app.Workbooks.Add(Type.Missing);
+                // creating new Excelsheet in workbook
+                Microsoft.Office.Interop.Excel._Worksheet worksheet = null;
+                // see the excel sheet behind the program
+                app.Visible = true;
+                // get the reference of first sheet. By default its name is Sheet1.
+                // store its reference to worksheet
+                worksheet = workbook.Sheets["Hoja1"];
+                worksheet = workbook.ActiveSheet;
+                // changing the name of active sheet
+                worksheet.Name = "Admipaq";
+                int Row = 4;
+                //titulo
+                #region facturas
+                Row = 4; //inicia a escribir en la fila 4
+                #region encabezados
+                worksheet.Cells[2, 5] = "facturas acumuladas";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 1] = "Fecha";
+                worksheet.Cells[Row, 2] = "Serie";
+                worksheet.Cells[Row, 3] = "Folio";
+                worksheet.Cells[Row, 4] = "Nombre del agente";
+                worksheet.Cells[Row, 5] = "Razon social";
+                worksheet.Cells[Row, 6] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 7] = "RFC";
+                worksheet.Cells[Row, 8] = "Subtotal";
+                worksheet.Cells[Row, 9] = "IVA";
+                worksheet.Cells[Row, 10] = "TOTAL";
+                worksheet.Cells[Row, 11] = "Pendiente";
+                worksheet.Cells[Row, 12] = "Texto Extra 3";
+                worksheet.Cells[Row, 13] = "Afectado";
+                worksheet.Cells[Row, 14] = "Impreso";
+                worksheet.Cells[Row, 15] = "Cancelado";
+                worksheet.Cells[Row, 16] = "Total de unidades";
+                worksheet.Cells[Row, 17] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 18] = "Texto extra1";
+                worksheet.Cells[Row, 19] = "Nombre del concepto";
+                //titulo 
+                worksheet.Cells[2, 27] = "facturas publico";
+                //envabezados facturas filtro publico
+                worksheet.Cells[Row, 23] = "Fecha";
+                worksheet.Cells[Row, 24] = "Serie";
+                worksheet.Cells[Row, 25] = "Folio";
+                worksheet.Cells[Row, 26] = "Nombre del agente";
+                worksheet.Cells[Row, 27] = "Razon social";
+                worksheet.Cells[Row, 28] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 29] = "RFC";
+                worksheet.Cells[Row, 30] = "Subtotal";
+                worksheet.Cells[Row, 31] = "IVA";
+                worksheet.Cells[Row, 32] = "TOTAL";
+                worksheet.Cells[Row, 33] = "Pendiente";
+                worksheet.Cells[Row, 34] = "Texto Extra 3";
+                worksheet.Cells[Row, 35] = "Afectado";
+                worksheet.Cells[Row, 36] = "Impreso";
+                worksheet.Cells[Row, 37] = "Cancelado";
+                worksheet.Cells[Row, 38] = "Total de unidades";
+                worksheet.Cells[Row, 39] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 40] = "Texto extra1";
+                worksheet.Cells[Row, 41] = "Nombre del concepto";
+                //titulo 
+                worksheet.Cells[2, 48] = "Facturas ol";
+                //envabezados facturas filtro publico
+                worksheet.Cells[Row, 44] = "Fecha";
+                worksheet.Cells[Row, 45] = "Serie";
+                worksheet.Cells[Row, 46] = "Folio";
+                worksheet.Cells[Row, 47] = "Nombre del agente";
+                worksheet.Cells[Row, 48] = "Razon social";
+                worksheet.Cells[Row, 49] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 50] = "RFC";
+                worksheet.Cells[Row, 51] = "Subtotal";
+                worksheet.Cells[Row, 52] = "IVA";
+                worksheet.Cells[Row, 53] = "TOTAL";
+                worksheet.Cells[Row, 54] = "Pendiente";
+                worksheet.Cells[Row, 55] = "Texto Extra 3";
+                worksheet.Cells[Row, 56] = "Afectado";
+                worksheet.Cells[Row, 57] = "Impreso";
+                worksheet.Cells[Row, 58] = "Cancelado";
+                worksheet.Cells[Row, 59] = "Total de unidades";
+                worksheet.Cells[Row, 60] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 61] = "Texto extra1";
+                worksheet.Cells[Row, 62] = "Nombre del concepto";
+                Row++;
+                #endregion
+
+                #region contenido
+                float total = 0;
+                for (int i = 0; i < ListDocmuentos.facturas.Count; i++)
+                {
+                    worksheet.Cells[Row, 1] = ListDocmuentos.facturas[i].Fecha;
+                    worksheet.Cells[Row, 2] = ListDocmuentos.facturas[i].Serie;
+                    worksheet.Cells[Row, 3] = ListDocmuentos.facturas[i].Folio;
+                    worksheet.Cells[Row, 4] = ListDocmuentos.facturas[i].NombreAgente;
+                    worksheet.Cells[Row, 5] = ListDocmuentos.facturas[i].RazonSocial;
+                    worksheet.Cells[Row, 6] = ListDocmuentos.facturas[i].FechaVencimiento;
+                    worksheet.Cells[Row, 7] = ListDocmuentos.facturas[i].RFC;
+                    worksheet.Cells[Row, 8] = ListDocmuentos.facturas[i].Subtotal;
+                    worksheet.Cells[Row, 9] = ListDocmuentos.facturas[i].IVA;
+                    worksheet.Cells[Row, 10] = ListDocmuentos.facturas[i].Total;
+                    worksheet.Cells[Row, 11] = ListDocmuentos.facturas[i].Pendiente;
+                    worksheet.Cells[Row, 12] = ListDocmuentos.facturas[i].TextoExtra3;
+                    worksheet.Cells[Row, 13] = ListDocmuentos.facturas[i].Afectado;
+                    worksheet.Cells[Row, 14] = ListDocmuentos.facturas[i].Impreso;
+                    worksheet.Cells[Row, 15] = ListDocmuentos.facturas[i].Cancelado;
+                    worksheet.Cells[Row, 16] = ListDocmuentos.facturas[i].TotalUnidades;
+                    worksheet.Cells[Row, 17] = ListDocmuentos.facturas[i].Clasificacion2;
+                    worksheet.Cells[Row, 18] = ListDocmuentos.facturas[i].TextoExtra1;
+                    worksheet.Cells[Row, 19] = ListDocmuentos.facturas[i].NombreConcepto;
+                    total += ListDocmuentos.facturas[i].Total;
+                    Row++;
+                }
+                worksheet.Cells[2, 10] = "$ " + total;
+
+                total = 0;
+                Row = 5;
+
+                for (int i = 0; i < ListDocmuentos.facturas_rfc_publico.Count; i++)
+                {
+                    worksheet.Cells[Row, 23] = ListDocmuentos.facturas_rfc_publico[i].Fecha;
+                    worksheet.Cells[Row, 24] = ListDocmuentos.facturas_rfc_publico[i].Serie;
+                    worksheet.Cells[Row, 25] = ListDocmuentos.facturas_rfc_publico[i].Folio;
+                    worksheet.Cells[Row, 26] = ListDocmuentos.facturas_rfc_publico[i].NombreAgente;
+                    worksheet.Cells[Row, 27] = ListDocmuentos.facturas_rfc_publico[i].RazonSocial;
+                    worksheet.Cells[Row, 28] = ListDocmuentos.facturas_rfc_publico[i].FechaVencimiento;
+                    worksheet.Cells[Row, 29] = ListDocmuentos.facturas_rfc_publico[i].RFC;
+                    worksheet.Cells[Row, 30] = ListDocmuentos.facturas_rfc_publico[i].Subtotal;
+                    worksheet.Cells[Row, 31] = ListDocmuentos.facturas_rfc_publico[i].IVA;
+                    worksheet.Cells[Row, 32] = ListDocmuentos.facturas_rfc_publico[i].Total;
+                    worksheet.Cells[Row, 33] = ListDocmuentos.facturas_rfc_publico[i].Pendiente;
+                    worksheet.Cells[Row, 34] = ListDocmuentos.facturas_rfc_publico[i].TextoExtra3;
+                    worksheet.Cells[Row, 35] = ListDocmuentos.facturas_rfc_publico[i].Afectado;
+                    worksheet.Cells[Row, 36] = ListDocmuentos.facturas_rfc_publico[i].Impreso;
+                    worksheet.Cells[Row, 37] = ListDocmuentos.facturas_rfc_publico[i].Cancelado;
+                    worksheet.Cells[Row, 38] = ListDocmuentos.facturas_rfc_publico[i].TotalUnidades;
+                    worksheet.Cells[Row, 39] = ListDocmuentos.facturas_rfc_publico[i].Clasificacion2;
+                    worksheet.Cells[Row, 40] = ListDocmuentos.facturas_rfc_publico[i].TextoExtra1;
+                    worksheet.Cells[Row, 41] = ListDocmuentos.facturas_rfc_publico[i].NombreConcepto;
+                    total += ListDocmuentos.facturas_rfc_publico[i].Total;
+                    Row++;
+                }
+                worksheet.Cells[2, 32] = "$ " + total;
+                total = 0;
+                Row = 5;
+                for (int i = 0; i < ListDocmuentos.facturas_rfc_ol.Count; i++)
+                {
+                    worksheet.Cells[Row, 44] = ListDocmuentos.facturas_rfc_ol[i].Fecha;
+                    worksheet.Cells[Row, 45] = ListDocmuentos.facturas_rfc_ol[i].Serie;
+                    worksheet.Cells[Row, 46] = ListDocmuentos.facturas_rfc_ol[i].Folio;
+                    worksheet.Cells[Row, 47] = ListDocmuentos.facturas_rfc_ol[i].NombreAgente;
+                    worksheet.Cells[Row, 48] = ListDocmuentos.facturas_rfc_ol[i].RazonSocial;
+                    worksheet.Cells[Row, 49] = ListDocmuentos.facturas_rfc_ol[i].FechaVencimiento;
+                    worksheet.Cells[Row, 50] = ListDocmuentos.facturas_rfc_ol[i].RFC;
+                    worksheet.Cells[Row, 51] = ListDocmuentos.facturas_rfc_ol[i].Subtotal;
+                    worksheet.Cells[Row, 52] = ListDocmuentos.facturas_rfc_ol[i].IVA;
+                    worksheet.Cells[Row, 53] = ListDocmuentos.facturas_rfc_ol[i].Total;
+                    worksheet.Cells[Row, 54] = ListDocmuentos.facturas_rfc_ol[i].Pendiente;
+                    worksheet.Cells[Row, 55] = ListDocmuentos.facturas_rfc_ol[i].TextoExtra3;
+                    worksheet.Cells[Row, 56] = ListDocmuentos.facturas_rfc_ol[i].Afectado;
+                    worksheet.Cells[Row, 57] = ListDocmuentos.facturas_rfc_ol[i].Impreso;
+                    worksheet.Cells[Row, 58] = ListDocmuentos.facturas_rfc_ol[i].Cancelado;
+                    worksheet.Cells[Row, 59] = ListDocmuentos.facturas_rfc_ol[i].TotalUnidades;
+                    worksheet.Cells[Row, 60] = ListDocmuentos.facturas_rfc_ol[i].Clasificacion2;
+                    worksheet.Cells[Row, 61] = ListDocmuentos.facturas_rfc_ol[i].TextoExtra1;
+                    worksheet.Cells[Row, 62] = ListDocmuentos.facturas_rfc_ol[i].NombreConcepto;
+                    total += ListDocmuentos.facturas_rfc_ol[i].Total;
+                    Row++;
+                }
+                worksheet.Cells[2, 53] = "$ " + total;
+                #endregion
+
+
+
+                #endregion
+
+                #region Abonos
+                Row = 4;
+                #region encabezados
+                // worksheet.Cells[1, 1] = "Desglose de facturas";
+                worksheet.Cells[2, 71] = "Acumulado de abonos";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 67] = "Fecha";
+                worksheet.Cells[Row, 68] = "Serie";
+                worksheet.Cells[Row, 69] = "Folio";
+                worksheet.Cells[Row, 70] = "Nombre del agente";
+                worksheet.Cells[Row, 71] = "Razon social";
+                worksheet.Cells[Row, 72] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 73] = "RFC";
+                worksheet.Cells[Row, 74] = "Subtotal";
+                worksheet.Cells[Row, 75] = "IVA";
+                worksheet.Cells[Row, 76] = "TOTAL";
+                worksheet.Cells[Row, 77] = "Pendiente";
+                worksheet.Cells[Row, 78] = "Texto Extra 3";
+                worksheet.Cells[Row, 79] = "Afectado";
+                worksheet.Cells[Row, 80] = "Impreso";
+                worksheet.Cells[Row, 81] = "Cancelado";
+                worksheet.Cells[Row, 82] = "Total de unidades";
+                worksheet.Cells[Row, 83] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 84] = "Texto extra1";
+                worksheet.Cells[Row, 85] = "Nombre del concepto";
+                //titulo 
+                worksheet.Cells[2, 92] = "Abonos publico";
+                //envabezados facturas filtro publico
+                worksheet.Cells[Row, 88] = "Fecha";
+                worksheet.Cells[Row, 89] = "Serie";
+                worksheet.Cells[Row, 90] = "Folio";
+                worksheet.Cells[Row, 91] = "Nombre del agente";
+                worksheet.Cells[Row, 92] = "Razon social";
+                worksheet.Cells[Row, 93] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 94] = "RFC";
+                worksheet.Cells[Row, 95] = "Subtotal";
+                worksheet.Cells[Row, 96] = "IVA";
+                worksheet.Cells[Row, 97] = "TOTAL";
+                worksheet.Cells[Row, 98] = "Pendiente";
+                worksheet.Cells[Row, 99] = "Texto Extra 3";
+                worksheet.Cells[Row, 100] = "Afectado";
+                worksheet.Cells[Row, 101] = "Impreso";
+                worksheet.Cells[Row, 102] = "Cancelado";
+                worksheet.Cells[Row, 103] = "Total de unidades";
+                worksheet.Cells[Row, 104] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 105] = "Texto extra1";
+                worksheet.Cells[Row, 106] = "Nombre del concepto";
+                //titulo 
+                worksheet.Cells[2, 112] = "Abonos RFC";
+                //envabezados facturas filtro publico
+                worksheet.Cells[Row, 108] = "Fecha";
+                worksheet.Cells[Row, 109] = "Serie";
+                worksheet.Cells[Row, 110] = "Folio";
+                worksheet.Cells[Row, 111] = "Nombre del agente";
+                worksheet.Cells[Row, 112] = "Razon social";
+                worksheet.Cells[Row, 113] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 114] = "RFC";
+                worksheet.Cells[Row, 115] = "Subtotal";
+                worksheet.Cells[Row, 116] = "IVA";
+                worksheet.Cells[Row, 117] = "TOTAL";
+                worksheet.Cells[Row, 118] = "Pendiente";
+                worksheet.Cells[Row, 119] = "Texto Extra 3";
+                worksheet.Cells[Row, 120] = "Afectado";
+                worksheet.Cells[Row, 121] = "Impreso";
+                worksheet.Cells[Row, 122] = "Cancelado";
+                worksheet.Cells[Row, 123] = "Total de unidades";
+                worksheet.Cells[Row, 124] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 125] = "Texto extra1";
+                worksheet.Cells[Row, 126] = "Nombre del concepto";
+
+                worksheet.Cells[2, 133] = "Zonas centro";
+                //envabezados facturas filtro publico
+                worksheet.Cells[Row, 129] = "Fecha";
+                worksheet.Cells[Row, 130] = "Serie";
+                worksheet.Cells[Row, 131] = "Folio";
+                worksheet.Cells[Row, 132] = "Nombre del agente";
+                worksheet.Cells[Row, 133] = "Razon social";
+                worksheet.Cells[Row, 134] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 135] = "RFC";
+                worksheet.Cells[Row, 136] = "Subtotal";
+                worksheet.Cells[Row, 137] = "IVA";
+                worksheet.Cells[Row, 138] = "TOTAL";
+                worksheet.Cells[Row, 139] = "Pendiente";
+                worksheet.Cells[Row, 140] = "Texto Extra 3";
+                worksheet.Cells[Row, 141] = "Afectado";
+                worksheet.Cells[Row, 142] = "Impreso";
+                worksheet.Cells[Row, 143] = "Cancelado";
+                worksheet.Cells[Row, 144] = "Total de unidades";
+                worksheet.Cells[Row, 145] = "Zona ";
+                worksheet.Cells[Row, 146] = "Agente";
+
+                worksheet.Cells[2, 153] = "Zonas sur";
+
+                worksheet.Cells[Row, 149] = "Fecha";
+                worksheet.Cells[Row, 150] = "Serie";
+                worksheet.Cells[Row, 151] = "Folio";
+                worksheet.Cells[Row, 152] = "Nombre del agente";
+                worksheet.Cells[Row, 153] = "Razon social";
+                worksheet.Cells[Row, 154] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 155] = "RFC";
+                worksheet.Cells[Row, 156] = "Subtotal";
+                worksheet.Cells[Row, 157] = "IVA";
+                worksheet.Cells[Row, 158] = "TOTAL";
+                worksheet.Cells[Row, 159] = "Pendiente";
+                worksheet.Cells[Row, 160] = "Texto Extra 3";
+                worksheet.Cells[Row, 161] = "Afectado";
+                worksheet.Cells[Row, 162] = "Impreso";
+                worksheet.Cells[Row, 163] = "Cancelado";
+                worksheet.Cells[Row, 164] = "Total de unidades";
+                worksheet.Cells[Row, 165] = "Zona";
+                worksheet.Cells[Row, 166] = "Agente";
+
+                worksheet.Cells[2, 173] = "Zonas norte";
+
+                worksheet.Cells[Row, 169] = "Fecha";
+                worksheet.Cells[Row, 170] = "Serie";
+                worksheet.Cells[Row, 171] = "Folio";
+                worksheet.Cells[Row, 172] = "Nombre del agente";
+                worksheet.Cells[Row, 173] = "Razon social";
+                worksheet.Cells[Row, 174] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 175] = "RFC";
+                worksheet.Cells[Row, 176] = "Subtotal";
+                worksheet.Cells[Row, 177] = "IVA";
+                worksheet.Cells[Row, 178] = "TOTAL";
+                worksheet.Cells[Row, 179] = "Pendiente";
+                worksheet.Cells[Row, 180] = "Texto Extra 3";
+                worksheet.Cells[Row, 181] = "Afectado";
+                worksheet.Cells[Row, 182] = "Impreso";
+                worksheet.Cells[Row, 183] = "Cancelado";
+                worksheet.Cells[Row, 184] = "Total de unidades";
+                worksheet.Cells[Row, 185] = "Zona";
+                worksheet.Cells[Row, 186] = "Agente";
+                Row++;
+                #endregion
+                #region contenido
+                total = 0;
+                for (int i = 0; i < ListDocmuentos.abonos.Count; i++)
+                {
+                    worksheet.Cells[Row, 67] = ListDocmuentos.abonos[i].Fecha;
+                    worksheet.Cells[Row, 68] = ListDocmuentos.abonos[i].Serie;
+                    worksheet.Cells[Row, 69] = ListDocmuentos.abonos[i].Folio;
+                    worksheet.Cells[Row, 70] = ListDocmuentos.abonos[i].NombreAgente;
+                    worksheet.Cells[Row, 71] = ListDocmuentos.abonos[i].RazonSocial;
+                    worksheet.Cells[Row, 72] = ListDocmuentos.abonos[i].FechaVencimiento;
+                    worksheet.Cells[Row, 73] = ListDocmuentos.abonos[i].RFC;
+                    worksheet.Cells[Row, 74] = ListDocmuentos.abonos[i].Subtotal;
+                    worksheet.Cells[Row, 75] = ListDocmuentos.abonos[i].IVA;
+                    worksheet.Cells[Row, 76] = ListDocmuentos.abonos[i].Total;
+                    worksheet.Cells[Row, 77] = ListDocmuentos.abonos[i].Pendiente;
+                    worksheet.Cells[Row, 78] = ListDocmuentos.abonos[i].TextoExtra3;
+                    worksheet.Cells[Row, 79] = ListDocmuentos.abonos[i].Afectado;
+                    worksheet.Cells[Row, 80] = ListDocmuentos.abonos[i].Impreso;
+                    worksheet.Cells[Row, 81] = ListDocmuentos.abonos[i].Cancelado;
+                    worksheet.Cells[Row, 82] = ListDocmuentos.abonos[i].TotalUnidades;
+                    worksheet.Cells[Row, 83] = ListDocmuentos.abonos[i].Clasificacion2;
+                    worksheet.Cells[Row, 84] = ListDocmuentos.abonos[i].TextoExtra1;
+                    worksheet.Cells[Row, 85] = ListDocmuentos.abonos[i].NombreConcepto;
+                    total += ListDocmuentos.abonos[i].Total;
+                    Row++;
+                }
+                worksheet.Cells[2, 76] = "$ " + total;
+
+                total = 0;
+                Row = 5;
+
+                for (int i = 0; i < ListDocmuentos.abonos_rfc_publico.Count; i++)
+                {
+                    worksheet.Cells[Row, 88] = ListDocmuentos.abonos_rfc_publico[i].Fecha;
+                    worksheet.Cells[Row, 89] = ListDocmuentos.abonos_rfc_publico[i].Serie;
+                    worksheet.Cells[Row, 90] = ListDocmuentos.abonos_rfc_publico[i].Folio;
+                    worksheet.Cells[Row, 91] = ListDocmuentos.abonos_rfc_publico[i].NombreAgente;
+                    worksheet.Cells[Row, 92] = ListDocmuentos.abonos_rfc_publico[i].RazonSocial;
+                    worksheet.Cells[Row, 93] = ListDocmuentos.abonos_rfc_publico[i].FechaVencimiento;
+                    worksheet.Cells[Row, 94] = ListDocmuentos.abonos_rfc_publico[i].RFC;
+                    worksheet.Cells[Row, 95] = ListDocmuentos.abonos_rfc_publico[i].Subtotal;
+                    worksheet.Cells[Row, 96] = ListDocmuentos.abonos_rfc_publico[i].IVA;
+                    worksheet.Cells[Row, 97] = ListDocmuentos.abonos_rfc_publico[i].Total;
+                    worksheet.Cells[Row, 98] = ListDocmuentos.abonos_rfc_publico[i].Pendiente;
+                    worksheet.Cells[Row, 99] = ListDocmuentos.abonos_rfc_publico[i].TextoExtra3;
+                    worksheet.Cells[Row, 100] = ListDocmuentos.abonos_rfc_publico[i].Afectado;
+                    worksheet.Cells[Row, 101] = ListDocmuentos.abonos_rfc_publico[i].Impreso;
+                    worksheet.Cells[Row, 102] = ListDocmuentos.abonos_rfc_publico[i].Cancelado;
+                    worksheet.Cells[Row, 103] = ListDocmuentos.abonos_rfc_publico[i].TotalUnidades;
+                    worksheet.Cells[Row, 104] = ListDocmuentos.abonos_rfc_publico[i].Clasificacion2;
+                    worksheet.Cells[Row, 105] = ListDocmuentos.abonos_rfc_publico[i].TextoExtra1;
+                    worksheet.Cells[Row, 106] = ListDocmuentos.abonos_rfc_publico[i].NombreConcepto;
+                    total += ListDocmuentos.abonos_rfc_publico[i].Total;
+                    Row++;
+                }
+                worksheet.Cells[2, 97] = "$ " + total;
+                total = 0;
+                Row = 5;
+                for (int i = 0; i < ListDocmuentos.abonos_ol.Count; i++)
+                {
+                    worksheet.Cells[Row, 108] = ListDocmuentos.abonos_ol[i].Fecha;
+                    worksheet.Cells[Row, 109] = ListDocmuentos.abonos_ol[i].Serie;
+                    worksheet.Cells[Row, 110] = ListDocmuentos.abonos_ol[i].Folio;
+                    worksheet.Cells[Row, 111] = ListDocmuentos.abonos_ol[i].NombreAgente;
+                    worksheet.Cells[Row, 112] = ListDocmuentos.abonos_ol[i].RazonSocial;
+                    worksheet.Cells[Row, 113] = ListDocmuentos.abonos_ol[i].FechaVencimiento;
+                    worksheet.Cells[Row, 114] = ListDocmuentos.abonos_ol[i].RFC;
+                    worksheet.Cells[Row, 115] = ListDocmuentos.abonos_ol[i].Subtotal;
+                    worksheet.Cells[Row, 116] = ListDocmuentos.abonos_ol[i].IVA;
+                    worksheet.Cells[Row, 117] = ListDocmuentos.abonos_ol[i].Total;
+                    worksheet.Cells[Row, 118] = ListDocmuentos.abonos_ol[i].Pendiente;
+                    worksheet.Cells[Row, 119] = ListDocmuentos.abonos_ol[i].TextoExtra3;
+                    worksheet.Cells[Row, 120] = ListDocmuentos.abonos_ol[i].Afectado;
+                    worksheet.Cells[Row, 121] = ListDocmuentos.abonos_ol[i].Impreso;
+                    worksheet.Cells[Row, 122] = ListDocmuentos.abonos_ol[i].Cancelado;
+                    worksheet.Cells[Row, 123] = ListDocmuentos.abonos_ol[i].TotalUnidades;
+                    worksheet.Cells[Row, 124] = ListDocmuentos.abonos_ol[i].Clasificacion2;
+                    worksheet.Cells[Row, 125] = ListDocmuentos.abonos_ol[i].TextoExtra1;
+                    worksheet.Cells[Row, 126] = ListDocmuentos.abonos_ol[i].NombreConcepto;
+                    total += ListDocmuentos.abonos_ol[i].Total;
+                    Row++;
+                }
+                worksheet.Cells[2, 117] = "$ " + total;
+                total = 0;
+                Row = 5;
+
+
+                /*ZONA CENTRO*/
+                for (int i = 0; i < ListDocmuentos.abonos_zona_norte.Count; i++)
+                {
+                    worksheet.Cells[Row, 129] = ListDocmuentos.abonos_zona_norte[i].Fecha;
+                    worksheet.Cells[Row, 130] = ListDocmuentos.abonos_zona_norte[i].Serie;
+                    worksheet.Cells[Row, 131] = ListDocmuentos.abonos_zona_norte[i].Folio;
+                    worksheet.Cells[Row, 132] = ListDocmuentos.abonos_zona_norte[i].NombreAgente;
+                    worksheet.Cells[Row, 133] = ListDocmuentos.abonos_zona_norte[i].RazonSocial;
+                    worksheet.Cells[Row, 134] = ListDocmuentos.abonos_zona_norte[i].FechaVencimiento;
+                    worksheet.Cells[Row, 135] = ListDocmuentos.abonos_zona_norte[i].RFC;
+                    worksheet.Cells[Row, 136] = ListDocmuentos.abonos_zona_norte[i].Subtotal;
+                    worksheet.Cells[Row, 137] = ListDocmuentos.abonos_zona_norte[i].IVA;
+                    worksheet.Cells[Row, 138] = ListDocmuentos.abonos_zona_norte[i].Total;
+                    worksheet.Cells[Row, 139] = ListDocmuentos.abonos_zona_norte[i].Pendiente;
+                    worksheet.Cells[Row, 140] = ListDocmuentos.abonos_zona_norte[i].TextoExtra3;
+                    worksheet.Cells[Row, 141] = ListDocmuentos.abonos_zona_norte[i].Afectado;
+                    worksheet.Cells[Row, 142] = ListDocmuentos.abonos_zona_norte[i].Impreso;
+                    worksheet.Cells[Row, 143] = ListDocmuentos.abonos_zona_norte[i].Cancelado;
+                    worksheet.Cells[Row, 144] = ListDocmuentos.abonos_zona_norte[i].TotalUnidades;
+                    worksheet.Cells[Row, 145] = ListDocmuentos.abonos_zona_norte[i].proveedor.Clasificación1;
+                    worksheet.Cells[Row, 146] = ListDocmuentos.abonos_zona_norte[i].proveedor.Clasificación2;
+                    total += ListDocmuentos.abonos_zona_norte[i].Total;
+                    Row++;
+                }
+                worksheet.Cells[2, 138] = "$ " + total;
+                total = 0;
+                Row = 5;
+                /*ZONA sur*/
+                for (int i = 0; i < ListDocmuentos.abonos_zona_sur.Count; i++)
+                {
+                    worksheet.Cells[Row, 149] = ListDocmuentos.abonos_zona_sur[i].Fecha;
+                    worksheet.Cells[Row, 150] = ListDocmuentos.abonos_zona_sur[i].Serie;
+                    worksheet.Cells[Row, 151] = ListDocmuentos.abonos_zona_sur[i].Folio;
+                    worksheet.Cells[Row, 152] = ListDocmuentos.abonos_zona_sur[i].NombreAgente;
+                    worksheet.Cells[Row, 153] = ListDocmuentos.abonos_zona_sur[i].RazonSocial;
+                    worksheet.Cells[Row, 154] = ListDocmuentos.abonos_zona_sur[i].FechaVencimiento;
+                    worksheet.Cells[Row, 155] = ListDocmuentos.abonos_zona_sur[i].RFC;
+                    worksheet.Cells[Row, 156] = ListDocmuentos.abonos_zona_sur[i].Subtotal;
+                    worksheet.Cells[Row, 157] = ListDocmuentos.abonos_zona_sur[i].IVA;
+                    worksheet.Cells[Row, 158] = ListDocmuentos.abonos_zona_sur[i].Total;
+                    worksheet.Cells[Row, 159] = ListDocmuentos.abonos_zona_sur[i].Pendiente;
+                    worksheet.Cells[Row, 160] = ListDocmuentos.abonos_zona_sur[i].TextoExtra3;
+                    worksheet.Cells[Row, 161] = ListDocmuentos.abonos_zona_sur[i].Afectado;
+                    worksheet.Cells[Row, 162] = ListDocmuentos.abonos_zona_sur[i].Impreso;
+                    worksheet.Cells[Row, 163] = ListDocmuentos.abonos_zona_sur[i].Cancelado;
+                    worksheet.Cells[Row, 164] = ListDocmuentos.abonos_zona_sur[i].TotalUnidades;
+                    worksheet.Cells[Row, 165] = ListDocmuentos.abonos_zona_sur[i].proveedor.Clasificación1;
+                    worksheet.Cells[Row, 166] = ListDocmuentos.abonos_zona_sur[i].proveedor.Clasificación2;
+                    total += ListDocmuentos.abonos_zona_sur[i].Total;
+                    Row++;
+                }
+                worksheet.Cells[2, 158] = "$ " + total;
+                total = 0;
+                Row = 5;
+                /*ZONA norte*/
+                for (int i = 0; i < ListDocmuentos.abonos_zona_norte.Count; i++)
+                {
+                    worksheet.Cells[Row, 169] = ListDocmuentos.abonos_zona_norte[i].Fecha;
+                    worksheet.Cells[Row, 170] = ListDocmuentos.abonos_zona_norte[i].Serie;
+                    worksheet.Cells[Row, 171] = ListDocmuentos.abonos_zona_norte[i].Folio;
+                    worksheet.Cells[Row, 172] = ListDocmuentos.abonos_zona_norte[i].NombreAgente;
+                    worksheet.Cells[Row, 173] = ListDocmuentos.abonos_zona_norte[i].RazonSocial;
+                    worksheet.Cells[Row, 174] = ListDocmuentos.abonos_zona_norte[i].FechaVencimiento;
+                    worksheet.Cells[Row, 175] = ListDocmuentos.abonos_zona_norte[i].RFC;
+                    worksheet.Cells[Row, 176] = ListDocmuentos.abonos_zona_norte[i].Subtotal;
+                    worksheet.Cells[Row, 177] = ListDocmuentos.abonos_zona_norte[i].IVA;
+                    worksheet.Cells[Row, 178] = ListDocmuentos.abonos_zona_norte[i].Total;
+                    worksheet.Cells[Row, 179] = ListDocmuentos.abonos_zona_norte[i].Pendiente;
+                    worksheet.Cells[Row, 180] = ListDocmuentos.abonos_zona_norte[i].TextoExtra3;
+                    worksheet.Cells[Row, 181] = ListDocmuentos.abonos_zona_norte[i].Afectado;
+                    worksheet.Cells[Row, 182] = ListDocmuentos.abonos_zona_norte[i].Impreso;
+                    worksheet.Cells[Row, 183] = ListDocmuentos.abonos_zona_norte[i].Cancelado;
+                    worksheet.Cells[Row, 184] = ListDocmuentos.abonos_zona_norte[i].TotalUnidades;
+                    worksheet.Cells[Row, 185] = ListDocmuentos.abonos_zona_norte[i].proveedor.Clasificación1;
+                    worksheet.Cells[Row, 186] = ListDocmuentos.abonos_zona_norte[i].proveedor.Clasificación2;
+                    total += ListDocmuentos.abonos_zona_norte[i].Total;
+                    Row++;
+                }
+                worksheet.Cells[2, 178] = "$ " + total;
+                #endregion
+                #endregion
+
+                #region Compras
+                Row = 4;
+                #region encabezados
+                worksheet.Cells[2, 194] = "compras acumuladas";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 190] = "Fecha";
+                worksheet.Cells[Row, 191] = "Serie";
+                worksheet.Cells[Row, 192] = "Folio";
+                worksheet.Cells[Row, 193] = "Nombre del agente";
+                worksheet.Cells[Row, 194] = "Razon social";
+                worksheet.Cells[Row, 195] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 196] = "RFC";
+                worksheet.Cells[Row, 197] = "Subtotal";
+                worksheet.Cells[Row,198] = "IVA";
+                worksheet.Cells[Row, 199] = "TOTAL";
+                worksheet.Cells[Row, 200] = "Pendiente";
+                worksheet.Cells[Row, 201] = "Texto Extra 3";
+                worksheet.Cells[Row, 202] = "Afectado";
+                worksheet.Cells[Row, 203] = "Impreso";
+                worksheet.Cells[Row, 204] = "Cancelado";
+                worksheet.Cells[Row, 205] = "Total de unidades";
+                worksheet.Cells[Row, 206] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 207] = "Texto extra1";
+                worksheet.Cells[Row, 208] = "Nombre del concepto";
+                //titulo 
+                worksheet.Cells[2, 215] = "compras ANJI";
+                //envabezados facturas filtro publico
+                worksheet.Cells[Row, 211] = "Fecha";
+                worksheet.Cells[Row, 212] = "Serie";
+                worksheet.Cells[Row, 213] = "Folio";
+                worksheet.Cells[Row, 214] = "Nombre del agente";
+                worksheet.Cells[Row, 215] = "Razon social";
+                worksheet.Cells[Row, 216] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 217] = "RFC";
+                worksheet.Cells[Row, 218] = "Subtotal";
+                worksheet.Cells[Row, 219] = "IVA";
+                worksheet.Cells[Row, 220] = "TOTAL";
+                worksheet.Cells[Row, 221] = "Pendiente";
+                worksheet.Cells[Row, 222] = "Texto Extra 3";
+                worksheet.Cells[Row, 223] = "Afectado";
+                worksheet.Cells[Row, 224] = "Impreso";
+                worksheet.Cells[Row, 225] = "Cancelado";
+                worksheet.Cells[Row, 226] = "Total de unidades";
+                worksheet.Cells[Row, 227] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 228] = "Texto extra1";
+                worksheet.Cells[Row, 229] = "Nombre del concepto";
+
+                Row++;
+                #endregion
+                #region contenido
+                total = 0;
+                for (int i = 0; i < ListDocmuentos.compras.Count; i++)
+                {
+                    worksheet.Cells[Row, 190] = ListDocmuentos.compras[i].Fecha;
+                    worksheet.Cells[Row, 191] = ListDocmuentos.compras[i].Serie;
+                    worksheet.Cells[Row, 192] = ListDocmuentos.compras[i].Folio;
+                    worksheet.Cells[Row, 193] = ListDocmuentos.compras[i].NombreAgente;
+                    worksheet.Cells[Row, 194] = ListDocmuentos.compras[i].RazonSocial;
+                    worksheet.Cells[Row, 195] = ListDocmuentos.compras[i].FechaVencimiento;
+                    worksheet.Cells[Row, 196] = ListDocmuentos.compras[i].RFC;
+                    worksheet.Cells[Row, 197] = ListDocmuentos.compras[i].Subtotal;
+                    worksheet.Cells[Row, 198] = ListDocmuentos.compras[i].IVA;
+                    worksheet.Cells[Row, 199] = ListDocmuentos.compras[i].Total;
+                    worksheet.Cells[Row, 200] = ListDocmuentos.compras[i].Pendiente;
+                    worksheet.Cells[Row, 201] = ListDocmuentos.compras[i].TextoExtra3;
+                    worksheet.Cells[Row, 202] = ListDocmuentos.compras[i].Afectado;
+                    worksheet.Cells[Row, 203] = ListDocmuentos.compras[i].Impreso;
+                    worksheet.Cells[Row, 204] = ListDocmuentos.compras[i].Cancelado;
+                    worksheet.Cells[Row, 205] = ListDocmuentos.compras[i].TotalUnidades;
+                    worksheet.Cells[Row, 206] = ListDocmuentos.compras[i].Clasificacion2;
+                    worksheet.Cells[Row, 207] = ListDocmuentos.compras[i].TextoExtra1;
+                    worksheet.Cells[Row, 208] = ListDocmuentos.compras[i].NombreConcepto;
+                    total += ListDocmuentos.compras[i].Total;
+                    Row++;
+                }
+                worksheet.Cells[2, 199] = "$ " + total;
+
+                total = 0;
+                Row = 5;
+
+                for (int i = 0; i < ListDocmuentos.compras_rfc_anji.Count; i++)
+                {
+                    worksheet.Cells[Row, 211] = ListDocmuentos.compras_rfc_anji[i].Fecha;
+                    worksheet.Cells[Row, 212] = ListDocmuentos.compras_rfc_anji[i].Serie;
+                    worksheet.Cells[Row, 213] = ListDocmuentos.compras_rfc_anji[i].Folio;
+                    worksheet.Cells[Row, 214] = ListDocmuentos.compras_rfc_anji[i].NombreAgente;
+                    worksheet.Cells[Row, 215] = ListDocmuentos.compras_rfc_anji[i].RazonSocial;
+                    worksheet.Cells[Row, 216] = ListDocmuentos.compras_rfc_anji[i].FechaVencimiento;
+                    worksheet.Cells[Row, 217] = ListDocmuentos.compras_rfc_anji[i].RFC;
+                    worksheet.Cells[Row, 218] = ListDocmuentos.compras_rfc_anji[i].Subtotal;
+                    worksheet.Cells[Row, 219] = ListDocmuentos.compras_rfc_anji[i].IVA;
+                    worksheet.Cells[Row, 220] = ListDocmuentos.compras_rfc_anji[i].Total;
+                    worksheet.Cells[Row, 221] = ListDocmuentos.compras_rfc_anji[i].Pendiente;
+                    worksheet.Cells[Row, 222] = ListDocmuentos.compras_rfc_anji[i].TextoExtra3;
+                    worksheet.Cells[Row, 223] = ListDocmuentos.compras_rfc_anji[i].Afectado;
+                    worksheet.Cells[Row, 224] = ListDocmuentos.compras_rfc_anji[i].Impreso;
+                    worksheet.Cells[Row, 225] = ListDocmuentos.compras_rfc_anji[i].Cancelado;
+                    worksheet.Cells[Row, 226] = ListDocmuentos.compras_rfc_anji[i].TotalUnidades;
+                    worksheet.Cells[Row, 227] = ListDocmuentos.compras_rfc_anji[i].Clasificacion2;
+                    worksheet.Cells[Row, 228] = ListDocmuentos.compras_rfc_anji[i].TextoExtra1;
+                    worksheet.Cells[Row, 229] = ListDocmuentos.compras_rfc_anji[i].NombreConcepto;
+                    total += ListDocmuentos.compras_rfc_anji[i].Total;
+                    Row++;
+                }
+                worksheet.Cells[2, 220] = "$ " + total;
+                #endregion
+                #endregion
+
+                #region Pagos proveedor
+                Row = 4;
+                #region encabezados
+                worksheet.Cells[2, 238] = "pagos acumuladas";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 234] = "Fecha";
+                worksheet.Cells[Row, 235] = "Serie";
+                worksheet.Cells[Row, 236] = "Folio";
+                worksheet.Cells[Row, 237] = "Nombre del agente";
+                worksheet.Cells[Row, 238] = "Razon social";
+                worksheet.Cells[Row, 239] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 240] = "RFC";
+                worksheet.Cells[Row, 241] = "Subtotal";
+                worksheet.Cells[Row, 242] = "IVA";
+                worksheet.Cells[Row, 243] = "TOTAL";
+                worksheet.Cells[Row, 244] = "Pendiente";
+                worksheet.Cells[Row, 245] = "Texto Extra 3";
+                worksheet.Cells[Row, 246] = "Afectado";
+                worksheet.Cells[Row, 247] = "Impreso";
+                worksheet.Cells[Row, 248] = "Cancelado";
+                worksheet.Cells[Row, 249] = "Total de unidades";
+                worksheet.Cells[Row, 250] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 251] = "Texto extra1";
+                worksheet.Cells[Row, 252] = "Nombre del concepto";
+                //titulo 
+                worksheet.Cells[2, 259] = "pagos Anji";
+                //envabezados facturas filtro publico
+                worksheet.Cells[Row, 255] = "Fecha";
+                worksheet.Cells[Row, 256] = "Serie";
+                worksheet.Cells[Row, 257] = "Folio";
+                worksheet.Cells[Row, 258] = "Nombre del agente";
+                worksheet.Cells[Row, 259] = "Razon social";
+                worksheet.Cells[Row, 260] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 261] = "RFC";
+                worksheet.Cells[Row, 262] = "Subtotal";
+                worksheet.Cells[Row, 263] = "IVA";
+                worksheet.Cells[Row, 264] = "TOTAL";
+                worksheet.Cells[Row, 265] = "Pendiente";
+                worksheet.Cells[Row, 266] = "Texto Extra 3";
+                worksheet.Cells[Row, 267] = "Afectado";
+                worksheet.Cells[Row, 268] = "Impreso";
+                worksheet.Cells[Row, 269] = "Cancelado";
+                worksheet.Cells[Row, 270] = "Total de unidades";
+                worksheet.Cells[Row, 271] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 272] = "Texto extra1";
+                worksheet.Cells[Row, 273] = "Nombre del concepto";
+                
+                Row++;
+                #endregion
+                #region contenido
+                total = 0;
+                for (int i = 0; i < ListDocmuentos.pagos_proveedor.Count; i++)
+                {
+                    worksheet.Cells[Row, 234] = ListDocmuentos.pagos_proveedor[i].Fecha;
+                    worksheet.Cells[Row, 235] = ListDocmuentos.pagos_proveedor[i].Serie;
+                    worksheet.Cells[Row, 236] = ListDocmuentos.pagos_proveedor[i].Folio;
+                    worksheet.Cells[Row, 237] = ListDocmuentos.pagos_proveedor[i].NombreAgente;
+                    worksheet.Cells[Row, 238] = ListDocmuentos.pagos_proveedor[i].RazonSocial;
+                    worksheet.Cells[Row, 239] = ListDocmuentos.pagos_proveedor[i].FechaVencimiento;
+                    worksheet.Cells[Row, 240] = ListDocmuentos.pagos_proveedor[i].RFC;
+                    worksheet.Cells[Row, 241] = ListDocmuentos.pagos_proveedor[i].Subtotal;
+                    worksheet.Cells[Row, 242] = ListDocmuentos.pagos_proveedor[i].IVA;
+                    worksheet.Cells[Row, 243] = ListDocmuentos.pagos_proveedor[i].Total;
+                    worksheet.Cells[Row, 244] = ListDocmuentos.pagos_proveedor[i].Pendiente;
+                    worksheet.Cells[Row, 245] = ListDocmuentos.pagos_proveedor[i].TextoExtra3;
+                    worksheet.Cells[Row, 246] = ListDocmuentos.pagos_proveedor[i].Afectado;
+                    worksheet.Cells[Row, 247] = ListDocmuentos.pagos_proveedor[i].Impreso;
+                    worksheet.Cells[Row, 248] = ListDocmuentos.pagos_proveedor[i].Cancelado;
+                    worksheet.Cells[Row, 249] = ListDocmuentos.pagos_proveedor[i].TotalUnidades;
+                    worksheet.Cells[Row, 250] = ListDocmuentos.pagos_proveedor[i].Clasificacion2;
+                    worksheet.Cells[Row, 251] = ListDocmuentos.pagos_proveedor[i].TextoExtra1;
+                    worksheet.Cells[Row, 252] = ListDocmuentos.pagos_proveedor[i].NombreConcepto;
+                    total += ListDocmuentos.pagos_proveedor[i].Total;
+                    Row++;
+                }
+                worksheet.Cells[2, 10] = "$ " + total;
+
+                total = 0;
+                Row = 5;
+
+                for (int i = 0; i < ListDocmuentos.pagos_proveedor_rfc_anji.Count; i++)
+                {
+                    worksheet.Cells[Row, 255] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Fecha;
+                    worksheet.Cells[Row, 256] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Serie;
+                    worksheet.Cells[Row, 257] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Folio;
+                    worksheet.Cells[Row, 258] = ListDocmuentos.pagos_proveedor_rfc_anji[i].NombreAgente;
+                    worksheet.Cells[Row, 259] = ListDocmuentos.pagos_proveedor_rfc_anji[i].RazonSocial;
+                    worksheet.Cells[Row, 260] = ListDocmuentos.pagos_proveedor_rfc_anji[i].FechaVencimiento;
+                    worksheet.Cells[Row, 261] = ListDocmuentos.pagos_proveedor_rfc_anji[i].RFC;
+                    worksheet.Cells[Row, 262] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Subtotal;
+                    worksheet.Cells[Row, 263] = ListDocmuentos.pagos_proveedor_rfc_anji[i].IVA;
+                    worksheet.Cells[Row, 264] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Total;
+                    worksheet.Cells[Row, 265] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Pendiente;
+                    worksheet.Cells[Row, 266] = ListDocmuentos.pagos_proveedor_rfc_anji[i].TextoExtra3;
+                    worksheet.Cells[Row, 267] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Afectado;
+                    worksheet.Cells[Row, 268] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Impreso;
+                    worksheet.Cells[Row, 269] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Cancelado;
+                    worksheet.Cells[Row, 270] = ListDocmuentos.pagos_proveedor_rfc_anji[i].TotalUnidades;
+                    worksheet.Cells[Row, 271] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Clasificacion2;
+                    worksheet.Cells[Row, 272] = ListDocmuentos.pagos_proveedor_rfc_anji[i].TextoExtra1;
+                    worksheet.Cells[Row, 273] = ListDocmuentos.pagos_proveedor_rfc_anji[i].NombreConcepto;
+                    total += ListDocmuentos.pagos_proveedor_rfc_anji[i].Total;
+                    Row++;
+                }
+                worksheet.Cells[2, 264] = "$ " + total;
+                
+                #endregion
+                #endregion
+
+                #region Prestamos
+                Row = 4;
+                #region encabezados
+                worksheet.Cells[2, 277] = "Prestamos";
+
+                //encabezados prestamos
+                worksheet.Cells[Row, 277] = "Fecha";
+                worksheet.Cells[Row, 274] = "Serie";
+                worksheet.Cells[Row, 275] = "Folio";
+                worksheet.Cells[Row, 276] = "Nombre del agente";
+                worksheet.Cells[Row, 277] = "Razon social";
+                worksheet.Cells[Row, 278] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 279] = "Fecha de depósito";
+                worksheet.Cells[Row, 280] = "RFC";
+                worksheet.Cells[Row, 281] = "TOTAL";
+                worksheet.Cells[Row, 282] = "Pendiente";
+                worksheet.Cells[Row, 283] = "Cuenta";
+                worksheet.Cells[Row, 284] = "Referencia";
+
+                Row++;
+                #endregion
+                #region contenido
+                total = 0;
+                for (int i = 0; i < ListDocmuentos.prestamos.Count; i++)
+                {
+                    worksheet.Cells[Row, 277] = ListDocmuentos.prestamos[i].Fecha;
+                    worksheet.Cells[Row, 278] = ListDocmuentos.prestamos[i].Serie;
+                    worksheet.Cells[Row, 279] = ListDocmuentos.prestamos[i].Folio;
+                    worksheet.Cells[Row, 280] = ListDocmuentos.prestamos[i].NombreAgente;
+                    worksheet.Cells[Row, 281] = ListDocmuentos.prestamos[i].RazonSocial;
+                    worksheet.Cells[Row, 282] = ListDocmuentos.prestamos[i].FechaVencimiento;
+                    worksheet.Cells[Row, 283] = ListDocmuentos.prestamos[i].TextoExtra1;
+                    worksheet.Cells[Row, 284] = ListDocmuentos.prestamos[i].RFC;
+                    worksheet.Cells[Row, 285] = ListDocmuentos.prestamos[i].Total;
+                    worksheet.Cells[Row, 286] = ListDocmuentos.prestamos[i].Pendiente;
+                    worksheet.Cells[Row, 287] = ListDocmuentos.prestamos[i].TextoExtra2;
+                    worksheet.Cells[Row, 288] = ListDocmuentos.prestamos[i].Referencia;
+                    total += ListDocmuentos.prestamos[i].Total;
+                    Row++;
+                }
+                worksheet.Cells[2, 285] = "$ " + total;
+                #endregion
+                #endregion
+
+                #region Ingreso traspaso
+                Row = 4;
+                #region encabezados
+                worksheet.Cells[2, 294] = "Ingreso traspaso";
+
+                //encabezados ingtreso traspaso
+                worksheet.Cells[Row, 290] = "Fecha";
+                worksheet.Cells[Row, 291] = "Serie";
+                worksheet.Cells[Row, 292] = "Folio";
+                worksheet.Cells[Row, 293] = "Nombre del agente";
+                worksheet.Cells[Row, 294] = "Razon social";
+                worksheet.Cells[Row, 295] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 296] = "Fecha de depósito";
+                worksheet.Cells[Row, 297] = "RFC";
+                worksheet.Cells[Row, 298] = "TOTAL";
+                worksheet.Cells[Row, 299] = "Pendiente";
+                worksheet.Cells[Row, 300] = "texto extra 2";
+                worksheet.Cells[Row, 301] = "Referencia";
+
+                Row++;
+                #endregion
+                #region contenido
+                total = 0;
+                for (int i = 0; i < ListDocmuentos.ingreso_traspaso.Count; i++)
+                {
+                    worksheet.Cells[Row, 290] = ListDocmuentos.ingreso_traspaso[i].Fecha;
+                    worksheet.Cells[Row, 291] = ListDocmuentos.ingreso_traspaso[i].Serie;
+                    worksheet.Cells[Row, 292] = ListDocmuentos.ingreso_traspaso[i].Folio;
+                    worksheet.Cells[Row, 293] = ListDocmuentos.ingreso_traspaso[i].NombreAgente;
+                    worksheet.Cells[Row, 294] = ListDocmuentos.ingreso_traspaso[i].RazonSocial;
+                    worksheet.Cells[Row, 295] = ListDocmuentos.ingreso_traspaso[i].FechaVencimiento;
+                    worksheet.Cells[Row, 296] = ListDocmuentos.ingreso_traspaso[i].TextoExtra1;
+                    worksheet.Cells[Row, 297] = ListDocmuentos.ingreso_traspaso[i].RFC;
+                    worksheet.Cells[Row, 298] = ListDocmuentos.ingreso_traspaso[i].Total;
+                    worksheet.Cells[Row, 299] = ListDocmuentos.ingreso_traspaso[i].Pendiente;
+                    worksheet.Cells[Row, 300] = ListDocmuentos.ingreso_traspaso[i].TextoExtra2;
+                    worksheet.Cells[Row, 301] = ListDocmuentos.ingreso_traspaso[i].Referencia;
+                    total += ListDocmuentos.ingreso_traspaso[i].Total;
+                    Row++;
+                }
+                worksheet.Cells[2, 298] = "$ " + total;
+                #endregion
+                #endregion
+
+                #region Ingreso dev. garantia
+                Row = 4;
+                #region encabezados
+                worksheet.Cells[2, 309] = "Ingreso Dev. garantía";
+
+                //encabezados ingtreso traspaso
+                worksheet.Cells[Row, 305] = "Fecha";
+                worksheet.Cells[Row, 306] = "Serie";
+                worksheet.Cells[Row, 307] = "Folio";
+                worksheet.Cells[Row, 308] = "Nombre del agente";
+                worksheet.Cells[Row, 309] = "Razon social";
+                worksheet.Cells[Row, 310] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 311] = "Fecha de depósito";
+                worksheet.Cells[Row, 312] = "RFC";
+                worksheet.Cells[Row, 313] = "TOTAL";
+                worksheet.Cells[Row, 314] = "Pendiente";
+                worksheet.Cells[Row, 315] = "texto extra 2";
+                worksheet.Cells[Row, 316] = "Referencia";
+
+                Row++;
+                #endregion
+                #region contenido
+                total = 0;
+                for (int i = 0; i < ListDocmuentos.ingreso_dev_garantia.Count; i++)
+                {
+                    worksheet.Cells[Row, 305] = ListDocmuentos.ingreso_dev_garantia[i].Fecha;
+                    worksheet.Cells[Row, 306] = ListDocmuentos.ingreso_dev_garantia[i].Serie;
+                    worksheet.Cells[Row, 307] = ListDocmuentos.ingreso_dev_garantia[i].Folio;
+                    worksheet.Cells[Row, 308] = ListDocmuentos.ingreso_dev_garantia[i].NombreAgente;
+                    worksheet.Cells[Row, 309] = ListDocmuentos.ingreso_dev_garantia[i].RazonSocial;
+                    worksheet.Cells[Row, 310] = ListDocmuentos.ingreso_dev_garantia[i].FechaVencimiento;
+                    worksheet.Cells[Row, 311] = ListDocmuentos.ingreso_dev_garantia[i].TextoExtra1;
+                    worksheet.Cells[Row, 312] = ListDocmuentos.ingreso_dev_garantia[i].RFC;
+                    worksheet.Cells[Row, 313] = ListDocmuentos.ingreso_dev_garantia[i].Total;
+                    worksheet.Cells[Row, 314] = ListDocmuentos.ingreso_dev_garantia[i].Pendiente;
+                    worksheet.Cells[Row, 315] = ListDocmuentos.ingreso_dev_garantia[i].TextoExtra2;
+                    worksheet.Cells[Row, 316] = ListDocmuentos.ingreso_dev_garantia[i].Referencia;
+                    total += ListDocmuentos.ingreso_dev_garantia[i].Total;
+                    Row++;
+                }
+                worksheet.Cells[2, 313] = "$ " + total;
+                #endregion
+                #endregion
+
+            }
+            catch (Exception)
+            {
+
+            }
         }
+
+
+      
         #endregion 
     }
 }

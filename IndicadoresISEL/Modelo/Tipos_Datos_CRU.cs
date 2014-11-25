@@ -8,8 +8,43 @@ namespace IndicadoresISEL.Modelo
     class Tipos_Datos_CRU
     {
         #region FACTURAS CRU
-        public class FacturasCRU
+        public class get_nom_concepto {
+            public string IDNombreConcepto { get; set; }
+            public string nombre_concepto { get; set; }
+        }
+
+        public class get_agente {
+            public string IDAgente { get; set; }
+            public string NombreAgente { get; set; }
+            public string CodigoAgente { get; set; }
+        }
+
+        
+
+        public class ListDatosCRU
         {
+            public List<CRU> facturas { get; set; }
+            public List<CRU> facturas_rfc_publico { get; set; }
+            public List<CRU> facturas_rfc_ol { get; set; }
+            public List<CRU> compras { get; set; }
+            public List<CRU> compras_rfc_anji { get; set; }
+            public List<CRU> abonos { get; set; }
+            public List<CRU> abonos_rfc_publico { get; set; }
+            public List<CRU> abonos_ol { get; set; }
+            public List<CRU> abonos_zona_norte { get; set; }
+            public List<CRU> abonos_zona_centro { get; set; }
+            public List<CRU> abonos_zona_sur { get; set; }
+            public List<CRU> pagos_proveedor { get; set; }
+            public List<CRU> pagos_proveedor_rfc_anji { get; set; }
+            public List<CRU> prestamos { get; set; }
+            public List<CRU> ingreso_traspaso { get; set; }
+            public List<CRU> ingreso_dev_garantia { get; set; }
+        }
+
+        public class CRU
+        {
+            public string CIDDOCUM02 { get; set; }
+            public string CIDCONCE01 { get; set; }
             public string IdDocumento { get; set; }
             public string Fecha { get; set; }
             public string Serie { get; set; }
@@ -38,48 +73,14 @@ namespace IndicadoresISEL.Modelo
             public string CodigoCliente { get; set; }
             public string IDCliente { get; set; }
             public string IDNombreConcepto { get; set; }
-            public Cliente_Proveedor proveedor { get; set; }
-            public List<Movimientos> Listmovimiento { get; set; }
-
-        }
-        #endregion
-
-        #region ABONOS CXC
-        public class Abonos_cxc
-        {
-            public string IdDocumento { get; set; }
-            public string Fecha { get; set; }
-            public string Serie { get; set; }
-            public string Folio { get; set; }
-            public string NombreAgente { get; set; }
-            public string CodigoAgente { get; set; }
-            public string IDAgente { get; set; }
-            public string RazonSocial { get; set; }
-            public string FechaVencimiento { get; set; }
-            public string RFC { get; set; }
-            public float Subtotal { get; set; }
-            public float IVA { get; set; }
-            public float Total { get; set; }
-            public float Pendiente { get; set; }
-            public float TotalUnidades { get; set; }
             public string Referencia { get; set; }
-            public string Cuenta { get; set; }
-            public string TextoExtra3 { get; set; }
-            public string Afectado { get; set; }
-            public string Impreso { get; set; }
-            public string Cancelado { get; set; }
-            public string Clasificacion1 { get; set; }
-            public string Clasificacion2 { get; set; }
-            public string Clasificacion3 { get; set; }
-            public string NombreConcepto { get; set; }
-            public string CodigoCliente { get; set; }
-            public string IDCliente { get; set; }
-            public string IDNombreConcepto { get; set; }
             public Cliente_Proveedor proveedor { get; set; }
             public List<Movimientos> Listmovimiento { get; set; }
 
         }
         #endregion
+
+        
 
 
         public class Movimientos_Cuentas// CUENTAS POR PAGAR 
@@ -153,6 +154,7 @@ namespace IndicadoresISEL.Modelo
 
         public class Cliente_Proveedor
         {
+            public string IDCliente { get; set; }
             public string CodigoCliente { get; set; }
             public string RazonSocial { get; set; }
             public string Clasificación1 { get; set; }
@@ -164,105 +166,6 @@ namespace IndicadoresISEL.Modelo
         }
 
 
-        #region PARA CLASIFICACION 1 PROVEEDORES
-
-        public class ComprasMensualesXClasificacionIMagenes
-        {
-            public string Anio { get; set; }
-            public string Clasificacion1 { get; set; }
-            public string nombreimagen { get; set; }
-            public List<ComprasMensualesXClasificacion> compras { get; set; }
-        }
-
-        public class ComprasMensualesXClasificacion
-        {
-            public string CodigoClasificacion { get; set; }
-            public string Clasificacion1 { get; set; }
-            public string Mes { get; set; }
-            public float total { get; set; }
-            public string Dia { get; set; }
-            public string Anio { get; set; }
-
-        }
-        #endregion
-
-        #region PARA CLASIFICACION 2 PROVEEDORES
-
-        public class ComprasMensualesXClasificacionIMagenes2
-        {
-            public string Anio { get; set; }
-            public string Clasificacion2 { get; set; }
-            public string nombreimagen { get; set; }
-            public List<ComprasMensualesXClasificacion2> compras { get; set; }
-        }
-
-        public class ComprasMensualesXClasificacion2
-        {
-            public string CodigoClasificacion { get; set; }
-            public string Clasificacion2 { get; set; }
-            public string Mes { get; set; }
-            public float total { get; set; }
-            public string Dia { get; set; }
-            public string Anio { get; set; }
-
-        }
-        #endregion
-
-        #region PARA CLASIFICACION 1 PRODCUTOS
-        public class ComprasMensualesXClasificacion1Productos
-        {
-            public string Anio { get; set; }
-            public string Clasificacion1 { get; set; }
-            public string nombreimagen { get; set; }
-            public List<ComprasMensualesXClasificacion1> compras { get; set; }
-        }
-
-        public class ComprasMensualesXClasificacion1
-        {
-            public string CodigoClasificacion { get; set; }
-            public string Clasificacion1 { get; set; }
-            public string Mes { get; set; }
-            public float total { get; set; }
-            public string Dia { get; set; }
-            public string Anio { get; set; }
-
-        }
-        #endregion
-
-
-        #region PARA CLASIFICACION 2 PRODUCTOS
-        public class ComprasMensualesXClasificacion2Productos
-        {
-            public string Anio { get; set; }
-            public string Clasificacion2 { get; set; }
-            public string nombreimagen { get; set; }
-            public List<ComprasMensualesXClasificacion2> compras { get; set; }
-        }
-        #endregion
-
-        #region PARA CLASIFICACION 1 PRODUCTOS POR MES
-
-        public class ComprasMensualesXClasificacion1ProductosMes
-        {
-            public string Anio { get; set; }
-            public string nombreimagen { get; set; }
-            public string Mes { get; set; }
-            public string Clasificacion1 { get; set; }
-            public List<ComprasMensualesXClasificacion1> compras { get; set; }
-        }
-        #endregion
-
-
-        #region PARA CLASIFICAION 2 PRODUCTO POR MES
-        public class ComprasMensualesXClasificacion2ProductosMes
-        {
-            public string Anio { get; set; }
-            public string nombreimagen { get; set; }
-            public string Mes { get; set; }
-            public string Clasificacion2 { get; set; }
-            public List<ComprasMensualesXClasificacion2> compras { get; set; }
-        }
-        #endregion
-
+        
     }
 }

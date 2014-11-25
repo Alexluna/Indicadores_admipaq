@@ -72,28 +72,18 @@
     <Compile Include="Controlador\Controlador_Impresion.cs" />
     <Compile Include="Controlador\Controlador__SDKAdmipaq.cs" />
     <Compile Include="Controlador\WorkerProgressBar.cs" />
-    <Compile Include="Modelo\Cargar_graficas.cs" />
     <Compile Include="Modelo\Modelo_Impresion.cs" />
     <Compile Include="Modelo\Modelo_SDKAdmipaq.cs" />
     <Compile Include="Modelo\Nombre_Archivos.cs" />
     <Compile Include="Modelo\Tipos_Datos_CRU.cs" />
-    <Compile Include="Vista\Abonos\abono.xaml.cs">
-      <DependentUpon>abono.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Vista\Cargador\CargadorBar.xaml.cs">
       <DependentUpon>CargadorBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vista\compras\compra.xaml.cs">
-      <DependentUpon>compra.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vista\Contenedor_principal\Indicadores_pincipal.xaml.cs">
       <DependentUpon>Indicadores_pincipal.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vista\Facturas\facturacion.xaml.cs">
       <DependentUpon>facturacion.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vista\Pagos_proveedor\pagos.xaml.cs">
-      <DependentUpon>pagos.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -107,15 +97,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Vista\Abonos\abono.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Vista\Cargador\CargadorBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\compras\compra.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -124,10 +106,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vista\Facturas\facturacion.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vista\Pagos_proveedor\pagos.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -157,9 +135,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Imagenes\logo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Imagenes\close.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +154,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Imagenes\pagos.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\prestamos.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
