@@ -82,8 +82,8 @@
     <Compile Include="Vista\Contenedor_principal\Indicadores_pincipal.xaml.cs">
       <DependentUpon>Indicadores_pincipal.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vista\Facturas\facturacion.xaml.cs">
-      <DependentUpon>facturacion.xaml</DependentUpon>
+    <Compile Include="Vista\CRU_vista\CRU.xaml.cs">
+      <DependentUpon>CRU.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -105,7 +105,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Vista\Facturas\facturacion.xaml">
+    <Page Include="Vista\CRU_vista\CRU.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -160,6 +160,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Imagenes\logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Vista\OL\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

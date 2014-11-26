@@ -16,8 +16,20 @@
             
             <!--Menu finanzas-->
              <ribbon:RibbonTab x:Name="cruTab" Header="Indicadores">
-                <ribbon:RibbonGroup x:Name="group_facturas" Header="">
+                <ribbon:RibbonGroup x:Name="group_CRU" Header="">
                     <ribbon:RibbonButton x:Name="Btnfacturacion"  Label="CRU" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/factura.ico" Click="Btnfacturacion_Click" />
+                </ribbon:RibbonGroup>
+
+                <ribbon:RibbonGroup x:Name="group_OL" Header="">
+                    <ribbon:RibbonButton x:Name="Btnol"  Label="OL" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/compras.ico" Click="Btnfacturacion_Click" />
+                </ribbon:RibbonGroup>
+
+                <ribbon:RibbonGroup x:Name="group_ISEL" Header="">
+                    <ribbon:RibbonButton x:Name="BtnISEL"  Label="ISEL" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/abonos.ico" Click="Btnfacturacion_Click" />
+                </ribbon:RibbonGroup>
+
+                <ribbon:RibbonGroup x:Name="group_MANUEL" Header="">
+                    <ribbon:RibbonButton x:Name="BtnMANUEL"  Label="MANUEL" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/pagos.ico" Click="Btnfacturacion_Click" />
                 </ribbon:RibbonGroup>
 
             </ribbon:RibbonTab>

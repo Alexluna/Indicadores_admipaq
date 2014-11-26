@@ -23,6 +23,12 @@ namespace IndicadoresISEL
         public MainWindow()
         {
             InitializeComponent();
+
+            Indicadores_pincipal indicadores = new Indicadores_pincipal();/*creo mi obejto de mi ventana principal*/
+            this.Visibility = Visibility.Collapsed;//collapso mi ventana de login (ventana de entrada)
+            indicadores.put_mainwindow(this);//le mando el main window para poder cerrar la aplicación por competo
+            indicadores.ShowDialog();//muestro mi ribbon 
+
         }
 
 
