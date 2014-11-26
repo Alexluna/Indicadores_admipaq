@@ -132,6 +132,7 @@ namespace IndicadoresISEL.Controlador
                     if (Listnombconcepto[i].IDNombreConcepto == newDocument.IDNombreConcepto)
                     {
                         posicion = i;
+                        break;
                     }
                 }
                 if (posicion < 0)
@@ -155,6 +156,7 @@ namespace IndicadoresISEL.Controlador
                     if (Listagentes[i].IDAgente == newDocument.IDAgente)
                     {
                         posicion = i;
+                        break;
                     }
                 }
                 if (posicion < 0)
@@ -187,6 +189,7 @@ namespace IndicadoresISEL.Controlador
                     if (Listclietneproveeodres[i].IDCliente == newDocument.IDCliente)
                     {
                         posicion = i;
+                        break;
                     }
                 }
 
