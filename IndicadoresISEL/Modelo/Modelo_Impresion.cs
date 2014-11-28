@@ -32,13 +32,168 @@ namespace IndicadoresISEL.Modelo
                 Microsoft.Office.Interop.Excel._Workbook workbook = app.Workbooks.Add(Type.Missing);
                 // creating new Excelsheet in workbook
                 Microsoft.Office.Interop.Excel._Worksheet worksheet = null;
+
+
+                
                 // see the excel sheet behind the program
                 app.Visible = true;
                 // get the reference of first sheet. By default its name is Sheet1.
                 // store its reference to worksheet
                 worksheet = workbook.Sheets["Hoja1"];
                 worksheet = workbook.ActiveSheet;
+                #region formato
+                #region facturs
+                Microsoft.Office.Interop.Excel.Range formatRange;
+                formatRange = worksheet.get_Range("A4", "s1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                formatRange.Font.Size = 12;
+                #endregion
+                #region facturas público
+                formatRange = worksheet.get_Range("W4", "AO1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Blue);
+                formatRange.Font.Size = 12;
+                #endregion
+
+                #region facturas ol
+                formatRange = worksheet.get_Range("AR4", "BJ1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Black);
+                formatRange.Font.Size = 12;
+                #endregion
+                #region ACUMULADOS ABONOS
+                formatRange = worksheet.get_Range("BO4", "CG1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                formatRange.Font.Size = 12;
+                #endregion
+                #region ABONOS público
+                formatRange = worksheet.get_Range("CJ4", "DB1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Blue);
+                formatRange.Font.Size = 12;
+                #endregion
+                #region ABONOS 3 AGENTE
+                formatRange = worksheet.get_Range("DD4", "DV1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Black);
+                formatRange.Font.Size = 12;
+                #endregion
+
+                #region zONA CENTRO
+                formatRange = worksheet.get_Range("DY4", "EP1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                formatRange.Font.Size = 12;
+                #endregion
+
+                #region zONA SUR
+                formatRange = worksheet.get_Range("ES4", "FJ1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Blue);
+                formatRange.Font.Size = 12;
+                #endregion
+
+                #region zONA NORTE
+                formatRange = worksheet.get_Range("FM4", "GD1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Black);
+                formatRange.Font.Size = 12;
+                #endregion
+
+
+                #region COMPRAS ACUMULADAS
+                formatRange = worksheet.get_Range("GH4", "GZ1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                formatRange.Font.Size = 12;
+                #endregion
+
+
+                #region COMPRAS aNJI
+                formatRange = worksheet.get_Range("HC4", "HV1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Blue);
+                formatRange.Font.Size = 12;
+                #endregion
+
+                #region PAGOS ACUMULADOS
+                formatRange = worksheet.get_Range("HZ4", "IR1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Black);
+                formatRange.Font.Size = 12;
+                #endregion
+
+                #region PAGOS aNJI
+                formatRange = worksheet.get_Range("IU4", "JM1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                formatRange.Font.Size = 12;
+                #endregion
+
+                #region PRESTAMOS
+                formatRange = worksheet.get_Range("JQ4", "QA1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Blue);
+                formatRange.Font.Size = 12;
+                #endregion
+
+
+                #region INGRESO TRASPASO
+                formatRange = worksheet.get_Range("KD4", "KO1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Black);
+                formatRange.Font.Size = 12;
+                #endregion
+
+
+                #region INGRESO DEV. GARANTIA
+                formatRange = worksheet.get_Range("KS4", "LD1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                formatRange.Font.Size = 12;
+                #endregion
+
+
+
+                #endregion
                 // changing the name of active sheet
+
+
+
                 worksheet.Name = "Admipaq";
                 int Row = 4;
                 //titulo
@@ -67,6 +222,17 @@ namespace IndicadoresISEL.Modelo
                 worksheet.Cells[Row, 17] = "Clasificacion cliente2";
                 worksheet.Cells[Row, 18] = "Texto extra1";
                 worksheet.Cells[Row, 19] = "Nombre del concepto";
+                //formato del archivo de excel
+                
+                /*
+                Microsoft.Office.Interop.Excel.Range formatRange;
+                formatRange = worksheet.get_Range("A4", "s1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+                
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                formatRange.Font.Size = 12;
+                */
                 //titulo 
                 worksheet.Cells[2, 27] = "facturas publico";
                 //envabezados facturas filtro publico
@@ -137,7 +303,11 @@ namespace IndicadoresISEL.Modelo
                     worksheet.Cells[Row, 17] = ListDocmuentos.facturas[i].Clasificacion2;
                     worksheet.Cells[Row, 18] = ListDocmuentos.facturas[i].TextoExtra1;
                     worksheet.Cells[Row, 19] = ListDocmuentos.facturas[i].NombreConcepto;
-                    total += ListDocmuentos.facturas[i].Total;
+                    if (ListDocmuentos.facturas[i].Cancelado.Trim() == "0")
+                    {
+                        total += ListDocmuentos.facturas[i].Total;
+                        
+                    }
                     Row++;
                 }
                 worksheet.Cells[2, 10] = "$ " + total;
@@ -166,7 +336,11 @@ namespace IndicadoresISEL.Modelo
                     worksheet.Cells[Row, 39] = ListDocmuentos.facturas_rfc_publico[i].Clasificacion2;
                     worksheet.Cells[Row, 40] = ListDocmuentos.facturas_rfc_publico[i].TextoExtra1;
                     worksheet.Cells[Row, 41] = ListDocmuentos.facturas_rfc_publico[i].NombreConcepto;
-                    total += ListDocmuentos.facturas_rfc_publico[i].Total;
+                    if (ListDocmuentos.facturas_rfc_publico[i].Cancelado.Trim() == "0")
+                    {
+                        total += ListDocmuentos.facturas_rfc_publico[i].Total;
+                        
+                    }
                     Row++;
                 }
                 worksheet.Cells[2, 32] = "$ " + total;
@@ -193,7 +367,11 @@ namespace IndicadoresISEL.Modelo
                     worksheet.Cells[Row, 60] = ListDocmuentos.facturas_rfc_ol[i].Clasificacion2;
                     worksheet.Cells[Row, 61] = ListDocmuentos.facturas_rfc_ol[i].TextoExtra1;
                     worksheet.Cells[Row, 62] = ListDocmuentos.facturas_rfc_ol[i].NombreConcepto;
-                    total += ListDocmuentos.facturas_rfc_ol[i].Total;
+                    if (ListDocmuentos.facturas_rfc_ol[i].Cancelado.Trim() == "0")
+                    {
+                        total += ListDocmuentos.facturas_rfc_ol[i].Total;
+                        
+                    }
                     Row++;
                 }
                 worksheet.Cells[2, 53] = "$ " + total;
@@ -252,7 +430,7 @@ namespace IndicadoresISEL.Modelo
                 worksheet.Cells[Row, 105] = "Texto extra1";
                 worksheet.Cells[Row, 106] = "Nombre del concepto";
                 //titulo 
-                worksheet.Cells[2, 112] = "Abonos RFC";
+                worksheet.Cells[2, 112] = "Abonos los 3 agentes";
                 //envabezados facturas filtro publico
                 worksheet.Cells[Row, 108] = "Fecha";
                 worksheet.Cells[Row, 109] = "Serie";
@@ -271,8 +449,8 @@ namespace IndicadoresISEL.Modelo
                 worksheet.Cells[Row, 122] = "Cancelado";
                 worksheet.Cells[Row, 123] = "Total de unidades";
                 worksheet.Cells[Row, 124] = "Clasificacion cliente2";
-                worksheet.Cells[Row, 125] = "Texto extra1";
-                worksheet.Cells[Row, 126] = "Nombre del concepto";
+                worksheet.Cells[Row, 125] = "Zona";
+                worksheet.Cells[Row, 126] = "Agente";
 
                 worksheet.Cells[2, 133] = "Zonas centro";
                 //envabezados facturas filtro publico
@@ -364,8 +542,85 @@ namespace IndicadoresISEL.Modelo
                     total += ListDocmuentos.abonos[i].Total;
                     Row++;
                 }
+                //worksheet.Cells[2, 76] = "$ " + total;
+
+                //
+
+                for (int i = 0; i < ListDocmuentos.prestamos.Count; i++)
+                {
+                    worksheet.Cells[Row, 67] = ListDocmuentos.prestamos[i].Fecha;
+                    worksheet.Cells[Row, 68] = ListDocmuentos.prestamos[i].Serie;
+                    worksheet.Cells[Row, 69] = ListDocmuentos.prestamos[i].Folio;
+                    worksheet.Cells[Row, 70] = ListDocmuentos.prestamos[i].NombreAgente;
+                    worksheet.Cells[Row, 71] = ListDocmuentos.prestamos[i].RazonSocial;
+                    worksheet.Cells[Row, 72] = ListDocmuentos.prestamos[i].FechaVencimiento;
+                    worksheet.Cells[Row, 73] = ListDocmuentos.prestamos[i].RFC;
+                    worksheet.Cells[Row, 74] = ListDocmuentos.prestamos[i].Subtotal;
+                    worksheet.Cells[Row, 75] = ListDocmuentos.prestamos[i].IVA;
+                    worksheet.Cells[Row, 76] = ListDocmuentos.prestamos[i].Total;
+                    worksheet.Cells[Row, 77] = ListDocmuentos.prestamos[i].Pendiente;
+                    worksheet.Cells[Row, 78] = ListDocmuentos.prestamos[i].TextoExtra3;
+                    worksheet.Cells[Row, 79] = ListDocmuentos.prestamos[i].Afectado;
+                    worksheet.Cells[Row, 80] = ListDocmuentos.prestamos[i].Impreso;
+                    worksheet.Cells[Row, 81] = ListDocmuentos.prestamos[i].Cancelado;
+                    worksheet.Cells[Row, 82] = ListDocmuentos.prestamos[i].TotalUnidades;
+                    worksheet.Cells[Row, 83] = ListDocmuentos.prestamos[i].Clasificacion2;
+                    worksheet.Cells[Row, 84] = ListDocmuentos.prestamos[i].TextoExtra1;
+                    worksheet.Cells[Row, 85] = ListDocmuentos.prestamos[i].NombreConcepto;
+                    total += ListDocmuentos.prestamos[i].Total;
+                    Row++;
+                }
+                for (int i = 0; i < ListDocmuentos.ingreso_dev_garantia.Count; i++)
+                {
+                    worksheet.Cells[Row, 67] = ListDocmuentos.ingreso_dev_garantia[i].Fecha;
+                    worksheet.Cells[Row, 68] = ListDocmuentos.ingreso_dev_garantia[i].Serie;
+                    worksheet.Cells[Row, 69] = ListDocmuentos.ingreso_dev_garantia[i].Folio;
+                    worksheet.Cells[Row, 70] = ListDocmuentos.ingreso_dev_garantia[i].NombreAgente;
+                    worksheet.Cells[Row, 71] = ListDocmuentos.ingreso_dev_garantia[i].RazonSocial;
+                    worksheet.Cells[Row, 72] = ListDocmuentos.ingreso_dev_garantia[i].FechaVencimiento;
+                    worksheet.Cells[Row, 73] = ListDocmuentos.ingreso_dev_garantia[i].RFC;
+                    worksheet.Cells[Row, 74] = ListDocmuentos.ingreso_dev_garantia[i].Subtotal;
+                    worksheet.Cells[Row, 75] = ListDocmuentos.ingreso_dev_garantia[i].IVA;
+                    worksheet.Cells[Row, 76] = ListDocmuentos.ingreso_dev_garantia[i].Total;
+                    worksheet.Cells[Row, 77] = ListDocmuentos.ingreso_dev_garantia[i].Pendiente;
+                    worksheet.Cells[Row, 78] = ListDocmuentos.ingreso_dev_garantia[i].TextoExtra3;
+                    worksheet.Cells[Row, 79] = ListDocmuentos.ingreso_dev_garantia[i].Afectado;
+                    worksheet.Cells[Row, 80] = ListDocmuentos.ingreso_dev_garantia[i].Impreso;
+                    worksheet.Cells[Row, 81] = ListDocmuentos.ingreso_dev_garantia[i].Cancelado;
+                    worksheet.Cells[Row, 82] = ListDocmuentos.ingreso_dev_garantia[i].TotalUnidades;
+                    worksheet.Cells[Row, 83] = ListDocmuentos.ingreso_dev_garantia[i].Clasificacion2;
+                    worksheet.Cells[Row, 84] = ListDocmuentos.ingreso_dev_garantia[i].TextoExtra1;
+                    worksheet.Cells[Row, 85] = ListDocmuentos.ingreso_dev_garantia[i].NombreConcepto;
+                    total += ListDocmuentos.ingreso_dev_garantia[i].Total;
+                    Row++;
+                }
+                for (int i = 0; i < ListDocmuentos.ingreso_traspaso.Count; i++)
+                {
+                    worksheet.Cells[Row, 67] = ListDocmuentos.ingreso_traspaso[i].Fecha;
+                    worksheet.Cells[Row, 68] = ListDocmuentos.ingreso_traspaso[i].Serie;
+                    worksheet.Cells[Row, 69] = ListDocmuentos.ingreso_traspaso[i].Folio;
+                    worksheet.Cells[Row, 70] = ListDocmuentos.ingreso_traspaso[i].NombreAgente;
+                    worksheet.Cells[Row, 71] = ListDocmuentos.ingreso_traspaso[i].RazonSocial;
+                    worksheet.Cells[Row, 72] = ListDocmuentos.ingreso_traspaso[i].FechaVencimiento;
+                    worksheet.Cells[Row, 73] = ListDocmuentos.ingreso_traspaso[i].RFC;
+                    worksheet.Cells[Row, 74] = ListDocmuentos.ingreso_traspaso[i].Subtotal;
+                    worksheet.Cells[Row, 75] = ListDocmuentos.ingreso_traspaso[i].IVA;
+                    worksheet.Cells[Row, 76] = ListDocmuentos.ingreso_traspaso[i].Total;
+                    worksheet.Cells[Row, 77] = ListDocmuentos.ingreso_traspaso[i].Pendiente;
+                    worksheet.Cells[Row, 78] = ListDocmuentos.ingreso_traspaso[i].TextoExtra3;
+                    worksheet.Cells[Row, 79] = ListDocmuentos.ingreso_traspaso[i].Afectado;
+                    worksheet.Cells[Row, 80] = ListDocmuentos.ingreso_traspaso[i].Impreso;
+                    worksheet.Cells[Row, 81] = ListDocmuentos.ingreso_traspaso[i].Cancelado;
+                    worksheet.Cells[Row, 82] = ListDocmuentos.ingreso_traspaso[i].TotalUnidades;
+                    worksheet.Cells[Row, 83] = ListDocmuentos.ingreso_traspaso[i].Clasificacion2;
+                    worksheet.Cells[Row, 84] = ListDocmuentos.ingreso_traspaso[i].TextoExtra1;
+                    worksheet.Cells[Row, 85] = ListDocmuentos.ingreso_traspaso[i].NombreConcepto;
+                    total += ListDocmuentos.ingreso_traspaso[i].Total;
+                    Row++;
+                }
                 worksheet.Cells[2, 76] = "$ " + total;
 
+                //
                 total = 0;
                 Row = 5;
 
@@ -396,28 +651,76 @@ namespace IndicadoresISEL.Modelo
                 worksheet.Cells[2, 97] = "$ " + total;
                 total = 0;
                 Row = 5;
-                for (int i = 0; i < ListDocmuentos.abonos_ol.Count; i++)
+                for (int i = 0; i < ListDocmuentos.abonos_zona_centro.Count; i++)
                 {
-                    worksheet.Cells[Row, 108] = ListDocmuentos.abonos_ol[i].Fecha;
-                    worksheet.Cells[Row, 109] = ListDocmuentos.abonos_ol[i].Serie;
-                    worksheet.Cells[Row, 110] = ListDocmuentos.abonos_ol[i].Folio;
-                    worksheet.Cells[Row, 111] = ListDocmuentos.abonos_ol[i].NombreAgente;
-                    worksheet.Cells[Row, 112] = ListDocmuentos.abonos_ol[i].RazonSocial;
-                    worksheet.Cells[Row, 113] = ListDocmuentos.abonos_ol[i].FechaVencimiento;
-                    worksheet.Cells[Row, 114] = ListDocmuentos.abonos_ol[i].RFC;
-                    worksheet.Cells[Row, 115] = ListDocmuentos.abonos_ol[i].Subtotal;
-                    worksheet.Cells[Row, 116] = ListDocmuentos.abonos_ol[i].IVA;
-                    worksheet.Cells[Row, 117] = ListDocmuentos.abonos_ol[i].Total;
-                    worksheet.Cells[Row, 118] = ListDocmuentos.abonos_ol[i].Pendiente;
-                    worksheet.Cells[Row, 119] = ListDocmuentos.abonos_ol[i].TextoExtra3;
-                    worksheet.Cells[Row, 120] = ListDocmuentos.abonos_ol[i].Afectado;
-                    worksheet.Cells[Row, 121] = ListDocmuentos.abonos_ol[i].Impreso;
-                    worksheet.Cells[Row, 122] = ListDocmuentos.abonos_ol[i].Cancelado;
-                    worksheet.Cells[Row, 123] = ListDocmuentos.abonos_ol[i].TotalUnidades;
-                    worksheet.Cells[Row, 124] = ListDocmuentos.abonos_ol[i].Clasificacion2;
-                    worksheet.Cells[Row, 125] = ListDocmuentos.abonos_ol[i].TextoExtra1;
-                    worksheet.Cells[Row, 126] = ListDocmuentos.abonos_ol[i].NombreConcepto;
-                    total += ListDocmuentos.abonos_ol[i].Total;
+                    worksheet.Cells[Row, 108] = ListDocmuentos.abonos_zona_centro[i].Fecha;
+                    worksheet.Cells[Row, 109] = ListDocmuentos.abonos_zona_centro[i].Serie;
+                    worksheet.Cells[Row, 110] = ListDocmuentos.abonos_zona_centro[i].Folio;
+                    worksheet.Cells[Row, 111] = ListDocmuentos.abonos_zona_centro[i].NombreAgente;
+                    worksheet.Cells[Row, 112] = ListDocmuentos.abonos_zona_centro[i].RazonSocial;
+                    worksheet.Cells[Row, 113] = ListDocmuentos.abonos_zona_centro[i].FechaVencimiento;
+                    worksheet.Cells[Row, 114] = ListDocmuentos.abonos_zona_centro[i].RFC;
+                    worksheet.Cells[Row, 115] = ListDocmuentos.abonos_zona_centro[i].Subtotal;
+                    worksheet.Cells[Row, 116] = ListDocmuentos.abonos_zona_centro[i].IVA;
+                    worksheet.Cells[Row, 117] = ListDocmuentos.abonos_zona_centro[i].Total;
+                    worksheet.Cells[Row, 118] = ListDocmuentos.abonos_zona_centro[i].Pendiente;
+                    worksheet.Cells[Row, 119] = ListDocmuentos.abonos_zona_centro[i].TextoExtra3;
+                    worksheet.Cells[Row, 120] = ListDocmuentos.abonos_zona_centro[i].Afectado;
+                    worksheet.Cells[Row, 121] = ListDocmuentos.abonos_zona_centro[i].Impreso;
+                    worksheet.Cells[Row, 122] = ListDocmuentos.abonos_zona_centro[i].Cancelado;
+                    worksheet.Cells[Row, 123] = ListDocmuentos.abonos_zona_centro[i].TotalUnidades;
+                    worksheet.Cells[Row, 124] = ListDocmuentos.abonos_zona_centro[i].Clasificacion2;
+                    worksheet.Cells[Row, 125] = ListDocmuentos.abonos_zona_centro[i].proveedor.Clasificación1;
+                    worksheet.Cells[Row, 126] = ListDocmuentos.abonos_zona_centro[i].proveedor.Clasificación2;
+                    total += ListDocmuentos.abonos_zona_centro[i].Total;
+                    Row++;
+                }
+                for (int i = 0; i < ListDocmuentos.abonos_zona_norte.Count; i++)
+                {
+                    worksheet.Cells[Row, 108] = ListDocmuentos.abonos_zona_norte[i].Fecha;
+                    worksheet.Cells[Row, 109] = ListDocmuentos.abonos_zona_norte[i].Serie;
+                    worksheet.Cells[Row, 110] = ListDocmuentos.abonos_zona_norte[i].Folio;
+                    worksheet.Cells[Row, 111] = ListDocmuentos.abonos_zona_norte[i].NombreAgente;
+                    worksheet.Cells[Row, 112] = ListDocmuentos.abonos_zona_norte[i].RazonSocial;
+                    worksheet.Cells[Row, 113] = ListDocmuentos.abonos_zona_norte[i].FechaVencimiento;
+                    worksheet.Cells[Row, 114] = ListDocmuentos.abonos_zona_norte[i].RFC;
+                    worksheet.Cells[Row, 115] = ListDocmuentos.abonos_zona_norte[i].Subtotal;
+                    worksheet.Cells[Row, 116] = ListDocmuentos.abonos_zona_norte[i].IVA;
+                    worksheet.Cells[Row, 117] = ListDocmuentos.abonos_zona_norte[i].Total;
+                    worksheet.Cells[Row, 118] = ListDocmuentos.abonos_zona_norte[i].Pendiente;
+                    worksheet.Cells[Row, 119] = ListDocmuentos.abonos_zona_norte[i].TextoExtra3;
+                    worksheet.Cells[Row, 120] = ListDocmuentos.abonos_zona_norte[i].Afectado;
+                    worksheet.Cells[Row, 121] = ListDocmuentos.abonos_zona_norte[i].Impreso;
+                    worksheet.Cells[Row, 122] = ListDocmuentos.abonos_zona_norte[i].Cancelado;
+                    worksheet.Cells[Row, 123] = ListDocmuentos.abonos_zona_norte[i].TotalUnidades;
+                    worksheet.Cells[Row, 124] = ListDocmuentos.abonos_zona_norte[i].Clasificacion2;
+                    worksheet.Cells[Row, 125] = ListDocmuentos.abonos_zona_norte[i].proveedor.Clasificación1;
+                    worksheet.Cells[Row, 126] = ListDocmuentos.abonos_zona_norte[i].proveedor.Clasificación2;
+                    total += ListDocmuentos.abonos_zona_norte[i].Total;
+                    Row++;
+                }
+                for (int i = 0; i < ListDocmuentos.abonos_zona_sur.Count; i++)
+                {
+                    worksheet.Cells[Row, 108] = ListDocmuentos.abonos_zona_sur[i].Fecha;
+                    worksheet.Cells[Row, 109] = ListDocmuentos.abonos_zona_sur[i].Serie;
+                    worksheet.Cells[Row, 110] = ListDocmuentos.abonos_zona_sur[i].Folio;
+                    worksheet.Cells[Row, 111] = ListDocmuentos.abonos_zona_sur[i].NombreAgente;
+                    worksheet.Cells[Row, 112] = ListDocmuentos.abonos_zona_sur[i].RazonSocial;
+                    worksheet.Cells[Row, 113] = ListDocmuentos.abonos_zona_sur[i].FechaVencimiento;
+                    worksheet.Cells[Row, 114] = ListDocmuentos.abonos_zona_sur[i].RFC;
+                    worksheet.Cells[Row, 115] = ListDocmuentos.abonos_zona_sur[i].Subtotal;
+                    worksheet.Cells[Row, 116] = ListDocmuentos.abonos_zona_sur[i].IVA;
+                    worksheet.Cells[Row, 117] = ListDocmuentos.abonos_zona_sur[i].Total;
+                    worksheet.Cells[Row, 118] = ListDocmuentos.abonos_zona_sur[i].Pendiente;
+                    worksheet.Cells[Row, 119] = ListDocmuentos.abonos_zona_sur[i].TextoExtra3;
+                    worksheet.Cells[Row, 120] = ListDocmuentos.abonos_zona_sur[i].Afectado;
+                    worksheet.Cells[Row, 121] = ListDocmuentos.abonos_zona_sur[i].Impreso;
+                    worksheet.Cells[Row, 122] = ListDocmuentos.abonos_zona_sur[i].Cancelado;
+                    worksheet.Cells[Row, 123] = ListDocmuentos.abonos_zona_sur[i].TotalUnidades;
+                    worksheet.Cells[Row, 124] = ListDocmuentos.abonos_zona_sur[i].Clasificacion2;
+                    worksheet.Cells[Row, 125] = ListDocmuentos.abonos_zona_sur[i].proveedor.Clasificación1;
+                    worksheet.Cells[Row, 126] = ListDocmuentos.abonos_zona_sur[i].proveedor.Clasificación2;
+                    total += ListDocmuentos.abonos_zona_sur[i].Total;
                     Row++;
                 }
                 worksheet.Cells[2, 117] = "$ " + total;
@@ -426,27 +729,27 @@ namespace IndicadoresISEL.Modelo
 
 
                 /*ZONA CENTRO*/
-                for (int i = 0; i < ListDocmuentos.abonos_zona_norte.Count; i++)
+                for (int i = 0; i < ListDocmuentos.abonos_zona_centro.Count; i++)
                 {
-                    worksheet.Cells[Row, 129] = ListDocmuentos.abonos_zona_norte[i].Fecha;
-                    worksheet.Cells[Row, 130] = ListDocmuentos.abonos_zona_norte[i].Serie;
-                    worksheet.Cells[Row, 131] = ListDocmuentos.abonos_zona_norte[i].Folio;
-                    worksheet.Cells[Row, 132] = ListDocmuentos.abonos_zona_norte[i].NombreAgente;
-                    worksheet.Cells[Row, 133] = ListDocmuentos.abonos_zona_norte[i].RazonSocial;
-                    worksheet.Cells[Row, 134] = ListDocmuentos.abonos_zona_norte[i].FechaVencimiento;
-                    worksheet.Cells[Row, 135] = ListDocmuentos.abonos_zona_norte[i].RFC;
-                    worksheet.Cells[Row, 136] = ListDocmuentos.abonos_zona_norte[i].Subtotal;
-                    worksheet.Cells[Row, 137] = ListDocmuentos.abonos_zona_norte[i].IVA;
-                    worksheet.Cells[Row, 138] = ListDocmuentos.abonos_zona_norte[i].Total;
-                    worksheet.Cells[Row, 139] = ListDocmuentos.abonos_zona_norte[i].Pendiente;
-                    worksheet.Cells[Row, 140] = ListDocmuentos.abonos_zona_norte[i].TextoExtra3;
-                    worksheet.Cells[Row, 141] = ListDocmuentos.abonos_zona_norte[i].Afectado;
-                    worksheet.Cells[Row, 142] = ListDocmuentos.abonos_zona_norte[i].Impreso;
-                    worksheet.Cells[Row, 143] = ListDocmuentos.abonos_zona_norte[i].Cancelado;
-                    worksheet.Cells[Row, 144] = ListDocmuentos.abonos_zona_norte[i].TotalUnidades;
-                    worksheet.Cells[Row, 145] = ListDocmuentos.abonos_zona_norte[i].proveedor.Clasificación1;
-                    worksheet.Cells[Row, 146] = ListDocmuentos.abonos_zona_norte[i].proveedor.Clasificación2;
-                    total += ListDocmuentos.abonos_zona_norte[i].Total;
+                    worksheet.Cells[Row, 129] = ListDocmuentos.abonos_zona_centro[i].Fecha;
+                    worksheet.Cells[Row, 130] = ListDocmuentos.abonos_zona_centro[i].Serie;
+                    worksheet.Cells[Row, 131] = ListDocmuentos.abonos_zona_centro[i].Folio;
+                    worksheet.Cells[Row, 132] = ListDocmuentos.abonos_zona_centro[i].NombreAgente;
+                    worksheet.Cells[Row, 133] = ListDocmuentos.abonos_zona_centro[i].RazonSocial;
+                    worksheet.Cells[Row, 134] = ListDocmuentos.abonos_zona_centro[i].FechaVencimiento;
+                    worksheet.Cells[Row, 135] = ListDocmuentos.abonos_zona_centro[i].RFC;
+                    worksheet.Cells[Row, 136] = ListDocmuentos.abonos_zona_centro[i].Subtotal;
+                    worksheet.Cells[Row, 137] = ListDocmuentos.abonos_zona_centro[i].IVA;
+                    worksheet.Cells[Row, 138] = ListDocmuentos.abonos_zona_centro[i].Total;
+                    worksheet.Cells[Row, 139] = ListDocmuentos.abonos_zona_centro[i].Pendiente;
+                    worksheet.Cells[Row, 140] = ListDocmuentos.abonos_zona_centro[i].TextoExtra3;
+                    worksheet.Cells[Row, 141] = ListDocmuentos.abonos_zona_centro[i].Afectado;
+                    worksheet.Cells[Row, 142] = ListDocmuentos.abonos_zona_centro[i].Impreso;
+                    worksheet.Cells[Row, 143] = ListDocmuentos.abonos_zona_centro[i].Cancelado;
+                    worksheet.Cells[Row, 144] = ListDocmuentos.abonos_zona_centro[i].TotalUnidades;
+                    worksheet.Cells[Row, 145] = ListDocmuentos.abonos_zona_centro[i].proveedor.Clasificación1;
+                    worksheet.Cells[Row, 146] = ListDocmuentos.abonos_zona_centro[i].proveedor.Clasificación2;
+                    total += ListDocmuentos.abonos_zona_centro[i].Total;
                     Row++;
                 }
                 worksheet.Cells[2, 138] = "$ " + total;
@@ -733,17 +1036,17 @@ namespace IndicadoresISEL.Modelo
 
                 //encabezados prestamos
                 worksheet.Cells[Row, 277] = "Fecha";
-                worksheet.Cells[Row, 274] = "Serie";
-                worksheet.Cells[Row, 275] = "Folio";
-                worksheet.Cells[Row, 276] = "Nombre del agente";
-                worksheet.Cells[Row, 277] = "Razon social";
-                worksheet.Cells[Row, 278] = "Fecha de vencimiento";
-                worksheet.Cells[Row, 279] = "Fecha de depósito";
-                worksheet.Cells[Row, 280] = "RFC";
-                worksheet.Cells[Row, 281] = "TOTAL";
-                worksheet.Cells[Row, 282] = "Pendiente";
-                worksheet.Cells[Row, 283] = "Cuenta";
-                worksheet.Cells[Row, 284] = "Referencia";
+                worksheet.Cells[Row, 278] = "Serie";
+                worksheet.Cells[Row, 279] = "Folio";
+                worksheet.Cells[Row, 280] = "Nombre del agente";
+                worksheet.Cells[Row, 281] = "Razon social";
+                worksheet.Cells[Row, 282] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 283] = "TextoExtra1";
+                worksheet.Cells[Row, 284] = "RFC";
+                worksheet.Cells[Row, 285] = "TOTAL";
+                worksheet.Cells[Row, 286] = "Pendiente";
+                worksheet.Cells[Row, 287] = "Cuenta";
+                worksheet.Cells[Row, 288] = "Referencia";
 
                 Row++;
                 #endregion
@@ -890,6 +1193,104 @@ namespace IndicadoresISEL.Modelo
                 worksheet = workbook.ActiveSheet;
                 // changing the name of active sheet
                 worksheet.Name = "Admipaq";
+
+
+
+                #region configuracion
+                #region facturs
+                Microsoft.Office.Interop.Excel.Range formatRange;
+                formatRange = worksheet.get_Range("A4", "s1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                formatRange.Font.Size = 12;
+                #endregion
+                //
+                formatRange = worksheet.get_Range("v4", "ao1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Blue);
+                formatRange.Font.Size = 12;
+                //
+                formatRange = worksheet.get_Range("AS4", "BK1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Black);
+                formatRange.Font.Size = 12;
+                //
+                formatRange = worksheet.get_Range("BN4", "CF1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                formatRange.Font.Size = 12;
+                //
+                formatRange = worksheet.get_Range("CL4", "DD1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Blue);
+                formatRange.Font.Size = 12;
+                //
+                formatRange = worksheet.get_Range("DG4", "DY1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Black);
+                formatRange.Font.Size = 12;
+                //
+                formatRange = worksheet.get_Range("EA4", "ES1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                formatRange.Font.Size = 12;
+                //
+                formatRange = worksheet.get_Range("EW4", "FO1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Blue);
+                formatRange.Font.Size = 12;
+                //
+                formatRange = worksheet.get_Range("FS4", "GK1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Black);
+                formatRange.Font.Size = 12;
+                //
+                formatRange = worksheet.get_Range("GO4", "HH1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                formatRange.Font.Size = 12;
+                //
+                formatRange = worksheet.get_Range("HK4", "ID1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Blue);
+                formatRange.Font.Size = 12;
+                //
+                formatRange = worksheet.get_Range("IF4", "IX1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Black);
+                formatRange.Font.Size = 12;
+                //
+                formatRange = worksheet.get_Range("JA4", "JS1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                formatRange.Font.Size = 12;
+                #endregion
                 int Row = 4;
                 //titulo
                 #region facturas
@@ -1016,8 +1417,11 @@ namespace IndicadoresISEL.Modelo
                     worksheet.Cells[Row, 17] = ListDocmuentos.facturas[i].Clasificacion2;
                     worksheet.Cells[Row, 18] = ListDocmuentos.facturas[i].TextoExtra1;
                     worksheet.Cells[Row, 19] = ListDocmuentos.facturas[i].NombreConcepto;
-                    total += ListDocmuentos.facturas[i].Total;
-                    pendiente += ListDocmuentos.facturas[i].Pendiente;
+                    if (ListDocmuentos.facturas[i].Cancelado.Trim() == "0")
+                    {
+                        total += ListDocmuentos.facturas[i].Total;
+                        pendiente += ListDocmuentos.facturas[i].Pendiente;
+                    }
                     Row++;
                 }
                 worksheet.Cells[2, 10] = "$ " + total;
@@ -1048,8 +1452,11 @@ namespace IndicadoresISEL.Modelo
                     worksheet.Cells[Row, 39] = ListDocmuentos.facturas_publico[i].Clasificacion2;
                     worksheet.Cells[Row, 40] = ListDocmuentos.facturas_publico[i].TextoExtra1;
                     worksheet.Cells[Row, 41] = ListDocmuentos.facturas_publico[i].NombreConcepto;
-                    total += ListDocmuentos.facturas_publico[i].Total;
-                    pendiente += ListDocmuentos.facturas_publico[i].Pendiente;
+                    if (ListDocmuentos.facturas_publico[i].Cancelado.Trim() == "0")
+                    {
+                        total += ListDocmuentos.facturas_publico[i].Total;
+                        pendiente += ListDocmuentos.facturas_publico[i].Pendiente;
+                    }
                     Row++;
                 }
                 worksheet.Cells[2, 32] = "$ " + total;
@@ -1080,8 +1487,11 @@ namespace IndicadoresISEL.Modelo
                     worksheet.Cells[Row, 61] = ListDocmuentos.facturas_clientes_plazas[i].Clasificacion2;
                     worksheet.Cells[Row, 62] = ListDocmuentos.facturas_clientes_plazas[i].TextoExtra1;
                     worksheet.Cells[Row, 63] = ListDocmuentos.facturas_clientes_plazas[i].NombreConcepto;
-                    total += ListDocmuentos.facturas_clientes_plazas[i].Total;
-                    pendiente += ListDocmuentos.facturas_clientes_plazas[i].Pendiente;
+                    if (ListDocmuentos.facturas_clientes_plazas[i].Cancelado.Trim() == "0")
+                    {
+                        total += ListDocmuentos.facturas_clientes_plazas[i].Total;
+                        pendiente += ListDocmuentos.facturas_clientes_plazas[i].Pendiente;
+                    }
                     Row++;
                 }
                 worksheet.Cells[2, 54] = "$ " + total;
@@ -1112,8 +1522,11 @@ namespace IndicadoresISEL.Modelo
                     worksheet.Cells[Row, 82] = ListDocmuentos.facturas_por_plazas[i].Clasificacion2;
                     worksheet.Cells[Row, 83] = ListDocmuentos.facturas_por_plazas[i].TextoExtra1;
                     worksheet.Cells[Row, 84] = ListDocmuentos.facturas_por_plazas[i].NombreConcepto;
-                    total += ListDocmuentos.facturas_por_plazas[i].Total;
-                    pendiente += ListDocmuentos.facturas_por_plazas[i].Pendiente;
+                    if (ListDocmuentos.facturas_por_plazas[i].Cancelado.Trim() == "0")
+                    {
+                        total += ListDocmuentos.facturas_por_plazas[i].Total;
+                        pendiente += ListDocmuentos.facturas_por_plazas[i].Pendiente;
+                    }
                     Row++;
                 }
                 worksheet.Cells[2, 75] = "$ " + total;
@@ -1271,7 +1684,7 @@ namespace IndicadoresISEL.Modelo
                 worksheet.Cells[Row, 215] = "Nombre del concepto";
 
 
-                worksheet.Cells[2, 201] = "pagos al proveedor";
+                worksheet.Cells[2, 223] = "pagos al proveedor";
 
                 //encabezados facturas
                 worksheet.Cells[Row, 219] = "Fecha";
@@ -1652,6 +2065,37 @@ namespace IndicadoresISEL.Modelo
                 worksheet = workbook.ActiveSheet;
                 // changing the name of active sheet
                 worksheet.Name = "Admipaq";
+                #region configuracopn
+                Microsoft.Office.Interop.Excel.Range formatRange;
+                formatRange = worksheet.get_Range("A4", "s1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                formatRange.Font.Size = 12;
+                //
+                formatRange = worksheet.get_Range("V4", "AO1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Blue);
+                formatRange.Font.Size = 12;
+                //
+                formatRange = worksheet.get_Range("AS4", "BK1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Black);
+                formatRange.Font.Size = 12;
+                //
+                formatRange = worksheet.get_Range("BM4", "CE1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                formatRange.Font.Size = 12;
+                #endregion
+
                 int Row = 4;
                 //titulo
                 #region facturas
@@ -1779,8 +2223,11 @@ namespace IndicadoresISEL.Modelo
                     worksheet.Cells[Row, 17] = ListDocmuentos.facturas[i].Clasificacion2;
                     worksheet.Cells[Row, 18] = ListDocmuentos.facturas[i].TextoExtra1;
                     worksheet.Cells[Row, 19] = ListDocmuentos.facturas[i].NombreConcepto;
-                    total += ListDocmuentos.facturas[i].Total;
-                    pendiente += ListDocmuentos.facturas[i].Pendiente;
+                    if (ListDocmuentos.facturas[i].Cancelado.Trim() == "0")
+                    {
+                        total += ListDocmuentos.facturas[i].Total;
+                        pendiente += ListDocmuentos.facturas[i].Pendiente;
+                    }
                     Row++;
                 }
                 worksheet.Cells[2, 10] = "$ " + total;
@@ -1811,8 +2258,11 @@ namespace IndicadoresISEL.Modelo
                     worksheet.Cells[Row, 39] = ListDocmuentos.facturas_dario[i].Clasificacion2;
                     worksheet.Cells[Row, 40] = ListDocmuentos.facturas_dario[i].TextoExtra1;
                     worksheet.Cells[Row, 41] = ListDocmuentos.facturas_dario[i].NombreConcepto;
-                    total += ListDocmuentos.facturas_dario[i].Total;
-                    pendiente += ListDocmuentos.facturas_dario[i].Pendiente;
+                    if (ListDocmuentos.facturas_dario[i].Cancelado.Trim() == "0")
+                    {
+                        total += ListDocmuentos.facturas_dario[i].Total;
+                        pendiente += ListDocmuentos.facturas_dario[i].Pendiente;
+                    }
                     Row++;
                 }
                 worksheet.Cells[2, 32] = "$ " + total;
@@ -1926,6 +2376,28 @@ namespace IndicadoresISEL.Modelo
                 worksheet = workbook.ActiveSheet;
                 // changing the name of active sheet
                 worksheet.Name = "Admipaq";
+
+                #region configuracopn
+                Microsoft.Office.Interop.Excel.Range formatRange;
+                formatRange = worksheet.get_Range("A4", "s1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                formatRange.Font.Size = 12;
+                //
+                formatRange = worksheet.get_Range("V4", "AO1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Blue);
+                formatRange.Font.Size = 12;
+                //
+                formatRange = worksheet.get_Range("AS4", "VK1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Black);
+                formatRange.Font.Size = 12;
+                #endregion
+
                 int Row = 4;
                 //titulo
                 #region todo
@@ -2028,8 +2500,11 @@ namespace IndicadoresISEL.Modelo
                     worksheet.Cells[Row, 17] = ListDocmuentos.facturas[i].Clasificacion2;
                     worksheet.Cells[Row, 18] = ListDocmuentos.facturas[i].TextoExtra1;
                     worksheet.Cells[Row, 19] = ListDocmuentos.facturas[i].NombreConcepto;
-                    total += ListDocmuentos.facturas[i].Total;
-                    pendiente += ListDocmuentos.facturas[i].Pendiente;
+                    if (ListDocmuentos.facturas[i].Cancelado.Trim() == "0")
+                    {
+                        total += ListDocmuentos.facturas[i].Total;
+                        pendiente += ListDocmuentos.facturas[i].Pendiente;
+                    }
                     Row++;
                 }
                 worksheet.Cells[2, 10] = "$ " + total;
