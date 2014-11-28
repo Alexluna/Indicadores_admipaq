@@ -80,7 +80,48 @@ namespace IndicadoresISEL.Modelo
         }
         #endregion
 
-        
+
+
+        #region OL
+        public class ListDatosOL
+        {
+            public List<CRU> facturas { get; set; }
+            public List<CRU> facturas_publico { get; set; }
+            public List<CRU> facturas_clientes_plazas { get; set; }
+            public List<CRU> facturas_por_plazas { get; set; }
+            public List<CRU> abonos { get; set; }
+            public List<CRU> abonos_publico { get; set; }
+            public List<CRU> abonos_plazas { get; set; }
+            public List<CRU> compras { get; set; }
+            public List<CRU> compras_cru { get; set; }
+            public List<CRU> compras_manuel { get; set; }
+            public List<CRU> pagos_proveedor { get; set; }
+            public List<CRU> pagos_proveedor_cru { get; set; }
+            public List<CRU> pagos_proveedor_manuel { get; set; }
+        }
+        #endregion
+
+
+
+        #region ISEL
+        public class ListDatosISEL
+        {
+            public List<CRU> facturas { get; set; }
+            public List<CRU> facturas_dario { get; set; }
+            public List<CRU> abonos { get; set; }
+            public List<CRU> abonos_dario { get; set; }
+        }
+        #endregion
+
+        #region MANUEL
+        public class ListDatosMANUEL    
+        {
+            public List<CRU> facturas { get; set; }
+            public List<CRU> compras { get; set; }
+            public List<CRU> pagosproveedor { get; set; }
+        }
+        #endregion
+
 
 
         public class Movimientos_Cuentas// CUENTAS POR PAGAR 

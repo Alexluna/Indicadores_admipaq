@@ -18,9 +18,9 @@ namespace IndicadoresISEL.Controlador
         }
 
 
-      
 
-        
+
+
 
 
         /// <summary>
@@ -33,7 +33,36 @@ namespace IndicadoresISEL.Controlador
 
         }
 
+        /// <summary>
+        /// impresion excel para los indicadores de CRU
+        /// </summary>
+        /// <param name="ListDocmuentos"></param>
+        public void excel_importOL(Tipos_Datos_CRU.ListDatosOL ListDocmuentos)
+        {
+            modeloimpresion.excel_importOL(ListDocmuentos);
 
+        }
+
+
+        /// <summary>
+        /// impresion excel para los indicadores de CRU
+        /// </summary>
+        /// <param name="ListDocmuentos"></param>
+        public void excel_importISEL(Tipos_Datos_CRU.ListDatosISEL ListDocmuentos)
+        {
+            modeloimpresion.excel_importISEL(ListDocmuentos);
+
+        }
+
+        /// <summary>
+        /// impresion excel para los indicadores de CRU
+        /// </summary>
+        /// <param name="ListDocmuentos"></param>
+        public void excel_importMANUEL(Tipos_Datos_CRU.ListDatosMANUEL ListDocmuentos)
+        {
+            modeloimpresion.excel_importMANUEL(ListDocmuentos);
+
+        }
 
 
     }

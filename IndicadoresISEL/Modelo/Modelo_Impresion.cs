@@ -13,16 +13,13 @@ namespace IndicadoresISEL.Modelo
 {
     class Modelo_Impresion
     {
-        
-       
-
-
-        
-
-        #region IMPRT EXCEL CRU  
 
 
 
+
+
+
+        #region IMPRT EXCEL CRU
         public void excel_importCRUs(Tipos_Datos_CRU.ListDatosCRU ListDocmuentos)
         { //importar datos en excel
             try
@@ -524,7 +521,7 @@ namespace IndicadoresISEL.Modelo
                 worksheet.Cells[Row, 195] = "Fecha de vencimiento";
                 worksheet.Cells[Row, 196] = "RFC";
                 worksheet.Cells[Row, 197] = "Subtotal";
-                worksheet.Cells[Row,198] = "IVA";
+                worksheet.Cells[Row, 198] = "IVA";
                 worksheet.Cells[Row, 199] = "TOTAL";
                 worksheet.Cells[Row, 200] = "Pendiente";
                 worksheet.Cells[Row, 201] = "Texto Extra 3";
@@ -666,7 +663,7 @@ namespace IndicadoresISEL.Modelo
                 worksheet.Cells[Row, 271] = "Clasificacion cliente2";
                 worksheet.Cells[Row, 272] = "Texto extra1";
                 worksheet.Cells[Row, 273] = "Nombre del concepto";
-                
+
                 Row++;
                 #endregion
                 #region contenido
@@ -695,7 +692,7 @@ namespace IndicadoresISEL.Modelo
                     total += ListDocmuentos.pagos_proveedor[i].Total;
                     Row++;
                 }
-                worksheet.Cells[2, 10] = "$ " + total;
+                worksheet.Cells[2, 243] = "$ " + total;
 
                 total = 0;
                 Row = 5;
@@ -725,7 +722,7 @@ namespace IndicadoresISEL.Modelo
                     Row++;
                 }
                 worksheet.Cells[2, 264] = "$ " + total;
-                
+
                 #endregion
                 #endregion
 
@@ -868,8 +865,1259 @@ namespace IndicadoresISEL.Modelo
             }
         }
 
+        #endregion 
 
-      
+
+
+        #region IMPRT EXCEL OL
+        public void excel_importOL(Tipos_Datos_CRU.ListDatosOL ListDocmuentos)
+        { //importar datos en excel
+            try
+            {
+
+
+                // creating Excel Application
+                Microsoft.Office.Interop.Excel._Application app = new Microsoft.Office.Interop.Excel.Application();
+                // creating new WorkBook within Excel application
+                Microsoft.Office.Interop.Excel._Workbook workbook = app.Workbooks.Add(Type.Missing);
+                // creating new Excelsheet in workbook
+                Microsoft.Office.Interop.Excel._Worksheet worksheet = null;
+                // see the excel sheet behind the program
+                app.Visible = true;
+                // get the reference of first sheet. By default its name is Sheet1.
+                // store its reference to worksheet
+                worksheet = workbook.Sheets["Hoja1"];
+                worksheet = workbook.ActiveSheet;
+                // changing the name of active sheet
+                worksheet.Name = "Admipaq";
+                int Row = 4;
+                //titulo
+                #region facturas
+                Row = 4; //inicia a escribir en la fila 4
+                #region encabezados
+                worksheet.Cells[2, 5] = "facturas acumuladas";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 1] = "Fecha";
+                worksheet.Cells[Row, 2] = "Referencia";
+                worksheet.Cells[Row, 3] = "Folio";
+                worksheet.Cells[Row, 4] = "Nombre del agente";
+                worksheet.Cells[Row, 5] = "Razon social";
+                worksheet.Cells[Row, 6] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 7] = "RFC";
+                worksheet.Cells[Row, 8] = "Subtotal";
+                worksheet.Cells[Row, 9] = "IVA";
+                worksheet.Cells[Row, 10] = "TOTAL";
+                worksheet.Cells[Row, 11] = "Pendiente";
+                worksheet.Cells[Row, 12] = "Texto Extra 3";
+                worksheet.Cells[Row, 13] = "Afectado";
+                worksheet.Cells[Row, 14] = "Impreso";
+                worksheet.Cells[Row, 15] = "Cancelado";
+                worksheet.Cells[Row, 16] = "Total de unidades";
+                worksheet.Cells[Row, 17] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 18] = "Texto extra1";
+                worksheet.Cells[Row, 19] = "Nombre del concepto";
+
+                worksheet.Cells[2, 27] = "facturas público";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 22] = "Fecha";
+                worksheet.Cells[Row, 24] = "Referencia";
+                worksheet.Cells[Row, 25] = "Folio";
+                worksheet.Cells[Row, 26] = "Nombre del agente";
+                worksheet.Cells[Row, 27] = "Razon social";
+                worksheet.Cells[Row, 28] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 29] = "RFC";
+                worksheet.Cells[Row, 30] = "Subtotal";
+                worksheet.Cells[Row, 31] = "IVA";
+                worksheet.Cells[Row, 32] = "TOTAL";
+                worksheet.Cells[Row, 33] = "Pendiente";
+                worksheet.Cells[Row, 34] = "Texto Extra 3";
+                worksheet.Cells[Row, 35] = "Afectado";
+                worksheet.Cells[Row, 36] = "Impreso";
+                worksheet.Cells[Row, 37] = "Cancelado";
+                worksheet.Cells[Row, 38] = "Total de unidades";
+                worksheet.Cells[Row, 39] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 40] = "Texto extra1";
+                worksheet.Cells[Row, 41] = "Nombre del concepto";
+
+                worksheet.Cells[2, 49] = "facturas cliente por plaza";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 45] = "Fecha";
+                worksheet.Cells[Row, 46] = "Referencia";
+                worksheet.Cells[Row, 47] = "Folio";
+                worksheet.Cells[Row, 48] = "Nombre del agente";
+                worksheet.Cells[Row, 49] = "Razon social";
+                worksheet.Cells[Row, 50] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 51] = "RFC";
+                worksheet.Cells[Row, 52] = "Subtotal";
+                worksheet.Cells[Row, 53] = "IVA";
+                worksheet.Cells[Row, 54] = "TOTAL";
+                worksheet.Cells[Row, 55] = "Pendiente";
+                worksheet.Cells[Row, 56] = "Texto Extra 3";
+                worksheet.Cells[Row, 57] = "Afectado";
+                worksheet.Cells[Row, 58] = "Impreso";
+                worksheet.Cells[Row, 59] = "Cancelado";
+                worksheet.Cells[Row, 60] = "Total de unidades";
+                worksheet.Cells[Row, 61] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 62] = "Texto extra1";
+                worksheet.Cells[Row, 63] = "Nombre del concepto";
+
+
+                worksheet.Cells[2, 70] = "facturas por plazas";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 66] = "Fecha";
+                worksheet.Cells[Row, 67] = "Referencia";
+                worksheet.Cells[Row, 68] = "Folio";
+                worksheet.Cells[Row, 69] = "Nombre del agente";
+                worksheet.Cells[Row, 70] = "Razon social";
+                worksheet.Cells[Row, 71] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 72] = "RFC";
+                worksheet.Cells[Row, 73] = "Subtotal";
+                worksheet.Cells[Row, 74] = "IVA";
+                worksheet.Cells[Row, 75] = "TOTAL";
+                worksheet.Cells[Row, 76] = "Pendiente";
+                worksheet.Cells[Row, 77] = "Texto Extra 3";
+                worksheet.Cells[Row, 78] = "Afectado";
+                worksheet.Cells[Row, 79] = "Impreso";
+                worksheet.Cells[Row, 80] = "Cancelado";
+                worksheet.Cells[Row, 81] = "Total de unidades";
+                worksheet.Cells[Row, 82] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 83] = "Texto extra1";
+                worksheet.Cells[Row, 84] = "Nombre del concepto";
+                
+                Row++;
+                #endregion
+
+                #region contenido
+                float total = 0;
+                Row = 5;
+                float pendiente = 0;
+                for (int i = 0; i < ListDocmuentos.facturas.Count; i++)
+                {
+                    worksheet.Cells[Row, 1] = ListDocmuentos.facturas[i].Fecha;
+                    worksheet.Cells[Row, 2] = ListDocmuentos.facturas[i].Referencia;
+                    worksheet.Cells[Row, 3] = ListDocmuentos.facturas[i].Folio;
+                    worksheet.Cells[Row, 4] = ListDocmuentos.facturas[i].NombreAgente;
+                    worksheet.Cells[Row, 5] = ListDocmuentos.facturas[i].RazonSocial;
+                    worksheet.Cells[Row, 6] = ListDocmuentos.facturas[i].FechaVencimiento;
+                    worksheet.Cells[Row, 7] = ListDocmuentos.facturas[i].RFC;
+                    worksheet.Cells[Row, 8] = ListDocmuentos.facturas[i].Subtotal;
+                    worksheet.Cells[Row, 9] = ListDocmuentos.facturas[i].IVA;
+                    worksheet.Cells[Row, 10] = ListDocmuentos.facturas[i].Total;
+                    worksheet.Cells[Row, 11] = ListDocmuentos.facturas[i].Pendiente;
+                    worksheet.Cells[Row, 12] = ListDocmuentos.facturas[i].TextoExtra3;
+                    worksheet.Cells[Row, 13] = ListDocmuentos.facturas[i].Afectado;
+                    worksheet.Cells[Row, 14] = ListDocmuentos.facturas[i].Impreso;
+                    worksheet.Cells[Row, 15] = ListDocmuentos.facturas[i].Cancelado;
+                    worksheet.Cells[Row, 16] = ListDocmuentos.facturas[i].TotalUnidades;
+                    worksheet.Cells[Row, 17] = ListDocmuentos.facturas[i].Clasificacion2;
+                    worksheet.Cells[Row, 18] = ListDocmuentos.facturas[i].TextoExtra1;
+                    worksheet.Cells[Row, 19] = ListDocmuentos.facturas[i].NombreConcepto;
+                    total += ListDocmuentos.facturas[i].Total;
+                    pendiente += ListDocmuentos.facturas[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 10] = "$ " + total;
+                worksheet.Cells[2, 11] = "$ " + pendiente;
+
+                total = 0;
+                pendiente = 0;
+                Row = 5;
+
+                for (int i = 0; i < ListDocmuentos.facturas_publico.Count; i++)
+                {
+                    worksheet.Cells[Row, 23] = ListDocmuentos.facturas_publico[i].Fecha;
+                    worksheet.Cells[Row, 24] = ListDocmuentos.facturas_publico[i].Referencia;
+                    worksheet.Cells[Row, 25] = ListDocmuentos.facturas_publico[i].Folio;
+                    worksheet.Cells[Row, 26] = ListDocmuentos.facturas_publico[i].NombreAgente;
+                    worksheet.Cells[Row, 27] = ListDocmuentos.facturas_publico[i].RazonSocial;
+                    worksheet.Cells[Row, 28] = ListDocmuentos.facturas_publico[i].FechaVencimiento;
+                    worksheet.Cells[Row, 29] = ListDocmuentos.facturas_publico[i].RFC;
+                    worksheet.Cells[Row, 30] = ListDocmuentos.facturas_publico[i].Subtotal;
+                    worksheet.Cells[Row, 31] = ListDocmuentos.facturas_publico[i].IVA;
+                    worksheet.Cells[Row, 32] = ListDocmuentos.facturas_publico[i].Total;
+                    worksheet.Cells[Row, 33] = ListDocmuentos.facturas_publico[i].Pendiente;
+                    worksheet.Cells[Row, 34] = ListDocmuentos.facturas_publico[i].TextoExtra3;
+                    worksheet.Cells[Row, 35] = ListDocmuentos.facturas_publico[i].Afectado;
+                    worksheet.Cells[Row, 36] = ListDocmuentos.facturas_publico[i].Impreso;
+                    worksheet.Cells[Row, 37] = ListDocmuentos.facturas_publico[i].Cancelado;
+                    worksheet.Cells[Row, 38] = ListDocmuentos.facturas_publico[i].TotalUnidades;
+                    worksheet.Cells[Row, 39] = ListDocmuentos.facturas_publico[i].Clasificacion2;
+                    worksheet.Cells[Row, 40] = ListDocmuentos.facturas_publico[i].TextoExtra1;
+                    worksheet.Cells[Row, 41] = ListDocmuentos.facturas_publico[i].NombreConcepto;
+                    total += ListDocmuentos.facturas_publico[i].Total;
+                    pendiente += ListDocmuentos.facturas_publico[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 32] = "$ " + total;
+                worksheet.Cells[2, 33] = "$ " + pendiente;
+
+                total = 0;
+                pendiente = 0;
+                Row = 5;
+
+                for (int i = 0; i < ListDocmuentos.facturas_clientes_plazas.Count; i++)
+                {
+                    worksheet.Cells[Row, 45] = ListDocmuentos.facturas_clientes_plazas[i].Fecha;
+                    worksheet.Cells[Row, 46] = ListDocmuentos.facturas_clientes_plazas[i].Referencia;
+                    worksheet.Cells[Row, 47] = ListDocmuentos.facturas_clientes_plazas[i].Folio;
+                    worksheet.Cells[Row, 48] = ListDocmuentos.facturas_clientes_plazas[i].NombreAgente;
+                    worksheet.Cells[Row, 49] = ListDocmuentos.facturas_clientes_plazas[i].RazonSocial;
+                    worksheet.Cells[Row, 50] = ListDocmuentos.facturas_clientes_plazas[i].FechaVencimiento;
+                    worksheet.Cells[Row, 51] = ListDocmuentos.facturas_clientes_plazas[i].RFC;
+                    worksheet.Cells[Row, 52] = ListDocmuentos.facturas_clientes_plazas[i].Subtotal;
+                    worksheet.Cells[Row, 53] = ListDocmuentos.facturas_clientes_plazas[i].IVA;
+                    worksheet.Cells[Row, 54] = ListDocmuentos.facturas_clientes_plazas[i].Total;
+                    worksheet.Cells[Row, 55] = ListDocmuentos.facturas_clientes_plazas[i].Pendiente;
+                    worksheet.Cells[Row, 56] = ListDocmuentos.facturas_clientes_plazas[i].TextoExtra3;
+                    worksheet.Cells[Row, 57] = ListDocmuentos.facturas_clientes_plazas[i].Afectado;
+                    worksheet.Cells[Row, 58] = ListDocmuentos.facturas_clientes_plazas[i].Impreso;
+                    worksheet.Cells[Row, 59] = ListDocmuentos.facturas_clientes_plazas[i].Cancelado;
+                    worksheet.Cells[Row, 60] = ListDocmuentos.facturas_clientes_plazas[i].TotalUnidades;
+                    worksheet.Cells[Row, 61] = ListDocmuentos.facturas_clientes_plazas[i].Clasificacion2;
+                    worksheet.Cells[Row, 62] = ListDocmuentos.facturas_clientes_plazas[i].TextoExtra1;
+                    worksheet.Cells[Row, 63] = ListDocmuentos.facturas_clientes_plazas[i].NombreConcepto;
+                    total += ListDocmuentos.facturas_clientes_plazas[i].Total;
+                    pendiente += ListDocmuentos.facturas_clientes_plazas[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 54] = "$ " + total;
+                worksheet.Cells[2, 55] = "$ " + pendiente;
+
+                total = 0;
+                pendiente = 0;
+                Row = 5;
+
+                for (int i = 0; i < ListDocmuentos.facturas_por_plazas.Count; i++)
+                {
+                    worksheet.Cells[Row, 66] = ListDocmuentos.facturas_por_plazas[i].Fecha;
+                    worksheet.Cells[Row, 67] = ListDocmuentos.facturas_por_plazas[i].Referencia;
+                    worksheet.Cells[Row, 68] = ListDocmuentos.facturas_por_plazas[i].Folio;
+                    worksheet.Cells[Row, 69] = ListDocmuentos.facturas_por_plazas[i].NombreAgente;
+                    worksheet.Cells[Row, 70] = ListDocmuentos.facturas_por_plazas[i].RazonSocial;
+                    worksheet.Cells[Row, 71] = ListDocmuentos.facturas_por_plazas[i].FechaVencimiento;
+                    worksheet.Cells[Row, 72] = ListDocmuentos.facturas_por_plazas[i].RFC;
+                    worksheet.Cells[Row, 73] = ListDocmuentos.facturas_por_plazas[i].Subtotal;
+                    worksheet.Cells[Row, 74] = ListDocmuentos.facturas_por_plazas[i].IVA;
+                    worksheet.Cells[Row, 75] = ListDocmuentos.facturas_por_plazas[i].Total;
+                    worksheet.Cells[Row, 76] = ListDocmuentos.facturas_por_plazas[i].Pendiente;
+                    worksheet.Cells[Row, 77] = ListDocmuentos.facturas_por_plazas[i].TextoExtra3;
+                    worksheet.Cells[Row, 78] = ListDocmuentos.facturas_por_plazas[i].Afectado;
+                    worksheet.Cells[Row, 79] = ListDocmuentos.facturas_por_plazas[i].Impreso;
+                    worksheet.Cells[Row, 80] = ListDocmuentos.facturas_por_plazas[i].Cancelado;
+                    worksheet.Cells[Row, 81] = ListDocmuentos.facturas_por_plazas[i].TotalUnidades;
+                    worksheet.Cells[Row, 82] = ListDocmuentos.facturas_por_plazas[i].Clasificacion2;
+                    worksheet.Cells[Row, 83] = ListDocmuentos.facturas_por_plazas[i].TextoExtra1;
+                    worksheet.Cells[Row, 84] = ListDocmuentos.facturas_por_plazas[i].NombreConcepto;
+                    total += ListDocmuentos.facturas_por_plazas[i].Total;
+                    pendiente += ListDocmuentos.facturas_por_plazas[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 75] = "$ " + total;
+                worksheet.Cells[2, 76] = "$ " + pendiente;
+                
+                #endregion
+
+
+
+                #endregion
+
+
+                #region ABONOS
+                Row = 4;
+                #region encabezados
+                worksheet.Cells[2, 94] = "acumulado de abono";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 90] = "Fecha";
+                worksheet.Cells[Row, 91] = "Referencia";
+                worksheet.Cells[Row, 92] = "Folio";
+                worksheet.Cells[Row, 93] = "Nombre del agente";
+                worksheet.Cells[Row, 94] = "Razon social";
+                worksheet.Cells[Row, 95] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 96] = "RFC";
+                worksheet.Cells[Row, 97] = "Subtotal";
+                worksheet.Cells[Row, 98] = "IVA";
+                worksheet.Cells[Row, 99] = "TOTAL";
+                worksheet.Cells[Row, 100] = "Pendiente";
+                worksheet.Cells[Row, 101] = "Texto Extra 3";
+                worksheet.Cells[Row, 102] = "Afectado";
+                worksheet.Cells[Row, 103] = "Impreso";
+                worksheet.Cells[Row, 104] = "Cancelado";
+                worksheet.Cells[Row, 105] = "Total de unidades";
+                worksheet.Cells[Row, 106] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 107] = "Texto extra1";
+                worksheet.Cells[Row, 108] = "Nombre del concepto";
+
+
+                worksheet.Cells[2, 115] = "abonos públicos";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 111] = "Fecha";
+                worksheet.Cells[Row, 112] = "Referencia";
+                worksheet.Cells[Row, 113] = "Folio";
+                worksheet.Cells[Row, 114] = "Nombre del agente";
+                worksheet.Cells[Row, 115] = "Razon social";
+                worksheet.Cells[Row, 116] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 117] = "RFC";
+                worksheet.Cells[Row, 118] = "Subtotal";
+                worksheet.Cells[Row, 119] = "IVA";
+                worksheet.Cells[Row, 120] = "TOTAL";
+                worksheet.Cells[Row, 121] = "Pendiente";
+                worksheet.Cells[Row, 122] = "Texto Extra 3";
+                worksheet.Cells[Row, 123] = "Afectado";
+                worksheet.Cells[Row, 124] = "Impreso";
+                worksheet.Cells[Row, 125] = "Cancelado";
+                worksheet.Cells[Row, 126] = "Total de unidades";
+                worksheet.Cells[Row, 127] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 128] = "Texto extra1";
+                worksheet.Cells[Row, 129] = "Nombre del concepto";
+
+                worksheet.Cells[2, 135] = "abonos por plazas";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 131] = "Fecha";
+                worksheet.Cells[Row, 132] = "Referencia";
+                worksheet.Cells[Row, 133] = "Folio";
+                worksheet.Cells[Row, 134] = "Nombre del agente";
+                worksheet.Cells[Row, 135] = "Razon social";
+                worksheet.Cells[Row, 136] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 137] = "RFC";
+                worksheet.Cells[Row, 138] = "Subtotal";
+                worksheet.Cells[Row, 139] = "IVA";
+                worksheet.Cells[Row, 140] = "TOTAL";
+                worksheet.Cells[Row, 141] = "Pendiente";
+                worksheet.Cells[Row, 142] = "Texto Extra 3";
+                worksheet.Cells[Row, 143] = "Afectado";
+                worksheet.Cells[Row, 144] = "Impreso";
+                worksheet.Cells[Row, 145] = "Cancelado";
+                worksheet.Cells[Row, 146] = "Total de unidades";
+                worksheet.Cells[Row, 147] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 148] = "Texto extra1";
+                worksheet.Cells[Row, 149] = "Nombre del concepto";
+
+
+                worksheet.Cells[2, 157] = "acumulado de compras";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 153] = "Fecha";
+                worksheet.Cells[Row, 154] = "Referencia";
+                worksheet.Cells[Row, 155] = "Folio";
+                worksheet.Cells[Row, 156] = "Nombre del agente";
+                worksheet.Cells[Row, 157] = "Razon social";
+                worksheet.Cells[Row, 158] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 159] = "RFC";
+                worksheet.Cells[Row, 160] = "Subtotal";
+                worksheet.Cells[Row, 161] = "IVA";
+                worksheet.Cells[Row, 162] = "TOTAL";
+                worksheet.Cells[Row, 163] = "Pendiente";
+                worksheet.Cells[Row, 164] = "Texto Extra 3";
+                worksheet.Cells[Row, 165] = "Afectado";
+                worksheet.Cells[Row, 166] = "Impreso";
+                worksheet.Cells[Row, 167] = "Cancelado";
+                worksheet.Cells[Row, 168] = "Total de unidades";
+                worksheet.Cells[Row, 169] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 170] = "Texto extra1";
+                worksheet.Cells[Row, 171] = "Nombre del concepto";
+
+
+                worksheet.Cells[2, 179] = "compras a CRU";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 175] = "Fecha";
+                worksheet.Cells[Row, 176] = "Referencia";
+                worksheet.Cells[Row, 177] = "Folio";
+                worksheet.Cells[Row, 178] = "Nombre del agente";
+                worksheet.Cells[Row, 179] = "Razon social";
+                worksheet.Cells[Row, 180] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 181] = "RFC";
+                worksheet.Cells[Row, 182] = "Subtotal";
+                worksheet.Cells[Row, 183] = "IVA";
+                worksheet.Cells[Row, 184] = "TOTAL";
+                worksheet.Cells[Row, 185] = "Pendiente";
+                worksheet.Cells[Row, 186] = "Texto Extra 3";
+                worksheet.Cells[Row, 187] = "Afectado";
+                worksheet.Cells[Row, 188] = "Impreso";
+                worksheet.Cells[Row, 189] = "Cancelado";
+                worksheet.Cells[Row, 190] = "Total de unidades";
+                worksheet.Cells[Row, 191] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 192] = "Texto extra1";
+                worksheet.Cells[Row, 193] = "Nombre del concepto";
+
+                worksheet.Cells[2, 201] = "compras a Manuel";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 197] = "Fecha";
+                worksheet.Cells[Row, 198] = "Referencia";
+                worksheet.Cells[Row, 199] = "Folio";
+                worksheet.Cells[Row, 200] = "Nombre del agente";
+                worksheet.Cells[Row, 201] = "Razon social";
+                worksheet.Cells[Row, 202] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 203] = "RFC";
+                worksheet.Cells[Row, 204] = "Subtotal";
+                worksheet.Cells[Row, 205] = "IVA";
+                worksheet.Cells[Row, 206] = "TOTAL";
+                worksheet.Cells[Row, 207] = "Pendiente";
+                worksheet.Cells[Row, 208] = "Texto Extra 3";
+                worksheet.Cells[Row, 209] = "Afectado";
+                worksheet.Cells[Row, 210] = "Impreso";
+                worksheet.Cells[Row, 211] = "Cancelado";
+                worksheet.Cells[Row, 212] = "Total de unidades";
+                worksheet.Cells[Row, 213] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 214] = "Texto extra1";
+                worksheet.Cells[Row, 215] = "Nombre del concepto";
+
+
+                worksheet.Cells[2, 201] = "pagos al proveedor";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 219] = "Fecha";
+                worksheet.Cells[Row, 220] = "Referencia";
+                worksheet.Cells[Row, 221] = "Folio";
+                worksheet.Cells[Row, 222] = "Nombre del agente";
+                worksheet.Cells[Row, 223] = "Razon social";
+                worksheet.Cells[Row, 224] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 225] = "RFC";
+                worksheet.Cells[Row, 226] = "Subtotal";
+                worksheet.Cells[Row, 227] = "IVA";
+                worksheet.Cells[Row, 228] = "TOTAL";
+                worksheet.Cells[Row, 229] = "Pendiente";
+                worksheet.Cells[Row, 230] = "Texto Extra 3";
+                worksheet.Cells[Row, 231] = "Afectado";
+                worksheet.Cells[Row, 232] = "Impreso";
+                worksheet.Cells[Row, 233] = "Cancelado";
+                worksheet.Cells[Row, 234] = "Total de unidades";
+                worksheet.Cells[Row, 235] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 236] = "Texto extra1";
+                worksheet.Cells[Row, 237] = "Nombre del concepto";
+
+
+                worksheet.Cells[2, 244] = "pagos al proveedor a CRU";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 240] = "Fecha";
+                worksheet.Cells[Row, 241] = "Referencia";
+                worksheet.Cells[Row, 242] = "Folio";
+                worksheet.Cells[Row, 243] = "Nombre del agente";
+                worksheet.Cells[Row, 244] = "Razon social";
+                worksheet.Cells[Row, 245] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 246] = "RFC";
+                worksheet.Cells[Row, 247] = "Subtotal";
+                worksheet.Cells[Row, 248] = "IVA";
+                worksheet.Cells[Row, 249] = "TOTAL";
+                worksheet.Cells[Row, 250] = "Pendiente";
+                worksheet.Cells[Row, 251] = "Texto Extra 3";
+                worksheet.Cells[Row, 252] = "Afectado";
+                worksheet.Cells[Row, 253] = "Impreso";
+                worksheet.Cells[Row, 254] = "Cancelado";
+                worksheet.Cells[Row, 255] = "Total de unidades";
+                worksheet.Cells[Row, 256] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 257] = "Texto extra1";
+                worksheet.Cells[Row, 258] = "Nombre del concepto";
+
+
+                worksheet.Cells[2, 265] = "pagos al proveedor a Manuel";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 261] = "Fecha";
+                worksheet.Cells[Row, 262] = "Referencia";
+                worksheet.Cells[Row, 263] = "Folio";
+                worksheet.Cells[Row, 264] = "Nombre del agente";
+                worksheet.Cells[Row, 265] = "Razon social";
+                worksheet.Cells[Row, 266] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 267] = "RFC";
+                worksheet.Cells[Row, 268] = "Subtotal";
+                worksheet.Cells[Row, 269] = "IVA";
+                worksheet.Cells[Row, 270] = "TOTAL";
+                worksheet.Cells[Row, 271] = "Pendiente";
+                worksheet.Cells[Row, 272] = "Texto Extra 3";
+                worksheet.Cells[Row, 273] = "Afectado";
+                worksheet.Cells[Row, 274] = "Impreso";
+                worksheet.Cells[Row, 275] = "Cancelado";
+                worksheet.Cells[Row, 276] = "Total de unidades";
+                worksheet.Cells[Row, 277] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 278] = "Texto extra1";
+                worksheet.Cells[Row, 279] = "Nombre del concepto";
+                Row++;
+                #endregion
+                #region contenido
+                total = 0;
+                Row = 5;
+                pendiente = 0;
+                for (int i = 0; i < ListDocmuentos.abonos.Count; i++)
+                {
+                    worksheet.Cells[Row, 90] = ListDocmuentos.abonos[i].Fecha;
+                    worksheet.Cells[Row, 91] = ListDocmuentos.abonos[i].Referencia;
+                    worksheet.Cells[Row, 92] = ListDocmuentos.abonos[i].Folio;
+                    worksheet.Cells[Row, 93] = ListDocmuentos.abonos[i].NombreAgente;
+                    worksheet.Cells[Row, 94] = ListDocmuentos.abonos[i].RazonSocial;
+                    worksheet.Cells[Row, 95] = ListDocmuentos.abonos[i].FechaVencimiento;
+                    worksheet.Cells[Row, 96] = ListDocmuentos.abonos[i].RFC;
+                    worksheet.Cells[Row, 97] = ListDocmuentos.abonos[i].Subtotal;
+                    worksheet.Cells[Row, 98] = ListDocmuentos.abonos[i].IVA;
+                    worksheet.Cells[Row, 99] = ListDocmuentos.abonos[i].Total;
+                    worksheet.Cells[Row, 100] = ListDocmuentos.abonos[i].Pendiente;
+                    worksheet.Cells[Row, 101] = ListDocmuentos.abonos[i].TextoExtra3;
+                    worksheet.Cells[Row, 102] = ListDocmuentos.abonos[i].Afectado;
+                    worksheet.Cells[Row, 103] = ListDocmuentos.abonos[i].Impreso;
+                    worksheet.Cells[Row, 104] = ListDocmuentos.abonos[i].Cancelado;
+                    worksheet.Cells[Row, 105] = ListDocmuentos.abonos[i].TotalUnidades;
+                    worksheet.Cells[Row, 106] = ListDocmuentos.abonos[i].Clasificacion2;
+                    worksheet.Cells[Row, 107] = ListDocmuentos.abonos[i].TextoExtra1;
+                    worksheet.Cells[Row, 108] = ListDocmuentos.abonos[i].NombreConcepto;
+                    total += ListDocmuentos.abonos[i].Total;
+                    pendiente += ListDocmuentos.abonos[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 99] = "$ " + total;
+                worksheet.Cells[2, 100] = "$ " + pendiente;
+
+                Row = 5;
+                total = 0;
+                pendiente = 0;
+                for (int i = 0; i < ListDocmuentos.abonos_publico.Count; i++)
+                {
+                    worksheet.Cells[Row, 111] = ListDocmuentos.abonos_publico[i].Fecha;
+                    worksheet.Cells[Row, 112] = ListDocmuentos.abonos_publico[i].Referencia;
+                    worksheet.Cells[Row, 113] = ListDocmuentos.abonos_publico[i].Folio;
+                    worksheet.Cells[Row, 114] = ListDocmuentos.abonos_publico[i].NombreAgente;
+                    worksheet.Cells[Row, 115] = ListDocmuentos.abonos_publico[i].RazonSocial;
+                    worksheet.Cells[Row, 116] = ListDocmuentos.abonos_publico[i].FechaVencimiento;
+                    worksheet.Cells[Row, 117] = ListDocmuentos.abonos_publico[i].RFC;
+                    worksheet.Cells[Row, 118] = ListDocmuentos.abonos_publico[i].Subtotal;
+                    worksheet.Cells[Row, 119] = ListDocmuentos.abonos_publico[i].IVA;
+                    worksheet.Cells[Row, 120] = ListDocmuentos.abonos_publico[i].Total;
+                    worksheet.Cells[Row, 121] = ListDocmuentos.abonos_publico[i].Pendiente;
+                    worksheet.Cells[Row, 122] = ListDocmuentos.abonos_publico[i].TextoExtra3;
+                    worksheet.Cells[Row, 123] = ListDocmuentos.abonos_publico[i].Afectado;
+                    worksheet.Cells[Row, 124] = ListDocmuentos.abonos_publico[i].Impreso;
+                    worksheet.Cells[Row, 125] = ListDocmuentos.abonos_publico[i].Cancelado;
+                    worksheet.Cells[Row, 126] = ListDocmuentos.abonos_publico[i].TotalUnidades;
+                    worksheet.Cells[Row, 127] = ListDocmuentos.abonos_publico[i].Clasificacion2;
+                    worksheet.Cells[Row, 128] = ListDocmuentos.abonos_publico[i].TextoExtra1;
+                    worksheet.Cells[Row, 129] = ListDocmuentos.abonos_publico[i].NombreConcepto;
+                    total += ListDocmuentos.abonos_publico[i].Total;
+                    pendiente += ListDocmuentos.abonos_publico[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 120] = "$ " + total;
+                worksheet.Cells[2, 121] = "$ " + pendiente;
+
+                Row = 5;
+                total = 0;
+                pendiente = 0;
+                for (int i = 0; i < ListDocmuentos.abonos_plazas.Count; i++)
+                {
+                    worksheet.Cells[Row, 131] = ListDocmuentos.abonos_plazas[i].Fecha;
+                    worksheet.Cells[Row, 132] = ListDocmuentos.abonos_plazas[i].Referencia;
+                    worksheet.Cells[Row, 133] = ListDocmuentos.abonos_plazas[i].Folio;
+                    worksheet.Cells[Row, 134] = ListDocmuentos.abonos_plazas[i].NombreAgente;
+                    worksheet.Cells[Row, 135] = ListDocmuentos.abonos_plazas[i].RazonSocial;
+                    worksheet.Cells[Row, 136] = ListDocmuentos.abonos_plazas[i].FechaVencimiento;
+                    worksheet.Cells[Row, 137] = ListDocmuentos.abonos_plazas[i].RFC;
+                    worksheet.Cells[Row, 138] = ListDocmuentos.abonos_plazas[i].Subtotal;
+                    worksheet.Cells[Row, 139] = ListDocmuentos.abonos_plazas[i].IVA;
+                    worksheet.Cells[Row, 140] = ListDocmuentos.abonos_plazas[i].Total;
+                    worksheet.Cells[Row, 141] = ListDocmuentos.abonos_plazas[i].Pendiente;
+                    worksheet.Cells[Row, 142] = ListDocmuentos.abonos_plazas[i].TextoExtra3;
+                    worksheet.Cells[Row, 143] = ListDocmuentos.abonos_plazas[i].Afectado;
+                    worksheet.Cells[Row, 144] = ListDocmuentos.abonos_plazas[i].Impreso;
+                    worksheet.Cells[Row, 145] = ListDocmuentos.abonos_plazas[i].Cancelado;
+                    worksheet.Cells[Row, 146] = ListDocmuentos.abonos_plazas[i].TotalUnidades;
+                    worksheet.Cells[Row, 147] = ListDocmuentos.abonos_plazas[i].Clasificacion2;
+                    worksheet.Cells[Row, 148] = ListDocmuentos.abonos_plazas[i].TextoExtra1;
+                    worksheet.Cells[Row, 149] = ListDocmuentos.abonos_plazas[i].NombreConcepto;
+                    total += ListDocmuentos.abonos_plazas[i].Total;
+                    pendiente += ListDocmuentos.abonos_plazas[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 140] = "$ " + total;
+                worksheet.Cells[2, 141] = "$ " + pendiente;
+
+                Row = 5;
+                total = 0;
+                pendiente = 0;
+                for (int i = 0; i < ListDocmuentos.compras.Count; i++)
+                {
+                    worksheet.Cells[Row, 153] = ListDocmuentos.compras[i].Fecha;
+                    worksheet.Cells[Row, 154] = ListDocmuentos.compras[i].Referencia;
+                    worksheet.Cells[Row, 155] = ListDocmuentos.compras[i].Folio;
+                    worksheet.Cells[Row, 156] = ListDocmuentos.compras[i].NombreAgente;
+                    worksheet.Cells[Row, 157] = ListDocmuentos.compras[i].RazonSocial;
+                    worksheet.Cells[Row, 158] = ListDocmuentos.compras[i].FechaVencimiento;
+                    worksheet.Cells[Row, 159] = ListDocmuentos.compras[i].RFC;
+                    worksheet.Cells[Row, 160] = ListDocmuentos.compras[i].Subtotal;
+                    worksheet.Cells[Row, 161] = ListDocmuentos.compras[i].IVA;
+                    worksheet.Cells[Row, 162] = ListDocmuentos.compras[i].Total;
+                    worksheet.Cells[Row, 163] = ListDocmuentos.compras[i].Pendiente;
+                    worksheet.Cells[Row, 164] = ListDocmuentos.compras[i].TextoExtra3;
+                    worksheet.Cells[Row, 165] = ListDocmuentos.compras[i].Afectado;
+                    worksheet.Cells[Row, 166] = ListDocmuentos.compras[i].Impreso;
+                    worksheet.Cells[Row, 167] = ListDocmuentos.compras[i].Cancelado;
+                    worksheet.Cells[Row, 168] = ListDocmuentos.compras[i].TotalUnidades;
+                    worksheet.Cells[Row, 169] = ListDocmuentos.compras[i].Clasificacion2;
+                    worksheet.Cells[Row, 170] = ListDocmuentos.compras[i].TextoExtra1;
+                    worksheet.Cells[Row, 171] = ListDocmuentos.compras[i].NombreConcepto;
+                    total += ListDocmuentos.compras[i].Total;
+                    pendiente += ListDocmuentos.compras[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 162] = "$ " + total;
+                worksheet.Cells[2, 163] = "$ " + pendiente;
+                Row = 5;
+                total = 0;
+                pendiente = 0;
+                for (int i = 0; i < ListDocmuentos.compras_cru.Count; i++)
+                {
+                    worksheet.Cells[Row, 175] = ListDocmuentos.compras_cru[i].Fecha;
+                    worksheet.Cells[Row, 176] = ListDocmuentos.compras_cru[i].Referencia;
+                    worksheet.Cells[Row, 177] = ListDocmuentos.compras_cru[i].Folio;
+                    worksheet.Cells[Row, 178] = ListDocmuentos.compras_cru[i].NombreAgente;
+                    worksheet.Cells[Row, 179] = ListDocmuentos.compras_cru[i].RazonSocial;
+                    worksheet.Cells[Row, 180] = ListDocmuentos.compras_cru[i].FechaVencimiento;
+                    worksheet.Cells[Row, 181] = ListDocmuentos.compras_cru[i].RFC;
+                    worksheet.Cells[Row, 182] = ListDocmuentos.compras_cru[i].Subtotal;
+                    worksheet.Cells[Row, 183] = ListDocmuentos.compras_cru[i].IVA;
+                    worksheet.Cells[Row, 184] = ListDocmuentos.compras_cru[i].Total;
+                    worksheet.Cells[Row, 185] = ListDocmuentos.compras_cru[i].Pendiente;
+                    worksheet.Cells[Row, 186] = ListDocmuentos.compras_cru[i].TextoExtra3;
+                    worksheet.Cells[Row, 187] = ListDocmuentos.compras_cru[i].Afectado;
+                    worksheet.Cells[Row, 188] = ListDocmuentos.compras_cru[i].Impreso;
+                    worksheet.Cells[Row, 189] = ListDocmuentos.compras_cru[i].Cancelado;
+                    worksheet.Cells[Row, 190] = ListDocmuentos.compras_cru[i].TotalUnidades;
+                    worksheet.Cells[Row, 191] = ListDocmuentos.compras_cru[i].Clasificacion2;
+                    worksheet.Cells[Row, 192] = ListDocmuentos.compras_cru[i].TextoExtra1;
+                    worksheet.Cells[Row, 193] = ListDocmuentos.compras_cru[i].NombreConcepto;
+                    total += ListDocmuentos.compras_cru[i].Total;
+                    pendiente += ListDocmuentos.compras_cru[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 184] = "$ " + total;
+                worksheet.Cells[2, 185] = "$ " + pendiente;
+                Row = 5;
+                total = 0;
+                pendiente = 0;
+                for (int i = 0; i < ListDocmuentos.compras_manuel.Count; i++)
+                {
+                    worksheet.Cells[Row, 197] = ListDocmuentos.compras_manuel[i].Fecha;
+                    worksheet.Cells[Row, 198] = ListDocmuentos.compras_manuel[i].Referencia;
+                    worksheet.Cells[Row, 199] = ListDocmuentos.compras_manuel[i].Folio;
+                    worksheet.Cells[Row, 200] = ListDocmuentos.compras_manuel[i].NombreAgente;
+                    worksheet.Cells[Row, 201] = ListDocmuentos.compras_manuel[i].RazonSocial;
+                    worksheet.Cells[Row, 202] = ListDocmuentos.compras_manuel[i].FechaVencimiento;
+                    worksheet.Cells[Row, 203] = ListDocmuentos.compras_manuel[i].RFC;
+                    worksheet.Cells[Row, 204] = ListDocmuentos.compras_manuel[i].Subtotal;
+                    worksheet.Cells[Row, 205] = ListDocmuentos.compras_manuel[i].IVA;
+                    worksheet.Cells[Row, 206] = ListDocmuentos.compras_manuel[i].Total;
+                    worksheet.Cells[Row, 207] = ListDocmuentos.compras_manuel[i].Pendiente;
+                    worksheet.Cells[Row, 208] = ListDocmuentos.compras_manuel[i].TextoExtra3;
+                    worksheet.Cells[Row, 209] = ListDocmuentos.compras_manuel[i].Afectado;
+                    worksheet.Cells[Row, 210] = ListDocmuentos.compras_manuel[i].Impreso;
+                    worksheet.Cells[Row, 211] = ListDocmuentos.compras_manuel[i].Cancelado;
+                    worksheet.Cells[Row, 212] = ListDocmuentos.compras_manuel[i].TotalUnidades;
+                    worksheet.Cells[Row, 213] = ListDocmuentos.compras_manuel[i].Clasificacion2;
+                    worksheet.Cells[Row, 214] = ListDocmuentos.compras_manuel[i].TextoExtra1;
+                    worksheet.Cells[Row, 215] = ListDocmuentos.compras_manuel[i].NombreConcepto;
+                    total += ListDocmuentos.compras_manuel[i].Total;
+                    pendiente += ListDocmuentos.compras_manuel[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 206] = "$ " + total;
+                worksheet.Cells[2, 207] = "$ " + pendiente;
+                Row = 5;
+                total = 0;
+                pendiente = 0;
+                for (int i = 0; i < ListDocmuentos.pagos_proveedor.Count; i++)
+                {
+                    worksheet.Cells[Row, 219] = ListDocmuentos.pagos_proveedor[i].Fecha;
+                    worksheet.Cells[Row, 220] = ListDocmuentos.pagos_proveedor[i].Referencia;
+                    worksheet.Cells[Row, 221] = ListDocmuentos.pagos_proveedor[i].Folio;
+                    worksheet.Cells[Row, 222] = ListDocmuentos.pagos_proveedor[i].NombreAgente;
+                    worksheet.Cells[Row, 223] = ListDocmuentos.pagos_proveedor[i].RazonSocial;
+                    worksheet.Cells[Row, 224] = ListDocmuentos.pagos_proveedor[i].FechaVencimiento;
+                    worksheet.Cells[Row, 225] = ListDocmuentos.pagos_proveedor[i].RFC;
+                    worksheet.Cells[Row, 226] = ListDocmuentos.pagos_proveedor[i].Subtotal;
+                    worksheet.Cells[Row, 227] = ListDocmuentos.pagos_proveedor[i].IVA;
+                    worksheet.Cells[Row, 228] = ListDocmuentos.pagos_proveedor[i].Total;
+                    worksheet.Cells[Row, 229] = ListDocmuentos.pagos_proveedor[i].Pendiente;
+                    worksheet.Cells[Row, 230] = ListDocmuentos.pagos_proveedor[i].TextoExtra3;
+                    worksheet.Cells[Row, 231] = ListDocmuentos.pagos_proveedor[i].Afectado;
+                    worksheet.Cells[Row, 232] = ListDocmuentos.pagos_proveedor[i].Impreso;
+                    worksheet.Cells[Row, 233] = ListDocmuentos.pagos_proveedor[i].Cancelado;
+                    worksheet.Cells[Row, 234] = ListDocmuentos.pagos_proveedor[i].TotalUnidades;
+                    worksheet.Cells[Row, 235] = ListDocmuentos.pagos_proveedor[i].Clasificacion2;
+                    worksheet.Cells[Row, 236] = ListDocmuentos.pagos_proveedor[i].TextoExtra1;
+                    worksheet.Cells[Row, 237] = ListDocmuentos.pagos_proveedor[i].NombreConcepto;
+                    total += ListDocmuentos.pagos_proveedor[i].Total;
+                    pendiente += ListDocmuentos.pagos_proveedor[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 228] = "$ " + total;
+                worksheet.Cells[2, 229] = "$ " + pendiente;
+                Row = 5;
+                total = 0;
+                pendiente = 0;
+                for (int i = 0; i < ListDocmuentos.pagos_proveedor_cru.Count; i++)
+                {
+                    worksheet.Cells[Row, 240] = ListDocmuentos.pagos_proveedor_cru[i].Fecha;
+                    worksheet.Cells[Row, 241] = ListDocmuentos.pagos_proveedor_cru[i].Referencia;
+                    worksheet.Cells[Row, 242] = ListDocmuentos.pagos_proveedor_cru[i].Folio;
+                    worksheet.Cells[Row, 243] = ListDocmuentos.pagos_proveedor_cru[i].NombreAgente;
+                    worksheet.Cells[Row, 244] = ListDocmuentos.pagos_proveedor_cru[i].RazonSocial;
+                    worksheet.Cells[Row, 245] = ListDocmuentos.pagos_proveedor_cru[i].FechaVencimiento;
+                    worksheet.Cells[Row, 246] = ListDocmuentos.pagos_proveedor_cru[i].RFC;
+                    worksheet.Cells[Row, 247] = ListDocmuentos.pagos_proveedor_cru[i].Subtotal;
+                    worksheet.Cells[Row, 248] = ListDocmuentos.pagos_proveedor_cru[i].IVA;
+                    worksheet.Cells[Row, 249] = ListDocmuentos.pagos_proveedor_cru[i].Total;
+                    worksheet.Cells[Row, 250] = ListDocmuentos.pagos_proveedor_cru[i].Pendiente;
+                    worksheet.Cells[Row, 251] = ListDocmuentos.pagos_proveedor_cru[i].TextoExtra3;
+                    worksheet.Cells[Row, 252] = ListDocmuentos.pagos_proveedor_cru[i].Afectado;
+                    worksheet.Cells[Row, 253] = ListDocmuentos.pagos_proveedor_cru[i].Impreso;
+                    worksheet.Cells[Row, 254] = ListDocmuentos.pagos_proveedor_cru[i].Cancelado;
+                    worksheet.Cells[Row, 255] = ListDocmuentos.pagos_proveedor_cru[i].TotalUnidades;
+                    worksheet.Cells[Row, 256] = ListDocmuentos.pagos_proveedor_cru[i].Clasificacion2;
+                    worksheet.Cells[Row, 257] = ListDocmuentos.pagos_proveedor_cru[i].TextoExtra1;
+                    worksheet.Cells[Row, 258] = ListDocmuentos.pagos_proveedor_cru[i].NombreConcepto;
+                    total += ListDocmuentos.pagos_proveedor_cru[i].Total;
+                    pendiente += ListDocmuentos.pagos_proveedor_cru[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 249] = "$ " + total;
+                worksheet.Cells[2, 250] = "$ " + pendiente;
+                Row = 5;
+                total = 0;
+                pendiente = 0;
+                for (int i = 0; i < ListDocmuentos.pagos_proveedor_manuel.Count; i++)
+                {
+                    worksheet.Cells[Row, 261] = ListDocmuentos.pagos_proveedor_manuel[i].Fecha;
+                    worksheet.Cells[Row, 262] = ListDocmuentos.pagos_proveedor_manuel[i].Referencia;
+                    worksheet.Cells[Row, 263] = ListDocmuentos.pagos_proveedor_manuel[i].Folio;
+                    worksheet.Cells[Row, 264] = ListDocmuentos.pagos_proveedor_manuel[i].NombreAgente;
+                    worksheet.Cells[Row, 265] = ListDocmuentos.pagos_proveedor_manuel[i].RazonSocial;
+                    worksheet.Cells[Row, 266] = ListDocmuentos.pagos_proveedor_manuel[i].FechaVencimiento;
+                    worksheet.Cells[Row, 267] = ListDocmuentos.pagos_proveedor_manuel[i].RFC;
+                    worksheet.Cells[Row, 268] = ListDocmuentos.pagos_proveedor_manuel[i].Subtotal;
+                    worksheet.Cells[Row, 269] = ListDocmuentos.pagos_proveedor_manuel[i].IVA;
+                    worksheet.Cells[Row, 270] = ListDocmuentos.pagos_proveedor_manuel[i].Total;
+                    worksheet.Cells[Row, 271] = ListDocmuentos.pagos_proveedor_manuel[i].Pendiente;
+                    worksheet.Cells[Row, 272] = ListDocmuentos.pagos_proveedor_manuel[i].TextoExtra3;
+                    worksheet.Cells[Row, 273] = ListDocmuentos.pagos_proveedor_manuel[i].Afectado;
+                    worksheet.Cells[Row, 274] = ListDocmuentos.pagos_proveedor_manuel[i].Impreso;
+                    worksheet.Cells[Row, 275] = ListDocmuentos.pagos_proveedor_manuel[i].Cancelado;
+                    worksheet.Cells[Row, 276] = ListDocmuentos.pagos_proveedor_manuel[i].TotalUnidades;
+                    worksheet.Cells[Row, 277] = ListDocmuentos.pagos_proveedor_manuel[i].Clasificacion2;
+                    worksheet.Cells[Row, 278] = ListDocmuentos.pagos_proveedor_manuel[i].TextoExtra1;
+                    worksheet.Cells[Row, 279] = ListDocmuentos.pagos_proveedor_manuel[i].NombreConcepto;
+                    total += ListDocmuentos.pagos_proveedor_manuel[i].Total;
+                    pendiente += ListDocmuentos.pagos_proveedor_manuel[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 270] = "$ " + total;
+                worksheet.Cells[2, 271] = "$ " + pendiente;
+                #endregion
+                #endregion
+
+
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        #endregion 
+    
+    
+        #region IMPRT EXCEL ISEL
+        public void excel_importISEL(Tipos_Datos_CRU.ListDatosISEL ListDocmuentos)
+        { //importar datos en excel
+            try
+            {
+
+
+                // creating Excel Application
+                Microsoft.Office.Interop.Excel._Application app = new Microsoft.Office.Interop.Excel.Application();
+                // creating new WorkBook within Excel application
+                Microsoft.Office.Interop.Excel._Workbook workbook = app.Workbooks.Add(Type.Missing);
+                // creating new Excelsheet in workbook
+                Microsoft.Office.Interop.Excel._Worksheet worksheet = null;
+                // see the excel sheet behind the program
+                app.Visible = true;
+                // get the reference of first sheet. By default its name is Sheet1.
+                // store its reference to worksheet
+                worksheet = workbook.Sheets["Hoja1"];
+                worksheet = workbook.ActiveSheet;
+                // changing the name of active sheet
+                worksheet.Name = "Admipaq";
+                int Row = 4;
+                //titulo
+                #region facturas
+                Row = 4; //inicia a escribir en la fila 4
+                #region encabezados
+                worksheet.Cells[2, 5] = "facturas acumuladas";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 1] = "Fecha";
+                worksheet.Cells[Row, 2] = "Referencia";
+                worksheet.Cells[Row, 3] = "Folio";
+                worksheet.Cells[Row, 4] = "Nombre del agente";
+                worksheet.Cells[Row, 5] = "Razon social";
+                worksheet.Cells[Row, 6] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 7] = "RFC";
+                worksheet.Cells[Row, 8] = "Subtotal";
+                worksheet.Cells[Row, 9] = "IVA";
+                worksheet.Cells[Row, 10] = "TOTAL";
+                worksheet.Cells[Row, 11] = "Pendiente";
+                worksheet.Cells[Row, 12] = "Texto Extra 3";
+                worksheet.Cells[Row, 13] = "Afectado";
+                worksheet.Cells[Row, 14] = "Impreso";
+                worksheet.Cells[Row, 15] = "Cancelado";
+                worksheet.Cells[Row, 16] = "Total de unidades";
+                worksheet.Cells[Row, 17] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 18] = "Texto extra1";
+                worksheet.Cells[Row, 19] = "Nombre del concepto";
+
+                worksheet.Cells[2, 27] = "facturas Dario";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 22] = "Fecha";
+                worksheet.Cells[Row, 24] = "Referencia";
+                worksheet.Cells[Row, 25] = "Folio";
+                worksheet.Cells[Row, 26] = "Nombre del agente";
+                worksheet.Cells[Row, 27] = "Razon social";
+                worksheet.Cells[Row, 28] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 29] = "RFC";
+                worksheet.Cells[Row, 30] = "Subtotal";
+                worksheet.Cells[Row, 31] = "IVA";
+                worksheet.Cells[Row, 32] = "TOTAL";
+                worksheet.Cells[Row, 33] = "Pendiente";
+                worksheet.Cells[Row, 34] = "Texto Extra 3";
+                worksheet.Cells[Row, 35] = "Afectado";
+                worksheet.Cells[Row, 36] = "Impreso";
+                worksheet.Cells[Row, 37] = "Cancelado";
+                worksheet.Cells[Row, 38] = "Total de unidades";
+                worksheet.Cells[Row, 39] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 40] = "Texto extra1";
+                worksheet.Cells[Row, 41] = "Nombre del concepto";
+
+
+
+
+                worksheet.Cells[2,49] = "abonos acumuladas";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 45] = "Fecha";
+                worksheet.Cells[Row, 46] = "Referencia";
+                worksheet.Cells[Row, 47] = "Folio";
+                worksheet.Cells[Row, 48] = "Nombre del agente";
+                worksheet.Cells[Row, 49] = "Razon social";
+                worksheet.Cells[Row, 50] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 51] = "RFC";
+                worksheet.Cells[Row, 52] = "Subtotal";
+                worksheet.Cells[Row, 53] = "IVA";
+                worksheet.Cells[Row, 54] = "TOTAL";
+                worksheet.Cells[Row, 55] = "Pendiente";
+                worksheet.Cells[Row, 56] = "Texto Extra 3";
+                worksheet.Cells[Row, 57] = "Afectado";
+                worksheet.Cells[Row, 58] = "Impreso";
+                worksheet.Cells[Row, 59] = "Cancelado";
+                worksheet.Cells[Row, 60] = "Total de unidades";
+                worksheet.Cells[Row, 61] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 62] = "Texto extra1";
+                worksheet.Cells[Row, 63] = "Nombre del concepto";
+
+                worksheet.Cells[2, 69] = "abonos Dario";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 65] = "Fecha";
+                worksheet.Cells[Row, 66] = "Referencia";
+                worksheet.Cells[Row, 67] = "Folio";
+                worksheet.Cells[Row, 68] = "Nombre del agente";
+                worksheet.Cells[Row, 69] = "Razon social";
+                worksheet.Cells[Row, 70] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 71] = "RFC";
+                worksheet.Cells[Row, 72] = "Subtotal";
+                worksheet.Cells[Row, 73] = "IVA";
+                worksheet.Cells[Row, 74] = "TOTAL";
+                worksheet.Cells[Row, 75] = "Pendiente";
+                worksheet.Cells[Row, 76] = "Texto Extra 3";
+                worksheet.Cells[Row, 77] = "Afectado";
+                worksheet.Cells[Row, 78] = "Impreso";
+                worksheet.Cells[Row, 79] = "Cancelado";
+                worksheet.Cells[Row, 80] = "Total de unidades";
+                worksheet.Cells[Row, 81] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 82] = "Texto extra1";
+                worksheet.Cells[Row, 83] = "Nombre del concepto";
+
+                Row++;
+                #endregion
+
+                #region contenido
+                float total = 0;
+                float pendiente = 0;
+                for (int i = 0; i < ListDocmuentos.facturas.Count; i++)
+                {
+                    worksheet.Cells[Row, 1] = ListDocmuentos.facturas[i].Fecha;
+                    worksheet.Cells[Row, 2] = ListDocmuentos.facturas[i].Referencia;
+                    worksheet.Cells[Row, 3] = ListDocmuentos.facturas[i].Folio;
+                    worksheet.Cells[Row, 4] = ListDocmuentos.facturas[i].NombreAgente;
+                    worksheet.Cells[Row, 5] = ListDocmuentos.facturas[i].RazonSocial;
+                    worksheet.Cells[Row, 6] = ListDocmuentos.facturas[i].FechaVencimiento;
+                    worksheet.Cells[Row, 7] = ListDocmuentos.facturas[i].RFC;
+                    worksheet.Cells[Row, 8] = ListDocmuentos.facturas[i].Subtotal;
+                    worksheet.Cells[Row, 9] = ListDocmuentos.facturas[i].IVA;
+                    worksheet.Cells[Row, 10] = ListDocmuentos.facturas[i].Total;
+                    worksheet.Cells[Row, 11] = ListDocmuentos.facturas[i].Pendiente;
+                    worksheet.Cells[Row, 12] = ListDocmuentos.facturas[i].TextoExtra3;
+                    worksheet.Cells[Row, 13] = ListDocmuentos.facturas[i].Afectado;
+                    worksheet.Cells[Row, 14] = ListDocmuentos.facturas[i].Impreso;
+                    worksheet.Cells[Row, 15] = ListDocmuentos.facturas[i].Cancelado;
+                    worksheet.Cells[Row, 16] = ListDocmuentos.facturas[i].TotalUnidades;
+                    worksheet.Cells[Row, 17] = ListDocmuentos.facturas[i].Clasificacion2;
+                    worksheet.Cells[Row, 18] = ListDocmuentos.facturas[i].TextoExtra1;
+                    worksheet.Cells[Row, 19] = ListDocmuentos.facturas[i].NombreConcepto;
+                    total += ListDocmuentos.facturas[i].Total;
+                    pendiente += ListDocmuentos.facturas[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 10] = "$ " + total;
+                worksheet.Cells[2, 11] = "$ " + pendiente;
+
+                total = 0;
+                pendiente = 0;
+                Row = 5;
+
+                for (int i = 0; i < ListDocmuentos.facturas_dario.Count; i++)
+                {
+                    worksheet.Cells[Row, 23] = ListDocmuentos.facturas_dario[i].Fecha;
+                    worksheet.Cells[Row, 24] = ListDocmuentos.facturas_dario[i].Referencia;
+                    worksheet.Cells[Row, 25] = ListDocmuentos.facturas_dario[i].Folio;
+                    worksheet.Cells[Row, 26] = ListDocmuentos.facturas_dario[i].NombreAgente;
+                    worksheet.Cells[Row, 27] = ListDocmuentos.facturas_dario[i].RazonSocial;
+                    worksheet.Cells[Row, 28] = ListDocmuentos.facturas_dario[i].FechaVencimiento;
+                    worksheet.Cells[Row, 29] = ListDocmuentos.facturas_dario[i].RFC;
+                    worksheet.Cells[Row, 30] = ListDocmuentos.facturas_dario[i].Subtotal;
+                    worksheet.Cells[Row, 31] = ListDocmuentos.facturas_dario[i].IVA;
+                    worksheet.Cells[Row, 32] = ListDocmuentos.facturas_dario[i].Total;
+                    worksheet.Cells[Row, 33] = ListDocmuentos.facturas_dario[i].Pendiente;
+                    worksheet.Cells[Row, 34] = ListDocmuentos.facturas_dario[i].TextoExtra3;
+                    worksheet.Cells[Row, 35] = ListDocmuentos.facturas_dario[i].Afectado;
+                    worksheet.Cells[Row, 36] = ListDocmuentos.facturas_dario[i].Impreso;
+                    worksheet.Cells[Row, 37] = ListDocmuentos.facturas_dario[i].Cancelado;
+                    worksheet.Cells[Row, 38] = ListDocmuentos.facturas_dario[i].TotalUnidades;
+                    worksheet.Cells[Row, 39] = ListDocmuentos.facturas_dario[i].Clasificacion2;
+                    worksheet.Cells[Row, 40] = ListDocmuentos.facturas_dario[i].TextoExtra1;
+                    worksheet.Cells[Row, 41] = ListDocmuentos.facturas_dario[i].NombreConcepto;
+                    total += ListDocmuentos.facturas_dario[i].Total;
+                    pendiente += ListDocmuentos.facturas_dario[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 32] = "$ " + total;
+                worksheet.Cells[2, 33] = "$ " + pendiente;
+
+
+                total = 0;
+                pendiente = 0;
+                Row = 5;
+
+                for (int i = 0; i < ListDocmuentos.abonos_dario.Count; i++)
+                {
+                    worksheet.Cells[Row, 65] = ListDocmuentos.abonos_dario[i].Fecha;
+                    worksheet.Cells[Row, 66] = ListDocmuentos.abonos_dario[i].Referencia;
+                    worksheet.Cells[Row, 67] = ListDocmuentos.abonos_dario[i].Folio;
+                    worksheet.Cells[Row, 68] = ListDocmuentos.abonos_dario[i].NombreAgente;
+                    worksheet.Cells[Row, 69] = ListDocmuentos.abonos_dario[i].RazonSocial;
+                    worksheet.Cells[Row, 70] = ListDocmuentos.abonos_dario[i].FechaVencimiento;
+                    worksheet.Cells[Row, 71] = ListDocmuentos.abonos_dario[i].RFC;
+                    worksheet.Cells[Row, 72] = ListDocmuentos.abonos_dario[i].Subtotal;
+                    worksheet.Cells[Row, 73] = ListDocmuentos.abonos_dario[i].IVA;
+                    worksheet.Cells[Row, 74] = ListDocmuentos.abonos_dario[i].Total;
+                    worksheet.Cells[Row, 75] = ListDocmuentos.abonos_dario[i].Pendiente;
+                    worksheet.Cells[Row, 76] = ListDocmuentos.abonos_dario[i].TextoExtra3;
+                    worksheet.Cells[Row, 77] = ListDocmuentos.abonos_dario[i].Afectado;
+                    worksheet.Cells[Row, 78] = ListDocmuentos.abonos_dario[i].Impreso;
+                    worksheet.Cells[Row, 79] = ListDocmuentos.abonos_dario[i].Cancelado;
+                    worksheet.Cells[Row, 80] = ListDocmuentos.abonos_dario[i].TotalUnidades;
+                    worksheet.Cells[Row, 81] = ListDocmuentos.abonos_dario[i].Clasificacion2;
+                    worksheet.Cells[Row, 82] = ListDocmuentos.abonos_dario[i].TextoExtra1;
+                    worksheet.Cells[Row, 83] = ListDocmuentos.abonos_dario[i].NombreConcepto;
+                    total += ListDocmuentos.abonos_dario[i].Total;
+                    pendiente += ListDocmuentos.abonos_dario[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 74] = "$ " + total;
+                worksheet.Cells[2, 75] = "$ " + pendiente;
+
+
+
+                total = 0;
+                pendiente = 0;
+                Row = 5;
+
+                for (int i = 0; i < ListDocmuentos.abonos.Count; i++)
+                {
+                    worksheet.Cells[Row, 45] = ListDocmuentos.abonos[i].Fecha;
+                    worksheet.Cells[Row, 46] = ListDocmuentos.abonos[i].Referencia;
+                    worksheet.Cells[Row, 47] = ListDocmuentos.abonos[i].Folio;
+                    worksheet.Cells[Row, 48] = ListDocmuentos.abonos[i].NombreAgente;
+                    worksheet.Cells[Row, 49] = ListDocmuentos.abonos[i].RazonSocial;
+                    worksheet.Cells[Row, 50] = ListDocmuentos.abonos[i].FechaVencimiento;
+                    worksheet.Cells[Row, 51] = ListDocmuentos.abonos[i].RFC;
+                    worksheet.Cells[Row, 52] = ListDocmuentos.abonos[i].Subtotal;
+                    worksheet.Cells[Row, 53] = ListDocmuentos.abonos[i].IVA;
+                    worksheet.Cells[Row, 54] = ListDocmuentos.abonos[i].Total;
+                    worksheet.Cells[Row, 55] = ListDocmuentos.abonos[i].Pendiente;
+                    worksheet.Cells[Row, 56] = ListDocmuentos.abonos[i].TextoExtra3;
+                    worksheet.Cells[Row, 57] = ListDocmuentos.abonos[i].Afectado;
+                    worksheet.Cells[Row, 58] = ListDocmuentos.abonos[i].Impreso;
+                    worksheet.Cells[Row, 59] = ListDocmuentos.abonos[i].Cancelado;
+                    worksheet.Cells[Row, 60] = ListDocmuentos.abonos[i].TotalUnidades;
+                    worksheet.Cells[Row, 61] = ListDocmuentos.abonos[i].Clasificacion2;
+                    worksheet.Cells[Row, 62] = ListDocmuentos.abonos[i].TextoExtra1;
+                    worksheet.Cells[Row, 63] = ListDocmuentos.abonos[i].NombreConcepto;
+                    total += ListDocmuentos.abonos[i].Total;
+                    pendiente += ListDocmuentos.abonos[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 54] = "$ " + total;
+                worksheet.Cells[2, 55] = "$ " + pendiente;
+
+               
+
+                #endregion
+
+
+
+                #endregion
+
+
+
+
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        #endregion 
+
+        #region IMPRT EXCEL Manuel
+        public void excel_importMANUEL(Tipos_Datos_CRU.ListDatosMANUEL ListDocmuentos)
+        { //importar datos en excel
+            try
+            {
+
+
+                // creating Excel Application
+                Microsoft.Office.Interop.Excel._Application app = new Microsoft.Office.Interop.Excel.Application();
+                // creating new WorkBook within Excel application
+                Microsoft.Office.Interop.Excel._Workbook workbook = app.Workbooks.Add(Type.Missing);
+                // creating new Excelsheet in workbook
+                Microsoft.Office.Interop.Excel._Worksheet worksheet = null;
+                // see the excel sheet behind the program
+                app.Visible = true;
+                // get the reference of first sheet. By default its name is Sheet1.
+                // store its reference to worksheet
+                worksheet = workbook.Sheets["Hoja1"];
+                worksheet = workbook.ActiveSheet;
+                // changing the name of active sheet
+                worksheet.Name = "Admipaq";
+                int Row = 4;
+                //titulo
+                #region todo
+                Row = 4; //inicia a escribir en la fila 4
+                #region encabezados
+                worksheet.Cells[2, 5] = "facturas acumuladas";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 1] = "Fecha";
+                worksheet.Cells[Row, 2] = "Referencia";
+                worksheet.Cells[Row, 3] = "Folio";
+                worksheet.Cells[Row, 4] = "Nombre del agente";
+                worksheet.Cells[Row, 5] = "Razon social";
+                worksheet.Cells[Row, 6] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 7] = "RFC";
+                worksheet.Cells[Row, 8] = "Subtotal";
+                worksheet.Cells[Row, 9] = "IVA";
+                worksheet.Cells[Row, 10] = "TOTAL";
+                worksheet.Cells[Row, 11] = "Pendiente";
+                worksheet.Cells[Row, 12] = "Texto Extra 3";
+                worksheet.Cells[Row, 13] = "Afectado";
+                worksheet.Cells[Row, 14] = "Impreso";
+                worksheet.Cells[Row, 15] = "Cancelado";
+                worksheet.Cells[Row, 16] = "Total de unidades";
+                worksheet.Cells[Row, 17] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 18] = "Texto extra1";
+                worksheet.Cells[Row, 19] = "Nombre del concepto";
+
+                worksheet.Cells[2, 27] = "acumulado de compras";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 22] = "Fecha";
+                worksheet.Cells[Row, 24] = "Referencia";
+                worksheet.Cells[Row, 25] = "Folio";
+                worksheet.Cells[Row, 26] = "Nombre del agente";
+                worksheet.Cells[Row, 27] = "Razon social";
+                worksheet.Cells[Row, 28] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 29] = "RFC";
+                worksheet.Cells[Row, 30] = "Subtotal";
+                worksheet.Cells[Row, 31] = "IVA";
+                worksheet.Cells[Row, 32] = "TOTAL";
+                worksheet.Cells[Row, 33] = "Pendiente";
+                worksheet.Cells[Row, 34] = "Texto Extra 3";
+                worksheet.Cells[Row, 35] = "Afectado";
+                worksheet.Cells[Row, 36] = "Impreso";
+                worksheet.Cells[Row, 37] = "Cancelado";
+                worksheet.Cells[Row, 38] = "Total de unidades";
+                worksheet.Cells[Row, 39] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 40] = "Texto extra1";
+                worksheet.Cells[Row, 41] = "Nombre del concepto";
+
+                worksheet.Cells[2, 49] = "acumulado de pagos al proveedor";
+
+                //encabezados facturas
+                worksheet.Cells[Row, 45] = "Fecha";
+                worksheet.Cells[Row, 46] = "Referencia";
+                worksheet.Cells[Row, 47] = "Folio";
+                worksheet.Cells[Row, 48] = "Nombre del agente";
+                worksheet.Cells[Row, 49] = "Razon social";
+                worksheet.Cells[Row, 50] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 51] = "RFC";
+                worksheet.Cells[Row, 52] = "Subtotal";
+                worksheet.Cells[Row, 53] = "IVA";
+                worksheet.Cells[Row, 54] = "TOTAL";
+                worksheet.Cells[Row, 55] = "Pendiente";
+                worksheet.Cells[Row, 56] = "Texto Extra 3";
+                worksheet.Cells[Row, 57] = "Afectado";
+                worksheet.Cells[Row, 58] = "Impreso";
+                worksheet.Cells[Row, 59] = "Cancelado";
+                worksheet.Cells[Row, 60] = "Total de unidades";
+                worksheet.Cells[Row, 61] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 62] = "Texto extra1";
+                worksheet.Cells[Row, 63] = "Nombre del concepto";
+
+
+                Row++;
+                #endregion
+
+                #region contenido
+                float total = 0;
+                float pendiente = 0;
+                for (int i = 0; i < ListDocmuentos.facturas.Count; i++)
+                {
+                    worksheet.Cells[Row, 1] = ListDocmuentos.facturas[i].Fecha;
+                    worksheet.Cells[Row, 2] = ListDocmuentos.facturas[i].Referencia;
+                    worksheet.Cells[Row, 3] = ListDocmuentos.facturas[i].Folio;
+                    worksheet.Cells[Row, 4] = ListDocmuentos.facturas[i].NombreAgente;
+                    worksheet.Cells[Row, 5] = ListDocmuentos.facturas[i].RazonSocial;
+                    worksheet.Cells[Row, 6] = ListDocmuentos.facturas[i].FechaVencimiento;
+                    worksheet.Cells[Row, 7] = ListDocmuentos.facturas[i].RFC;
+                    worksheet.Cells[Row, 8] = ListDocmuentos.facturas[i].Subtotal;
+                    worksheet.Cells[Row, 9] = ListDocmuentos.facturas[i].IVA;
+                    worksheet.Cells[Row, 10] = ListDocmuentos.facturas[i].Total;
+                    worksheet.Cells[Row, 11] = ListDocmuentos.facturas[i].Pendiente;
+                    worksheet.Cells[Row, 12] = ListDocmuentos.facturas[i].TextoExtra3;
+                    worksheet.Cells[Row, 13] = ListDocmuentos.facturas[i].Afectado;
+                    worksheet.Cells[Row, 14] = ListDocmuentos.facturas[i].Impreso;
+                    worksheet.Cells[Row, 15] = ListDocmuentos.facturas[i].Cancelado;
+                    worksheet.Cells[Row, 16] = ListDocmuentos.facturas[i].TotalUnidades;
+                    worksheet.Cells[Row, 17] = ListDocmuentos.facturas[i].Clasificacion2;
+                    worksheet.Cells[Row, 18] = ListDocmuentos.facturas[i].TextoExtra1;
+                    worksheet.Cells[Row, 19] = ListDocmuentos.facturas[i].NombreConcepto;
+                    total += ListDocmuentos.facturas[i].Total;
+                    pendiente += ListDocmuentos.facturas[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 10] = "$ " + total;
+                worksheet.Cells[2, 11] = "$ " + pendiente;
+
+                total = 0;
+                pendiente = 0;
+                Row = 5;
+
+                for (int i = 0; i < ListDocmuentos.compras.Count; i++)
+                {
+                    worksheet.Cells[Row, 23] = ListDocmuentos.compras[i].Fecha;
+                    worksheet.Cells[Row, 24] = ListDocmuentos.compras[i].Referencia;
+                    worksheet.Cells[Row, 25] = ListDocmuentos.compras[i].Folio;
+                    worksheet.Cells[Row, 26] = ListDocmuentos.compras[i].NombreAgente;
+                    worksheet.Cells[Row, 27] = ListDocmuentos.compras[i].RazonSocial;
+                    worksheet.Cells[Row, 28] = ListDocmuentos.compras[i].FechaVencimiento;
+                    worksheet.Cells[Row, 29] = ListDocmuentos.compras[i].RFC;
+                    worksheet.Cells[Row, 30] = ListDocmuentos.compras[i].Subtotal;
+                    worksheet.Cells[Row, 31] = ListDocmuentos.compras[i].IVA;
+                    worksheet.Cells[Row, 32] = ListDocmuentos.compras[i].Total;
+                    worksheet.Cells[Row, 33] = ListDocmuentos.compras[i].Pendiente;
+                    worksheet.Cells[Row, 34] = ListDocmuentos.compras[i].TextoExtra3;
+                    worksheet.Cells[Row, 35] = ListDocmuentos.compras[i].Afectado;
+                    worksheet.Cells[Row, 36] = ListDocmuentos.compras[i].Impreso;
+                    worksheet.Cells[Row, 37] = ListDocmuentos.compras[i].Cancelado;
+                    worksheet.Cells[Row, 38] = ListDocmuentos.compras[i].TotalUnidades;
+                    worksheet.Cells[Row, 39] = ListDocmuentos.compras[i].Clasificacion2;
+                    worksheet.Cells[Row, 40] = ListDocmuentos.compras[i].TextoExtra1;
+                    worksheet.Cells[Row, 41] = ListDocmuentos.compras[i].NombreConcepto;
+                    total += ListDocmuentos.compras[i].Total;
+                    pendiente += ListDocmuentos.compras[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 32] = "$ " + total;
+                worksheet.Cells[2, 33] = "$ " + pendiente;
+
+                total = 0;
+                pendiente = 0;
+                Row = 5;
+
+                for (int i = 0; i < ListDocmuentos.pagosproveedor.Count; i++)
+                {
+                    worksheet.Cells[Row, 45] = ListDocmuentos.pagosproveedor[i].Fecha;
+                    worksheet.Cells[Row, 46] = ListDocmuentos.pagosproveedor[i].Referencia;
+                    worksheet.Cells[Row, 47] = ListDocmuentos.pagosproveedor[i].Folio;
+                    worksheet.Cells[Row, 48] = ListDocmuentos.pagosproveedor[i].NombreAgente;
+                    worksheet.Cells[Row, 49] = ListDocmuentos.pagosproveedor[i].RazonSocial;
+                    worksheet.Cells[Row, 50] = ListDocmuentos.pagosproveedor[i].FechaVencimiento;
+                    worksheet.Cells[Row, 51] = ListDocmuentos.pagosproveedor[i].RFC;
+                    worksheet.Cells[Row, 52] = ListDocmuentos.pagosproveedor[i].Subtotal;
+                    worksheet.Cells[Row, 53] = ListDocmuentos.pagosproveedor[i].IVA;
+                    worksheet.Cells[Row, 54] = ListDocmuentos.pagosproveedor[i].Total;
+                    worksheet.Cells[Row, 55] = ListDocmuentos.pagosproveedor[i].Pendiente;
+                    worksheet.Cells[Row, 56] = ListDocmuentos.pagosproveedor[i].TextoExtra3;
+                    worksheet.Cells[Row, 57] = ListDocmuentos.pagosproveedor[i].Afectado;
+                    worksheet.Cells[Row, 58] = ListDocmuentos.pagosproveedor[i].Impreso;
+                    worksheet.Cells[Row, 59] = ListDocmuentos.pagosproveedor[i].Cancelado;
+                    worksheet.Cells[Row, 60] = ListDocmuentos.pagosproveedor[i].TotalUnidades;
+                    worksheet.Cells[Row, 61] = ListDocmuentos.pagosproveedor[i].Clasificacion2;
+                    worksheet.Cells[Row, 62] = ListDocmuentos.pagosproveedor[i].TextoExtra1;
+                    worksheet.Cells[Row, 63] = ListDocmuentos.pagosproveedor[i].NombreConcepto;
+                    total += ListDocmuentos.pagosproveedor[i].Total;
+                    pendiente += ListDocmuentos.pagosproveedor[i].Pendiente;
+                    Row++;
+                }
+                worksheet.Cells[2, 54] = "$ " + total;
+                worksheet.Cells[2, 55] = "$ " + pendiente;
+
+                
+
+                #endregion
+
+
+
+                #endregion
+
+
+                
+
+
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
         #endregion 
     }
 }

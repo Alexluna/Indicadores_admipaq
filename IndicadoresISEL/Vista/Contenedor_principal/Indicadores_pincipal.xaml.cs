@@ -12,6 +12,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.Windows.Controls.Ribbon;
 using IndicadoresISEL.Vista.Facturas;
+using IndicadoresISEL.Vista.vista_OL;
+using IndicadoresISEL.Vista.isel_vista;
+using IndicadoresISEL.Vista.MANUEL_vista;
+
 
 namespace IndicadoresISEL.Vista.Contenedor_principal
 {
@@ -22,12 +26,17 @@ namespace IndicadoresISEL.Vista.Contenedor_principal
     {
         MainWindow mainwindow;//window de la principal
         facturacion factura;
-       
+        ol ol_vista;
+        isel isel_vista;
+        Manuel manuel_vita;
         public Indicadores_pincipal()
         {
             InitializeComponent();
             factura = new facturacion();
-            
+
+            ol_vista = new ol();
+            isel_vista = new isel();
+            manuel_vita = new Manuel();
             // Insert code required on object creation below this point.
         }
 
@@ -68,11 +77,61 @@ namespace IndicadoresISEL.Vista.Contenedor_principal
         }
 
 
-        
+
+        #endregion
+
+        #region Manuel
+        /// <summary>
+        /// click para user control de Manuel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Btnmanuel_Click(object sender, RoutedEventArgs e)
+        {
+            MarcarCasilla(Btnmanuel);
+            gridvista.Children.Clear();//limpio el contenido del grid
+            gridvista.Children.Add(manuel_vita);
+        }
+
+
+
         #endregion
 
 
+        #region OL
+        /// <summary>
+        /// click para user control de facturacion
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnOL_Click(object sender, RoutedEventArgs e)
+        {
+            MarcarCasilla(BtnOL);
+            gridvista.Children.Clear();//limpio el contenido del grid
+            gridvista.Children.Add(ol_vista);
+        }
 
+
+
+        #endregion
+
+
+        #region ISEL
+        /// <summary>
+        /// click para user control de facturacion
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnISEL_Click(object sender, RoutedEventArgs e)
+        {
+            MarcarCasilla(BtnISEL);
+            gridvista.Children.Clear();//limpio el contenido del grid
+            gridvista.Children.Add(isel_vista);
+        }
+
+
+
+        #endregion
        
 
 

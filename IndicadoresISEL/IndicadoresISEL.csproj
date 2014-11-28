@@ -85,6 +85,15 @@
     <Compile Include="Vista\CRU_vista\CRU.xaml.cs">
       <DependentUpon>CRU.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vista\isel_vista\isel.xaml.cs">
+      <DependentUpon>isel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vista\MANUEL_vista\Manuel.xaml.cs">
+      <DependentUpon>Manuel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vista\vista_OL\ol.xaml.cs">
+      <DependentUpon>ol.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -106,6 +115,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vista\CRU_vista\CRU.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vista\isel_vista\isel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vista\MANUEL_vista\Manuel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vista\vista_OL\ol.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -161,9 +182,7 @@
   <ItemGroup>
     <Resource Include="Imagenes\logo.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Vista\OL\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

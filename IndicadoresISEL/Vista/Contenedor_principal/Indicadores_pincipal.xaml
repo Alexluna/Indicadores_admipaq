@@ -21,15 +21,15 @@
                 </ribbon:RibbonGroup>
 
                 <ribbon:RibbonGroup x:Name="group_OL" Header="">
-                    <ribbon:RibbonButton x:Name="Btnol"  Label="OL" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/compras.ico" Click="Btnfacturacion_Click" />
+                    <ribbon:RibbonButton x:Name="BtnOL"  Label="OL" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/compras.ico" Click="BtnOL_Click" />
                 </ribbon:RibbonGroup>
 
                 <ribbon:RibbonGroup x:Name="group_ISEL" Header="">
-                    <ribbon:RibbonButton x:Name="BtnISEL"  Label="ISEL" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/abonos.ico" Click="Btnfacturacion_Click" />
+                    <ribbon:RibbonButton x:Name="BtnISEL"  Label="ISEL" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/abonos.ico" Click="BtnISEL_Click" />
                 </ribbon:RibbonGroup>
 
                 <ribbon:RibbonGroup x:Name="group_MANUEL" Header="">
-                    <ribbon:RibbonButton x:Name="BtnMANUEL"  Label="MANUEL" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/pagos.ico" Click="Btnfacturacion_Click" />
+                    <ribbon:RibbonButton x:Name="Btnmanuel"  Label="MANUEL" Tag="4" LargeImageSource="/IndicadoresISEL;component/Imagenes/pagos.ico" Click="Btnmanuel_Click" />
                 </ribbon:RibbonGroup>
 
             </ribbon:RibbonTab>

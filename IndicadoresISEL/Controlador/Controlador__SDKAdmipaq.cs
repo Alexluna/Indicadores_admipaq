@@ -123,7 +123,8 @@ namespace IndicadoresISEL.Controlador
                    // NombreConcepto = ModeloSDK.GetNombreConcepto(Convert.ToString(row[18])),
                     TotalUnidades = (float)(double)row[19],
                     CIDDOCUM02 = Convert.ToString(row[20]).Trim(),
-                    CIDCONCE01 = Convert.ToString(row[21]).Trim()
+                    CIDCONCE01 = Convert.ToString(row[21]).Trim(),
+                    
 
                 };
                 int posicion = -5;
@@ -406,10 +407,690 @@ namespace IndicadoresISEL.Controlador
         #endregion
 
 
-     
 
+
+        #region CONSULTAS OL
+        /// <summary>
+        /// consigue los documentos CRU
+        /// </summary>
+        /// <returns>regresa lo documentos leidos</returns>
+        public List<Tipos_Datos_CRU.CRU> get_Documentos_ol(string fechainicial, string fechafinal)
+        {
+            List<Tipos_Datos_CRU.get_agente> Listagentes = new List<Tipos_Datos_CRU.get_agente>();
+            List<Tipos_Datos_CRU.Cliente_Proveedor> Listclietneproveeodres = new List<Tipos_Datos_CRU.Cliente_Proveedor>();
+            List<Tipos_Datos_CRU.get_nom_concepto> Listnombconcepto = new List<Tipos_Datos_CRU.get_nom_concepto>();
+
+            List<Tipos_Datos_CRU.CRU> ListDocmuentos = new List<Tipos_Datos_CRU.CRU>();//Creo el objeto donde regresare los documentos
+            DataTable dtD = ModeloSDK.get_DocumentosOL(fechainicial, fechafinal);//obtengo los docuemtos en un datatable
+            if (dtD == null)//si tiene null siginifica que sucedio algun error 
+                return ListDocmuentos;//regresa la lista vacia
+            foreach (DataRow row in dtD.Rows)//recorro el databel
+            {//si estan entre el filtro de fechas almacenalas en la lista si no no realizar anda
+                //if (Convert.ToDateTime(row[7]) >= Convert.ToDateTime(fechainicial) && Convert.ToDateTime(row[7]) <= Convert.ToDateTime(fechafinal))
+                //{
+                Tipos_Datos_CRU.CRU newDocument = new Tipos_Datos_CRU.CRU()//crea el objeto para la lista
+                {
+                    IdDocumento = Convert.ToString(row[0]),
+                    Serie = Convert.ToString(row[1]),
+                    Folio = Convert.ToString(row[2]),
+                    IDAgente = Convert.ToString(row[3]),
+                    RazonSocial = Convert.ToString(row[4]),
+                    FechaVencimiento = Convert.ToString(row[5]),
+                    RFC = Convert.ToString(row[6]),
+                    Fecha = Convert.ToString(row[7]),
+                    Subtotal = (float)(double)row[8],
+                    Total = (float)(double)row[9],
+                    IVA = float.Parse(Math.Round((float)(double)row[9] - (float)(double)row[8], 2).ToString()),//redondea a 2 valores 
+                    Pendiente = (float)(double)row[10],
+                    TextoExtra1 = Convert.ToString(row[11]),
+                    TextoExtra2 = Convert.ToString(row[12]),
+                    TextoExtra3 = Convert.ToString(row[13]),
+                    Cancelado = Convert.ToString(row[14]),
+                    Impreso = Convert.ToString(row[15]),
+                    Afectado = Convert.ToString(row[16]),
+                    IDCliente = Convert.ToString(row[17]),
+                    IDNombreConcepto = Convert.ToString(row[18]),
+                    // NombreConcepto = ModeloSDK.GetNombreConcepto(Convert.ToString(row[18])),
+                    TotalUnidades = (float)(double)row[19],
+                    CIDDOCUM02 = Convert.ToString(row[20]).Trim(),
+                    CIDCONCE01 = Convert.ToString(row[21]).Trim(),
+                    Referencia = Convert.ToString(row[22])
+
+                };
+                int posicion = -5;
+                for (int i = 0; i < Listnombconcepto.Count; i++)
+                {
+                    if (Listnombconcepto[i].IDNombreConcepto == newDocument.IDNombreConcepto)
+                    {
+                        posicion = i;
+                        break;
+                    }
+                }
+                if (posicion < 0)
+                {
+                    Tipos_Datos_CRU.get_nom_concepto new_conept = new Tipos_Datos_CRU.get_nom_concepto
+                    {
+                        IDNombreConcepto = newDocument.IDNombreConcepto,
+                        nombre_concepto = ModeloSDK.GetNombreConcepto(Convert.ToString(newDocument.IDNombreConcepto))
+                    };
+                    Listnombconcepto.Add(new_conept);
+                }
+                else
+                {
+                    newDocument.NombreConcepto = Listnombconcepto[posicion].nombre_concepto;
+                }
+                //List<Tipos_Datos_CRU.get_agente> Listagentes = new List<Tipos_Datos_CRU.get_agente>();
+                posicion = -5;
+                Tipos_Datos_CRU.get_agente get_agente = new Tipos_Datos_CRU.get_agente();
+                for (int i = 0; i < Listagentes.Count; i++)//checa si ya tengo ese dato si lo tengo no lo mandes a pedir y solo
+                {
+                    if (Listagentes[i].IDAgente == newDocument.IDAgente)
+                    {
+                        posicion = i;
+                        break;
+                    }
+                }
+                if (posicion < 0)
+                {
+                    DataRow rowagente = ModeloSDK.GETNombreAgente(newDocument.IDAgente);//obtengo el nombre y coidgo del agente
+                    if (rowagente != null)//si regresa null significa que existio algun error y por lo cual no ara nada
+                    {
+                        Tipos_Datos_CRU.get_agente newagente = new Tipos_Datos_CRU.get_agente
+                        {
+                            CodigoAgente = Convert.ToString(rowagente[0]),
+                            NombreAgente = Convert.ToString(rowagente[1]),
+                            IDAgente = newDocument.IDAgente.Trim()
+                        };
+                        Listagentes.Add(newagente);
+
+                        newDocument.CodigoAgente = Convert.ToString(rowagente[0]);
+                        newDocument.NombreAgente = Convert.ToString(rowagente[1]);
+                    }
+                }
+                else
+                {
+                    newDocument.CodigoAgente = Listagentes[posicion].CodigoAgente;
+                    newDocument.NombreAgente = Listagentes[posicion].NombreAgente;
+                }
+                //se necesitan sacar los datos del cliente/proveedor
+                posicion = -5;
+
+                for (int i = 0; i < Listclietneproveeodres.Count; i++)
+                {
+                    if (Listclietneproveeodres[i].IDCliente == newDocument.IDCliente)
+                    {
+                        posicion = i;
+                        break;
+                    }
+                }
+
+                if (posicion < 0)
+                {
+                    DataRow rowClientePRoveedor = ModeloSDK.GETCLientePRoveedor(newDocument.IDCliente);
+                    if (rowClientePRoveedor != null)//Saca ñps datos del cliente/proveedor si es que existe
+                    {
+                        Tipos_Datos_CRU.Cliente_Proveedor Proveedor = new Tipos_Datos_CRU.Cliente_Proveedor()
+                        {
+                            CodigoCliente = Convert.ToString(rowClientePRoveedor[0]),
+                            RazonSocial = Convert.ToString(rowClientePRoveedor[1]),
+                            ValorClasificación1 = Convert.ToString(rowClientePRoveedor[2]),
+                            ValorClasificación2 = Convert.ToString(rowClientePRoveedor[3]),
+                            ValorClasificación3 = Convert.ToString(rowClientePRoveedor[4]),
+                            Clasificación1 = ModeloSDK.GetValoresClasificacionClientesPRoveedores(Convert.ToString(rowClientePRoveedor[2])),
+                            Clasificación2 = ModeloSDK.GetValoresClasificacionClientesPRoveedores(Convert.ToString(rowClientePRoveedor[3])),
+                            Clasificación3 = ModeloSDK.GetValoresClasificacionClientesPRoveedores(Convert.ToString(rowClientePRoveedor[4])),
+                            IDCliente = newDocument.IDCliente
+
+                        };
+                        Listclietneproveeodres.Add(Proveedor);
+                        newDocument.proveedor = Proveedor;
+                    }
+                    else
+                    {
+                        newDocument.proveedor = null;//sino existen almacena un null
+                    }
+                }
+                else
+                {
+                    newDocument.proveedor = Listclietneproveeodres[posicion];
+                }
+                ListDocmuentos.Add(newDocument);
+                
+            }
+            return ListDocmuentos;//regresa la lista
+        }
+
+
+
+        /// <summary>
+        /// como se obtienen todo los datos de golpe ahora divide todos en su lugar correspondiente
+        /// </summary>
+        /// <param name="ListDocumentos">lista de todos los datos obenidos</param>
+        /// <param name="RFCPublico">filtor para RFC publico</param>
+        /// <param name="RFCOl">rfc ol</param>
+        /// <param name="RFCAnji">rfca para anji</param>
+        /// <returns>regresa un objeto con los datos dividiso</returns>
+        public Tipos_Datos_CRU.ListDatosOL filtro_indicadores_ol_tipo(List<Tipos_Datos_CRU.CRU> ListDocumentos, string RFCPublico, string RFCcru, string RFCmanuel)
+        {
+            Tipos_Datos_CRU.ListDatosOL filtro_suc = new Tipos_Datos_CRU.ListDatosOL();
+
+              List<Tipos_Datos_CRU.CRU> facturas = new List<Tipos_Datos_CRU.CRU>();
+             List<Tipos_Datos_CRU.CRU> facturas_publico= new List<Tipos_Datos_CRU.CRU>();
+             List<Tipos_Datos_CRU.CRU> facturas_clientes_plazas= new List<Tipos_Datos_CRU.CRU>();
+             List<Tipos_Datos_CRU.CRU> facturas_por_plazas= new List<Tipos_Datos_CRU.CRU>(); //ok
+             List<Tipos_Datos_CRU.CRU> abonos= new List<Tipos_Datos_CRU.CRU>();
+             List<Tipos_Datos_CRU.CRU> abonos_publico= new List<Tipos_Datos_CRU.CRU>();
+             List<Tipos_Datos_CRU.CRU> abonos_plazas= new List<Tipos_Datos_CRU.CRU>();
+             List<Tipos_Datos_CRU.CRU> compras= new List<Tipos_Datos_CRU.CRU>();
+             List<Tipos_Datos_CRU.CRU> compras_cru= new List<Tipos_Datos_CRU.CRU>();
+             List<Tipos_Datos_CRU.CRU> compras_manuel= new List<Tipos_Datos_CRU.CRU>();
+             List<Tipos_Datos_CRU.CRU> pagos_proveedor= new List<Tipos_Datos_CRU.CRU>();
+             List<Tipos_Datos_CRU.CRU> pagos_proveedor_cru= new List<Tipos_Datos_CRU.CRU>();
+             List<Tipos_Datos_CRU.CRU> pagos_proveedor_manuel = new List<Tipos_Datos_CRU.CRU>();
+
+            filtro_suc.facturas = facturas;
+            filtro_suc.facturas_publico = facturas_publico;
+            filtro_suc.facturas_clientes_plazas = facturas_clientes_plazas;
+            filtro_suc.facturas_por_plazas = facturas_por_plazas;
+            filtro_suc.abonos = abonos;
+            filtro_suc.abonos_publico = abonos_publico;
+            filtro_suc.abonos_plazas = abonos_plazas;
+            filtro_suc.compras = compras;
+            filtro_suc.compras_cru = compras_cru;
+            filtro_suc.compras_manuel = compras_manuel;
+            filtro_suc.pagos_proveedor = pagos_proveedor;
+            filtro_suc.pagos_proveedor_cru = pagos_proveedor_cru;
+            filtro_suc.pagos_proveedor_manuel = pagos_proveedor_manuel;
+
+            for (int i = 0; i < ListDocumentos.Count; i++)
+            {
+                Tipos_Datos_CRU.CRU new_data = new Tipos_Datos_CRU.CRU();
+                new_data = ListDocumentos[i];
+                if (ListDocumentos[i].CIDDOCUM02.Trim() == "4")
+                {//significa que es una factura 
+                    facturas.Add(new_data);
+                    facturas_por_plazas.Add(new_data);
+                    if (ListDocumentos[i].RazonSocial.ToUpper().Trim().Equals(RFCPublico.ToUpper().Trim()))
+                    {
+                        facturas_publico.Add(new_data);
+                    }
+                    else { facturas_clientes_plazas.Add(new_data); }
+                }//comopara ABONOS
+                else if (ListDocumentos[i].CIDDOCUM02.Trim() == "12" && ListDocumentos[i].CIDCONCE01.Trim() == "13")
+                {
+                    abonos.Add(new_data);
+                    if (ListDocumentos[i].RazonSocial.ToUpper().Trim().Equals(RFCPublico.ToUpper().Trim()))
+                    {
+                        abonos_publico.Add(new_data);
+                    }
+                    else { abonos_plazas.Add(new_data); }
+                } //COMPRAS
+                else if (ListDocumentos[i].CIDDOCUM02.Trim() == "19" && ListDocumentos[i].CIDCONCE01.Trim() == "21")
+                {
+                    compras.Add(new_data);
+                    if (ListDocumentos[i].RazonSocial.ToUpper().Trim().Equals(RFCcru.ToUpper().Trim()))
+                    {
+                        compras_cru.Add(new_data);
+                    }
+                    else if (ListDocumentos[i].RazonSocial.ToUpper().Trim().Equals(RFCmanuel.ToUpper().Trim()))
+                    { compras_manuel.Add(new_data); }
+                }//PAGOS PROVEEDORES
+                else if (ListDocumentos[i].CIDDOCUM02.Trim() == "23" && ListDocumentos[i].CIDCONCE01.Trim() == "25")
+                {
+                    pagos_proveedor.Add(new_data);
+                    if (ListDocumentos[i].RazonSocial.ToUpper().Trim().Equals(RFCcru.ToUpper().Trim()))
+                    {
+                        pagos_proveedor_cru.Add(new_data);
+                    }
+                    else if (ListDocumentos[i].RazonSocial.ToUpper().Trim().Equals(RFCmanuel.ToUpper().Trim()))
+                    { pagos_proveedor_manuel.Add(new_data); }
+                }
+
+
+            }
+
+            facturas_por_plazas.Sort(delegate(Tipos_Datos_CRU.CRU x, Tipos_Datos_CRU.CRU y)
+            {
+                if (x.Referencia == null && y.Referencia == null) return 0;
+                else if (x.Referencia == null) return -1;
+                else if (y.Referencia == null) return 1;
+                else return x.Referencia.CompareTo(y.Referencia);
+            });    
         
+            return filtro_suc;
+        }
 
+
+
+
+
+
+        #endregion
+
+
+
+        #region CONSULTAS MANUEL
+        /// <summary>
+        /// consigue los documentos CRU
+        /// </summary>
+        /// <returns>regresa lo documentos leidos</returns>
+        public List<Tipos_Datos_CRU.CRU> get_Documentos_manuel(string fechainicial, string fechafinal)
+        {
+            List<Tipos_Datos_CRU.get_agente> Listagentes = new List<Tipos_Datos_CRU.get_agente>();
+            List<Tipos_Datos_CRU.Cliente_Proveedor> Listclietneproveeodres = new List<Tipos_Datos_CRU.Cliente_Proveedor>();
+            List<Tipos_Datos_CRU.get_nom_concepto> Listnombconcepto = new List<Tipos_Datos_CRU.get_nom_concepto>();
+
+            List<Tipos_Datos_CRU.CRU> ListDocmuentos = new List<Tipos_Datos_CRU.CRU>();//Creo el objeto donde regresare los documentos
+            DataTable dtD = ModeloSDK.get_Documentosmanuel(fechainicial, fechafinal);//obtengo los docuemtos en un datatable
+            if (dtD == null)//si tiene null siginifica que sucedio algun error 
+                return ListDocmuentos;//regresa la lista vacia
+            foreach (DataRow row in dtD.Rows)//recorro el databel
+            {//si estan entre el filtro de fechas almacenalas en la lista si no no realizar anda
+                //if (Convert.ToDateTime(row[7]) >= Convert.ToDateTime(fechainicial) && Convert.ToDateTime(row[7]) <= Convert.ToDateTime(fechafinal))
+                //{
+                Tipos_Datos_CRU.CRU newDocument = new Tipos_Datos_CRU.CRU()//crea el objeto para la lista
+                {
+                    IdDocumento = Convert.ToString(row[0]),
+                    Serie = Convert.ToString(row[1]),
+                    Folio = Convert.ToString(row[2]),
+                    IDAgente = Convert.ToString(row[3]),
+                    RazonSocial = Convert.ToString(row[4]),
+                    FechaVencimiento = Convert.ToString(row[5]),
+                    RFC = Convert.ToString(row[6]),
+                    Fecha = Convert.ToString(row[7]),
+                    Subtotal = (float)(double)row[8],
+                    Total = (float)(double)row[9],
+                    IVA = float.Parse(Math.Round((float)(double)row[9] - (float)(double)row[8], 2).ToString()),//redondea a 2 valores 
+                    Pendiente = (float)(double)row[10],
+                    TextoExtra1 = Convert.ToString(row[11]),
+                    TextoExtra2 = Convert.ToString(row[12]),
+                    TextoExtra3 = Convert.ToString(row[13]),
+                    Cancelado = Convert.ToString(row[14]),
+                    Impreso = Convert.ToString(row[15]),
+                    Afectado = Convert.ToString(row[16]),
+                    IDCliente = Convert.ToString(row[17]),
+                    IDNombreConcepto = Convert.ToString(row[18]),
+                    // NombreConcepto = ModeloSDK.GetNombreConcepto(Convert.ToString(row[18])),
+                    TotalUnidades = (float)(double)row[19],
+                    CIDDOCUM02 = Convert.ToString(row[20]).Trim(),
+                    CIDCONCE01 = Convert.ToString(row[21]).Trim(),
+                    Referencia = Convert.ToString(row[22])
+
+                };
+                int posicion = -5;
+                for (int i = 0; i < Listnombconcepto.Count; i++)
+                {
+                    if (Listnombconcepto[i].IDNombreConcepto == newDocument.IDNombreConcepto)
+                    {
+                        posicion = i;
+                        break;
+                    }
+                }
+                if (posicion < 0)
+                {
+                    Tipos_Datos_CRU.get_nom_concepto new_conept = new Tipos_Datos_CRU.get_nom_concepto
+                    {
+                        IDNombreConcepto = newDocument.IDNombreConcepto,
+                        nombre_concepto = ModeloSDK.GetNombreConcepto(Convert.ToString(newDocument.IDNombreConcepto))
+                    };
+                    Listnombconcepto.Add(new_conept);
+                }
+                else
+                {
+                    newDocument.NombreConcepto = Listnombconcepto[posicion].nombre_concepto;
+                }
+                //List<Tipos_Datos_CRU.get_agente> Listagentes = new List<Tipos_Datos_CRU.get_agente>();
+                posicion = -5;
+                Tipos_Datos_CRU.get_agente get_agente = new Tipos_Datos_CRU.get_agente();
+                for (int i = 0; i < Listagentes.Count; i++)//checa si ya tengo ese dato si lo tengo no lo mandes a pedir y solo
+                {
+                    if (Listagentes[i].IDAgente == newDocument.IDAgente)
+                    {
+                        posicion = i;
+                        break;
+                    }
+                }
+                if (posicion < 0)
+                {
+                    DataRow rowagente = ModeloSDK.GETNombreAgente(newDocument.IDAgente);//obtengo el nombre y coidgo del agente
+                    if (rowagente != null)//si regresa null significa que existio algun error y por lo cual no ara nada
+                    {
+                        Tipos_Datos_CRU.get_agente newagente = new Tipos_Datos_CRU.get_agente
+                        {
+                            CodigoAgente = Convert.ToString(rowagente[0]),
+                            NombreAgente = Convert.ToString(rowagente[1]),
+                            IDAgente = newDocument.IDAgente.Trim()
+                        };
+                        Listagentes.Add(newagente);
+
+                        newDocument.CodigoAgente = Convert.ToString(rowagente[0]);
+                        newDocument.NombreAgente = Convert.ToString(rowagente[1]);
+                    }
+                }
+                else
+                {
+                    newDocument.CodigoAgente = Listagentes[posicion].CodigoAgente;
+                    newDocument.NombreAgente = Listagentes[posicion].NombreAgente;
+                }
+                //se necesitan sacar los datos del cliente/proveedor
+                posicion = -5;
+
+                for (int i = 0; i < Listclietneproveeodres.Count; i++)
+                {
+                    if (Listclietneproveeodres[i].IDCliente == newDocument.IDCliente)
+                    {
+                        posicion = i;
+                        break;
+                    }
+                }
+
+                if (posicion < 0)
+                {
+                    DataRow rowClientePRoveedor = ModeloSDK.GETCLientePRoveedor(newDocument.IDCliente);
+                    if (rowClientePRoveedor != null)//Saca ñps datos del cliente/proveedor si es que existe
+                    {
+                        Tipos_Datos_CRU.Cliente_Proveedor Proveedor = new Tipos_Datos_CRU.Cliente_Proveedor()
+                        {
+                            CodigoCliente = Convert.ToString(rowClientePRoveedor[0]),
+                            RazonSocial = Convert.ToString(rowClientePRoveedor[1]),
+                            ValorClasificación1 = Convert.ToString(rowClientePRoveedor[2]),
+                            ValorClasificación2 = Convert.ToString(rowClientePRoveedor[3]),
+                            ValorClasificación3 = Convert.ToString(rowClientePRoveedor[4]),
+                            Clasificación1 = ModeloSDK.GetValoresClasificacionClientesPRoveedores(Convert.ToString(rowClientePRoveedor[2])),
+                            Clasificación2 = ModeloSDK.GetValoresClasificacionClientesPRoveedores(Convert.ToString(rowClientePRoveedor[3])),
+                            Clasificación3 = ModeloSDK.GetValoresClasificacionClientesPRoveedores(Convert.ToString(rowClientePRoveedor[4])),
+                            IDCliente = newDocument.IDCliente
+
+                        };
+                        Listclietneproveeodres.Add(Proveedor);
+                        newDocument.proveedor = Proveedor;
+                    }
+                    else
+                    {
+                        newDocument.proveedor = null;//sino existen almacena un null
+                    }
+                }
+                else
+                {
+                    newDocument.proveedor = Listclietneproveeodres[posicion];
+                }
+                ListDocmuentos.Add(newDocument);
+
+            }
+            return ListDocmuentos;//regresa la lista
+        }
+
+
+
+        /// <summary>
+        /// como se obtienen todo los datos de golpe ahora divide todos en su lugar correspondiente
+        /// </summary>
+        /// <param name="ListDocumentos">lista de todos los datos obenidos</param>
+        /// <param name="RFCPublico">filtor para RFC publico</param>
+        /// <param name="RFCOl">rfc ol</param>
+        /// <param name="RFCAnji">rfca para anji</param>
+        /// <returns>regresa un objeto con los datos dividiso</returns>
+        public Tipos_Datos_CRU.ListDatosMANUEL filtro_indicadores_manuel_tipo(List<Tipos_Datos_CRU.CRU> ListDocumentos)
+        {
+            Tipos_Datos_CRU.ListDatosMANUEL filtro_suc = new Tipos_Datos_CRU.ListDatosMANUEL();
+
+             List<Tipos_Datos_CRU.CRU> facturas= new List<Tipos_Datos_CRU.CRU>();
+             List<Tipos_Datos_CRU.CRU> compras= new List<Tipos_Datos_CRU.CRU>();
+             List<Tipos_Datos_CRU.CRU> pagosproveedor = new List<Tipos_Datos_CRU.CRU>();
+
+             filtro_suc.facturas = facturas;
+             filtro_suc.compras = compras;
+             filtro_suc.pagosproveedor = pagosproveedor;
+
+            for (int i = 0; i < ListDocumentos.Count; i++)
+            {
+                Tipos_Datos_CRU.CRU new_data = new Tipos_Datos_CRU.CRU();
+                new_data = ListDocumentos[i];
+                if (ListDocumentos[i].CIDDOCUM02.Trim() == "4")
+                {//significa que es una factura 
+                    facturas.Add(new_data);
+                } //COMPRAS
+                else if (ListDocumentos[i].CIDDOCUM02.Trim() == "19" && ListDocumentos[i].CIDCONCE01.Trim() == "21")
+                {
+                    compras.Add(new_data);                    
+                }//PAGOS PROVEEDORES
+                else if (ListDocumentos[i].CIDDOCUM02.Trim() == "23" && ListDocumentos[i].CIDCONCE01.Trim() == "25")
+                {
+                    pagosproveedor.Add(new_data);
+                    
+                }
+
+
+            }
+
+            
+
+            return filtro_suc;
+        }
+
+
+
+
+
+
+        #endregion
+
+
+
+
+        #region CONSULTAS ISEL
+        /// <summary>
+        /// consigue los documentos CRU
+        /// </summary>
+        /// <returns>regresa lo documentos leidos</returns>
+        public List<Tipos_Datos_CRU.CRU> get_Documentos_isel(string fechainicial, string fechafinal)
+        {
+            List<Tipos_Datos_CRU.get_agente> Listagentes = new List<Tipos_Datos_CRU.get_agente>();
+            List<Tipos_Datos_CRU.Cliente_Proveedor> Listclietneproveeodres = new List<Tipos_Datos_CRU.Cliente_Proveedor>();
+            List<Tipos_Datos_CRU.get_nom_concepto> Listnombconcepto = new List<Tipos_Datos_CRU.get_nom_concepto>();
+
+            List<Tipos_Datos_CRU.CRU> ListDocmuentos = new List<Tipos_Datos_CRU.CRU>();//Creo el objeto donde regresare los documentos
+            DataTable dtD = ModeloSDK.get_DocumentosISEL(fechainicial, fechafinal);//obtengo los docuemtos en un datatable
+            if (dtD == null)//si tiene null siginifica que sucedio algun error 
+                return ListDocmuentos;//regresa la lista vacia
+            foreach (DataRow row in dtD.Rows)//recorro el databel
+            {//si estan entre el filtro de fechas almacenalas en la lista si no no realizar anda
+                //if (Convert.ToDateTime(row[7]) >= Convert.ToDateTime(fechainicial) && Convert.ToDateTime(row[7]) <= Convert.ToDateTime(fechafinal))
+                //{
+                Tipos_Datos_CRU.CRU newDocument = new Tipos_Datos_CRU.CRU()//crea el objeto para la lista
+                {
+                    IdDocumento = Convert.ToString(row[0]),
+                    Serie = Convert.ToString(row[1]),
+                    Folio = Convert.ToString(row[2]),
+                    IDAgente = Convert.ToString(row[3]),
+                    RazonSocial = Convert.ToString(row[4]),
+                    FechaVencimiento = Convert.ToString(row[5]),
+                    RFC = Convert.ToString(row[6]),
+                    Fecha = Convert.ToString(row[7]),
+                    Subtotal = (float)(double)row[8],
+                    Total = (float)(double)row[9],
+                    IVA = float.Parse(Math.Round((float)(double)row[9] - (float)(double)row[8], 2).ToString()),//redondea a 2 valores 
+                    Pendiente = (float)(double)row[10],
+                    TextoExtra1 = Convert.ToString(row[11]),
+                    TextoExtra2 = Convert.ToString(row[12]),
+                    TextoExtra3 = Convert.ToString(row[13]),
+                    Cancelado = Convert.ToString(row[14]),
+                    Impreso = Convert.ToString(row[15]),
+                    Afectado = Convert.ToString(row[16]),
+                    IDCliente = Convert.ToString(row[17]),
+                    IDNombreConcepto = Convert.ToString(row[18]),
+                    // NombreConcepto = ModeloSDK.GetNombreConcepto(Convert.ToString(row[18])),
+                    TotalUnidades = (float)(double)row[19],
+                    CIDDOCUM02 = Convert.ToString(row[20]).Trim(),
+                    CIDCONCE01 = Convert.ToString(row[21]).Trim(),
+                    Referencia = Convert.ToString(row[22])
+
+                };
+                int posicion = -5;
+                for (int i = 0; i < Listnombconcepto.Count; i++)
+                {
+                    if (Listnombconcepto[i].IDNombreConcepto == newDocument.IDNombreConcepto)
+                    {
+                        posicion = i;
+                        break;
+                    }
+                }
+                if (posicion < 0)
+                {
+                    Tipos_Datos_CRU.get_nom_concepto new_conept = new Tipos_Datos_CRU.get_nom_concepto
+                    {
+                        IDNombreConcepto = newDocument.IDNombreConcepto,
+                        nombre_concepto = ModeloSDK.GetNombreConcepto(Convert.ToString(newDocument.IDNombreConcepto))
+                    };
+                    Listnombconcepto.Add(new_conept);
+                }
+                else
+                {
+                    newDocument.NombreConcepto = Listnombconcepto[posicion].nombre_concepto;
+                }
+                //List<Tipos_Datos_CRU.get_agente> Listagentes = new List<Tipos_Datos_CRU.get_agente>();
+                posicion = -5;
+                Tipos_Datos_CRU.get_agente get_agente = new Tipos_Datos_CRU.get_agente();
+                for (int i = 0; i < Listagentes.Count; i++)//checa si ya tengo ese dato si lo tengo no lo mandes a pedir y solo
+                {
+                    if (Listagentes[i].IDAgente == newDocument.IDAgente)
+                    {
+                        posicion = i;
+                        break;
+                    }
+                }
+                if (posicion < 0)
+                {
+                    DataRow rowagente = ModeloSDK.GETNombreAgente(newDocument.IDAgente);//obtengo el nombre y coidgo del agente
+                    if (rowagente != null)//si regresa null significa que existio algun error y por lo cual no ara nada
+                    {
+                        Tipos_Datos_CRU.get_agente newagente = new Tipos_Datos_CRU.get_agente
+                        {
+                            CodigoAgente = Convert.ToString(rowagente[0]),
+                            NombreAgente = Convert.ToString(rowagente[1]),
+                            IDAgente = newDocument.IDAgente.Trim()
+                        };
+                        Listagentes.Add(newagente);
+
+                        newDocument.CodigoAgente = Convert.ToString(rowagente[0]);
+                        newDocument.NombreAgente = Convert.ToString(rowagente[1]);
+                    }
+                }
+                else
+                {
+                    newDocument.CodigoAgente = Listagentes[posicion].CodigoAgente;
+                    newDocument.NombreAgente = Listagentes[posicion].NombreAgente;
+                }
+                //se necesitan sacar los datos del cliente/proveedor
+                posicion = -5;
+
+                for (int i = 0; i < Listclietneproveeodres.Count; i++)
+                {
+                    if (Listclietneproveeodres[i].IDCliente == newDocument.IDCliente)
+                    {
+                        posicion = i;
+                        break;
+                    }
+                }
+
+                if (posicion < 0)
+                {
+                    DataRow rowClientePRoveedor = ModeloSDK.GETCLientePRoveedor(newDocument.IDCliente);
+                    if (rowClientePRoveedor != null)//Saca ñps datos del cliente/proveedor si es que existe
+                    {
+                        Tipos_Datos_CRU.Cliente_Proveedor Proveedor = new Tipos_Datos_CRU.Cliente_Proveedor()
+                        {
+                            CodigoCliente = Convert.ToString(rowClientePRoveedor[0]),
+                            RazonSocial = Convert.ToString(rowClientePRoveedor[1]),
+                            ValorClasificación1 = Convert.ToString(rowClientePRoveedor[2]),
+                            ValorClasificación2 = Convert.ToString(rowClientePRoveedor[3]),
+                            ValorClasificación3 = Convert.ToString(rowClientePRoveedor[4]),
+                            Clasificación1 = ModeloSDK.GetValoresClasificacionClientesPRoveedores(Convert.ToString(rowClientePRoveedor[2])),
+                            Clasificación2 = ModeloSDK.GetValoresClasificacionClientesPRoveedores(Convert.ToString(rowClientePRoveedor[3])),
+                            Clasificación3 = ModeloSDK.GetValoresClasificacionClientesPRoveedores(Convert.ToString(rowClientePRoveedor[4])),
+                            IDCliente = newDocument.IDCliente
+
+                        };
+                        Listclietneproveeodres.Add(Proveedor);
+                        newDocument.proveedor = Proveedor;
+                    }
+                    else
+                    {
+                        newDocument.proveedor = null;//sino existen almacena un null
+                    }
+                }
+                else
+                {
+                    newDocument.proveedor = Listclietneproveeodres[posicion];
+                }
+                ListDocmuentos.Add(newDocument);
+
+            }
+            return ListDocmuentos;//regresa la lista
+        }
+
+
+
+        /// <summary>
+        /// como se obtienen todo los datos de golpe ahora divide todos en su lugar correspondiente
+        /// </summary>
+        /// <param name="ListDocumentos">lista de todos los datos obenidos</param>
+        /// <param name="RFCPublico">filtor para RFC publico</param>
+        /// <param name="RFCOl">rfc ol</param>
+        /// <param name="RFCAnji">rfca para anji</param>
+        /// <returns>regresa un objeto con los datos dividiso</returns>
+        public Tipos_Datos_CRU.ListDatosISEL filtro_indicadores_ISEL_tipo(List<Tipos_Datos_CRU.CRU> ListDocumentos, string RFCdario)
+        {
+            Tipos_Datos_CRU.ListDatosISEL filtro_suc = new Tipos_Datos_CRU.ListDatosISEL();
+
+            List<Tipos_Datos_CRU.CRU> facturas = new List<Tipos_Datos_CRU.CRU>();
+            List<Tipos_Datos_CRU.CRU> facturas_dario = new List<Tipos_Datos_CRU.CRU>();
+            List<Tipos_Datos_CRU.CRU> abonos = new List<Tipos_Datos_CRU.CRU>();
+            List<Tipos_Datos_CRU.CRU> abonos_dario = new List<Tipos_Datos_CRU.CRU>();
+
+
+
+            filtro_suc.facturas = facturas;
+            filtro_suc.facturas_dario = facturas_dario;
+            filtro_suc.abonos = abonos;
+            filtro_suc.abonos_dario = abonos_dario;
+
+
+            for (int i = 0; i < ListDocumentos.Count; i++)
+            {
+                Tipos_Datos_CRU.CRU new_data = new Tipos_Datos_CRU.CRU();
+                new_data = ListDocumentos[i];
+                if (ListDocumentos[i].CIDDOCUM02.Trim() == "4")
+                {
+                    facturas.Add(new_data);
+                    if (ListDocumentos[i].RazonSocial.ToUpper().Trim().Equals(RFCdario.ToUpper().Trim()))
+                    {
+                        facturas_dario.Add(new_data);
+                    }
+
+                }
+                else {
+                    abonos.Add(new_data);
+                    if (ListDocumentos[i].RazonSocial.ToUpper().Trim().Equals(RFCdario.ToUpper().Trim()))
+                    {
+                        abonos_dario.Add(new_data);
+                    }
+
+                } 
+                
+            }
+
+           
+
+            return filtro_suc;
+        }
+
+
+
+
+
+
+        #endregion
 
         #region CONSULTAS productos
         /// <summary>
