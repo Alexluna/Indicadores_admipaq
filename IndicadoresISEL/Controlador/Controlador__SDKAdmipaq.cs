@@ -302,6 +302,7 @@ namespace IndicadoresISEL.Controlador
              List<Tipos_Datos_CRU.CRU> abonos_zona_norte= new List<Tipos_Datos_CRU.CRU>();
              List<Tipos_Datos_CRU.CRU> abonos_zona_centro= new List<Tipos_Datos_CRU.CRU>();
              List<Tipos_Datos_CRU.CRU> abonos_zona_sur = new List<Tipos_Datos_CRU.CRU>();
+             List<Tipos_Datos_CRU.CRU> abonos_zona_cuatro = new List<Tipos_Datos_CRU.CRU>();
 
 
              filtro_suc.facturas = facturas;
@@ -321,6 +322,7 @@ namespace IndicadoresISEL.Controlador
              filtro_suc.abonos_zona_norte = abonos_zona_norte;
              filtro_suc.abonos_zona_centro = abonos_zona_centro;
              filtro_suc.abonos_zona_sur = abonos_zona_sur;
+             filtro_suc.abonos_zona_cuatro = abonos_zona_cuatro;
             for (int i = 0; i < ListDocumentos.Count; i++)
             {
                 Tipos_Datos_CRU.CRU new_data= new Tipos_Datos_CRU.CRU();
@@ -360,9 +362,13 @@ namespace IndicadoresISEL.Controlador
                         abonos_zona_centro.Add(ListDocumentos[i]);
                     }
                     else
-                    {
-                        abonos_zona_sur.Add(ListDocumentos[i]);
-                    }
+                        if (ListDocumentos[i].proveedor.Clasificación1.Trim().ToUpper().Equals("ZONA SUR".ToUpper()))
+                        {
+                            abonos_zona_sur.Add(ListDocumentos[i]);
+                        }
+                        else {
+                            abonos_zona_cuatro.Add(ListDocumentos[i]);
+                        }
 
 
 

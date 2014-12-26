@@ -34,6 +34,7 @@ namespace IndicadoresISEL.Modelo
             public List<CRU> abonos_zona_norte { get; set; }
             public List<CRU> abonos_zona_centro { get; set; }
             public List<CRU> abonos_zona_sur { get; set; }
+            public List<CRU> abonos_zona_cuatro { get; set; }
             public List<CRU> pagos_proveedor { get; set; }
             public List<CRU> pagos_proveedor_rfc_anji { get; set; }
             public List<CRU> prestamos { get; set; }

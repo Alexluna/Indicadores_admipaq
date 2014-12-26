@@ -150,7 +150,7 @@ namespace IndicadoresISEL.Modelo
                 #endregion
 
                 #region PAGOS aNJI
-                formatRange = worksheet.get_Range("IU4", "JM1");
+                formatRange = worksheet.get_Range("IU4", "JN1");
                 formatRange.EntireRow.Font.Bold = true;
                 formatRange.WrapText = true;//ajusta el texto a la columna
 
@@ -159,7 +159,7 @@ namespace IndicadoresISEL.Modelo
                 #endregion
 
                 #region PRESTAMOS
-                formatRange = worksheet.get_Range("JQ4", "QA1");
+                formatRange = worksheet.get_Range("JQ4", "KI1");
                 formatRange.EntireRow.Font.Bold = true;
                 formatRange.WrapText = true;//ajusta el texto a la columna
 
@@ -169,7 +169,7 @@ namespace IndicadoresISEL.Modelo
 
 
                 #region INGRESO TRASPASO
-                formatRange = worksheet.get_Range("KD4", "KO1");
+                formatRange = worksheet.get_Range("KM4", "KX1");
                 formatRange.EntireRow.Font.Bold = true;
                 formatRange.WrapText = true;//ajusta el texto a la columna
 
@@ -179,11 +179,20 @@ namespace IndicadoresISEL.Modelo
 
 
                 #region INGRESO DEV. GARANTIA
-                formatRange = worksheet.get_Range("KS4", "LD1");
+                formatRange = worksheet.get_Range("KZ4", "LK1");
                 formatRange.EntireRow.Font.Bold = true;
                 formatRange.WrapText = true;//ajusta el texto a la columna
 
                 formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                formatRange.Font.Size = 12;
+                #endregion
+
+                #region INGRESO DEV. GARANTIA
+                formatRange = worksheet.get_Range("LO4", "LZ1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Blue);
                 formatRange.Font.Size = 12;
                 #endregion
 
@@ -514,6 +523,28 @@ namespace IndicadoresISEL.Modelo
                 worksheet.Cells[Row, 184] = "Total de unidades";
                 worksheet.Cells[Row, 185] = "Zona";
                 worksheet.Cells[Row, 186] = "Agente";
+
+
+                worksheet.Cells[2, 194] = "Cuarta Zona";
+
+                worksheet.Cells[Row, 190] = "Fecha";
+                worksheet.Cells[Row, 191] = "Serie";
+                worksheet.Cells[Row, 192] = "Folio";
+                worksheet.Cells[Row, 193] = "Nombre del agente";
+                worksheet.Cells[Row, 194] = "Razon social";
+                worksheet.Cells[Row, 195] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 196] = "RFC";
+                worksheet.Cells[Row, 197] = "Subtotal";
+                worksheet.Cells[Row, 198] = "IVA";
+                worksheet.Cells[Row, 199] = "TOTAL";
+                worksheet.Cells[Row, 200] = "Pendiente";
+                worksheet.Cells[Row, 201] = "Texto Extra 3";
+                worksheet.Cells[Row, 202] = "Afectado";
+                worksheet.Cells[Row, 203] = "Impreso";
+                worksheet.Cells[Row, 204] = "Cancelado";
+                worksheet.Cells[Row, 205] = "Total de unidades";
+                worksheet.Cells[Row, 206] = "Zona";
+                worksheet.Cells[Row, 207] = "Agente";
                 Row++;
                 #endregion
                 #region contenido
@@ -807,56 +838,85 @@ namespace IndicadoresISEL.Modelo
                     Row++;
                 }
                 worksheet.Cells[2, 178] = "$ " + total;
-                #endregion
-                #endregion
 
+                total = 0;
+                Row = 5;
+                /*ZONA norte*/
+                for (int i = 0; i < ListDocmuentos.abonos_zona_cuatro.Count; i++)
+                {
+                    worksheet.Cells[Row, 190] = ListDocmuentos.abonos_zona_cuatro[i].Fecha;
+                    worksheet.Cells[Row, 191] = ListDocmuentos.abonos_zona_cuatro[i].Serie;
+                    worksheet.Cells[Row, 192] = ListDocmuentos.abonos_zona_cuatro[i].Folio;
+                    worksheet.Cells[Row, 193] = ListDocmuentos.abonos_zona_cuatro[i].NombreAgente;
+                    worksheet.Cells[Row, 194] = ListDocmuentos.abonos_zona_cuatro[i].RazonSocial;
+                    worksheet.Cells[Row, 195] = ListDocmuentos.abonos_zona_cuatro[i].FechaVencimiento;
+                    worksheet.Cells[Row, 196] = ListDocmuentos.abonos_zona_cuatro[i].RFC;
+                    worksheet.Cells[Row, 197] = ListDocmuentos.abonos_zona_cuatro[i].Subtotal;
+                    worksheet.Cells[Row, 198] = ListDocmuentos.abonos_zona_cuatro[i].IVA;
+                    worksheet.Cells[Row, 199] = ListDocmuentos.abonos_zona_cuatro[i].Total;
+                    worksheet.Cells[Row, 200] = ListDocmuentos.abonos_zona_cuatro[i].Pendiente;
+                    worksheet.Cells[Row, 201] = ListDocmuentos.abonos_zona_cuatro[i].TextoExtra3;
+                    worksheet.Cells[Row, 202] = ListDocmuentos.abonos_zona_cuatro[i].Afectado;
+                    worksheet.Cells[Row, 203] = ListDocmuentos.abonos_zona_cuatro[i].Impreso;
+                    worksheet.Cells[Row, 204] = ListDocmuentos.abonos_zona_cuatro[i].Cancelado;
+                    worksheet.Cells[Row, 205] = ListDocmuentos.abonos_zona_cuatro[i].TotalUnidades;
+                    worksheet.Cells[Row, 206] = ListDocmuentos.abonos_zona_cuatro[i].proveedor.Clasificación1;
+                    worksheet.Cells[Row, 207] = ListDocmuentos.abonos_zona_cuatro[i].proveedor.Clasificación2;
+                    total += ListDocmuentos.abonos_zona_cuatro[i].Total;
+                    Row++;
+                }
+                worksheet.Cells[2, 199] = "$ " + total;
+                #endregion
+                
+                #endregion
+                int new_row = 22;
                 #region Compras
                 Row = 4;
                 #region encabezados
-                worksheet.Cells[2, 194] = "compras acumuladas";
+                worksheet.Cells[2, 194 + new_row] = "compras acumuladas";
 
                 //encabezados facturas
-                worksheet.Cells[Row, 190] = "Fecha";
-                worksheet.Cells[Row, 191] = "Serie";
-                worksheet.Cells[Row, 192] = "Folio";
-                worksheet.Cells[Row, 193] = "Nombre del agente";
-                worksheet.Cells[Row, 194] = "Razon social";
-                worksheet.Cells[Row, 195] = "Fecha de vencimiento";
-                worksheet.Cells[Row, 196] = "RFC";
-                worksheet.Cells[Row, 197] = "Subtotal";
-                worksheet.Cells[Row, 198] = "IVA";
-                worksheet.Cells[Row, 199] = "TOTAL";
-                worksheet.Cells[Row, 200] = "Pendiente";
-                worksheet.Cells[Row, 201] = "Texto Extra 3";
-                worksheet.Cells[Row, 202] = "Afectado";
-                worksheet.Cells[Row, 203] = "Impreso";
-                worksheet.Cells[Row, 204] = "Cancelado";
-                worksheet.Cells[Row, 205] = "Total de unidades";
-                worksheet.Cells[Row, 206] = "Clasificacion cliente2";
-                worksheet.Cells[Row, 207] = "Texto extra1";
-                worksheet.Cells[Row, 208] = "Nombre del concepto";
+                worksheet.Cells[Row, 190 + new_row] = "Fecha";
+                worksheet.Cells[Row, 191 + new_row] = "Serie";
+                worksheet.Cells[Row, 192 + new_row] = "Folio";
+                worksheet.Cells[Row, 193 + new_row] = "Nombre del agente";
+                worksheet.Cells[Row, 194 + new_row] = "Razon social";
+                worksheet.Cells[Row, 195 + new_row] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 196 + new_row] = "RFC";
+                worksheet.Cells[Row, 197 + new_row] = "Subtotal";
+                worksheet.Cells[Row, 198 + new_row] = "IVA";
+                worksheet.Cells[Row, 199 + new_row] = "TOTAL";
+                worksheet.Cells[Row, 200 + new_row] = "Pendiente";
+                worksheet.Cells[Row, 201 + new_row] = "Texto Extra 3";
+                worksheet.Cells[Row, 202 + new_row] = "Afectado";
+                worksheet.Cells[Row, 203 + new_row] = "Impreso";
+                worksheet.Cells[Row, 204 + new_row] = "Cancelado";
+                worksheet.Cells[Row, 205 + new_row] = "Total de unidades";
+                worksheet.Cells[Row, 206 + new_row] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 207 + new_row] = "Texto extra1";
+                worksheet.Cells[Row, 208 + new_row] = "Nombre del concepto";
                 //titulo 
-                worksheet.Cells[2, 215] = "compras ANJI";
+                worksheet.Cells[2, 215 + new_row] = "compras ANJI";
                 //envabezados facturas filtro publico
-                worksheet.Cells[Row, 211] = "Fecha";
-                worksheet.Cells[Row, 212] = "Serie";
-                worksheet.Cells[Row, 213] = "Folio";
-                worksheet.Cells[Row, 214] = "Nombre del agente";
-                worksheet.Cells[Row, 215] = "Razon social";
-                worksheet.Cells[Row, 216] = "Fecha de vencimiento";
-                worksheet.Cells[Row, 217] = "RFC";
-                worksheet.Cells[Row, 218] = "Subtotal";
-                worksheet.Cells[Row, 219] = "IVA";
-                worksheet.Cells[Row, 220] = "TOTAL";
-                worksheet.Cells[Row, 221] = "Pendiente";
-                worksheet.Cells[Row, 222] = "Texto Extra 3";
-                worksheet.Cells[Row, 223] = "Afectado";
-                worksheet.Cells[Row, 224] = "Impreso";
-                worksheet.Cells[Row, 225] = "Cancelado";
-                worksheet.Cells[Row, 226] = "Total de unidades";
-                worksheet.Cells[Row, 227] = "Clasificacion cliente2";
-                worksheet.Cells[Row, 228] = "Texto extra1";
-                worksheet.Cells[Row, 229] = "Nombre del concepto";
+                worksheet.Cells[Row, 211 + new_row] = "Fecha";
+                worksheet.Cells[Row, 212 + new_row] = "Serie";
+                worksheet.Cells[Row, 213 + new_row] = "Folio";
+                worksheet.Cells[Row, 214 + new_row] = "Nombre del agente";
+                worksheet.Cells[Row, 215 + new_row] = "Razon social";
+                worksheet.Cells[Row, 216 + new_row] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 217 + new_row] = "RFC";
+                worksheet.Cells[Row, 218 + new_row] = "Subtotal";
+                worksheet.Cells[Row, 219 + new_row] = "IVA";
+                worksheet.Cells[Row, 220 + new_row] = "TOTAL";
+                worksheet.Cells[Row, 221 + new_row] = "Pendiente";
+                worksheet.Cells[Row, 222 + new_row] = "Texto Extra 3";
+                worksheet.Cells[Row, 223 + new_row] = "Afectado";
+                worksheet.Cells[Row, 224 + new_row] = "Impreso";
+                worksheet.Cells[Row, 225 + new_row] = "Cancelado";
+                worksheet.Cells[Row, 226 + new_row] = "Total de unidades";
+                worksheet.Cells[Row, 227 + new_row] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 228 + new_row] = "Texto extra1";
+                worksheet.Cells[Row, 229 + new_row] = "Nombre del concepto";
 
                 Row++;
                 #endregion
@@ -864,108 +924,108 @@ namespace IndicadoresISEL.Modelo
                 total = 0;
                 for (int i = 0; i < ListDocmuentos.compras.Count; i++)
                 {
-                    worksheet.Cells[Row, 190] = ListDocmuentos.compras[i].Fecha;
-                    worksheet.Cells[Row, 191] = ListDocmuentos.compras[i].Serie;
-                    worksheet.Cells[Row, 192] = ListDocmuentos.compras[i].Folio;
-                    worksheet.Cells[Row, 193] = ListDocmuentos.compras[i].NombreAgente;
-                    worksheet.Cells[Row, 194] = ListDocmuentos.compras[i].RazonSocial;
-                    worksheet.Cells[Row, 195] = ListDocmuentos.compras[i].FechaVencimiento;
-                    worksheet.Cells[Row, 196] = ListDocmuentos.compras[i].RFC;
-                    worksheet.Cells[Row, 197] = ListDocmuentos.compras[i].Subtotal;
-                    worksheet.Cells[Row, 198] = ListDocmuentos.compras[i].IVA;
-                    worksheet.Cells[Row, 199] = ListDocmuentos.compras[i].Total;
-                    worksheet.Cells[Row, 200] = ListDocmuentos.compras[i].Pendiente;
-                    worksheet.Cells[Row, 201] = ListDocmuentos.compras[i].TextoExtra3;
-                    worksheet.Cells[Row, 202] = ListDocmuentos.compras[i].Afectado;
-                    worksheet.Cells[Row, 203] = ListDocmuentos.compras[i].Impreso;
-                    worksheet.Cells[Row, 204] = ListDocmuentos.compras[i].Cancelado;
-                    worksheet.Cells[Row, 205] = ListDocmuentos.compras[i].TotalUnidades;
-                    worksheet.Cells[Row, 206] = ListDocmuentos.compras[i].Clasificacion2;
-                    worksheet.Cells[Row, 207] = ListDocmuentos.compras[i].TextoExtra1;
-                    worksheet.Cells[Row, 208] = ListDocmuentos.compras[i].NombreConcepto;
+                    worksheet.Cells[Row, 190 + new_row] = ListDocmuentos.compras[i].Fecha;
+                    worksheet.Cells[Row, 191 + new_row] = ListDocmuentos.compras[i].Serie;
+                    worksheet.Cells[Row, 192 + new_row] = ListDocmuentos.compras[i].Folio;
+                    worksheet.Cells[Row, 193 + new_row] = ListDocmuentos.compras[i].NombreAgente;
+                    worksheet.Cells[Row, 194 + new_row] = ListDocmuentos.compras[i].RazonSocial;
+                    worksheet.Cells[Row, 195 + new_row] = ListDocmuentos.compras[i].FechaVencimiento;
+                    worksheet.Cells[Row, 196 + new_row] = ListDocmuentos.compras[i].RFC;
+                    worksheet.Cells[Row, 197 + new_row] = ListDocmuentos.compras[i].Subtotal;
+                    worksheet.Cells[Row, 198 + new_row] = ListDocmuentos.compras[i].IVA;
+                    worksheet.Cells[Row, 199 + new_row] = ListDocmuentos.compras[i].Total;
+                    worksheet.Cells[Row, 200 + new_row] = ListDocmuentos.compras[i].Pendiente;
+                    worksheet.Cells[Row, 201 + new_row] = ListDocmuentos.compras[i].TextoExtra3;
+                    worksheet.Cells[Row, 202 + new_row] = ListDocmuentos.compras[i].Afectado;
+                    worksheet.Cells[Row, 203 + new_row] = ListDocmuentos.compras[i].Impreso;
+                    worksheet.Cells[Row, 204 + new_row] = ListDocmuentos.compras[i].Cancelado;
+                    worksheet.Cells[Row, 205 + new_row] = ListDocmuentos.compras[i].TotalUnidades;
+                    worksheet.Cells[Row, 206 + new_row] = ListDocmuentos.compras[i].Clasificacion2;
+                    worksheet.Cells[Row, 207 + new_row] = ListDocmuentos.compras[i].TextoExtra1;
+                    worksheet.Cells[Row, 208 + new_row] = ListDocmuentos.compras[i].NombreConcepto;
                     total += ListDocmuentos.compras[i].Total;
                     Row++;
                 }
-                worksheet.Cells[2, 199] = "$ " + total;
+                worksheet.Cells[2, 199 + new_row] = "$ " + total;
 
                 total = 0;
                 Row = 5;
 
                 for (int i = 0; i < ListDocmuentos.compras_rfc_anji.Count; i++)
                 {
-                    worksheet.Cells[Row, 211] = ListDocmuentos.compras_rfc_anji[i].Fecha;
-                    worksheet.Cells[Row, 212] = ListDocmuentos.compras_rfc_anji[i].Serie;
-                    worksheet.Cells[Row, 213] = ListDocmuentos.compras_rfc_anji[i].Folio;
-                    worksheet.Cells[Row, 214] = ListDocmuentos.compras_rfc_anji[i].NombreAgente;
-                    worksheet.Cells[Row, 215] = ListDocmuentos.compras_rfc_anji[i].RazonSocial;
-                    worksheet.Cells[Row, 216] = ListDocmuentos.compras_rfc_anji[i].FechaVencimiento;
-                    worksheet.Cells[Row, 217] = ListDocmuentos.compras_rfc_anji[i].RFC;
-                    worksheet.Cells[Row, 218] = ListDocmuentos.compras_rfc_anji[i].Subtotal;
-                    worksheet.Cells[Row, 219] = ListDocmuentos.compras_rfc_anji[i].IVA;
-                    worksheet.Cells[Row, 220] = ListDocmuentos.compras_rfc_anji[i].Total;
-                    worksheet.Cells[Row, 221] = ListDocmuentos.compras_rfc_anji[i].Pendiente;
-                    worksheet.Cells[Row, 222] = ListDocmuentos.compras_rfc_anji[i].TextoExtra3;
-                    worksheet.Cells[Row, 223] = ListDocmuentos.compras_rfc_anji[i].Afectado;
-                    worksheet.Cells[Row, 224] = ListDocmuentos.compras_rfc_anji[i].Impreso;
-                    worksheet.Cells[Row, 225] = ListDocmuentos.compras_rfc_anji[i].Cancelado;
-                    worksheet.Cells[Row, 226] = ListDocmuentos.compras_rfc_anji[i].TotalUnidades;
-                    worksheet.Cells[Row, 227] = ListDocmuentos.compras_rfc_anji[i].Clasificacion2;
-                    worksheet.Cells[Row, 228] = ListDocmuentos.compras_rfc_anji[i].TextoExtra1;
-                    worksheet.Cells[Row, 229] = ListDocmuentos.compras_rfc_anji[i].NombreConcepto;
+                    worksheet.Cells[Row, 211 + new_row] = ListDocmuentos.compras_rfc_anji[i].Fecha;
+                    worksheet.Cells[Row, 212 + new_row] = ListDocmuentos.compras_rfc_anji[i].Serie;
+                    worksheet.Cells[Row, 213 + new_row] = ListDocmuentos.compras_rfc_anji[i].Folio;
+                    worksheet.Cells[Row, 214 + new_row] = ListDocmuentos.compras_rfc_anji[i].NombreAgente;
+                    worksheet.Cells[Row, 215 + new_row] = ListDocmuentos.compras_rfc_anji[i].RazonSocial;
+                    worksheet.Cells[Row, 216 + new_row] = ListDocmuentos.compras_rfc_anji[i].FechaVencimiento;
+                    worksheet.Cells[Row, 217 + new_row] = ListDocmuentos.compras_rfc_anji[i].RFC;
+                    worksheet.Cells[Row, 218 + new_row] = ListDocmuentos.compras_rfc_anji[i].Subtotal;
+                    worksheet.Cells[Row, 219 + new_row] = ListDocmuentos.compras_rfc_anji[i].IVA;
+                    worksheet.Cells[Row, 220 + new_row] = ListDocmuentos.compras_rfc_anji[i].Total;
+                    worksheet.Cells[Row, 221 + new_row] = ListDocmuentos.compras_rfc_anji[i].Pendiente;
+                    worksheet.Cells[Row, 222 + new_row] = ListDocmuentos.compras_rfc_anji[i].TextoExtra3;
+                    worksheet.Cells[Row, 223 + new_row] = ListDocmuentos.compras_rfc_anji[i].Afectado;
+                    worksheet.Cells[Row, 224 + new_row] = ListDocmuentos.compras_rfc_anji[i].Impreso;
+                    worksheet.Cells[Row, 225 + new_row] = ListDocmuentos.compras_rfc_anji[i].Cancelado;
+                    worksheet.Cells[Row, 226 + new_row] = ListDocmuentos.compras_rfc_anji[i].TotalUnidades;
+                    worksheet.Cells[Row, 227 + new_row] = ListDocmuentos.compras_rfc_anji[i].Clasificacion2;
+                    worksheet.Cells[Row, 228 + new_row] = ListDocmuentos.compras_rfc_anji[i].TextoExtra1;
+                    worksheet.Cells[Row, 229 + new_row] = ListDocmuentos.compras_rfc_anji[i].NombreConcepto;
                     total += ListDocmuentos.compras_rfc_anji[i].Total;
                     Row++;
                 }
-                worksheet.Cells[2, 220] = "$ " + total;
+                worksheet.Cells[2, 220 + new_row] = "$ " + total;
                 #endregion
                 #endregion
 
                 #region Pagos proveedor
                 Row = 4;
                 #region encabezados
-                worksheet.Cells[2, 238] = "pagos acumuladas";
+                worksheet.Cells[2, 238 + new_row] = "pagos acumuladas";
 
                 //encabezados facturas
-                worksheet.Cells[Row, 234] = "Fecha";
-                worksheet.Cells[Row, 235] = "Serie";
-                worksheet.Cells[Row, 236] = "Folio";
-                worksheet.Cells[Row, 237] = "Nombre del agente";
-                worksheet.Cells[Row, 238] = "Razon social";
-                worksheet.Cells[Row, 239] = "Fecha de vencimiento";
-                worksheet.Cells[Row, 240] = "RFC";
-                worksheet.Cells[Row, 241] = "Subtotal";
-                worksheet.Cells[Row, 242] = "IVA";
-                worksheet.Cells[Row, 243] = "TOTAL";
-                worksheet.Cells[Row, 244] = "Pendiente";
-                worksheet.Cells[Row, 245] = "Texto Extra 3";
-                worksheet.Cells[Row, 246] = "Afectado";
-                worksheet.Cells[Row, 247] = "Impreso";
-                worksheet.Cells[Row, 248] = "Cancelado";
-                worksheet.Cells[Row, 249] = "Total de unidades";
-                worksheet.Cells[Row, 250] = "Clasificacion cliente2";
-                worksheet.Cells[Row, 251] = "Texto extra1";
-                worksheet.Cells[Row, 252] = "Nombre del concepto";
+                worksheet.Cells[Row, 234 + new_row] = "Fecha";
+                worksheet.Cells[Row, 235 + new_row] = "Serie";
+                worksheet.Cells[Row, 236 + new_row] = "Folio";
+                worksheet.Cells[Row, 237 + new_row] = "Nombre del agente";
+                worksheet.Cells[Row, 238 + new_row] = "Razon social";
+                worksheet.Cells[Row, 239 + new_row] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 240 + new_row] = "RFC";
+                worksheet.Cells[Row, 241 + new_row] = "Subtotal";
+                worksheet.Cells[Row, 242 + new_row] = "IVA";
+                worksheet.Cells[Row, 243 + new_row] = "TOTAL";
+                worksheet.Cells[Row, 244 + new_row] = "Pendiente";
+                worksheet.Cells[Row, 245 + new_row] = "Texto Extra 3";
+                worksheet.Cells[Row, 246 + new_row] = "Afectado";
+                worksheet.Cells[Row, 247 + new_row] = "Impreso";
+                worksheet.Cells[Row, 248 + new_row] = "Cancelado";
+                worksheet.Cells[Row, 249 + new_row] = "Total de unidades";
+                worksheet.Cells[Row, 250 + new_row] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 251 + new_row] = "Texto extra1";
+                worksheet.Cells[Row, 252 + new_row] = "Nombre del concepto";
                 //titulo 
-                worksheet.Cells[2, 259] = "pagos Anji";
+                worksheet.Cells[2, 259 + new_row] = "pagos Anji";
                 //envabezados facturas filtro publico
-                worksheet.Cells[Row, 255] = "Fecha";
-                worksheet.Cells[Row, 256] = "Serie";
-                worksheet.Cells[Row, 257] = "Folio";
-                worksheet.Cells[Row, 258] = "Nombre del agente";
-                worksheet.Cells[Row, 259] = "Razon social";
-                worksheet.Cells[Row, 260] = "Fecha de vencimiento";
-                worksheet.Cells[Row, 261] = "RFC";
-                worksheet.Cells[Row, 262] = "Subtotal";
-                worksheet.Cells[Row, 263] = "IVA";
-                worksheet.Cells[Row, 264] = "TOTAL";
-                worksheet.Cells[Row, 265] = "Pendiente";
-                worksheet.Cells[Row, 266] = "Texto Extra 3";
-                worksheet.Cells[Row, 267] = "Afectado";
-                worksheet.Cells[Row, 268] = "Impreso";
-                worksheet.Cells[Row, 269] = "Cancelado";
-                worksheet.Cells[Row, 270] = "Total de unidades";
-                worksheet.Cells[Row, 271] = "Clasificacion cliente2";
-                worksheet.Cells[Row, 272] = "Texto extra1";
-                worksheet.Cells[Row, 273] = "Nombre del concepto";
+                worksheet.Cells[Row, 255 + new_row] = "Fecha";
+                worksheet.Cells[Row, 256 + new_row] = "Serie";
+                worksheet.Cells[Row, 257 + new_row] = "Folio";
+                worksheet.Cells[Row, 258 + new_row] = "Nombre del agente";
+                worksheet.Cells[Row, 259 + new_row] = "Razon social";
+                worksheet.Cells[Row, 260 + new_row] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 261 + new_row] = "RFC";
+                worksheet.Cells[Row, 262 + new_row] = "Subtotal";
+                worksheet.Cells[Row, 263 + new_row] = "IVA";
+                worksheet.Cells[Row, 264 + new_row] = "TOTAL";
+                worksheet.Cells[Row, 265 + new_row] = "Pendiente";
+                worksheet.Cells[Row, 266 + new_row] = "Texto Extra 3";
+                worksheet.Cells[Row, 267 + new_row] = "Afectado";
+                worksheet.Cells[Row, 268 + new_row] = "Impreso";
+                worksheet.Cells[Row, 269 + new_row] = "Cancelado";
+                worksheet.Cells[Row, 270 + new_row] = "Total de unidades";
+                worksheet.Cells[Row, 271 + new_row] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 272 + new_row] = "Texto extra1";
+                worksheet.Cells[Row, 273 + new_row] = "Nombre del concepto";
 
                 Row++;
                 #endregion
@@ -973,58 +1033,58 @@ namespace IndicadoresISEL.Modelo
                 total = 0;
                 for (int i = 0; i < ListDocmuentos.pagos_proveedor.Count; i++)
                 {
-                    worksheet.Cells[Row, 234] = ListDocmuentos.pagos_proveedor[i].Fecha;
-                    worksheet.Cells[Row, 235] = ListDocmuentos.pagos_proveedor[i].Serie;
-                    worksheet.Cells[Row, 236] = ListDocmuentos.pagos_proveedor[i].Folio;
-                    worksheet.Cells[Row, 237] = ListDocmuentos.pagos_proveedor[i].NombreAgente;
-                    worksheet.Cells[Row, 238] = ListDocmuentos.pagos_proveedor[i].RazonSocial;
-                    worksheet.Cells[Row, 239] = ListDocmuentos.pagos_proveedor[i].FechaVencimiento;
-                    worksheet.Cells[Row, 240] = ListDocmuentos.pagos_proveedor[i].RFC;
-                    worksheet.Cells[Row, 241] = ListDocmuentos.pagos_proveedor[i].Subtotal;
-                    worksheet.Cells[Row, 242] = ListDocmuentos.pagos_proveedor[i].IVA;
-                    worksheet.Cells[Row, 243] = ListDocmuentos.pagos_proveedor[i].Total;
-                    worksheet.Cells[Row, 244] = ListDocmuentos.pagos_proveedor[i].Pendiente;
-                    worksheet.Cells[Row, 245] = ListDocmuentos.pagos_proveedor[i].TextoExtra3;
-                    worksheet.Cells[Row, 246] = ListDocmuentos.pagos_proveedor[i].Afectado;
-                    worksheet.Cells[Row, 247] = ListDocmuentos.pagos_proveedor[i].Impreso;
-                    worksheet.Cells[Row, 248] = ListDocmuentos.pagos_proveedor[i].Cancelado;
-                    worksheet.Cells[Row, 249] = ListDocmuentos.pagos_proveedor[i].TotalUnidades;
-                    worksheet.Cells[Row, 250] = ListDocmuentos.pagos_proveedor[i].Clasificacion2;
-                    worksheet.Cells[Row, 251] = ListDocmuentos.pagos_proveedor[i].TextoExtra1;
-                    worksheet.Cells[Row, 252] = ListDocmuentos.pagos_proveedor[i].NombreConcepto;
+                    worksheet.Cells[Row, 234 + new_row] = ListDocmuentos.pagos_proveedor[i].Fecha;
+                    worksheet.Cells[Row, 235 + new_row] = ListDocmuentos.pagos_proveedor[i].Serie;
+                    worksheet.Cells[Row, 236 + new_row] = ListDocmuentos.pagos_proveedor[i].Folio;
+                    worksheet.Cells[Row, 237 + new_row] = ListDocmuentos.pagos_proveedor[i].NombreAgente;
+                    worksheet.Cells[Row, 238 + new_row] = ListDocmuentos.pagos_proveedor[i].RazonSocial;
+                    worksheet.Cells[Row, 239 + new_row] = ListDocmuentos.pagos_proveedor[i].FechaVencimiento;
+                    worksheet.Cells[Row, 240 + new_row] = ListDocmuentos.pagos_proveedor[i].RFC;
+                    worksheet.Cells[Row, 241 + new_row] = ListDocmuentos.pagos_proveedor[i].Subtotal;
+                    worksheet.Cells[Row, 242 + new_row] = ListDocmuentos.pagos_proveedor[i].IVA;
+                    worksheet.Cells[Row, 243 + new_row] = ListDocmuentos.pagos_proveedor[i].Total;
+                    worksheet.Cells[Row, 244 + new_row] = ListDocmuentos.pagos_proveedor[i].Pendiente;
+                    worksheet.Cells[Row, 245 + new_row] = ListDocmuentos.pagos_proveedor[i].TextoExtra3;
+                    worksheet.Cells[Row, 246 + new_row] = ListDocmuentos.pagos_proveedor[i].Afectado;
+                    worksheet.Cells[Row, 247 + new_row] = ListDocmuentos.pagos_proveedor[i].Impreso;
+                    worksheet.Cells[Row, 248 + new_row] = ListDocmuentos.pagos_proveedor[i].Cancelado;
+                    worksheet.Cells[Row, 249 + new_row] = ListDocmuentos.pagos_proveedor[i].TotalUnidades;
+                    worksheet.Cells[Row, 250 + new_row] = ListDocmuentos.pagos_proveedor[i].Clasificacion2;
+                    worksheet.Cells[Row, 251 + new_row] = ListDocmuentos.pagos_proveedor[i].TextoExtra1;
+                    worksheet.Cells[Row, 252 + new_row] = ListDocmuentos.pagos_proveedor[i].NombreConcepto;
                     total += ListDocmuentos.pagos_proveedor[i].Total;
                     Row++;
                 }
-                worksheet.Cells[2, 243] = "$ " + total;
+                worksheet.Cells[2, 243 + new_row] = "$ " + total;
 
                 total = 0;
                 Row = 5;
 
                 for (int i = 0; i < ListDocmuentos.pagos_proveedor_rfc_anji.Count; i++)
                 {
-                    worksheet.Cells[Row, 255] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Fecha;
-                    worksheet.Cells[Row, 256] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Serie;
-                    worksheet.Cells[Row, 257] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Folio;
-                    worksheet.Cells[Row, 258] = ListDocmuentos.pagos_proveedor_rfc_anji[i].NombreAgente;
-                    worksheet.Cells[Row, 259] = ListDocmuentos.pagos_proveedor_rfc_anji[i].RazonSocial;
-                    worksheet.Cells[Row, 260] = ListDocmuentos.pagos_proveedor_rfc_anji[i].FechaVencimiento;
-                    worksheet.Cells[Row, 261] = ListDocmuentos.pagos_proveedor_rfc_anji[i].RFC;
-                    worksheet.Cells[Row, 262] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Subtotal;
-                    worksheet.Cells[Row, 263] = ListDocmuentos.pagos_proveedor_rfc_anji[i].IVA;
-                    worksheet.Cells[Row, 264] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Total;
-                    worksheet.Cells[Row, 265] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Pendiente;
-                    worksheet.Cells[Row, 266] = ListDocmuentos.pagos_proveedor_rfc_anji[i].TextoExtra3;
-                    worksheet.Cells[Row, 267] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Afectado;
-                    worksheet.Cells[Row, 268] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Impreso;
-                    worksheet.Cells[Row, 269] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Cancelado;
-                    worksheet.Cells[Row, 270] = ListDocmuentos.pagos_proveedor_rfc_anji[i].TotalUnidades;
-                    worksheet.Cells[Row, 271] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Clasificacion2;
-                    worksheet.Cells[Row, 272] = ListDocmuentos.pagos_proveedor_rfc_anji[i].TextoExtra1;
-                    worksheet.Cells[Row, 273] = ListDocmuentos.pagos_proveedor_rfc_anji[i].NombreConcepto;
+                    worksheet.Cells[Row, 255 + new_row] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Fecha;
+                    worksheet.Cells[Row, 256 + new_row] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Serie;
+                    worksheet.Cells[Row, 257 + new_row] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Folio;
+                    worksheet.Cells[Row, 258 + new_row] = ListDocmuentos.pagos_proveedor_rfc_anji[i].NombreAgente;
+                    worksheet.Cells[Row, 259 + new_row] = ListDocmuentos.pagos_proveedor_rfc_anji[i].RazonSocial;
+                    worksheet.Cells[Row, 260 + new_row] = ListDocmuentos.pagos_proveedor_rfc_anji[i].FechaVencimiento;
+                    worksheet.Cells[Row, 261 + new_row] = ListDocmuentos.pagos_proveedor_rfc_anji[i].RFC;
+                    worksheet.Cells[Row, 262 + new_row] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Subtotal;
+                    worksheet.Cells[Row, 263 + new_row] = ListDocmuentos.pagos_proveedor_rfc_anji[i].IVA;
+                    worksheet.Cells[Row, 264 + new_row] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Total;
+                    worksheet.Cells[Row, 265 + new_row] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Pendiente;
+                    worksheet.Cells[Row, 266 + new_row] = ListDocmuentos.pagos_proveedor_rfc_anji[i].TextoExtra3;
+                    worksheet.Cells[Row, 267 + new_row] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Afectado;
+                    worksheet.Cells[Row, 268 + new_row] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Impreso;
+                    worksheet.Cells[Row, 269 + new_row] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Cancelado;
+                    worksheet.Cells[Row, 270 + new_row] = ListDocmuentos.pagos_proveedor_rfc_anji[i].TotalUnidades;
+                    worksheet.Cells[Row, 271 + new_row] = ListDocmuentos.pagos_proveedor_rfc_anji[i].Clasificacion2;
+                    worksheet.Cells[Row, 272 + new_row] = ListDocmuentos.pagos_proveedor_rfc_anji[i].TextoExtra1;
+                    worksheet.Cells[Row, 273 + new_row] = ListDocmuentos.pagos_proveedor_rfc_anji[i].NombreConcepto;
                     total += ListDocmuentos.pagos_proveedor_rfc_anji[i].Total;
                     Row++;
                 }
-                worksheet.Cells[2, 264] = "$ " + total;
+                worksheet.Cells[2, 264 + new_row] = "$ " + total;
 
                 #endregion
                 #endregion
@@ -1032,21 +1092,21 @@ namespace IndicadoresISEL.Modelo
                 #region Prestamos
                 Row = 4;
                 #region encabezados
-                worksheet.Cells[2, 277] = "Prestamos";
+                worksheet.Cells[2, 277 + new_row] = "Prestamos";
 
                 //encabezados prestamos
-                worksheet.Cells[Row, 277] = "Fecha";
-                worksheet.Cells[Row, 278] = "Serie";
-                worksheet.Cells[Row, 279] = "Folio";
-                worksheet.Cells[Row, 280] = "Nombre del agente";
-                worksheet.Cells[Row, 281] = "Razon social";
-                worksheet.Cells[Row, 282] = "Fecha de vencimiento";
-                worksheet.Cells[Row, 283] = "TextoExtra1";
-                worksheet.Cells[Row, 284] = "RFC";
-                worksheet.Cells[Row, 285] = "TOTAL";
-                worksheet.Cells[Row, 286] = "Pendiente";
-                worksheet.Cells[Row, 287] = "Cuenta";
-                worksheet.Cells[Row, 288] = "Referencia";
+                worksheet.Cells[Row, 277 + new_row] = "Fecha";
+                worksheet.Cells[Row, 278 + new_row] = "Serie";
+                worksheet.Cells[Row, 279 + new_row] = "Folio";
+                worksheet.Cells[Row, 280 + new_row] = "Nombre del agente";
+                worksheet.Cells[Row, 281 + new_row] = "Razon social";
+                worksheet.Cells[Row, 282 + new_row] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 283 + new_row] = "TextoExtra1";
+                worksheet.Cells[Row, 284 + new_row] = "RFC";
+                worksheet.Cells[Row, 285 + new_row] = "TOTAL";
+                worksheet.Cells[Row, 286 + new_row] = "Pendiente";
+                worksheet.Cells[Row, 287 + new_row] = "Cuenta";
+                worksheet.Cells[Row, 288 + new_row] = "Referencia";
 
                 Row++;
                 #endregion
@@ -1054,43 +1114,43 @@ namespace IndicadoresISEL.Modelo
                 total = 0;
                 for (int i = 0; i < ListDocmuentos.prestamos.Count; i++)
                 {
-                    worksheet.Cells[Row, 277] = ListDocmuentos.prestamos[i].Fecha;
-                    worksheet.Cells[Row, 278] = ListDocmuentos.prestamos[i].Serie;
-                    worksheet.Cells[Row, 279] = ListDocmuentos.prestamos[i].Folio;
-                    worksheet.Cells[Row, 280] = ListDocmuentos.prestamos[i].NombreAgente;
-                    worksheet.Cells[Row, 281] = ListDocmuentos.prestamos[i].RazonSocial;
-                    worksheet.Cells[Row, 282] = ListDocmuentos.prestamos[i].FechaVencimiento;
-                    worksheet.Cells[Row, 283] = ListDocmuentos.prestamos[i].TextoExtra1;
-                    worksheet.Cells[Row, 284] = ListDocmuentos.prestamos[i].RFC;
-                    worksheet.Cells[Row, 285] = ListDocmuentos.prestamos[i].Total;
-                    worksheet.Cells[Row, 286] = ListDocmuentos.prestamos[i].Pendiente;
-                    worksheet.Cells[Row, 287] = ListDocmuentos.prestamos[i].TextoExtra2;
-                    worksheet.Cells[Row, 288] = ListDocmuentos.prestamos[i].Referencia;
+                    worksheet.Cells[Row, 277 + new_row] = ListDocmuentos.prestamos[i].Fecha;
+                    worksheet.Cells[Row, 278 + new_row] = ListDocmuentos.prestamos[i].Serie;
+                    worksheet.Cells[Row, 279 + new_row] = ListDocmuentos.prestamos[i].Folio;
+                    worksheet.Cells[Row, 280 + new_row] = ListDocmuentos.prestamos[i].NombreAgente;
+                    worksheet.Cells[Row, 281 + new_row] = ListDocmuentos.prestamos[i].RazonSocial;
+                    worksheet.Cells[Row, 282 + new_row] = ListDocmuentos.prestamos[i].FechaVencimiento;
+                    worksheet.Cells[Row, 283 + new_row] = ListDocmuentos.prestamos[i].TextoExtra1;
+                    worksheet.Cells[Row, 284 + new_row] = ListDocmuentos.prestamos[i].RFC;
+                    worksheet.Cells[Row, 285 + new_row] = ListDocmuentos.prestamos[i].Total;
+                    worksheet.Cells[Row, 286 + new_row] = ListDocmuentos.prestamos[i].Pendiente;
+                    worksheet.Cells[Row, 287 + new_row] = ListDocmuentos.prestamos[i].TextoExtra2;
+                    worksheet.Cells[Row, 288 + new_row] = ListDocmuentos.prestamos[i].Referencia;
                     total += ListDocmuentos.prestamos[i].Total;
                     Row++;
                 }
-                worksheet.Cells[2, 285] = "$ " + total;
+                worksheet.Cells[2, 285 + new_row] = "$ " + total;
                 #endregion
                 #endregion
 
                 #region Ingreso traspaso
                 Row = 4;
                 #region encabezados
-                worksheet.Cells[2, 294] = "Ingreso traspaso";
+                worksheet.Cells[2, 294 + new_row] = "Ingreso traspaso";
 
                 //encabezados ingtreso traspaso
-                worksheet.Cells[Row, 290] = "Fecha";
-                worksheet.Cells[Row, 291] = "Serie";
-                worksheet.Cells[Row, 292] = "Folio";
-                worksheet.Cells[Row, 293] = "Nombre del agente";
-                worksheet.Cells[Row, 294] = "Razon social";
-                worksheet.Cells[Row, 295] = "Fecha de vencimiento";
-                worksheet.Cells[Row, 296] = "Fecha de depósito";
-                worksheet.Cells[Row, 297] = "RFC";
-                worksheet.Cells[Row, 298] = "TOTAL";
-                worksheet.Cells[Row, 299] = "Pendiente";
-                worksheet.Cells[Row, 300] = "texto extra 2";
-                worksheet.Cells[Row, 301] = "Referencia";
+                worksheet.Cells[Row, 290 + new_row] = "Fecha";
+                worksheet.Cells[Row, 291 + new_row] = "Serie";
+                worksheet.Cells[Row, 292 + new_row] = "Folio";
+                worksheet.Cells[Row, 293 + new_row] = "Nombre del agente";
+                worksheet.Cells[Row, 294 + new_row] = "Razon social";
+                worksheet.Cells[Row, 295 + new_row] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 296 + new_row] = "Fecha de depósito";
+                worksheet.Cells[Row, 297 + new_row] = "RFC";
+                worksheet.Cells[Row, 298 + new_row] = "TOTAL";
+                worksheet.Cells[Row, 299 + new_row] = "Pendiente";
+                worksheet.Cells[Row, 300 + new_row] = "texto extra 2";
+                worksheet.Cells[Row, 301 + new_row] = "Referencia";
 
                 Row++;
                 #endregion
@@ -1098,43 +1158,43 @@ namespace IndicadoresISEL.Modelo
                 total = 0;
                 for (int i = 0; i < ListDocmuentos.ingreso_traspaso.Count; i++)
                 {
-                    worksheet.Cells[Row, 290] = ListDocmuentos.ingreso_traspaso[i].Fecha;
-                    worksheet.Cells[Row, 291] = ListDocmuentos.ingreso_traspaso[i].Serie;
-                    worksheet.Cells[Row, 292] = ListDocmuentos.ingreso_traspaso[i].Folio;
-                    worksheet.Cells[Row, 293] = ListDocmuentos.ingreso_traspaso[i].NombreAgente;
-                    worksheet.Cells[Row, 294] = ListDocmuentos.ingreso_traspaso[i].RazonSocial;
-                    worksheet.Cells[Row, 295] = ListDocmuentos.ingreso_traspaso[i].FechaVencimiento;
-                    worksheet.Cells[Row, 296] = ListDocmuentos.ingreso_traspaso[i].TextoExtra1;
-                    worksheet.Cells[Row, 297] = ListDocmuentos.ingreso_traspaso[i].RFC;
-                    worksheet.Cells[Row, 298] = ListDocmuentos.ingreso_traspaso[i].Total;
-                    worksheet.Cells[Row, 299] = ListDocmuentos.ingreso_traspaso[i].Pendiente;
-                    worksheet.Cells[Row, 300] = ListDocmuentos.ingreso_traspaso[i].TextoExtra2;
-                    worksheet.Cells[Row, 301] = ListDocmuentos.ingreso_traspaso[i].Referencia;
+                    worksheet.Cells[Row, 290 + new_row] = ListDocmuentos.ingreso_traspaso[i].Fecha;
+                    worksheet.Cells[Row, 291 + new_row] = ListDocmuentos.ingreso_traspaso[i].Serie;
+                    worksheet.Cells[Row, 292 + new_row] = ListDocmuentos.ingreso_traspaso[i].Folio;
+                    worksheet.Cells[Row, 293 + new_row] = ListDocmuentos.ingreso_traspaso[i].NombreAgente;
+                    worksheet.Cells[Row, 294 + new_row] = ListDocmuentos.ingreso_traspaso[i].RazonSocial;
+                    worksheet.Cells[Row, 295 + new_row] = ListDocmuentos.ingreso_traspaso[i].FechaVencimiento;
+                    worksheet.Cells[Row, 296 + new_row] = ListDocmuentos.ingreso_traspaso[i].TextoExtra1;
+                    worksheet.Cells[Row, 297 + new_row] = ListDocmuentos.ingreso_traspaso[i].RFC;
+                    worksheet.Cells[Row, 298 + new_row] = ListDocmuentos.ingreso_traspaso[i].Total;
+                    worksheet.Cells[Row, 299 + new_row] = ListDocmuentos.ingreso_traspaso[i].Pendiente;
+                    worksheet.Cells[Row, 300 + new_row] = ListDocmuentos.ingreso_traspaso[i].TextoExtra2;
+                    worksheet.Cells[Row, 301 + new_row] = ListDocmuentos.ingreso_traspaso[i].Referencia;
                     total += ListDocmuentos.ingreso_traspaso[i].Total;
                     Row++;
                 }
-                worksheet.Cells[2, 298] = "$ " + total;
+                worksheet.Cells[2, 298 + new_row] = "$ " + total;
                 #endregion
                 #endregion
 
                 #region Ingreso dev. garantia
                 Row = 4;
                 #region encabezados
-                worksheet.Cells[2, 309] = "Ingreso Dev. garantía";
+                worksheet.Cells[2, 309 + new_row] = "Ingreso Dev. garantía";
 
                 //encabezados ingtreso traspaso
-                worksheet.Cells[Row, 305] = "Fecha";
-                worksheet.Cells[Row, 306] = "Serie";
-                worksheet.Cells[Row, 307] = "Folio";
-                worksheet.Cells[Row, 308] = "Nombre del agente";
-                worksheet.Cells[Row, 309] = "Razon social";
-                worksheet.Cells[Row, 310] = "Fecha de vencimiento";
-                worksheet.Cells[Row, 311] = "Fecha de depósito";
-                worksheet.Cells[Row, 312] = "RFC";
-                worksheet.Cells[Row, 313] = "TOTAL";
-                worksheet.Cells[Row, 314] = "Pendiente";
-                worksheet.Cells[Row, 315] = "texto extra 2";
-                worksheet.Cells[Row, 316] = "Referencia";
+                worksheet.Cells[Row, 305 + new_row] = "Fecha";
+                worksheet.Cells[Row, 306 + new_row] = "Serie";
+                worksheet.Cells[Row, 307 + new_row] = "Folio";
+                worksheet.Cells[Row, 308 + new_row] = "Nombre del agente";
+                worksheet.Cells[Row, 309 + new_row] = "Razon social";
+                worksheet.Cells[Row, 310 + new_row] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 311 + new_row] = "Fecha de depósito";
+                worksheet.Cells[Row, 312 + new_row] = "RFC";
+                worksheet.Cells[Row, 313 + new_row] = "TOTAL";
+                worksheet.Cells[Row, 314 + new_row] = "Pendiente";
+                worksheet.Cells[Row, 315 + new_row] = "texto extra 2";
+                worksheet.Cells[Row, 316 + new_row] = "Referencia";
 
                 Row++;
                 #endregion
@@ -1142,22 +1202,22 @@ namespace IndicadoresISEL.Modelo
                 total = 0;
                 for (int i = 0; i < ListDocmuentos.ingreso_dev_garantia.Count; i++)
                 {
-                    worksheet.Cells[Row, 305] = ListDocmuentos.ingreso_dev_garantia[i].Fecha;
-                    worksheet.Cells[Row, 306] = ListDocmuentos.ingreso_dev_garantia[i].Serie;
-                    worksheet.Cells[Row, 307] = ListDocmuentos.ingreso_dev_garantia[i].Folio;
-                    worksheet.Cells[Row, 308] = ListDocmuentos.ingreso_dev_garantia[i].NombreAgente;
-                    worksheet.Cells[Row, 309] = ListDocmuentos.ingreso_dev_garantia[i].RazonSocial;
-                    worksheet.Cells[Row, 310] = ListDocmuentos.ingreso_dev_garantia[i].FechaVencimiento;
-                    worksheet.Cells[Row, 311] = ListDocmuentos.ingreso_dev_garantia[i].TextoExtra1;
-                    worksheet.Cells[Row, 312] = ListDocmuentos.ingreso_dev_garantia[i].RFC;
-                    worksheet.Cells[Row, 313] = ListDocmuentos.ingreso_dev_garantia[i].Total;
-                    worksheet.Cells[Row, 314] = ListDocmuentos.ingreso_dev_garantia[i].Pendiente;
-                    worksheet.Cells[Row, 315] = ListDocmuentos.ingreso_dev_garantia[i].TextoExtra2;
-                    worksheet.Cells[Row, 316] = ListDocmuentos.ingreso_dev_garantia[i].Referencia;
+                    worksheet.Cells[Row, 305 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].Fecha;
+                    worksheet.Cells[Row, 306 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].Serie;
+                    worksheet.Cells[Row, 307 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].Folio;
+                    worksheet.Cells[Row, 308 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].NombreAgente;
+                    worksheet.Cells[Row, 309 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].RazonSocial;
+                    worksheet.Cells[Row, 310 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].FechaVencimiento;
+                    worksheet.Cells[Row, 311 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].TextoExtra1;
+                    worksheet.Cells[Row, 312 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].RFC;
+                    worksheet.Cells[Row, 313 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].Total;
+                    worksheet.Cells[Row, 314 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].Pendiente;
+                    worksheet.Cells[Row, 315 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].TextoExtra2;
+                    worksheet.Cells[Row, 316 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].Referencia;
                     total += ListDocmuentos.ingreso_dev_garantia[i].Total;
                     Row++;
                 }
-                worksheet.Cells[2, 313] = "$ " + total;
+                worksheet.Cells[2, 313 + new_row] = "$ " + total;
                 #endregion
                 #endregion
 
