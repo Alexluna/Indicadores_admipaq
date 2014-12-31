@@ -1228,6 +1228,99 @@ namespace IndicadoresISEL.Modelo
             }
         }
 
+
+
+
+        public void excel_importCRUFletes(List<Tipos_Datos_CRU.show_fletes> ListDocmuentos)
+        { //importar datos en excel
+            try
+            {
+
+
+                // creating Excel Application
+                Microsoft.Office.Interop.Excel._Application app = new Microsoft.Office.Interop.Excel.Application();
+                // creating new WorkBook within Excel application
+                Microsoft.Office.Interop.Excel._Workbook workbook = app.Workbooks.Add(Type.Missing);
+                // creating new Excelsheet in workbook
+                Microsoft.Office.Interop.Excel._Worksheet worksheet = null;
+
+
+
+                // see the excel sheet behind the program
+                app.Visible = true;
+                // get the reference of first sheet. By default its name is Sheet1.
+                // store its reference to worksheet
+                worksheet = workbook.Sheets["Hoja1"];
+                worksheet = workbook.ActiveSheet;
+                #region formato
+                #region fletes
+                Microsoft.Office.Interop.Excel.Range formatRange;
+                formatRange = worksheet.get_Range("A4", "s1");
+                formatRange.EntireRow.Font.Bold = true;
+                formatRange.WrapText = true;//ajusta el texto a la columna
+
+                formatRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
+                formatRange.Font.Size = 12;
+                #endregion
+                
+
+
+                #endregion
+                // changing the name of active sheet
+
+
+
+                worksheet.Name = "Admipaq";
+                int Row = 4;
+                //titulo
+                #region facturas
+                Row = 4; //inicia a escribir en la fila 4
+                #region encabezados
+               // worksheet.Cells[2, 2] = "Fletes";
+
+                //encabezados fletes
+                worksheet.Cells[Row, 1] = "Fecha";
+                worksheet.Cells[Row, 2] = "Folio";
+                worksheet.Cells[Row, 3] = "Concepto";
+                worksheet.Cells[Row, 4] = "Unidades";
+                worksheet.Cells[Row, 5] = "Precio";
+                worksheet.Cells[Row, 6] = "Total";
+                
+                Row++;
+                #endregion
+
+                #region contenido
+                float total = 0;
+                for (int i = 0; i < ListDocmuentos.Count; i++)
+                {
+                    worksheet.Cells[Row, 1] = ListDocmuentos[i].fecha;
+                    worksheet.Cells[Row, 2] = ListDocmuentos[i].Folio;
+                    worksheet.Cells[Row, 3] = ListDocmuentos[i].concepto;
+                    worksheet.Cells[Row, 4] = ListDocmuentos[i].Unidades;
+                    worksheet.Cells[Row, 5] = ListDocmuentos[i].Precio;
+                    worksheet.Cells[Row, 6] = ListDocmuentos[i].Total;
+
+                    
+                        total += ListDocmuentos[i].Total;
+
+                    
+                    Row++;
+                }
+                worksheet.Cells[2, 6] = "$ " + total;
+
+                #endregion
+
+
+
+                #endregion
+
+
+            }
+            catch (Exception)
+            {
+
+            }
+        }
         #endregion 
 
 

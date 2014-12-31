@@ -273,6 +273,64 @@ namespace IndicadoresISEL.Controlador
 
 
 
+
+        public List<Tipos_Datos_CRU.show_fletes> get_Documentos_fletes(string fechainicial, string fechafinal)
+        {
+            List<Tipos_Datos_CRU.show_fletes> show_fletes = new List<Tipos_Datos_CRU.show_fletes>();
+            
+            DataTable dtD = ModeloSDK.get_DocumentosCRUFletes(fechainicial, fechafinal);//obtengo los docuemtos en un datatable
+            if (dtD == null)//si tiene null siginifica que sucedio algun error 
+                return show_fletes;//regresa la lista vacia
+            foreach (DataRow row in dtD.Rows)//recorro el databel
+            {//si estan entre el filtro de fechas almacenalas en la lista si no no realizar anda
+                //if (Convert.ToDateTime(row[7]) >= Convert.ToDateTime(fechainicial) && Convert.ToDateTime(row[7]) <= Convert.ToDateTime(fechafinal))
+                //{
+                Tipos_Datos_CRU.show_fletes newDocument = new Tipos_Datos_CRU.show_fletes()//crea el objeto para la lista
+                {
+                    fecha = Convert.ToString(row[0]),
+                    concepto = Convert.ToString(row[1]),
+                    Unidades = Convert.ToString(row[2]),
+                    Precio = (float)(double)row[3],
+                    Neto = (float)(double)row[4],
+                    Total = (float)(double)row[5],
+                    iddocument = Convert.ToString(row[6]),
+
+                };
+                //tengo que obtener el folio de la factura
+
+                DataTable dtDFOLIO = ModeloSDK.get_FolioCRUFletes(newDocument.iddocument);
+                if (dtDFOLIO.Rows.Count > 0)
+                {
+                    var folio_factura = dtDFOLIO.Rows[0];
+                    newDocument.Folio = Convert.ToString(folio_factura[0]);
+                    newDocument.fecha = Convert.ToString(folio_factura[1]);
+
+                    if (newDocument.concepto.Trim().Equals("1376"))
+                    {
+                        newDocument.nombre_concepto = "SERFES";
+                    }
+                    else { newDocument.nombre_concepto = "SERFOD"; }
+
+                    show_fletes.Add(newDocument);
+
+                }
+                //}//else MessageBox.Show("fecha");
+            }
+
+
+            show_fletes.Sort(delegate(Tipos_Datos_CRU.show_fletes x, Tipos_Datos_CRU.show_fletes y)
+            {
+                if (x.nombre_concepto == null && y.nombre_concepto == null) return 0;
+                else if (x.nombre_concepto == null) return -1;
+                else if (y.nombre_concepto == null) return 1;
+                else return x.nombre_concepto.CompareTo(y.nombre_concepto);
+            });  
+
+            return show_fletes;//regresa la lista
+        }
+
+
+
         /// <summary>
         /// como se obtienen todo los datos de golpe ahora divide todos en su lugar correspondiente
         /// </summary>

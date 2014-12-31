@@ -125,7 +125,65 @@ namespace IndicadoresISEL.Vista.Facturas
             ));
         }
 
-       
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            if (controladorSDK.GetConexion())//antes de hacer algo verifico si existe alguna conexion con alguna empresa
+            {
+                OnWorkerMethodStartfletes();
+            }
+            else System.Windows.MessageBox.Show("Necesita Seleccionar una Empresa");//mando mensaje cuando no existe una empresa seleccionada
+        }
+
+        private void OnWorkerMethodStartfletes()
+        {
+            //creamos el objeto de nuestra clase 
+            WorkerProgressBar workerfactura = new WorkerProgressBar();
+            //por medio de un delegado instanciamos el metodo que se debera ejecutar en segundo plano, aqui seleccionamos el metodo logear
+            //este metodo se encuentra en esta clase
+            //int mes = Convert.ToInt32(comboBoxMes.SelectedIndex) + 1;//obtengo el mes del cual se realizara el filtro
+            string fechainicial = dateinicial.SelectedDate.Value.Date.ToString("MM/dd/yyyy");//obtengo mi fechaincial para mi filtro
+            string fechafinal = datefinal.SelectedDate.Value.Date.ToString("MM/dd/yyyy");//obtengo mi fecha final para mi filtro
+
+
+            workerfactura.get_data_cru += new WorkerProgressBar.DelegateCRU(get_data_fletes);
+            workerfactura.fechafinal = fechafinal; // le asignamos el correo a la clase creada (ingresado por el usuairo)
+            workerfactura.fechainicial = fechainicial; // le asignamos el password a la clase creada (ingresado por el usuario)
+            workerfactura.controlaimpresion = this.controlaimpresion;
+            workerfactura.RFCpublico = RFCPublico.Text.Trim();
+            workerfactura.rfcOL = RFCOL.Text.Trim();
+            workerfactura.rfcAnji = RFCAnji.Text.Trim();
+
+            //creamos el hilo para ejecutar el proceso en segundo plano, en el pasamos como argumento el metodo que queremos ejecutar
+            //el metodo que se ejecutara es el metodo que se encuentra en la clase creado
+            ThreadStart tStart = new ThreadStart(workerfactura.CRU_mtehod);
+            Thread t = new Thread(tStart); //iniciamos el hilo
+
+            t.Start(); // inicializa el hilo
+
+            cargador = new CargadorBar(); //Creamos el objeto de la clase CargadorBar (este clase contiene el cargador)
+            cargador.Owner = ventaprincipal; //asignamos que este objeto es modela relacionando  cual es su propietario
+            cargador.ShowDialog(); //mostramo el cargador (este metodo se ejecutara )
+
+            //finalmente obtenemos el resultado del metodo logear para seleccionar la respuesta que tendra 
+
+
+        }
+
+        private void get_data_fletes(string fechainicial, string fechafinal, Controlador_Impresion controlaimpresion, string RFCpublico, string rfcOL, string rfcAnji)
+        {
+            List<Tipos_Datos_CRU.show_fletes> ListFletes = new List<Tipos_Datos_CRU.show_fletes>();//inicializo mi lista donde tendramis documentos
+            ListFletes = controladorSDK.get_Documentos_fletes(fechainicial, fechafinal);//obtengo todas las listas de mis documentos conforme el filtro que se dio
+            //debo de guardar cada uno en su propio objeto
+
+            controlaimpresion.excel_importCRU_fletes(ListFletes);
+            cargador.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
+            new Action(
+            delegate()
+            {
+                cargador.Close();
+            }
+            ));
+        }
 
 
 

@@ -117,6 +117,63 @@ namespace IndicadoresISEL.Modelo
 
         }
 
+        /// <summary>
+        /// obtengo los fletes de SERFES y SERFOD
+        /// </summary>
+        /// <param name="fechainicial"></param>
+        /// <param name="fechafinal"></param>
+        /// <returns></returns>
+        public DataTable get_DocumentosCRUFletes(string fechainicial, string fechafinal)
+        {
+            try//CIDDOCUM02=4 and CIDCONCE01=3007 luna hernandes
+            {//((CIDDOCUM02=4 and CIDCONCE01=3007) or (CIDDOCUM02=19 and CIDCONCE01=21) or (CIDDOCUM02=12 and CIDCONCE01=13) or (CIDDOCUM02=23 or CIDCONCE01=25) or (CIDDOCUM02=12 and CIDCONCE01=3011) or (CIDDOCUM02=19 and CIDCONCE01=21))
+                conn.Open();//abre la conexion  ************************ CIDDOCUM02=4 and CIDCONCE01=3007 esto es para  que agarre solo facturas cfdi  conforme al archivo  MGW10006********************************
+                string cmd_string = " select CFECHA,CIDPRODU01,CUNIDADES,CPRECIO,CNETO,CTOTAL,CIDDOCUM01 from " + archivosAdmi.Movimientos
+                    + " where (CIDPRODU01=1376 or CIDPRODU01=1377) and between( CFECHA, ctod( \"" + fechainicial + "\" ), ctod( \"" + fechafinal + "\" ))";
+                OleDbDataAdapter da = new OleDbDataAdapter(cmd_string, conn);
+                DataSet ds = new DataSet();
+                da.Fill(ds);
+                DataTable dtt = ds.Tables[0];
+                conn.Close();//cierra la conexion
+                return dtt;
+            }
+            catch (Exception g)
+            {
+                conn.Close();//siempre cierra la conexion
+                MessageBox.Show(g.Message);
+                return null;
+            }
+
+        }
+
+        /// <summary>
+        /// obtengo el numero de factura del documento para mostrar en pantalla
+        /// </summary>
+        /// <param name="idcocumento">id del documento para buscar la factura</param>
+        /// <returns></returns>
+        public DataTable get_FolioCRUFletes(string idcocumento)
+        {
+            try//CIDDOCUM02=4 and CIDCONCE01=3007 luna hernandes
+            {//((CIDDOCUM02=4 and CIDCONCE01=3007) or (CIDDOCUM02=19 and CIDCONCE01=21) or (CIDDOCUM02=12 and CIDCONCE01=13) or (CIDDOCUM02=23 or CIDCONCE01=25) or (CIDDOCUM02=12 and CIDCONCE01=3011) or (CIDDOCUM02=19 and CIDCONCE01=21))
+                conn.Open();//abre la conexion  ************************ CIDDOCUM02=4 and CIDCONCE01=3007 esto es para  que agarre solo facturas cfdi  conforme al archivo  MGW10006********************************
+                string cmd_string = " select CFOLIO,CFECHA from " + archivosAdmi.Documentos
+                    + " where  CIDDOCUM02=4 and CIDCONCE01=3007 and CIDDOCUM01=" + idcocumento;
+                OleDbDataAdapter da = new OleDbDataAdapter(cmd_string, conn);
+                DataSet ds = new DataSet();
+                da.Fill(ds);
+                DataTable dtt = ds.Tables[0];
+                conn.Close();//cierra la conexion
+                return dtt;
+            }
+            catch (Exception g)
+            {
+                conn.Close();//siempre cierra la conexion
+                MessageBox.Show(g.Message);
+                return null;
+            }
+
+        }
+
 
 
         /// <summary>

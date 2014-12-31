@@ -34,6 +34,16 @@ namespace IndicadoresISEL.Controlador
         }
 
         /// <summary>
+        /// impresion de fletes
+        /// </summary>
+        /// <param name="ListDocmuentos"></param>
+        public void excel_importCRU_fletes(List<Tipos_Datos_CRU.show_fletes> ListDocmuentos)
+        {
+            modeloimpresion.excel_importCRUFletes(ListDocmuentos);
+
+        }
+
+        /// <summary>
         /// impresion excel para los indicadores de CRU
         /// </summary>
         /// <param name="ListDocmuentos"></param>

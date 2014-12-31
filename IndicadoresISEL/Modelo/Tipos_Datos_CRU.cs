@@ -7,6 +7,25 @@ namespace IndicadoresISEL.Modelo
 {
     class Tipos_Datos_CRU
     {
+
+
+
+        #region fletes CRU
+        public class show_fletes
+        {
+            public string fecha { get; set; }
+            public string concepto { get; set; }
+            public string nombre_concepto { get; set; }
+            public float Total { get; set; }
+            public string Folio { get; set; }
+
+            public string Unidades { get; set; }
+            public string iddocument { get; set; }
+            public float Precio { get; set; }
+            public float Neto { get; set; }
+        }
+        #endregion
+
         #region FACTURAS CRU
         public class get_nom_concepto {
             public string IDNombreConcepto { get; set; }
