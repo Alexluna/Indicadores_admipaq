@@ -304,6 +304,7 @@ namespace IndicadoresISEL.Controlador
                     var folio_factura = dtDFOLIO.Rows[0];
                     newDocument.Folio = Convert.ToString(folio_factura[0]);
                     newDocument.fecha = Convert.ToString(folio_factura[1]);
+                    newDocument.Cancelado = Convert.ToString(folio_factura[2]);
 
                     if (newDocument.concepto.Trim().Equals("1376"))
                     {

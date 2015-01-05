@@ -20,6 +20,7 @@ namespace IndicadoresISEL.Modelo
             public string Folio { get; set; }
 
             public string Unidades { get; set; }
+            public string Cancelado { get; set; }
             public string iddocument { get; set; }
             public float Precio { get; set; }
             public float Neto { get; set; }

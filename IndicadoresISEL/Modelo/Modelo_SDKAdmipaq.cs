@@ -156,7 +156,7 @@ namespace IndicadoresISEL.Modelo
             try//CIDDOCUM02=4 and CIDCONCE01=3007 luna hernandes
             {//((CIDDOCUM02=4 and CIDCONCE01=3007) or (CIDDOCUM02=19 and CIDCONCE01=21) or (CIDDOCUM02=12 and CIDCONCE01=13) or (CIDDOCUM02=23 or CIDCONCE01=25) or (CIDDOCUM02=12 and CIDCONCE01=3011) or (CIDDOCUM02=19 and CIDCONCE01=21))
                 conn.Open();//abre la conexion  ************************ CIDDOCUM02=4 and CIDCONCE01=3007 esto es para  que agarre solo facturas cfdi  conforme al archivo  MGW10006********************************
-                string cmd_string = " select CFOLIO,CFECHA from " + archivosAdmi.Documentos
+                string cmd_string = " select CFOLIO,CFECHA,CCANCELADO from " + archivosAdmi.Documentos
                     + " where  CIDDOCUM02=4 and CIDCONCE01=3007 and CIDDOCUM01=" + idcocumento;
                 OleDbDataAdapter da = new OleDbDataAdapter(cmd_string, conn);
                 DataSet ds = new DataSet();

@@ -1282,9 +1282,11 @@ namespace IndicadoresISEL.Modelo
                 worksheet.Cells[Row, 1] = "Fecha";
                 worksheet.Cells[Row, 2] = "Folio";
                 worksheet.Cells[Row, 3] = "Concepto";
-                worksheet.Cells[Row, 4] = "Unidades";
-                worksheet.Cells[Row, 5] = "Precio";
-                worksheet.Cells[Row, 6] = "Total";
+                worksheet.Cells[Row, 4] = "Nombre Concepto";
+                worksheet.Cells[Row, 5] = "Unidades";
+                worksheet.Cells[Row, 6] = "Precio";
+                worksheet.Cells[Row, 7] = "Total";
+                worksheet.Cells[Row, 8] = "Cancelado";
                 
                 Row++;
                 #endregion
@@ -1296,9 +1298,11 @@ namespace IndicadoresISEL.Modelo
                     worksheet.Cells[Row, 1] = ListDocmuentos[i].fecha;
                     worksheet.Cells[Row, 2] = ListDocmuentos[i].Folio;
                     worksheet.Cells[Row, 3] = ListDocmuentos[i].concepto;
-                    worksheet.Cells[Row, 4] = ListDocmuentos[i].Unidades;
-                    worksheet.Cells[Row, 5] = ListDocmuentos[i].Precio;
-                    worksheet.Cells[Row, 6] = ListDocmuentos[i].Total;
+                    worksheet.Cells[Row, 4] = ListDocmuentos[i].nombre_concepto;
+                    worksheet.Cells[Row, 5] = ListDocmuentos[i].Unidades;
+                    worksheet.Cells[Row, 6] = ListDocmuentos[i].Precio;
+                    worksheet.Cells[Row, 7] = ListDocmuentos[i].Total;
+                    worksheet.Cells[Row, 8] = ListDocmuentos[i].Cancelado;
 
                     
                         total += ListDocmuentos[i].Total;
