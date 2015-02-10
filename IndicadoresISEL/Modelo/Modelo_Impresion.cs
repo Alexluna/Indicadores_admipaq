@@ -169,7 +169,7 @@ namespace IndicadoresISEL.Modelo
 
 
                 #region INGRESO TRASPASO
-                formatRange = worksheet.get_Range("KM4", "KX1");
+                formatRange = worksheet.get_Range("KL4", "LD1");
                 formatRange.EntireRow.Font.Bold = true;
                 formatRange.WrapText = true;//ajusta el texto a la columna
 
@@ -179,7 +179,7 @@ namespace IndicadoresISEL.Modelo
 
 
                 #region INGRESO DEV. GARANTIA
-                formatRange = worksheet.get_Range("KZ4", "LK1");
+                formatRange = worksheet.get_Range("LH4", "LS1");
                 formatRange.EntireRow.Font.Bold = true;
                 formatRange.WrapText = true;//ajusta el texto a la columna
 
@@ -188,7 +188,7 @@ namespace IndicadoresISEL.Modelo
                 #endregion
 
                 #region INGRESO DEV. GARANTIA
-                formatRange = worksheet.get_Range("LO4", "LZ1");
+                formatRange = worksheet.get_Range("LU4", "MF1");
                 formatRange.EntireRow.Font.Bold = true;
                 formatRange.WrapText = true;//ajusta el texto a la columna
 
@@ -438,8 +438,9 @@ namespace IndicadoresISEL.Modelo
                 worksheet.Cells[Row, 104] = "Clasificacion cliente2";
                 worksheet.Cells[Row, 105] = "Texto extra1";
                 worksheet.Cells[Row, 106] = "Nombre del concepto";
+
                 //titulo 
-                worksheet.Cells[2, 112] = "Abonos los 3 agentes";
+                worksheet.Cells[2, 112] = "Abonos OL";
                 //envabezados facturas filtro publico
                 worksheet.Cells[Row, 108] = "Fecha";
                 worksheet.Cells[Row, 109] = "Serie";
@@ -461,90 +462,115 @@ namespace IndicadoresISEL.Modelo
                 worksheet.Cells[Row, 125] = "Zona";
                 worksheet.Cells[Row, 126] = "Agente";
 
-                worksheet.Cells[2, 133] = "Zonas centro";
+                int column_mora = 21;
+
+                //titulo 
+                worksheet.Cells[2, 112 + column_mora] = "Abonos los 3 agentes";
                 //envabezados facturas filtro publico
-                worksheet.Cells[Row, 129] = "Fecha";
-                worksheet.Cells[Row, 130] = "Serie";
-                worksheet.Cells[Row, 131] = "Folio";
-                worksheet.Cells[Row, 132] = "Nombre del agente";
-                worksheet.Cells[Row, 133] = "Razon social";
-                worksheet.Cells[Row, 134] = "Fecha de vencimiento";
-                worksheet.Cells[Row, 135] = "RFC";
-                worksheet.Cells[Row, 136] = "Subtotal";
-                worksheet.Cells[Row, 137] = "IVA";
-                worksheet.Cells[Row, 138] = "TOTAL";
-                worksheet.Cells[Row, 139] = "Pendiente";
-                worksheet.Cells[Row, 140] = "Texto Extra 3";
-                worksheet.Cells[Row, 141] = "Afectado";
-                worksheet.Cells[Row, 142] = "Impreso";
-                worksheet.Cells[Row, 143] = "Cancelado";
-                worksheet.Cells[Row, 144] = "Total de unidades";
-                worksheet.Cells[Row, 145] = "Zona ";
-                worksheet.Cells[Row, 146] = "Agente";
+                worksheet.Cells[Row, 108 + column_mora] = "Fecha";
+                worksheet.Cells[Row, 109 + column_mora] = "Serie";
+                worksheet.Cells[Row, 110 + column_mora] = "Folio";
+                worksheet.Cells[Row, 111 + column_mora] = "Nombre del agente";
+                worksheet.Cells[Row, 112 + column_mora] = "Razon social";
+                worksheet.Cells[Row, 113 + column_mora] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 114 + column_mora] = "RFC";
+                worksheet.Cells[Row, 115 + column_mora] = "Subtotal";
+                worksheet.Cells[Row, 116 + column_mora] = "IVA";
+                worksheet.Cells[Row, 117 + column_mora] = "TOTAL";
+                worksheet.Cells[Row, 118 + column_mora] = "Pendiente";
+                worksheet.Cells[Row, 119 + column_mora] = "Texto Extra 3";
+                worksheet.Cells[Row, 120 + column_mora] = "Afectado";
+                worksheet.Cells[Row, 121 + column_mora] = "Impreso";
+                worksheet.Cells[Row, 122 + column_mora] = "Cancelado";
+                worksheet.Cells[Row, 123 + column_mora] = "Total de unidades";
+                worksheet.Cells[Row, 124 + column_mora] = "Clasificacion cliente2";
+                worksheet.Cells[Row, 125 + column_mora] = "Zona";
+                worksheet.Cells[Row, 126 + column_mora] = "Agente";
 
-                worksheet.Cells[2, 153] = "Zonas sur";
+                worksheet.Cells[2, 133 + column_mora] = "Zonas centro";
+                //envabezados facturas filtro publico
+                worksheet.Cells[Row, 129 + column_mora] = "Fecha";
+                worksheet.Cells[Row, 130 + column_mora] = "Serie";
+                worksheet.Cells[Row, 131 + column_mora] = "Folio";
+                worksheet.Cells[Row, 132 + column_mora] = "Nombre del agente";
+                worksheet.Cells[Row, 133 + column_mora] = "Razon social";
+                worksheet.Cells[Row, 134 + column_mora] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 135 + column_mora] = "RFC";
+                worksheet.Cells[Row, 136 + column_mora] = "Subtotal";
+                worksheet.Cells[Row, 137 + column_mora] = "IVA";
+                worksheet.Cells[Row, 138 + column_mora] = "TOTAL";
+                worksheet.Cells[Row, 139 + column_mora] = "Pendiente";
+                worksheet.Cells[Row, 140 + column_mora] = "Texto Extra 3";
+                worksheet.Cells[Row, 141 + column_mora] = "Afectado";
+                worksheet.Cells[Row, 142 + column_mora] = "Impreso";
+                worksheet.Cells[Row, 143 + column_mora] = "Cancelado";
+                worksheet.Cells[Row, 144 + column_mora] = "Total de unidades";
+                worksheet.Cells[Row, 145 + column_mora] = "Zona ";
+                worksheet.Cells[Row, 146 + column_mora] = "Agente";
 
-                worksheet.Cells[Row, 149] = "Fecha";
-                worksheet.Cells[Row, 150] = "Serie";
-                worksheet.Cells[Row, 151] = "Folio";
-                worksheet.Cells[Row, 152] = "Nombre del agente";
-                worksheet.Cells[Row, 153] = "Razon social";
-                worksheet.Cells[Row, 154] = "Fecha de vencimiento";
-                worksheet.Cells[Row, 155] = "RFC";
-                worksheet.Cells[Row, 156] = "Subtotal";
-                worksheet.Cells[Row, 157] = "IVA";
-                worksheet.Cells[Row, 158] = "TOTAL";
-                worksheet.Cells[Row, 159] = "Pendiente";
-                worksheet.Cells[Row, 160] = "Texto Extra 3";
-                worksheet.Cells[Row, 161] = "Afectado";
-                worksheet.Cells[Row, 162] = "Impreso";
-                worksheet.Cells[Row, 163] = "Cancelado";
-                worksheet.Cells[Row, 164] = "Total de unidades";
-                worksheet.Cells[Row, 165] = "Zona";
-                worksheet.Cells[Row, 166] = "Agente";
+                worksheet.Cells[2, 153 + column_mora] = "Zonas sur";
 
-                worksheet.Cells[2, 173] = "Zonas norte";
+                worksheet.Cells[Row, 149 + column_mora] = "Fecha";
+                worksheet.Cells[Row, 150 + column_mora] = "Serie";
+                worksheet.Cells[Row, 151 + column_mora] = "Folio";
+                worksheet.Cells[Row, 152 + column_mora] = "Nombre del agente";
+                worksheet.Cells[Row, 153 + column_mora] = "Razon social";
+                worksheet.Cells[Row, 154 + column_mora] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 155 + column_mora] = "RFC";
+                worksheet.Cells[Row, 156 + column_mora] = "Subtotal";
+                worksheet.Cells[Row, 157 + column_mora] = "IVA";
+                worksheet.Cells[Row, 158 + column_mora] = "TOTAL";
+                worksheet.Cells[Row, 159 + column_mora] = "Pendiente";
+                worksheet.Cells[Row, 160 + column_mora] = "Texto Extra 3";
+                worksheet.Cells[Row, 161 + column_mora] = "Afectado";
+                worksheet.Cells[Row, 162 + column_mora] = "Impreso";
+                worksheet.Cells[Row, 163 + column_mora] = "Cancelado";
+                worksheet.Cells[Row, 164 + column_mora] = "Total de unidades";
+                worksheet.Cells[Row, 165 + column_mora] = "Zona";
+                worksheet.Cells[Row, 166 + column_mora] = "Agente";
 
-                worksheet.Cells[Row, 169] = "Fecha";
-                worksheet.Cells[Row, 170] = "Serie";
-                worksheet.Cells[Row, 171] = "Folio";
-                worksheet.Cells[Row, 172] = "Nombre del agente";
-                worksheet.Cells[Row, 173] = "Razon social";
-                worksheet.Cells[Row, 174] = "Fecha de vencimiento";
-                worksheet.Cells[Row, 175] = "RFC";
-                worksheet.Cells[Row, 176] = "Subtotal";
-                worksheet.Cells[Row, 177] = "IVA";
-                worksheet.Cells[Row, 178] = "TOTAL";
-                worksheet.Cells[Row, 179] = "Pendiente";
-                worksheet.Cells[Row, 180] = "Texto Extra 3";
-                worksheet.Cells[Row, 181] = "Afectado";
-                worksheet.Cells[Row, 182] = "Impreso";
-                worksheet.Cells[Row, 183] = "Cancelado";
-                worksheet.Cells[Row, 184] = "Total de unidades";
-                worksheet.Cells[Row, 185] = "Zona";
-                worksheet.Cells[Row, 186] = "Agente";
+                worksheet.Cells[2, 173 + column_mora] = "Zonas norte";
+
+                worksheet.Cells[Row, 169 + column_mora] = "Fecha";
+                worksheet.Cells[Row, 170 + column_mora] = "Serie";
+                worksheet.Cells[Row, 171 + column_mora] = "Folio";
+                worksheet.Cells[Row, 172 + column_mora] = "Nombre del agente";
+                worksheet.Cells[Row, 173 + column_mora] = "Razon social";
+                worksheet.Cells[Row, 174 + column_mora] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 175 + column_mora] = "RFC";
+                worksheet.Cells[Row, 176 + column_mora] = "Subtotal";
+                worksheet.Cells[Row, 177 + column_mora] = "IVA";
+                worksheet.Cells[Row, 178 + column_mora] = "TOTAL";
+                worksheet.Cells[Row, 179 + column_mora] = "Pendiente";
+                worksheet.Cells[Row, 180 + column_mora] = "Texto Extra 3";
+                worksheet.Cells[Row, 181 + column_mora] = "Afectado";
+                worksheet.Cells[Row, 182 + column_mora] = "Impreso";
+                worksheet.Cells[Row, 183 + column_mora] = "Cancelado";
+                worksheet.Cells[Row, 184 + column_mora] = "Total de unidades";
+                worksheet.Cells[Row, 185 + column_mora] = "Zona";
+                worksheet.Cells[Row, 186 + column_mora] = "Agente";
 
 
-                worksheet.Cells[2, 194] = "Cuarta Zona";
+                worksheet.Cells[2, 194 + column_mora] = "Cuarta Zona";
 
-                worksheet.Cells[Row, 190] = "Fecha";
-                worksheet.Cells[Row, 191] = "Serie";
-                worksheet.Cells[Row, 192] = "Folio";
-                worksheet.Cells[Row, 193] = "Nombre del agente";
-                worksheet.Cells[Row, 194] = "Razon social";
-                worksheet.Cells[Row, 195] = "Fecha de vencimiento";
-                worksheet.Cells[Row, 196] = "RFC";
-                worksheet.Cells[Row, 197] = "Subtotal";
-                worksheet.Cells[Row, 198] = "IVA";
-                worksheet.Cells[Row, 199] = "TOTAL";
-                worksheet.Cells[Row, 200] = "Pendiente";
-                worksheet.Cells[Row, 201] = "Texto Extra 3";
-                worksheet.Cells[Row, 202] = "Afectado";
-                worksheet.Cells[Row, 203] = "Impreso";
-                worksheet.Cells[Row, 204] = "Cancelado";
-                worksheet.Cells[Row, 205] = "Total de unidades";
-                worksheet.Cells[Row, 206] = "Zona";
-                worksheet.Cells[Row, 207] = "Agente";
+                worksheet.Cells[Row, 190 + column_mora] = "Fecha";
+                worksheet.Cells[Row, 191 + column_mora] = "Serie";
+                worksheet.Cells[Row, 192 + column_mora] = "Folio";
+                worksheet.Cells[Row, 193 + column_mora] = "Nombre del agente";
+                worksheet.Cells[Row, 194 + column_mora] = "Razon social";
+                worksheet.Cells[Row, 195 + column_mora] = "Fecha de vencimiento";
+                worksheet.Cells[Row, 196 + column_mora] = "RFC";
+                worksheet.Cells[Row, 197 + column_mora] = "Subtotal";
+                worksheet.Cells[Row, 198 + column_mora] = "IVA";
+                worksheet.Cells[Row, 199 + column_mora] = "TOTAL";
+                worksheet.Cells[Row, 200 + column_mora] = "Pendiente";
+                worksheet.Cells[Row, 201 + column_mora] = "Texto Extra 3";
+                worksheet.Cells[Row, 202 + column_mora] = "Afectado";
+                worksheet.Cells[Row, 203 + column_mora] = "Impreso";
+                worksheet.Cells[Row, 204 + column_mora] = "Cancelado";
+                worksheet.Cells[Row, 205 + column_mora] = "Total de unidades";
+                worksheet.Cells[Row, 206 + column_mora] = "Zona";
+                worksheet.Cells[Row, 207 + column_mora] = "Agente";
                 Row++;
                 #endregion
                 #region contenido
@@ -682,79 +708,110 @@ namespace IndicadoresISEL.Modelo
                 worksheet.Cells[2, 97] = "$ " + total;
                 total = 0;
                 Row = 5;
+                for (int i = 0; i < ListDocmuentos.abonos_ol.Count; i++)
+                {
+                    worksheet.Cells[Row, 108] = ListDocmuentos.abonos_ol[i].Fecha;
+                    worksheet.Cells[Row, 109] = ListDocmuentos.abonos_ol[i].Serie;
+                    worksheet.Cells[Row, 110] = ListDocmuentos.abonos_ol[i].Folio;
+                    worksheet.Cells[Row, 111] = ListDocmuentos.abonos_ol[i].NombreAgente;
+                    worksheet.Cells[Row, 112] = ListDocmuentos.abonos_ol[i].RazonSocial;
+                    worksheet.Cells[Row, 113] = ListDocmuentos.abonos_ol[i].FechaVencimiento;
+                    worksheet.Cells[Row, 114] = ListDocmuentos.abonos_ol[i].RFC;
+                    worksheet.Cells[Row, 115] = ListDocmuentos.abonos_ol[i].Subtotal;
+                    worksheet.Cells[Row, 116] = ListDocmuentos.abonos_ol[i].IVA;
+                    worksheet.Cells[Row, 117] = ListDocmuentos.abonos_ol[i].Total;
+                    worksheet.Cells[Row, 118] = ListDocmuentos.abonos_ol[i].Pendiente;
+                    worksheet.Cells[Row, 119] = ListDocmuentos.abonos_ol[i].TextoExtra3;
+                    worksheet.Cells[Row, 120] = ListDocmuentos.abonos_ol[i].Afectado;
+                    worksheet.Cells[Row, 121] = ListDocmuentos.abonos_ol[i].Impreso;
+                    worksheet.Cells[Row, 122] = ListDocmuentos.abonos_ol[i].Cancelado;
+                    worksheet.Cells[Row, 123] = ListDocmuentos.abonos_ol[i].TotalUnidades;
+                    worksheet.Cells[Row, 124] = ListDocmuentos.abonos_ol[i].Clasificacion2;
+                    worksheet.Cells[Row, 125] = ListDocmuentos.abonos_ol[i].proveedor.Clasificación1;
+                    worksheet.Cells[Row, 126] = ListDocmuentos.abonos_ol[i].proveedor.Clasificación2;
+                    total += ListDocmuentos.abonos_ol[i].Total;
+                    Row++;
+                }
+                worksheet.Cells[2, 117] = "$ " + total;
+
+
+
+                // + column_mora
+                total = 0;
+                Row = 5;
                 for (int i = 0; i < ListDocmuentos.abonos_zona_centro.Count; i++)
                 {
-                    worksheet.Cells[Row, 108] = ListDocmuentos.abonos_zona_centro[i].Fecha;
-                    worksheet.Cells[Row, 109] = ListDocmuentos.abonos_zona_centro[i].Serie;
-                    worksheet.Cells[Row, 110] = ListDocmuentos.abonos_zona_centro[i].Folio;
-                    worksheet.Cells[Row, 111] = ListDocmuentos.abonos_zona_centro[i].NombreAgente;
-                    worksheet.Cells[Row, 112] = ListDocmuentos.abonos_zona_centro[i].RazonSocial;
-                    worksheet.Cells[Row, 113] = ListDocmuentos.abonos_zona_centro[i].FechaVencimiento;
-                    worksheet.Cells[Row, 114] = ListDocmuentos.abonos_zona_centro[i].RFC;
-                    worksheet.Cells[Row, 115] = ListDocmuentos.abonos_zona_centro[i].Subtotal;
-                    worksheet.Cells[Row, 116] = ListDocmuentos.abonos_zona_centro[i].IVA;
-                    worksheet.Cells[Row, 117] = ListDocmuentos.abonos_zona_centro[i].Total;
-                    worksheet.Cells[Row, 118] = ListDocmuentos.abonos_zona_centro[i].Pendiente;
-                    worksheet.Cells[Row, 119] = ListDocmuentos.abonos_zona_centro[i].TextoExtra3;
-                    worksheet.Cells[Row, 120] = ListDocmuentos.abonos_zona_centro[i].Afectado;
-                    worksheet.Cells[Row, 121] = ListDocmuentos.abonos_zona_centro[i].Impreso;
-                    worksheet.Cells[Row, 122] = ListDocmuentos.abonos_zona_centro[i].Cancelado;
-                    worksheet.Cells[Row, 123] = ListDocmuentos.abonos_zona_centro[i].TotalUnidades;
-                    worksheet.Cells[Row, 124] = ListDocmuentos.abonos_zona_centro[i].Clasificacion2;
-                    worksheet.Cells[Row, 125] = ListDocmuentos.abonos_zona_centro[i].proveedor.Clasificación1;
-                    worksheet.Cells[Row, 126] = ListDocmuentos.abonos_zona_centro[i].proveedor.Clasificación2;
+                    worksheet.Cells[Row, 108 + column_mora] = ListDocmuentos.abonos_zona_centro[i].Fecha;
+                    worksheet.Cells[Row, 109 + column_mora] = ListDocmuentos.abonos_zona_centro[i].Serie;
+                    worksheet.Cells[Row, 110 + column_mora] = ListDocmuentos.abonos_zona_centro[i].Folio;
+                    worksheet.Cells[Row, 111 + column_mora] = ListDocmuentos.abonos_zona_centro[i].NombreAgente;
+                    worksheet.Cells[Row, 112 + column_mora] = ListDocmuentos.abonos_zona_centro[i].RazonSocial;
+                    worksheet.Cells[Row, 113 + column_mora] = ListDocmuentos.abonos_zona_centro[i].FechaVencimiento;
+                    worksheet.Cells[Row, 114 + column_mora] = ListDocmuentos.abonos_zona_centro[i].RFC;
+                    worksheet.Cells[Row, 115 + column_mora] = ListDocmuentos.abonos_zona_centro[i].Subtotal;
+                    worksheet.Cells[Row, 116 + column_mora] = ListDocmuentos.abonos_zona_centro[i].IVA;
+                    worksheet.Cells[Row, 117 + column_mora] = ListDocmuentos.abonos_zona_centro[i].Total;
+                    worksheet.Cells[Row, 118 + column_mora] = ListDocmuentos.abonos_zona_centro[i].Pendiente;
+                    worksheet.Cells[Row, 119 + column_mora] = ListDocmuentos.abonos_zona_centro[i].TextoExtra3;
+                    worksheet.Cells[Row, 120 + column_mora] = ListDocmuentos.abonos_zona_centro[i].Afectado;
+                    worksheet.Cells[Row, 121 + column_mora] = ListDocmuentos.abonos_zona_centro[i].Impreso;
+                    worksheet.Cells[Row, 122 + column_mora] = ListDocmuentos.abonos_zona_centro[i].Cancelado;
+                    worksheet.Cells[Row, 123 + column_mora] = ListDocmuentos.abonos_zona_centro[i].TotalUnidades;
+                    worksheet.Cells[Row, 124 + column_mora] = ListDocmuentos.abonos_zona_centro[i].Clasificacion2;
+                    worksheet.Cells[Row, 125 + column_mora] = ListDocmuentos.abonos_zona_centro[i].proveedor.Clasificación1;
+                    worksheet.Cells[Row, 126 + column_mora] = ListDocmuentos.abonos_zona_centro[i].proveedor.Clasificación2;
                     total += ListDocmuentos.abonos_zona_centro[i].Total;
                     Row++;
                 }
                 for (int i = 0; i < ListDocmuentos.abonos_zona_norte.Count; i++)
                 {
-                    worksheet.Cells[Row, 108] = ListDocmuentos.abonos_zona_norte[i].Fecha;
-                    worksheet.Cells[Row, 109] = ListDocmuentos.abonos_zona_norte[i].Serie;
-                    worksheet.Cells[Row, 110] = ListDocmuentos.abonos_zona_norte[i].Folio;
-                    worksheet.Cells[Row, 111] = ListDocmuentos.abonos_zona_norte[i].NombreAgente;
-                    worksheet.Cells[Row, 112] = ListDocmuentos.abonos_zona_norte[i].RazonSocial;
-                    worksheet.Cells[Row, 113] = ListDocmuentos.abonos_zona_norte[i].FechaVencimiento;
-                    worksheet.Cells[Row, 114] = ListDocmuentos.abonos_zona_norte[i].RFC;
-                    worksheet.Cells[Row, 115] = ListDocmuentos.abonos_zona_norte[i].Subtotal;
-                    worksheet.Cells[Row, 116] = ListDocmuentos.abonos_zona_norte[i].IVA;
-                    worksheet.Cells[Row, 117] = ListDocmuentos.abonos_zona_norte[i].Total;
-                    worksheet.Cells[Row, 118] = ListDocmuentos.abonos_zona_norte[i].Pendiente;
-                    worksheet.Cells[Row, 119] = ListDocmuentos.abonos_zona_norte[i].TextoExtra3;
-                    worksheet.Cells[Row, 120] = ListDocmuentos.abonos_zona_norte[i].Afectado;
-                    worksheet.Cells[Row, 121] = ListDocmuentos.abonos_zona_norte[i].Impreso;
-                    worksheet.Cells[Row, 122] = ListDocmuentos.abonos_zona_norte[i].Cancelado;
-                    worksheet.Cells[Row, 123] = ListDocmuentos.abonos_zona_norte[i].TotalUnidades;
-                    worksheet.Cells[Row, 124] = ListDocmuentos.abonos_zona_norte[i].Clasificacion2;
-                    worksheet.Cells[Row, 125] = ListDocmuentos.abonos_zona_norte[i].proveedor.Clasificación1;
-                    worksheet.Cells[Row, 126] = ListDocmuentos.abonos_zona_norte[i].proveedor.Clasificación2;
+                    worksheet.Cells[Row, 108 + column_mora] = ListDocmuentos.abonos_zona_norte[i].Fecha;
+                    worksheet.Cells[Row, 109 + column_mora] = ListDocmuentos.abonos_zona_norte[i].Serie;
+                    worksheet.Cells[Row, 110 + column_mora] = ListDocmuentos.abonos_zona_norte[i].Folio;
+                    worksheet.Cells[Row, 111 + column_mora] = ListDocmuentos.abonos_zona_norte[i].NombreAgente;
+                    worksheet.Cells[Row, 112 + column_mora] = ListDocmuentos.abonos_zona_norte[i].RazonSocial;
+                    worksheet.Cells[Row, 113 + column_mora] = ListDocmuentos.abonos_zona_norte[i].FechaVencimiento;
+                    worksheet.Cells[Row, 114 + column_mora] = ListDocmuentos.abonos_zona_norte[i].RFC;
+                    worksheet.Cells[Row, 115 + column_mora] = ListDocmuentos.abonos_zona_norte[i].Subtotal;
+                    worksheet.Cells[Row, 116 + column_mora] = ListDocmuentos.abonos_zona_norte[i].IVA;
+                    worksheet.Cells[Row, 117 + column_mora] = ListDocmuentos.abonos_zona_norte[i].Total;
+                    worksheet.Cells[Row, 118 + column_mora] = ListDocmuentos.abonos_zona_norte[i].Pendiente;
+                    worksheet.Cells[Row, 119 + column_mora] = ListDocmuentos.abonos_zona_norte[i].TextoExtra3;
+                    worksheet.Cells[Row, 120 + column_mora] = ListDocmuentos.abonos_zona_norte[i].Afectado;
+                    worksheet.Cells[Row, 121 + column_mora] = ListDocmuentos.abonos_zona_norte[i].Impreso;
+                    worksheet.Cells[Row, 122 + column_mora] = ListDocmuentos.abonos_zona_norte[i].Cancelado;
+                    worksheet.Cells[Row, 123 + column_mora] = ListDocmuentos.abonos_zona_norte[i].TotalUnidades;
+                    worksheet.Cells[Row, 124 + column_mora] = ListDocmuentos.abonos_zona_norte[i].Clasificacion2;
+                    worksheet.Cells[Row, 125 + column_mora] = ListDocmuentos.abonos_zona_norte[i].proveedor.Clasificación1;
+                    worksheet.Cells[Row, 126 + column_mora] = ListDocmuentos.abonos_zona_norte[i].proveedor.Clasificación2;
                     total += ListDocmuentos.abonos_zona_norte[i].Total;
                     Row++;
                 }
                 for (int i = 0; i < ListDocmuentos.abonos_zona_sur.Count; i++)
                 {
-                    worksheet.Cells[Row, 108] = ListDocmuentos.abonos_zona_sur[i].Fecha;
-                    worksheet.Cells[Row, 109] = ListDocmuentos.abonos_zona_sur[i].Serie;
-                    worksheet.Cells[Row, 110] = ListDocmuentos.abonos_zona_sur[i].Folio;
-                    worksheet.Cells[Row, 111] = ListDocmuentos.abonos_zona_sur[i].NombreAgente;
-                    worksheet.Cells[Row, 112] = ListDocmuentos.abonos_zona_sur[i].RazonSocial;
-                    worksheet.Cells[Row, 113] = ListDocmuentos.abonos_zona_sur[i].FechaVencimiento;
-                    worksheet.Cells[Row, 114] = ListDocmuentos.abonos_zona_sur[i].RFC;
-                    worksheet.Cells[Row, 115] = ListDocmuentos.abonos_zona_sur[i].Subtotal;
-                    worksheet.Cells[Row, 116] = ListDocmuentos.abonos_zona_sur[i].IVA;
-                    worksheet.Cells[Row, 117] = ListDocmuentos.abonos_zona_sur[i].Total;
-                    worksheet.Cells[Row, 118] = ListDocmuentos.abonos_zona_sur[i].Pendiente;
-                    worksheet.Cells[Row, 119] = ListDocmuentos.abonos_zona_sur[i].TextoExtra3;
-                    worksheet.Cells[Row, 120] = ListDocmuentos.abonos_zona_sur[i].Afectado;
-                    worksheet.Cells[Row, 121] = ListDocmuentos.abonos_zona_sur[i].Impreso;
-                    worksheet.Cells[Row, 122] = ListDocmuentos.abonos_zona_sur[i].Cancelado;
-                    worksheet.Cells[Row, 123] = ListDocmuentos.abonos_zona_sur[i].TotalUnidades;
-                    worksheet.Cells[Row, 124] = ListDocmuentos.abonos_zona_sur[i].Clasificacion2;
-                    worksheet.Cells[Row, 125] = ListDocmuentos.abonos_zona_sur[i].proveedor.Clasificación1;
-                    worksheet.Cells[Row, 126] = ListDocmuentos.abonos_zona_sur[i].proveedor.Clasificación2;
+                    worksheet.Cells[Row, 108 + column_mora] = ListDocmuentos.abonos_zona_sur[i].Fecha;
+                    worksheet.Cells[Row, 109 + column_mora] = ListDocmuentos.abonos_zona_sur[i].Serie;
+                    worksheet.Cells[Row, 110 + column_mora] = ListDocmuentos.abonos_zona_sur[i].Folio;
+                    worksheet.Cells[Row, 111 + column_mora] = ListDocmuentos.abonos_zona_sur[i].NombreAgente;
+                    worksheet.Cells[Row, 112 + column_mora] = ListDocmuentos.abonos_zona_sur[i].RazonSocial;
+                    worksheet.Cells[Row, 113 + column_mora] = ListDocmuentos.abonos_zona_sur[i].FechaVencimiento;
+                    worksheet.Cells[Row, 114 + column_mora] = ListDocmuentos.abonos_zona_sur[i].RFC;
+                    worksheet.Cells[Row, 115 + column_mora] = ListDocmuentos.abonos_zona_sur[i].Subtotal;
+                    worksheet.Cells[Row, 116 + column_mora] = ListDocmuentos.abonos_zona_sur[i].IVA;
+                    worksheet.Cells[Row, 117 + column_mora] = ListDocmuentos.abonos_zona_sur[i].Total;
+                    worksheet.Cells[Row, 118 + column_mora] = ListDocmuentos.abonos_zona_sur[i].Pendiente;
+                    worksheet.Cells[Row, 119 + column_mora] = ListDocmuentos.abonos_zona_sur[i].TextoExtra3;
+                    worksheet.Cells[Row, 120 + column_mora] = ListDocmuentos.abonos_zona_sur[i].Afectado;
+                    worksheet.Cells[Row, 121 + column_mora] = ListDocmuentos.abonos_zona_sur[i].Impreso;
+                    worksheet.Cells[Row, 122 + column_mora] = ListDocmuentos.abonos_zona_sur[i].Cancelado;
+                    worksheet.Cells[Row, 123 + column_mora] = ListDocmuentos.abonos_zona_sur[i].TotalUnidades;
+                    worksheet.Cells[Row, 124 + column_mora] = ListDocmuentos.abonos_zona_sur[i].Clasificacion2;
+                    worksheet.Cells[Row, 125 + column_mora] = ListDocmuentos.abonos_zona_sur[i].proveedor.Clasificación1;
+                    worksheet.Cells[Row, 126 + column_mora] = ListDocmuentos.abonos_zona_sur[i].proveedor.Clasificación2;
                     total += ListDocmuentos.abonos_zona_sur[i].Total;
                     Row++;
                 }
-                worksheet.Cells[2, 117] = "$ " + total;
+                worksheet.Cells[2, 117 + column_mora] = "$ " + total;
                 total = 0;
                 Row = 5;
 
@@ -762,114 +819,114 @@ namespace IndicadoresISEL.Modelo
                 /*ZONA CENTRO*/
                 for (int i = 0; i < ListDocmuentos.abonos_zona_centro.Count; i++)
                 {
-                    worksheet.Cells[Row, 129] = ListDocmuentos.abonos_zona_centro[i].Fecha;
-                    worksheet.Cells[Row, 130] = ListDocmuentos.abonos_zona_centro[i].Serie;
-                    worksheet.Cells[Row, 131] = ListDocmuentos.abonos_zona_centro[i].Folio;
-                    worksheet.Cells[Row, 132] = ListDocmuentos.abonos_zona_centro[i].NombreAgente;
-                    worksheet.Cells[Row, 133] = ListDocmuentos.abonos_zona_centro[i].RazonSocial;
-                    worksheet.Cells[Row, 134] = ListDocmuentos.abonos_zona_centro[i].FechaVencimiento;
-                    worksheet.Cells[Row, 135] = ListDocmuentos.abonos_zona_centro[i].RFC;
-                    worksheet.Cells[Row, 136] = ListDocmuentos.abonos_zona_centro[i].Subtotal;
-                    worksheet.Cells[Row, 137] = ListDocmuentos.abonos_zona_centro[i].IVA;
-                    worksheet.Cells[Row, 138] = ListDocmuentos.abonos_zona_centro[i].Total;
-                    worksheet.Cells[Row, 139] = ListDocmuentos.abonos_zona_centro[i].Pendiente;
-                    worksheet.Cells[Row, 140] = ListDocmuentos.abonos_zona_centro[i].TextoExtra3;
-                    worksheet.Cells[Row, 141] = ListDocmuentos.abonos_zona_centro[i].Afectado;
-                    worksheet.Cells[Row, 142] = ListDocmuentos.abonos_zona_centro[i].Impreso;
-                    worksheet.Cells[Row, 143] = ListDocmuentos.abonos_zona_centro[i].Cancelado;
-                    worksheet.Cells[Row, 144] = ListDocmuentos.abonos_zona_centro[i].TotalUnidades;
-                    worksheet.Cells[Row, 145] = ListDocmuentos.abonos_zona_centro[i].proveedor.Clasificación1;
-                    worksheet.Cells[Row, 146] = ListDocmuentos.abonos_zona_centro[i].proveedor.Clasificación2;
+                    worksheet.Cells[Row, 129 + column_mora] = ListDocmuentos.abonos_zona_centro[i].Fecha;
+                    worksheet.Cells[Row, 130 + column_mora] = ListDocmuentos.abonos_zona_centro[i].Serie;
+                    worksheet.Cells[Row, 131 + column_mora] = ListDocmuentos.abonos_zona_centro[i].Folio;
+                    worksheet.Cells[Row, 132 + column_mora] = ListDocmuentos.abonos_zona_centro[i].NombreAgente;
+                    worksheet.Cells[Row, 133 + column_mora] = ListDocmuentos.abonos_zona_centro[i].RazonSocial;
+                    worksheet.Cells[Row, 134 + column_mora] = ListDocmuentos.abonos_zona_centro[i].FechaVencimiento;
+                    worksheet.Cells[Row, 135 + column_mora] = ListDocmuentos.abonos_zona_centro[i].RFC;
+                    worksheet.Cells[Row, 136 + column_mora] = ListDocmuentos.abonos_zona_centro[i].Subtotal;
+                    worksheet.Cells[Row, 137 + column_mora] = ListDocmuentos.abonos_zona_centro[i].IVA;
+                    worksheet.Cells[Row, 138 + column_mora] = ListDocmuentos.abonos_zona_centro[i].Total;
+                    worksheet.Cells[Row, 139 + column_mora] = ListDocmuentos.abonos_zona_centro[i].Pendiente;
+                    worksheet.Cells[Row, 140 + column_mora] = ListDocmuentos.abonos_zona_centro[i].TextoExtra3;
+                    worksheet.Cells[Row, 141 + column_mora] = ListDocmuentos.abonos_zona_centro[i].Afectado;
+                    worksheet.Cells[Row, 142 + column_mora] = ListDocmuentos.abonos_zona_centro[i].Impreso;
+                    worksheet.Cells[Row, 143 + column_mora] = ListDocmuentos.abonos_zona_centro[i].Cancelado;
+                    worksheet.Cells[Row, 144 + column_mora] = ListDocmuentos.abonos_zona_centro[i].TotalUnidades;
+                    worksheet.Cells[Row, 145 + column_mora] = ListDocmuentos.abonos_zona_centro[i].proveedor.Clasificación1;
+                    worksheet.Cells[Row, 146 + column_mora] = ListDocmuentos.abonos_zona_centro[i].proveedor.Clasificación2;
                     total += ListDocmuentos.abonos_zona_centro[i].Total;
                     Row++;
                 }
-                worksheet.Cells[2, 138] = "$ " + total;
+                worksheet.Cells[2, 138 + column_mora] = "$ " + total;
                 total = 0;
                 Row = 5;
                 /*ZONA sur*/
                 for (int i = 0; i < ListDocmuentos.abonos_zona_sur.Count; i++)
                 {
-                    worksheet.Cells[Row, 149] = ListDocmuentos.abonos_zona_sur[i].Fecha;
-                    worksheet.Cells[Row, 150] = ListDocmuentos.abonos_zona_sur[i].Serie;
-                    worksheet.Cells[Row, 151] = ListDocmuentos.abonos_zona_sur[i].Folio;
-                    worksheet.Cells[Row, 152] = ListDocmuentos.abonos_zona_sur[i].NombreAgente;
-                    worksheet.Cells[Row, 153] = ListDocmuentos.abonos_zona_sur[i].RazonSocial;
-                    worksheet.Cells[Row, 154] = ListDocmuentos.abonos_zona_sur[i].FechaVencimiento;
-                    worksheet.Cells[Row, 155] = ListDocmuentos.abonos_zona_sur[i].RFC;
-                    worksheet.Cells[Row, 156] = ListDocmuentos.abonos_zona_sur[i].Subtotal;
-                    worksheet.Cells[Row, 157] = ListDocmuentos.abonos_zona_sur[i].IVA;
-                    worksheet.Cells[Row, 158] = ListDocmuentos.abonos_zona_sur[i].Total;
-                    worksheet.Cells[Row, 159] = ListDocmuentos.abonos_zona_sur[i].Pendiente;
-                    worksheet.Cells[Row, 160] = ListDocmuentos.abonos_zona_sur[i].TextoExtra3;
-                    worksheet.Cells[Row, 161] = ListDocmuentos.abonos_zona_sur[i].Afectado;
-                    worksheet.Cells[Row, 162] = ListDocmuentos.abonos_zona_sur[i].Impreso;
-                    worksheet.Cells[Row, 163] = ListDocmuentos.abonos_zona_sur[i].Cancelado;
-                    worksheet.Cells[Row, 164] = ListDocmuentos.abonos_zona_sur[i].TotalUnidades;
-                    worksheet.Cells[Row, 165] = ListDocmuentos.abonos_zona_sur[i].proveedor.Clasificación1;
-                    worksheet.Cells[Row, 166] = ListDocmuentos.abonos_zona_sur[i].proveedor.Clasificación2;
+                    worksheet.Cells[Row, 149 + column_mora] = ListDocmuentos.abonos_zona_sur[i].Fecha;
+                    worksheet.Cells[Row, 150 + column_mora] = ListDocmuentos.abonos_zona_sur[i].Serie;
+                    worksheet.Cells[Row, 151 + column_mora] = ListDocmuentos.abonos_zona_sur[i].Folio;
+                    worksheet.Cells[Row, 152 + column_mora] = ListDocmuentos.abonos_zona_sur[i].NombreAgente;
+                    worksheet.Cells[Row, 153 + column_mora] = ListDocmuentos.abonos_zona_sur[i].RazonSocial;
+                    worksheet.Cells[Row, 154 + column_mora] = ListDocmuentos.abonos_zona_sur[i].FechaVencimiento;
+                    worksheet.Cells[Row, 155 + column_mora] = ListDocmuentos.abonos_zona_sur[i].RFC;
+                    worksheet.Cells[Row, 156 + column_mora] = ListDocmuentos.abonos_zona_sur[i].Subtotal;
+                    worksheet.Cells[Row, 157 + column_mora] = ListDocmuentos.abonos_zona_sur[i].IVA;
+                    worksheet.Cells[Row, 158 + column_mora] = ListDocmuentos.abonos_zona_sur[i].Total;
+                    worksheet.Cells[Row, 159 + column_mora] = ListDocmuentos.abonos_zona_sur[i].Pendiente;
+                    worksheet.Cells[Row, 160 + column_mora] = ListDocmuentos.abonos_zona_sur[i].TextoExtra3;
+                    worksheet.Cells[Row, 161 + column_mora] = ListDocmuentos.abonos_zona_sur[i].Afectado;
+                    worksheet.Cells[Row, 162 + column_mora] = ListDocmuentos.abonos_zona_sur[i].Impreso;
+                    worksheet.Cells[Row, 163 + column_mora] = ListDocmuentos.abonos_zona_sur[i].Cancelado;
+                    worksheet.Cells[Row, 164 + column_mora] = ListDocmuentos.abonos_zona_sur[i].TotalUnidades;
+                    worksheet.Cells[Row, 165 + column_mora] = ListDocmuentos.abonos_zona_sur[i].proveedor.Clasificación1;
+                    worksheet.Cells[Row, 166 + column_mora] = ListDocmuentos.abonos_zona_sur[i].proveedor.Clasificación2;
                     total += ListDocmuentos.abonos_zona_sur[i].Total;
                     Row++;
                 }
-                worksheet.Cells[2, 158] = "$ " + total;
+                worksheet.Cells[2, 158 + column_mora] = "$ " + total;
                 total = 0;
                 Row = 5;
                 /*ZONA norte*/
                 for (int i = 0; i < ListDocmuentos.abonos_zona_norte.Count; i++)
                 {
-                    worksheet.Cells[Row, 169] = ListDocmuentos.abonos_zona_norte[i].Fecha;
-                    worksheet.Cells[Row, 170] = ListDocmuentos.abonos_zona_norte[i].Serie;
-                    worksheet.Cells[Row, 171] = ListDocmuentos.abonos_zona_norte[i].Folio;
-                    worksheet.Cells[Row, 172] = ListDocmuentos.abonos_zona_norte[i].NombreAgente;
-                    worksheet.Cells[Row, 173] = ListDocmuentos.abonos_zona_norte[i].RazonSocial;
-                    worksheet.Cells[Row, 174] = ListDocmuentos.abonos_zona_norte[i].FechaVencimiento;
-                    worksheet.Cells[Row, 175] = ListDocmuentos.abonos_zona_norte[i].RFC;
-                    worksheet.Cells[Row, 176] = ListDocmuentos.abonos_zona_norte[i].Subtotal;
-                    worksheet.Cells[Row, 177] = ListDocmuentos.abonos_zona_norte[i].IVA;
-                    worksheet.Cells[Row, 178] = ListDocmuentos.abonos_zona_norte[i].Total;
-                    worksheet.Cells[Row, 179] = ListDocmuentos.abonos_zona_norte[i].Pendiente;
-                    worksheet.Cells[Row, 180] = ListDocmuentos.abonos_zona_norte[i].TextoExtra3;
-                    worksheet.Cells[Row, 181] = ListDocmuentos.abonos_zona_norte[i].Afectado;
-                    worksheet.Cells[Row, 182] = ListDocmuentos.abonos_zona_norte[i].Impreso;
-                    worksheet.Cells[Row, 183] = ListDocmuentos.abonos_zona_norte[i].Cancelado;
-                    worksheet.Cells[Row, 184] = ListDocmuentos.abonos_zona_norte[i].TotalUnidades;
-                    worksheet.Cells[Row, 185] = ListDocmuentos.abonos_zona_norte[i].proveedor.Clasificación1;
-                    worksheet.Cells[Row, 186] = ListDocmuentos.abonos_zona_norte[i].proveedor.Clasificación2;
+                    worksheet.Cells[Row, 169 + column_mora] = ListDocmuentos.abonos_zona_norte[i].Fecha;
+                    worksheet.Cells[Row, 170 + column_mora] = ListDocmuentos.abonos_zona_norte[i].Serie;
+                    worksheet.Cells[Row, 171 + column_mora] = ListDocmuentos.abonos_zona_norte[i].Folio;
+                    worksheet.Cells[Row, 172 + column_mora] = ListDocmuentos.abonos_zona_norte[i].NombreAgente;
+                    worksheet.Cells[Row, 173 + column_mora] = ListDocmuentos.abonos_zona_norte[i].RazonSocial;
+                    worksheet.Cells[Row, 174 + column_mora] = ListDocmuentos.abonos_zona_norte[i].FechaVencimiento;
+                    worksheet.Cells[Row, 175 + column_mora] = ListDocmuentos.abonos_zona_norte[i].RFC;
+                    worksheet.Cells[Row, 176 + column_mora] = ListDocmuentos.abonos_zona_norte[i].Subtotal;
+                    worksheet.Cells[Row, 177 + column_mora] = ListDocmuentos.abonos_zona_norte[i].IVA;
+                    worksheet.Cells[Row, 178 + column_mora] = ListDocmuentos.abonos_zona_norte[i].Total;
+                    worksheet.Cells[Row, 179 + column_mora] = ListDocmuentos.abonos_zona_norte[i].Pendiente;
+                    worksheet.Cells[Row, 180 + column_mora] = ListDocmuentos.abonos_zona_norte[i].TextoExtra3;
+                    worksheet.Cells[Row, 181 + column_mora] = ListDocmuentos.abonos_zona_norte[i].Afectado;
+                    worksheet.Cells[Row, 182 + column_mora] = ListDocmuentos.abonos_zona_norte[i].Impreso;
+                    worksheet.Cells[Row, 183 + column_mora] = ListDocmuentos.abonos_zona_norte[i].Cancelado;
+                    worksheet.Cells[Row, 184 + column_mora] = ListDocmuentos.abonos_zona_norte[i].TotalUnidades;
+                    worksheet.Cells[Row, 185 + column_mora] = ListDocmuentos.abonos_zona_norte[i].proveedor.Clasificación1;
+                    worksheet.Cells[Row, 186 + column_mora] = ListDocmuentos.abonos_zona_norte[i].proveedor.Clasificación2;
                     total += ListDocmuentos.abonos_zona_norte[i].Total;
                     Row++;
                 }
-                worksheet.Cells[2, 178] = "$ " + total;
+                worksheet.Cells[2, 178 + column_mora] = "$ " + total;
 
                 total = 0;
                 Row = 5;
                 /*ZONA norte*/
                 for (int i = 0; i < ListDocmuentos.abonos_zona_cuatro.Count; i++)
                 {
-                    worksheet.Cells[Row, 190] = ListDocmuentos.abonos_zona_cuatro[i].Fecha;
-                    worksheet.Cells[Row, 191] = ListDocmuentos.abonos_zona_cuatro[i].Serie;
-                    worksheet.Cells[Row, 192] = ListDocmuentos.abonos_zona_cuatro[i].Folio;
-                    worksheet.Cells[Row, 193] = ListDocmuentos.abonos_zona_cuatro[i].NombreAgente;
-                    worksheet.Cells[Row, 194] = ListDocmuentos.abonos_zona_cuatro[i].RazonSocial;
-                    worksheet.Cells[Row, 195] = ListDocmuentos.abonos_zona_cuatro[i].FechaVencimiento;
-                    worksheet.Cells[Row, 196] = ListDocmuentos.abonos_zona_cuatro[i].RFC;
-                    worksheet.Cells[Row, 197] = ListDocmuentos.abonos_zona_cuatro[i].Subtotal;
-                    worksheet.Cells[Row, 198] = ListDocmuentos.abonos_zona_cuatro[i].IVA;
-                    worksheet.Cells[Row, 199] = ListDocmuentos.abonos_zona_cuatro[i].Total;
-                    worksheet.Cells[Row, 200] = ListDocmuentos.abonos_zona_cuatro[i].Pendiente;
-                    worksheet.Cells[Row, 201] = ListDocmuentos.abonos_zona_cuatro[i].TextoExtra3;
-                    worksheet.Cells[Row, 202] = ListDocmuentos.abonos_zona_cuatro[i].Afectado;
-                    worksheet.Cells[Row, 203] = ListDocmuentos.abonos_zona_cuatro[i].Impreso;
-                    worksheet.Cells[Row, 204] = ListDocmuentos.abonos_zona_cuatro[i].Cancelado;
-                    worksheet.Cells[Row, 205] = ListDocmuentos.abonos_zona_cuatro[i].TotalUnidades;
-                    worksheet.Cells[Row, 206] = ListDocmuentos.abonos_zona_cuatro[i].proveedor.Clasificación1;
-                    worksheet.Cells[Row, 207] = ListDocmuentos.abonos_zona_cuatro[i].proveedor.Clasificación2;
+                    worksheet.Cells[Row, 190 + column_mora] = ListDocmuentos.abonos_zona_cuatro[i].Fecha;
+                    worksheet.Cells[Row, 191 + column_mora] = ListDocmuentos.abonos_zona_cuatro[i].Serie;
+                    worksheet.Cells[Row, 192 + column_mora] = ListDocmuentos.abonos_zona_cuatro[i].Folio;
+                    worksheet.Cells[Row, 193 + column_mora] = ListDocmuentos.abonos_zona_cuatro[i].NombreAgente;
+                    worksheet.Cells[Row, 194 + column_mora] = ListDocmuentos.abonos_zona_cuatro[i].RazonSocial;
+                    worksheet.Cells[Row, 195 + column_mora] = ListDocmuentos.abonos_zona_cuatro[i].FechaVencimiento;
+                    worksheet.Cells[Row, 196 + column_mora] = ListDocmuentos.abonos_zona_cuatro[i].RFC;
+                    worksheet.Cells[Row, 197 + column_mora] = ListDocmuentos.abonos_zona_cuatro[i].Subtotal;
+                    worksheet.Cells[Row, 198 + column_mora] = ListDocmuentos.abonos_zona_cuatro[i].IVA;
+                    worksheet.Cells[Row, 199 + column_mora] = ListDocmuentos.abonos_zona_cuatro[i].Total;
+                    worksheet.Cells[Row, 200 + column_mora] = ListDocmuentos.abonos_zona_cuatro[i].Pendiente;
+                    worksheet.Cells[Row, 201 + column_mora] = ListDocmuentos.abonos_zona_cuatro[i].TextoExtra3;
+                    worksheet.Cells[Row, 202 + column_mora] = ListDocmuentos.abonos_zona_cuatro[i].Afectado;
+                    worksheet.Cells[Row, 203 + column_mora] = ListDocmuentos.abonos_zona_cuatro[i].Impreso;
+                    worksheet.Cells[Row, 204 + column_mora] = ListDocmuentos.abonos_zona_cuatro[i].Cancelado;
+                    worksheet.Cells[Row, 205 + column_mora] = ListDocmuentos.abonos_zona_cuatro[i].TotalUnidades;
+                    worksheet.Cells[Row, 206 + column_mora] = ListDocmuentos.abonos_zona_cuatro[i].proveedor.Clasificación1;
+                    worksheet.Cells[Row, 207 + column_mora] = ListDocmuentos.abonos_zona_cuatro[i].proveedor.Clasificación2;
                     total += ListDocmuentos.abonos_zona_cuatro[i].Total;
                     Row++;
                 }
-                worksheet.Cells[2, 199] = "$ " + total;
+                worksheet.Cells[2, 199 + column_mora] = "$ " + total;
                 #endregion
                 
                 #endregion
-                int new_row = 22;
+                int new_row = 22 + column_mora;
                 #region Compras
                 Row = 4;
                 #region encabezados
@@ -1177,49 +1234,49 @@ namespace IndicadoresISEL.Modelo
                 #endregion
                 #endregion
 
-                #region Ingreso dev. garantia
-                Row = 4;
-                #region encabezados
-                worksheet.Cells[2, 309 + new_row] = "Ingreso Dev. garantía";
+                //#region Ingreso dev. garantia
+                //Row = 4;
+                //#region encabezados
+                //worksheet.Cells[2, 309 + new_row] = "Ingreso Dev. garantía";
 
-                //encabezados ingtreso traspaso
-                worksheet.Cells[Row, 305 + new_row] = "Fecha";
-                worksheet.Cells[Row, 306 + new_row] = "Serie";
-                worksheet.Cells[Row, 307 + new_row] = "Folio";
-                worksheet.Cells[Row, 308 + new_row] = "Nombre del agente";
-                worksheet.Cells[Row, 309 + new_row] = "Razon social";
-                worksheet.Cells[Row, 310 + new_row] = "Fecha de vencimiento";
-                worksheet.Cells[Row, 311 + new_row] = "Fecha de depósito";
-                worksheet.Cells[Row, 312 + new_row] = "RFC";
-                worksheet.Cells[Row, 313 + new_row] = "TOTAL";
-                worksheet.Cells[Row, 314 + new_row] = "Pendiente";
-                worksheet.Cells[Row, 315 + new_row] = "texto extra 2";
-                worksheet.Cells[Row, 316 + new_row] = "Referencia";
+                ////encabezados ingtreso traspaso
+                //worksheet.Cells[Row, 305 + new_row] = "Fecha";
+                //worksheet.Cells[Row, 306 + new_row] = "Serie";
+                //worksheet.Cells[Row, 307 + new_row] = "Folio";
+                //worksheet.Cells[Row, 308 + new_row] = "Nombre del agente";
+                //worksheet.Cells[Row, 309 + new_row] = "Razon social";
+                //worksheet.Cells[Row, 310 + new_row] = "Fecha de vencimiento";
+                //worksheet.Cells[Row, 311 + new_row] = "Fecha de depósito";
+                //worksheet.Cells[Row, 312 + new_row] = "RFC";
+                //worksheet.Cells[Row, 313 + new_row] = "TOTAL";
+                //worksheet.Cells[Row, 314 + new_row] = "Pendiente";
+                //worksheet.Cells[Row, 315 + new_row] = "texto extra 2";
+                //worksheet.Cells[Row, 316 + new_row] = "Referencia";
 
-                Row++;
-                #endregion
-                #region contenido
-                total = 0;
-                for (int i = 0; i < ListDocmuentos.ingreso_dev_garantia.Count; i++)
-                {
-                    worksheet.Cells[Row, 305 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].Fecha;
-                    worksheet.Cells[Row, 306 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].Serie;
-                    worksheet.Cells[Row, 307 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].Folio;
-                    worksheet.Cells[Row, 308 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].NombreAgente;
-                    worksheet.Cells[Row, 309 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].RazonSocial;
-                    worksheet.Cells[Row, 310 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].FechaVencimiento;
-                    worksheet.Cells[Row, 311 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].TextoExtra1;
-                    worksheet.Cells[Row, 312 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].RFC;
-                    worksheet.Cells[Row, 313 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].Total;
-                    worksheet.Cells[Row, 314 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].Pendiente;
-                    worksheet.Cells[Row, 315 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].TextoExtra2;
-                    worksheet.Cells[Row, 316 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].Referencia;
-                    total += ListDocmuentos.ingreso_dev_garantia[i].Total;
-                    Row++;
-                }
-                worksheet.Cells[2, 313 + new_row] = "$ " + total;
-                #endregion
-                #endregion
+                //Row++;
+                //#endregion
+                //#region contenido
+                //total = 0;
+                //for (int i = 0; i < ListDocmuentos.ingreso_dev_garantia.Count; i++)
+                //{
+                //    worksheet.Cells[Row, 305 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].Fecha;
+                //    worksheet.Cells[Row, 306 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].Serie;
+                //    worksheet.Cells[Row, 307 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].Folio;
+                //    worksheet.Cells[Row, 308 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].NombreAgente;
+                //    worksheet.Cells[Row, 309 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].RazonSocial;
+                //    worksheet.Cells[Row, 310 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].FechaVencimiento;
+                //    worksheet.Cells[Row, 311 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].TextoExtra1;
+                //    worksheet.Cells[Row, 312 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].RFC;
+                //    worksheet.Cells[Row, 313 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].Total;
+                //    worksheet.Cells[Row, 314 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].Pendiente;
+                //    worksheet.Cells[Row, 315 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].TextoExtra2;
+                //    worksheet.Cells[Row, 316 + new_row] = ListDocmuentos.ingreso_dev_garantia[i].Referencia;
+                //    total += ListDocmuentos.ingreso_dev_garantia[i].Total;
+                //    Row++;
+                //}
+                //worksheet.Cells[2, 313 + new_row] = "$ " + total;
+                //#endregion
+                //#endregion
 
             }
             catch (Exception)

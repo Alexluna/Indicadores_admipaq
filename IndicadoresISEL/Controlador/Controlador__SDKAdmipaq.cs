@@ -277,8 +277,9 @@ namespace IndicadoresISEL.Controlador
         public List<Tipos_Datos_CRU.show_fletes> get_Documentos_fletes(string fechainicial, string fechafinal)
         {
             List<Tipos_Datos_CRU.show_fletes> show_fletes = new List<Tipos_Datos_CRU.show_fletes>();
-            
-            DataTable dtD = ModeloSDK.get_DocumentosCRUFletes(fechainicial, fechafinal);//obtengo los docuemtos en un datatable
+
+            //DataTable dtD = ModeloSDK.get_DocumentosCRUFletes(fechainicial, fechafinal);//obtengo los docuemtos en un datatable
+            DataTable dtD = ModeloSDK.get_FolioCRUFletes(fechainicial, fechafinal);//obtengo los docuemtos en un datatable
             if (dtD == null)//si tiene null siginifica que sucedio algun error 
                 return show_fletes;//regresa la lista vacia
             foreach (DataRow row in dtD.Rows)//recorro el databel
@@ -287,24 +288,37 @@ namespace IndicadoresISEL.Controlador
                 //{
                 Tipos_Datos_CRU.show_fletes newDocument = new Tipos_Datos_CRU.show_fletes()//crea el objeto para la lista
                 {
-                    fecha = Convert.ToString(row[0]),
-                    concepto = Convert.ToString(row[1]),
-                    Unidades = Convert.ToString(row[2]),
-                    Precio = (float)(double)row[3],
-                    Neto = (float)(double)row[4],
-                    Total = (float)(double)row[5],
-                    iddocument = Convert.ToString(row[6]),
+                    Folio = Convert.ToString(row[0]),
+                    fecha = Convert.ToString(row[1]),
+                    Cancelado = Convert.ToString(row[2]),
+                    iddocument = Convert.ToString(row[3]),
 
                 };
+
+
+
+
+                //fecha = Convert.ToString(row[0]),
+                //    concepto = Convert.ToString(row[1]),
+                //    Unidades = Convert.ToString(row[2]),
+                //    Precio = (float)(double)row[3],
+                //    Neto = (float)(double)row[4],
+                //    Total = (float)(double)row[5],
+                //    iddocument = Convert.ToString(row[6]),
                 //tengo que obtener el folio de la factura
 
-                DataTable dtDFOLIO = ModeloSDK.get_FolioCRUFletes(newDocument.iddocument);
+                DataTable dtDFOLIO = ModeloSDK.get_DocumentosCRUFletes(newDocument.iddocument);
                 if (dtDFOLIO.Rows.Count > 0)
                 {
                     var folio_factura = dtDFOLIO.Rows[0];
-                    newDocument.Folio = Convert.ToString(folio_factura[0]);
-                    newDocument.fecha = Convert.ToString(folio_factura[1]);
-                    newDocument.Cancelado = Convert.ToString(folio_factura[2]);
+                    newDocument.fecha = Convert.ToString(folio_factura[0]);
+                    newDocument.concepto = Convert.ToString(folio_factura[1]);
+                    newDocument.Unidades = Convert.ToString(folio_factura[2]);
+                    newDocument.Precio = (float)(double)(folio_factura[3]);
+                    newDocument.Neto = (float)(double)(folio_factura[4]);
+                    newDocument.Total = (float)(double)(folio_factura[5]);
+                    
+
 
                     if (newDocument.concepto.Trim().Equals("1376"))
                     {
@@ -397,8 +411,9 @@ namespace IndicadoresISEL.Controlador
                 }//si no es factura entonces checa si es compra
                 else if (ListDocumentos[i].CIDDOCUM02.Trim() == "19" && ListDocumentos[i].CIDCONCE01.Trim() == "21")
                 {
-                    compras.Add(new_data);//compara por el filtro de anji para el filtro de compras
-                    if (ListDocumentos[i].RFC.ToUpper().Trim().Equals(RFCAnji.ToUpper().Trim()))
+                    compras.Add(new_data);//compara por el filtro de anji para el filtro de compras  Anji ISEL Electronics, CO. LTD
+                    //RFCAnji
+                    if (ListDocumentos[i].RazonSocial.ToUpper().Trim().Equals("Anji ISEL Electronics, CO. LTD".ToUpper().Trim()))
                     {
                         compras_rfc_anji.Add(new_data);
                     }
